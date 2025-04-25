@@ -17,7 +17,7 @@ testing:
         $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script:
     - gradle clean test --info
-    - gradle sonarqube
+    - gradle sonar
   artifacts:
     when: always
     reports:
