@@ -52,5 +52,5 @@ deployment:
         $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script:
     - mv server/build/libs/*.jar ${CI_PROJECT_NAMESPACE##*/}.jar
-    - rsync -e "ssh" ${CI_PROJECT_NAMESPACE##*/}.jar gitlab-runner@project-1.ci.infra.lan:/opt/${year}/${CI_PROJECT_NAMESPACE##*/}/server
-    - ssh gitlab-runner@project-1.ci.infra.lan sudo systemctl restart ${CI_PROJECT_NAMESPACE##*/}
+    - rsync -e "ssh" ${CI_PROJECT_NAMESPACE##*/}.jar gitlab-runner@project-1.edu.technet.howest.be:/opt/${year}/${CI_PROJECT_NAMESPACE##*/}/server
+    - ssh gitlab-runner@project-1.edu.technet.howest.be sudo systemctl restart ${CI_PROJECT_NAMESPACE##*/}
