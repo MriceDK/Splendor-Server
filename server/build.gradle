@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'jacoco'
-    id("org.sonarqube") version "4.4.1.3373"
+    id("org.sonarqube") version "6.1.0.5360"
 
     // https://imperceptiblethoughts.com/shadow
     id 'com.github.johnrengelman.shadow' version '8.1.1'
