@@ -53,4 +53,4 @@ deployment:
   script:
     - mv server/build/libs/*.jar ${CI_PROJECT_NAMESPACE##*/}.jar
     - rsync -e "ssh" ${CI_PROJECT_NAMESPACE##*/}.jar gitlab-runner@project-1.edu.technet.howest.be:/opt/${year}/${CI_PROJECT_NAMESPACE##*/}/server
-    - ssh gitlab-runner@project-1.edu.technet.howest.be systemctl restart ${CI_PROJECT_NAMESPACE##*/}
+    - ssh gitlab-runner@project-1.edu.technet.howest.be sudo systemctl restart ${CI_PROJECT_NAMESPACE##*/}
