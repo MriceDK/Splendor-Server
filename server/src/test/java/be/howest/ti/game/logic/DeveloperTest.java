@@ -18,7 +18,17 @@ class DeveloperTest {
     }
 
     @Test
-    void testConstructorWithEmtyLastName() {
+    void testConstructorWithEmptyFirstName() {
+        assertThrows(IllegalArgumentException.class, () -> new Developer("", "Doe"));
+    }
+
+    @Test
+    void testConstructorWithNullLastName() {
+        assertThrows(IllegalArgumentException.class, () -> new Developer("John", null));
+    }
+
+    @Test
+    void testConstructorWithEmptyLastName() {
         assertThrows(IllegalArgumentException.class, () -> new Developer("John", ""));
     }
 
