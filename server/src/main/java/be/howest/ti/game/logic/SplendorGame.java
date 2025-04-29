@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic;
 
 import java.util.List;
+import java.util.Set;
 
 public class SplendorGame {
     private final int gameId;
