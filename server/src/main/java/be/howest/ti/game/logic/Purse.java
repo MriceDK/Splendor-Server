@@ -5,9 +5,15 @@ import java.util.Map;
 
 public class Purse {
 
-    private final Map<Token, Integer> tokens = new HashMap<>();
+    private final Map<Token, Integer> tokens ;
 
+    public Purse(){
+        //TODO
+    }
 
+    public Purse(Map<Token, Integer> tokens){
+
+    }
 
 
 }
