@@ -15,5 +15,11 @@ public class Purse {
 
     }
 
+    public Map<Token, Integer> getTokens() {
+        return tokens;
+    }
 
+    public int getTotal(){
+        //TODO
+    }
 }
