@@ -10,4 +10,8 @@ public class Level {
     public Level(List<Development> developments){
         //TODO
     }
+
+    public List<Development> getVisibleDevelopments() {
+        return visibleDevelopments;
+    }
 }
