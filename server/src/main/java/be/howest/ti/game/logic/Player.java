@@ -1,5 +1,7 @@
 package be.howest.ti.game.logic;
 
+import java.util.Map;
+
 public class Player {
 
     private final String name;
