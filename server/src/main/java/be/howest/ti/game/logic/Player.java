@@ -37,4 +37,25 @@ public class Player {
     public Development[] getReservedCards() {
         return reservedCards;
     }
+
+    public void buyDevelopment(Development development){
+        //TODO
+    }
+
+    public void reserveDevelopment(Development development){
+        //TODO
+    }
+
+    public void claimNoble(Noble noble){
+        //TODO
+    }
+
+    public void acquireTokens(Map<Token,Integer> tokens){
+        //TODO
+    }
+
+    public void returnTokens(Map<Token,Integer> tokens){
+        //TODO
+    }
+
 }
