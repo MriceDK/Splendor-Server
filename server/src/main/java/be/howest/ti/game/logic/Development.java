@@ -12,7 +12,23 @@ public class Development {
         //TODO
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public int getLevel() {
+        return level;
+    }
 
+    public Token getBonus() {
+        return bonus;
+    }
 
+    public int getPrestigePoints() {
+        return prestigePoints;
+    }
+
+    public Purse getCost() {
+        return cost;
+    }
 }
