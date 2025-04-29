@@ -35,4 +35,21 @@ public class GameLobby implements SplendorService {
     public void setGameName(String gameName) {
         this.gameName = gameName;
     }
+
+    @Override
+    public void createGameLobby(int maxPlayers) {
+        //TODO
+    }
+
+    @Override
+    public void startGameLobby() {
+        //TODO
+
+    }
+
+    @Override
+    public void addPlayerToGameLobby(Player player) {
+        //TODO
+
+    }
 }
