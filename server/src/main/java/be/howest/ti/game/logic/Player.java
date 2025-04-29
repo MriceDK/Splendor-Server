@@ -9,5 +9,10 @@ public class Player {
     private int prestigePoints;
     private Development[] reservedCards;
 
+    public Player (String name){
+        //TODO
+
+    }
+
 
 }
