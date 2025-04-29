@@ -46,5 +46,11 @@ public class SplendorGame {
     }
 
 
+    public void reserveDevelopment(Development development){
+        //TODO
+
+    }
+
+
 
 }
