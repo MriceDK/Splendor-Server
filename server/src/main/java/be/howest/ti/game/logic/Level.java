@@ -6,4 +6,8 @@ public class Level {
 
     private List<Development> visibleDevelopments;
     private List<Development> invisibleDevelopments;
+
+    public Level(List<Development> developments){
+        //TODO
+    }
 }
