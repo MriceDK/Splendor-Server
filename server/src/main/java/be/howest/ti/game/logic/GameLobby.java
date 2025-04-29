@@ -17,5 +17,15 @@ public class GameLobby {
         //TODO
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
 
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
 }
