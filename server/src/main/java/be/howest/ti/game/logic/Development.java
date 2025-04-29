@@ -8,5 +8,11 @@ public class Development {
     private final Token bonus;
     private final Purse cost;
 
+    public Development(String name, int level, int prestigePoints, Token bonus, Purse cost){
+        //TODO
+    }
+
+
+
 
 }
