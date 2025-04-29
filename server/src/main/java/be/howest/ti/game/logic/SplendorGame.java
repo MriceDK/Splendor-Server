@@ -59,6 +59,14 @@ public class SplendorGame {
         //TODO
     }
 
+    public void acquireTokens(Purse tokens){
+        //TODO
+    }
+
+    public void returnTokens(Purse tokens){
+        //TODO
+    }
+
 
 
 
