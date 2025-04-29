@@ -13,5 +13,31 @@ public class SplendorGame {
     private GameState gameState;
     private Player winner;
 
+    public SplendorGame(GameLobby gameLobby){
+        //TODO
+    }
 
+    public int getGameId() {
+        return gameId;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
 }
