@@ -51,6 +51,10 @@ public class SplendorGame {
 
     }
 
+    public boolean checkForNoble(){
+        //
+    }
+
 
 
 }
