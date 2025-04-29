@@ -22,4 +22,22 @@ public class Purse {
     public int getTotal(){
         //TODO
     }
+
+    public void addToken(Token tokenToAdd, int amount){
+        //TODO
+    }
+
+    public void addTokens(Map<Token, Integer> tokensToAdd){
+        //TODO
+    }
+
+    public void removeToken(Token tokenToRemove, int amount){
+        //TODO
+    }
+
+    public void removeTokens(Map<Token, Integer> tokensToRemove){
+        //TODO
+    }
+
+
 }
