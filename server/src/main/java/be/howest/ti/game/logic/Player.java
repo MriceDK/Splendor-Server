@@ -14,5 +14,27 @@ public class Player {
 
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public Purse getTokens() {
+        return tokens;
+    }
+
+    public Purse getBonuses() {
+        return bonuses;
+    }
+
+    public Set<Noble> getAcquiredNobles() {
+        return acquiredNobles;
+    }
+
+    public int getPrestigePoints() {
+        return prestigePoints;
+    }
+
+    public Development[] getReservedCards() {
+        return reservedCards;
+    }
 }
