@@ -52,8 +52,14 @@ public class SplendorGame {
     }
 
     public boolean checkForNoble(){
-        //
+        //TODO
     }
+
+    public void acquireNoble(){
+        //TODO
+    }
+
+
 
 
 
