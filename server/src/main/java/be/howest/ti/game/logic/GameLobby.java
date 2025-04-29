@@ -8,4 +8,14 @@ public class GameLobby {
     private List<Player> players;
     private final int maxPlayers;
     private String gameName;
+
+    public GameLobby(String gameName, int maxPlayers){
+        //TODO
+    }
+
+    public GameLobby(int maxPlayers){
+        //TODO
+    }
+
+
 }
