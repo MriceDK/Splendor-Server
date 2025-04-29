@@ -40,4 +40,11 @@ public class SplendorGame {
     public void setWinner(Player winner) {
         this.winner = winner;
     }
+
+    public void buyDevelopment(Purse payment, Development development){
+        //TODO
+    }
+
+
+
 }
