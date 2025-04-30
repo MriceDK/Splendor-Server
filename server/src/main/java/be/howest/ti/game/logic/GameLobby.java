@@ -1,7 +1,5 @@
-package be.howest.ti.game.logic.service;
+package be.howest.ti.game.logic;
 
-
-import be.howest.ti.game.logic.Player;
 
 import java.util.List;
 
