@@ -5,7 +5,7 @@ import be.howest.ti.game.logic.Player;
 
 import java.util.List;
 
-public class GameLobby implements SplendorService {
+public class GameLobby {
 
     private final int gameId;
     private List<Player> players;
@@ -36,20 +36,4 @@ public class GameLobby implements SplendorService {
         this.gameName = gameName;
     }
 
-    @Override
-    public void createGameLobby(int maxPlayers) {
-        //TODO
-    }
-
-    @Override
-    public void startGameLobby() {
-        //TODO
-
-    }
-
-    @Override
-    public void addPlayerToGameLobby(Player player) {
-        //TODO
-
-    }
 }

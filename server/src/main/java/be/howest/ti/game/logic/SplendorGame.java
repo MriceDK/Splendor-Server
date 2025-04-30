@@ -1,5 +1,7 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.service.GameLobby;
+
 import java.util.List;
 import java.util.Set;
 
