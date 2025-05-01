@@ -30,7 +30,7 @@ public class GameLobby {
         return gameName;
     }
 
-    public void setGameName(String gameName) {
+    private void setGameName(String gameName) {
         this.gameName = gameName;
     }
 
