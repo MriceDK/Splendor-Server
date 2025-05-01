@@ -34,4 +34,14 @@ public class GameLobby {
         this.gameName = gameName;
     }
 
+    public void startGame(){
+        //TODO
+    }
+
+    public void addPlayer(String name){
+        //TODO
+    }
+
+
+
 }
