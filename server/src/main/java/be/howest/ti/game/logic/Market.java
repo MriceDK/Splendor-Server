@@ -6,6 +6,10 @@ public class Market {
 
     private final Map<String, Level> levels;
 
+    public Market(){
+        //TODO
+    }
+
     public Map<String, Level> getLevels() {
         return levels;
     }
