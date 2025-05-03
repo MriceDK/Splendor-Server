@@ -1,19 +1,20 @@
 package be.howest.ti.game.logic;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 public class Player {
 
     private final String name;
-    private final Purse tokens;
-    private final Purse bonuses;
-    private final Set<Noble> acquiredNobles;
+    private Purse tokens; // TODO make final
+    private Purse bonuses; // TODO make final
+    private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private Development[] reservedCards;
 
     public Player (String name){
-        //TODO
-
+        this.name = name;
     }
 
     public String getName() {
@@ -60,4 +61,15 @@ public class Player {
         //TODO
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(name, player.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
+    }
 }

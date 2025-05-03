@@ -25,9 +25,11 @@ public class Level {
 
     public int getTotalInvisible(){
         //TODO
+        return -1;
     }
 
     public Development takeTopDevelopment(){
         //TODO
+        return null;
     }
 }
