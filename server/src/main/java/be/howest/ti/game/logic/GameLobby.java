@@ -54,5 +54,7 @@ public class GameLobby {
     }
 
 
-
+    public int getGameId() {
+        return gameId;
+    }
 }

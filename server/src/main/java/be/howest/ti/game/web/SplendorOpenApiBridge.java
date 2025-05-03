@@ -72,7 +72,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("create-game")
-    public NotYetImplementedResponse createGame(BaseSplendorRequest request) {
+    public CreateGameResponse createGame(CreateGameRequest request) {
         SplendorService service = getService(request);
 
         GameLobby game;
