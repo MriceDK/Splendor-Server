@@ -87,7 +87,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("join-game")
-    public NotYetImplementedResponse joinGame(BaseSplendorRequest request) {
+    public JoinGameResponse joinGame(JoinGameRequest request) {
         return new NotYetImplementedResponse("join-game");
     }
 
