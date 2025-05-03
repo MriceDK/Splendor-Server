@@ -25,6 +25,8 @@ public class GameLobby {
         return players;
     }
 
+    public int getTotalPlayers() { return players.size(); }
+
     public int getMaxPlayers() {
         return maxPlayers;
     }
