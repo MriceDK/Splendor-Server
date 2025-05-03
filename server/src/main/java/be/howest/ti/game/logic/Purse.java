@@ -69,5 +69,9 @@ public class Purse {
         return Objects.hashCode(tokens);
     }
 
+    @Override
+    public String toString() {
+        return tokens.toString();
 
+    }
 }
