@@ -2,6 +2,7 @@ package be.howest.ti.game.logic;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Purse {
 
@@ -51,11 +52,21 @@ public class Purse {
     }
 
     public void removeTokens(Map<Token, Integer> tokensToRemove){
-        //TODO
         for (Token token : tokensToRemove.keySet()) {
             removeToken(token, tokensToRemove.get(token));
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Purse purse = (Purse) o;
+        return Objects.equals(tokens, purse.tokens);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(tokens);
     }
 
 
