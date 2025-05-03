@@ -18,7 +18,7 @@ public class GameLobby {
     }
 
     public GameLobby(int maxPlayers){
-        //TODO
+        this(null, maxPlayers);
     }
 
     public List<Player> getPlayers() {

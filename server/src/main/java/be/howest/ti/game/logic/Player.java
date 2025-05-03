@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Player {
 
-    private String name; // TODO make final
+    private final String name;
     private Purse tokens; // TODO make final
     private Purse bonuses; // TODO make final
     private Set<Noble> acquiredNobles; // TODO make final
@@ -13,8 +13,7 @@ public class Player {
     private Development[] reservedCards;
 
     public Player (String name){
-        //TODO
-
+        this.name = name;
     }
 
     public String getName() {
