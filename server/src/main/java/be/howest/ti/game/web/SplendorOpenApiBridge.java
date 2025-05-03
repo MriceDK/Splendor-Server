@@ -73,7 +73,23 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     @Operation("create-game")
     public NotYetImplementedResponse createGame(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("create-game");
+        SplendorService service = getService(request);
+
+        GameLobby game;
+        if (request.getGameName() == null) {
+            game = service.createLobby(
+                    request.getNumberOfPlayers(),
+                    request.getPlayerName()
+            );
+        } else {
+            game = service.createLobby(
+                    request.getNumberOfPlayers(),
+                    request.getPlayerName(),
+                    request.getGameName()
+            );
+        }
+
+        return new CreateGameResponse(game, request.getPlayerName());
     }
 
     @Operation("delete-games")
