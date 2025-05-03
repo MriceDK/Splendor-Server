@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class SplendorServiceImpl implements SplendorService {
 
-    private List<GameLobby> lobbies; // TODO make it so that both unstarted and started games can be collected in this one list. (so Objects of GameLobby class and SplendorGame class)
+    private final List<GameLobby> lobbies; // TODO make it so that both unstarted and started games can be collected in this one list. (so Objects of GameLobby class and SplendorGame class)
 
     public SplendorServiceImpl() {
         lobbies = new ArrayList<>();
