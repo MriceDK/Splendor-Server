@@ -3,23 +3,23 @@ package be.howest.ti.game.logic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class GameLobby {
 
-    private int gameId; // TODO make final + find a way to genereate a unique gameId per instance
+    private final int gameId; // TODO make final + find a way to genereate a unique gameId per instance
     private final List<Player> players;
     private final int maxPlayers;
     private String gameName;
 
-    public GameLobby(String gameName, int maxPlayers){
+    public GameLobby(int gameId, String gameName, int maxPlayers){
+        this.gameId = gameId;
         this.gameName = gameName;
         this.maxPlayers = maxPlayers;
         players = new ArrayList<>();
     }
 
-    public GameLobby(int maxPlayers){
-        this(null, maxPlayers);
+    public GameLobby(int gameId, int maxPlayers){
+        this(gameId, null, maxPlayers);
     }
 
     public List<Player> getPlayers() {
@@ -54,4 +54,8 @@ public class GameLobby {
         players.add(newPlayer);
     }
 
+
+    public int getGameId() {
+        return gameId;
+    }
 }

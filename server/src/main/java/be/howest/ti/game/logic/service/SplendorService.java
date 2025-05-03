@@ -6,7 +6,13 @@ import be.howest.ti.game.logic.Player;
 
 public interface SplendorService {
 
+
     public GameLobby findLobby(int gameid);
 
     void joinLobby(GameLobby lobby, String playerName);
+
+    GameLobby createLobby(int maxPlayers, String creatorName);
+    GameLobby createLobby(int maxPlayers, String creatorName, String gameName);
+
+
 }

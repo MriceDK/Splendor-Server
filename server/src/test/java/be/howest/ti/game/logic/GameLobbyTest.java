@@ -8,21 +8,21 @@ class GameLobbyTest {
 
     @Test
     public void creatingALobbyWithoutGameName() {
-        GameLobby lobby = new GameLobby(4);
+        GameLobby lobby = new GameLobby(1, 4);
 
         assertNull(lobby.getGameName());
     }
 
     @Test
     public void creatingALobbyWithGameName() {
-        GameLobby lobby = new GameLobby("Very Creative Game Name", 4);
+        GameLobby lobby = new GameLobby(1, "Very Creative Game Name", 4);
 
         assertEquals("Very Creative Game Name", lobby.getGameName());
     }
 
     @Test
     public void addPlayer() {
-        GameLobby lobby = new GameLobby("Very Creative Game Name", 4);
+        GameLobby lobby = new GameLobby(1, "Very Creative Game Name", 4);
 
         lobby.addPlayer("John");
 
@@ -32,7 +32,7 @@ class GameLobbyTest {
 
     @Test
     public void YouCannotHavePlayersWithTheSameName() {
-        GameLobby lobby = new GameLobby("Very Creative Game Name", 4);
+        GameLobby lobby = new GameLobby(1, "Very Creative Game Name", 4);
 
         lobby.addPlayer("John");
         lobby.addPlayer("Alice");

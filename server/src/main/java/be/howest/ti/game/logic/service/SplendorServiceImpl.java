@@ -15,16 +15,22 @@ public class SplendorServiceImpl implements SplendorService {
         lobbies = new ArrayList<>();
     }
 
-    public void createLobby(int maxPlayers, String creatorName) {
-        GameLobby newLobby = new GameLobby(maxPlayers);
+    public GameLobby createLobby(int maxPlayers, String creatorName) {
+        int gameId = generateGameId();
+        GameLobby newLobby = new GameLobby(gameId, maxPlayers);
         newLobby.addPlayer(creatorName);
         lobbies.add(newLobby);
+
+        return newLobby;
     }
 
-    public void createLobby(int maxPlayers, String creatorName, String gameName) {
-        GameLobby newLobby = new GameLobby(gameName, maxPlayers);
+    public GameLobby createLobby(int maxPlayers, String creatorName, String gameName) {
+        int gameId = generateGameId();
+        GameLobby newLobby = new GameLobby(gameId, gameName, maxPlayers);
         newLobby.addPlayer(creatorName);
         lobbies.add(newLobby);
+
+        return newLobby;
     }
 
     public GameLobby findLobby(int gameId) {
@@ -43,6 +49,10 @@ public class SplendorServiceImpl implements SplendorService {
 
     public List<GameLobby> getGames() {
         return lobbies;
+    }
+
+    public int generateGameId() {
+        return lobbies.size();
     }
 
 }
