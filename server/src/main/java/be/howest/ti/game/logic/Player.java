@@ -41,6 +41,10 @@ public class Player {
         return reservedCards;
     }
 
+    public void joinGame(GameLobby gameLobby){
+        gameLobby.addPlayer(this.name);
+    }
+
     public void buyDevelopment(Development development){
         //TODO
     }
