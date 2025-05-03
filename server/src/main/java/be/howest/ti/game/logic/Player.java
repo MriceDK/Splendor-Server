@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class Player {
@@ -60,4 +61,15 @@ public class Player {
         //TODO
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(name, player.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
+    }
 }
