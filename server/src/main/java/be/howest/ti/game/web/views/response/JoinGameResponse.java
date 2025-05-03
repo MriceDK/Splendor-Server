@@ -1,19 +1,26 @@
 package be.howest.ti.game.web.views.response;
 
+import be.howest.ti.game.logic.GameLobby;
+
 public class JoinGameResponse extends AbstractResponseWithHiddenStatus {
-    public JoinGameResponse(int status) {
-        super(status);
+    private final GameLobby game;
+    private final String playerName;
+
+    public JoinGameResponse(GameLobby game, String playerName) {
+        super(200);
+        this.game = game;
+        this.playerName = playerName;
     }
 
     public int getGameId() {
-        return params.body().getJsonObject().getInteger("gameId");
+        return game.getGameId();
     }
 
     public String getPlayerName() {
-        return params.body().getJsonObject().getString("playerName");
+        return playerName;
     }
 
     public String getPlayerToken() {
-        return params.body().getJsonObject().getString("playerToken");
+        return getGameId() + "_" + getPlayerName();
     }
 }
