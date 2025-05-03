@@ -34,6 +34,15 @@ public class Purse {
         return total;
     }
 
+    private void checkIfDeleteIsAllowed(Token tokenName, int amount) {
+        if (this.tokens.get(tokenName) - amount < 0) {
+            throw new IllegalArgumentException("You can't delete more tokens than there are of this type");
+        }
+        if (amount < 0) {
+            throw new IllegalArgumentException("You can only delete a positive amount of a token");
+        }
+    }
+
     public void addToken(Token tokenToAdd, Integer amount){
         this.tokens.put(tokenToAdd, this.tokens.get(tokenToAdd) + amount);
     }
@@ -45,13 +54,15 @@ public class Purse {
     }
 
     public void removeToken(Token tokenToRemove, int amount){
-        if (this.tokens.get(tokenToRemove) - amount < 0) {
-            throw new IllegalArgumentException("You are trying to delete more tokens than there are of this type");
-        }
+        checkIfDeleteIsAllowed(tokenToRemove, amount);
         this.tokens.put(tokenToRemove, this.tokens.get(tokenToRemove) - amount);
     }
 
     public void removeTokens(Map<Token, Integer> tokensToRemove){
+        // Double for loop to first check if all tokens can be added
+        for (Token token : tokensToRemove.keySet()) {
+            checkIfDeleteIsAllowed(token, tokensToRemove.get(token));
+        }
         for (Token token : tokensToRemove.keySet()) {
             removeToken(token, tokensToRemove.get(token));
         }
