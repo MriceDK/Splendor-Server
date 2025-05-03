@@ -47,6 +47,13 @@ public class GameLobby {
 
         Player newPlayer = new Player(name);
 
+        validateNewPlayer(newPlayer);
+
+        players.add(newPlayer);
+
+    }
+
+    private void validateNewPlayer(Player newPlayer) {
         if (players.size() == maxPlayers){
             throw new IllegalStateException("There are already " + maxPlayers + " in the game!");
 
@@ -55,9 +62,6 @@ public class GameLobby {
         if (players.contains(newPlayer)) {
             throw new IllegalStateException("There already exists a player with the same name in this game.");
         }
-
-        players.add(newPlayer);
-
     }
 
 }
