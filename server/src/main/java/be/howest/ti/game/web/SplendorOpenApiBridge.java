@@ -1,5 +1,6 @@
 package be.howest.ti.game.web;
 
+import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
