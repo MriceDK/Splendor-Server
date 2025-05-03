@@ -16,7 +16,8 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     public GameLobby createLobby(int maxPlayers, String creatorName) {
-        GameLobby newLobby = new GameLobby(maxPlayers);
+        int gameId = generateGameId();
+        GameLobby newLobby = new GameLobby(gameId, maxPlayers);
         newLobby.addPlayer(creatorName);
         lobbies.add(newLobby);
 
@@ -24,7 +25,8 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     public GameLobby createLobby(int maxPlayers, String creatorName, String gameName) {
-        GameLobby newLobby = new GameLobby(gameName, maxPlayers);
+        int gameId = generateGameId();
+        GameLobby newLobby = new GameLobby(gameId, gameName, maxPlayers);
         newLobby.addPlayer(creatorName);
         lobbies.add(newLobby);
 
@@ -33,6 +35,10 @@ public class SplendorServiceImpl implements SplendorService {
 
     public List<GameLobby> getGames() {
         return lobbies;
+    }
+
+    public int generateGameId() {
+        return lobbies.size();
     }
 
 }
