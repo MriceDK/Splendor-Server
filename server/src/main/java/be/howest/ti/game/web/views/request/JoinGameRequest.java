@@ -14,8 +14,4 @@ public class JoinGameRequest extends BaseSplendorRequest{
     public String getPlayerName() {
         return params.body().getJsonObject().getString("playerName");
     }
-
-    public String getPlayerToken() {
-        return params.body().getJsonObject().getString("playerToken");
-    }
 }
