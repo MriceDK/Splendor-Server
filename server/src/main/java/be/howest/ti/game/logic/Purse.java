@@ -8,11 +8,17 @@ public class Purse {
     private final Map<Token, Integer> tokens ;
 
     public Purse(){
-        //TODO
+        this.tokens = new HashMap<>();
+        for (Token token : Token.values()) {
+            this.tokens.put(token, 0);
+        }
     }
 
     public Purse(Map<Token, Integer> tokens){
-
+        this.tokens = new HashMap<>(tokens);
+        for (Token token : Token.values()) {
+            this.tokens.putIfAbsent(token, 0);
+        }
     }
 
     public Map<Token, Integer> getTokens() {
