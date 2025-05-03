@@ -15,8 +15,14 @@ public class SplendorServiceImpl implements SplendorService {
         lobbies = new ArrayList<>();
     }
 
-    public void createLobby(int numberOfPlayers, String creatorName) {
-        GameLobby newLobby = new GameLobby(numberOfPlayers);
+    public void createLobby(int maxPlayers, String creatorName) {
+        GameLobby newLobby = new GameLobby(maxPlayers);
+        newLobby.addPlayer(creatorName);
+        lobbies.add(newLobby);
+    }
+
+    public void createLobby(int maxPlayers, String creatorName, String gameName) {
+        GameLobby newLobby = new GameLobby(gameName, maxPlayers);
         newLobby.addPlayer(creatorName);
         lobbies.add(newLobby);
     }
