@@ -33,12 +33,14 @@ public class Purse {
         return total;
     }
 
-    public void addToken(Token tokenToAdd, int amount){
-        //TODO
+    public void addToken(Token tokenToAdd, Integer amount){
+        this.tokens.put(tokenToAdd, this.tokens.get(tokenToAdd) + amount);
     }
 
     public void addTokens(Map<Token, Integer> tokensToAdd){
-        //TODO
+        for (Token token : tokensToAdd.keySet()) {
+            addToken(token, tokensToAdd.get(token));
+        }
     }
 
     public void removeToken(Token tokenToRemove, int amount){
