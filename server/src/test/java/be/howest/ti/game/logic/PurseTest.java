@@ -89,7 +89,6 @@ class PurseTest {
 
     @Test
     void removeTokens() {
-        System.out.println(filledPurse);
         Map<Token, Integer> tokensToRemove = new HashMap<>();
         tokensToRemove.put(Token.RUBY, 3);
         tokensToRemove.put(Token.SAPPHIRE, 4);
