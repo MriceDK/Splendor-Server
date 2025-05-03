@@ -5,9 +5,9 @@ import java.util.List;
 
 public class GameLobby {
 
-    private final int gameId;
+    private int gameId; // TODO make final
     private List<Player> players;
-    private final int maxPlayers;
+    private int maxPlayers; // TODO make final
     private String gameName;
 
     public GameLobby(String gameName, int maxPlayers){

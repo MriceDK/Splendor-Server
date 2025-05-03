@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Purse {
 
-    private final Map<Token, Integer> tokens ;
+    private Map<Token, Integer> tokens; // TODO make final
 
     public Purse(){
         //TODO
@@ -21,6 +21,7 @@ public class Purse {
 
     public int getTotal(){
         //TODO
+        return -1;
     }
 
     public void addToken(Token tokenToAdd, int amount){

@@ -1,13 +1,14 @@
 package be.howest.ti.game.logic;
 
 import java.util.Map;
+import java.util.Set;
 
 public class Player {
 
-    private final String name;
-    private final Purse tokens;
-    private final Purse bonuses;
-    private final Set<Noble> acquiredNobles;
+    private String name; // TODO make final
+    private Purse tokens; // TODO make final
+    private Purse bonuses; // TODO make final
+    private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private Development[] reservedCards;
 
