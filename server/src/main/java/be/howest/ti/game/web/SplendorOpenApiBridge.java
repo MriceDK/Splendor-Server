@@ -88,6 +88,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     @Operation("join-game")
     public JoinGameResponse joinGame(JoinGameRequest request) {
+
+        SplendorService service = getService(request);
+        request.getGameId()
         return new JoinGameResponse("join-game");
     }
 
