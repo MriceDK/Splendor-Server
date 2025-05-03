@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Market {
 
-    private final Map<String, Level> levels;
+    private Map<String, Level> levels; // TODO make final
 
     public Market(){
         //TODO
@@ -20,14 +20,17 @@ public class Market {
 
     public List<Development> getVisibleDevelopments(String level){
         //TODO
+        return null;
     }
 
     public int getTotalInvisibleDevelopments(String level){
         //TODO
+        return -1;
     }
 
     public Development takeTopDevelopment(String level){
         //TODO
+        return null;
     }
 
     public void removeDevelopment(String level, Development development){

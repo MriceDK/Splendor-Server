@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Set;
 
 public class SplendorGame {
-    private final int gameId;
-    private final String gameName;
-    private final List<Player> players;
-    private final Purse tokenBank;
-    private final Set<Noble> unclaimedNobles;
-    private final Market market;
+    private int gameId; // TODO make final
+    private String gameName; // TODO make final
+    private List<Player> players; // TODO make final
+    private Purse tokenBank; // TODO make final
+    private Set<Noble> unclaimedNobles; // TODO make final
+    private Market market; // TODO make final
     private Player currentPlayer;
     private GameState gameState;
     private Player winner;
@@ -54,6 +54,7 @@ public class SplendorGame {
 
     public boolean checkForNoble(){
         //TODO
+        return false;
     }
 
     public void acquireNoble(){

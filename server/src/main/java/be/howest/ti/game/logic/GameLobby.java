@@ -1,26 +1,31 @@
 package be.howest.ti.game.logic;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameLobby {
 
-    private final int gameId;
-    private List<Player> players;
+    private int gameId; // TODO make final + find a way to genereate a unique gameId per instance
+    private final List<Player> players;
     private final int maxPlayers;
     private String gameName;
 
     public GameLobby(String gameName, int maxPlayers){
-        //TODO
+        this.gameName = gameName;
+        this.maxPlayers = maxPlayers;
+        players = new ArrayList<>();
     }
 
     public GameLobby(int maxPlayers){
-        //TODO
+        this(null, maxPlayers);
     }
 
     public List<Player> getPlayers() {
         return players;
     }
+
+    public int getTotalPlayers() { return players.size(); }
 
     public int getMaxPlayers() {
         return maxPlayers;
@@ -39,7 +44,13 @@ public class GameLobby {
     }
 
     public void addPlayer(String name){
-        //TODO
+        Player newPlayer = new Player(name);
+
+        if (players.contains(newPlayer)) {
+            throw new IllegalStateException("There already exists a player with the same name in this game.");
+        }
+
+        players.add(newPlayer);
     }
 
 
