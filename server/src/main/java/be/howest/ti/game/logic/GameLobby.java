@@ -44,15 +44,25 @@ public class GameLobby {
     }
 
     public void addPlayer(String name){
-        Player newPlayer = new Player(name);
+        if (players.size() < maxPlayers){
+            Player newPlayer = new Player(name);
 
+            uniqueNameChecker(newPlayer);
+
+        } else {
+            throw new IllegalStateException("There are already " + maxPlayers + " in the game!");
+        }
+
+
+    }
+
+    private void uniqueNameChecker(Player newPlayer) {
         if (players.contains(newPlayer)) {
             throw new IllegalStateException("There already exists a player with the same name in this game.");
         }
 
         players.add(newPlayer);
     }
-
 
 
 }
