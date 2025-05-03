@@ -90,7 +90,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public JoinGameResponse joinGame(JoinGameRequest request) {
 
         SplendorService service = getService(request);
-        request.getGameId()
+        String playerName = request.getPlayerName();
+        int gameId = request.getGameId();
         return new JoinGameResponse("join-game");
     }
 

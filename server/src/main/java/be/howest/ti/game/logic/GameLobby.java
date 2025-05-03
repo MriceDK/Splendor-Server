@@ -54,16 +54,4 @@ public class GameLobby {
         players.add(newPlayer);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        GameLobby gameLobby = (GameLobby) o;
-        return gameId == gameLobby.gameId;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(gameId);
-    }
-
 }

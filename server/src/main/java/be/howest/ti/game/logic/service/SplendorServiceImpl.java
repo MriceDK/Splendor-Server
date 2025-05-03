@@ -27,6 +27,15 @@ public class SplendorServiceImpl implements SplendorService {
         lobbies.add(newLobby);
     }
 
+    public GameLobby findLobby(int gameId) {
+        for (GameLobby lobby : lobbies) {
+            if (gameId == lobby.getGameId()) {
+                return lobby;
+            }
+        }
+        throw new IllegalArgumentException("Game not found");
+    }
+
     public List<GameLobby> getGames() {
         return lobbies;
     }
