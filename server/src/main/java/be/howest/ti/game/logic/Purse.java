@@ -43,11 +43,22 @@ public class Purse {
         }
     }
 
+    private void checkIfAddIsAllowed(Token tokenName, int amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("You can only add a positive amount of a token");
+        }
+    }
+
     public void addToken(Token tokenToAdd, Integer amount){
+        checkIfAddIsAllowed(tokenToAdd, amount);
         this.tokens.put(tokenToAdd, this.tokens.get(tokenToAdd) + amount);
     }
 
     public void addTokens(Map<Token, Integer> tokensToAdd){
+        // Double for loop to first check if all tokens can be added
+        for (Token token : tokensToAdd.keySet()) {
+            checkIfAddIsAllowed(token, tokensToAdd.get(token));
+        }
         for (Token token : tokensToAdd.keySet()) {
             addToken(token, tokensToAdd.get(token));
         }
