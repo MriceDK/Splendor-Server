@@ -26,7 +26,11 @@ public class Purse {
     }
 
     public int getTotal(){
-        //TODO
+        int total = 0;
+        for (Integer value : this.tokens.values()) {
+            total += value;
+        }
+        return total;
     }
 
     public void addToken(Token tokenToAdd, int amount){
