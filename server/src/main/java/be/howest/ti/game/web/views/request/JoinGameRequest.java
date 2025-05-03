@@ -6,4 +6,16 @@ public class JoinGameRequest extends BaseSplendorRequest{
     public JoinGameRequest(RoutingContext ctx) {
         super(ctx);
     }
+
+    public int getGameId() {
+        return params.body().getJsonObject().getInteger("gameId");
+    }
+
+    public String getPlayerName() {
+        return params.body().getJsonObject().getString("playerName");
+    }
+
+    public String getPlayerToken() {
+        return params.body().getJsonObject().getString("playerToken");
+    }
 }
