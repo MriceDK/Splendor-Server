@@ -36,6 +36,11 @@ public class SplendorServiceImpl implements SplendorService {
         throw new IllegalArgumentException("Game not found");
     }
 
+    @Override
+    public void joinLobby(GameLobby lobby, String playerName) {
+        lobby.addPlayer(playerName);
+    }
+
     public List<GameLobby> getGames() {
         return lobbies;
     }
