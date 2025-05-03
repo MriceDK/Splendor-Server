@@ -44,11 +44,18 @@ public class Purse {
     }
 
     public void removeToken(Token tokenToRemove, int amount){
-        //TODO
+        if (this.tokens.get(tokenToRemove) - amount < 0) {
+            throw new IllegalArgumentException("You are trying to delete more tokens than there are of this type");
+        }
+        this.tokens.put(tokenToRemove, this.tokens.get(tokenToRemove) - amount);
     }
 
     public void removeTokens(Map<Token, Integer> tokensToRemove){
         //TODO
+        for (Token token : tokensToRemove.keySet()) {
+            removeToken(token, tokensToRemove.get(token));
+        }
+    }
     }
 
 
