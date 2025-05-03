@@ -54,7 +54,7 @@ public class GameLobby {
     }
 
     private void validateNewPlayer(Player newPlayer) {
-        if (players.size() == maxPlayers){
+        if (players.size() >= maxPlayers){
             throw new IllegalStateException("There are already " + maxPlayers + " in the game!");
 
         }
