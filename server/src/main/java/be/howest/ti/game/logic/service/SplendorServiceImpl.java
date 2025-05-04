@@ -10,14 +10,9 @@ import java.util.List;
 
 public class SplendorServiceImpl implements SplendorService {
 
-
-    //private final List<GameLobby> lobbies; // TODO make it so that both unstarted and started games can be collected in this one list. (so Objects of GameLobby class and SplendorGame class)
-    //private final List<SplendorGame> games;
     private final List<GameSuperclass> allGames;
 
     public SplendorServiceImpl() {
-        //lobbies = new ArrayList<>();
-        //games = new ArrayList<>();
         allGames = new ArrayList<>();
     }
 

@@ -14,12 +14,7 @@ public class GameLobby extends GameSuperclass {
     }
 
     public SplendorGame startGame(){
-        if (isFull()) {
-            return new SplendorGame(this);
-        } else {
-            return null;
-        }
-
+        return new SplendorGame(this);
     }
 
     public boolean isFull() {
