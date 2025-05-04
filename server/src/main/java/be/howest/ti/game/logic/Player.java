@@ -59,7 +59,7 @@ public class Player {
 
     private boolean playerMeetsRequirements(Noble noble) {
         for (Token token : Token.values()) {
-            int required = noble.getNeededBonuses().getTokens().get(token);
+            int required = noble.neededBonuses().getTokens().get(token);
             int actual = bonuses.getTokens().get(token);
             if (actual < required) {
                 return false;
