@@ -70,7 +70,7 @@ public class SplendorGame {
         if (possibleNobles.size() > ONE_NOBLE){
             setGameState(GameState.CHOOSE_NOBLE);
         } else {
-            currentPlayer.claimNoble(possibleNobles.getFirst());
+            acquireNoble(possibleNobles);
         }
     }
 
@@ -85,8 +85,8 @@ public class SplendorGame {
         return true;
     }
 
-    public void acquireNoble(){
-        //TODO
+    public void acquireNoble(List<Noble> possibleNobles){
+        currentPlayer.claimNoble(possibleNobles.getFirst());
     }
 
     public void acquireTokens(Purse tokens){
