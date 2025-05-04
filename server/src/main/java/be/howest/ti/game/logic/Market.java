@@ -52,11 +52,11 @@ public class Market {
         return levels.get(level).takeTopDevelopment();
     }
 
-    public void removeDevelopment(String level, Development development){
+    public void removeVisibleDevelopment(String level, Development development){
         levels.get(level).removeVisibleDevelopment(development);
     }
 
-    public void removeDevelopment(String level, String developmentName){
+    public void removeVisibleDevelopment(String level, String developmentName){
         levels.get(level).removeVisibleDevelopment(developmentName);
     }
 }
