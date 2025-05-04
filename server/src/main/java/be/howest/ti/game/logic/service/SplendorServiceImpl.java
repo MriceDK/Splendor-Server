@@ -47,7 +47,7 @@ public class SplendorServiceImpl implements SplendorService {
                 return lobby;
             }
         }
-        throw new IllegalArgumentException("Game not found");
+        throw new IllegalArgumentException("Lobby not found");
     }
 
     public SplendorGame findStartedGame(int gameId) {
