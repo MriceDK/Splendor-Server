@@ -37,11 +37,14 @@ class LevelTest {
     void removeVisibleDevelopment() {
         l1.removeVisibleDevelopment(developments.getFirst());
         assertEquals(developments.subList(1, 5), l1.getVisibleDevelopments());
+        assertThrows(IllegalArgumentException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
     }
 
     @Test
     void getTotalInvisible() {
         assertEquals(2, l1.getTotalInvisible());
+        Level l2 = new Level(List.of(), 1);
+        assertThrows(IllegalStateException.class, l2::takeTopDevelopment);
     }
 
     @Test
