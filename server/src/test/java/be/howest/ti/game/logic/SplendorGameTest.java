@@ -47,7 +47,7 @@ class SplendorGameTest {
         }
         Noble noble = new Noble("De Wever", 3, new Purse(nobleRequirements));
 
-        SplendorGame game = new SplendorGame(null);
+        SplendorGame game = new SplendorGame(lobby);
         game.setCurrentPlayer(player);
         game.setUnclaimedNobles(Set.of(noble));
 
@@ -78,7 +78,7 @@ class SplendorGameTest {
         }
         Noble noble = new Noble("De Wever", 3, new Purse(nobleRequirements));
 
-        SplendorGame game = new SplendorGame(null);
+        SplendorGame game = new SplendorGame(lobby);
         game.setCurrentPlayer(player);
         game.setUnclaimedNobles(Set.of(noble));
 
