@@ -2,6 +2,7 @@ package be.howest.ti.game.logic;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Level {
@@ -24,7 +25,7 @@ public class Level {
     }
 
     public List<Development> getVisibleDevelopments() {
-        return visibleDevelopments;
+        return Collections.unmodifiableList(visibleDevelopments);
     }
 
     public void removeDevelopment(Development development){
