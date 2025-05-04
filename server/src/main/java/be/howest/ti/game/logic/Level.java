@@ -34,11 +34,7 @@ public class Level {
     }
 
     public void makeVisible(Development development){
-        if (!invisibleDevelopments.contains(development)) {
-            throw new IllegalArgumentException(development.name() + " was not found in invisible developments");
-        }
         this.visibleDevelopments.add(development);
-        this.invisibleDevelopments.remove(development);
     }
 
 
@@ -46,7 +42,7 @@ public class Level {
     public void removeVisibleDevelopment(Development development){
         if (visibleDevelopments.contains(development)) {
             visibleDevelopments.remove(development);
-            makeVisible(invisibleDevelopments.peek());
+            makeVisible(invisibleDevelopments.poll());
         } else throw new IllegalArgumentException("Development not found in visible developments");
     }
 
@@ -58,9 +54,7 @@ public class Level {
         if (invisibleDevelopments.isEmpty()) {
             throw new IllegalStateException("No developments left in this level");
         }
-        Development firstDevelopment = invisibleDevelopments.peek();
-        invisibleDevelopments.remove(firstDevelopment);
-        return firstDevelopment;
+        return invisibleDevelopments.poll();
     }
 
     @Override
