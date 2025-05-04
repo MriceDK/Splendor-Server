@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GameLobby {
 
-    private final int gameId; // TODO make final + find a way to genereate a unique gameId per instance
+    private final int gameId; // TODO Find another way to generate gameId
     private final List<Player> players;
     private final int maxPlayers;
     private String gameName;
