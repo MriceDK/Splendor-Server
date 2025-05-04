@@ -6,7 +6,7 @@ import be.howest.ti.game.logic.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameInListView {
+public class GameInListView implements Comparable<GameInListView> {
 
     private final GameSuperclass game;
 
@@ -42,4 +42,8 @@ public class GameInListView {
         return game.getMaxPlayers();
     }
 
+    @Override
+    public int compareTo(GameInListView o) {
+        return this.game.getGameId() - o.game.getGameId();
+    }
 }
