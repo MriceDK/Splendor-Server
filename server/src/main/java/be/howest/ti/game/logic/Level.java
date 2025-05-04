@@ -37,7 +37,8 @@ public class Level {
     }
 
     public Development takeTopDevelopment(){
-        //TODO
-        return null;
+        Development firstDevelopment = invisibleDevelopments.getFirst();
+        invisibleDevelopments.remove(firstDevelopment);
+        return firstDevelopment;
     }
 }
