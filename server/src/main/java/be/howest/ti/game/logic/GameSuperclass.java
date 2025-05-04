@@ -15,6 +15,12 @@ public class GameSuperclass {
         players = new ArrayList<>();
     }
 
+    public GameSuperclass(GameSuperclass game) {
+        this.gameId = game.getGameId();
+        this.gameName = game.getGameName();
+        this.players = game.getPlayers();
+    }
+
     public int getGameId() {
         return gameId;
     }
