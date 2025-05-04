@@ -3,7 +3,7 @@ package be.howest.ti.game.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GameSuperclass {
+public abstract class GameSuperclass implements Comparable<GameSuperclass> {
 
     private final int gameId; // TODO Find another way to generate gameId
     private final List<Player> players;
@@ -67,5 +67,9 @@ public abstract class GameSuperclass {
         if (getClass() == GameLobby.class) {
             return false;
         } else return getClass() == SplendorGame.class;
+    }
+
+    public int compareTo(GameSuperclass o) {
+        return this.gameId - o.gameId;
     }
 }
