@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class SplendorServiceImpl implements SplendorService {
 
+    private static int incrementalIdentifier = 0;
+
     private final List<GameLobby> lobbies; // TODO make it so that both unstarted and started games can be collected in this one list. (so Objects of GameLobby class and SplendorGame class)
 
     public SplendorServiceImpl() {
@@ -52,7 +54,11 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     public int generateGameId() {
-        return lobbies.size();
+        int gameId = incrementalIdentifier;
+
+        incrementalIdentifier++;
+
+        return gameId;
     }
 
 }
