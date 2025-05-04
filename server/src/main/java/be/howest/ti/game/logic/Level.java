@@ -4,8 +4,8 @@ import java.util.*;
 
 public class Level {
 
-    private static final int maxVisible = 4;
-    private final List<Development> visibleDevelopments = new ArrayList<>(maxVisible);
+    private static final int MAX_VISIBLE = 4;
+    private final List<Development> visibleDevelopments = new ArrayList<>(MAX_VISIBLE);
     private final Queue<Development> invisibleDevelopments;
     private final int levelNumber;
 
@@ -20,7 +20,7 @@ public class Level {
         this.invisibleDevelopments = new LinkedList<>(developments);
 //        TODO: shuffle the developments or just insert already shuffled developments
 //        Collections.shuffle((List<?>) invisibleDevelopments);
-        for (int i = 0; i < maxVisible && i < developments.size(); i++) {
+        for (int i = 0; i < MAX_VISIBLE && i < developments.size(); i++) {
             this.visibleDevelopments.add(takeTopDevelopment());
         }
     }
