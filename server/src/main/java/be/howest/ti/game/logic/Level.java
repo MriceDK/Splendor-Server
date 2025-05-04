@@ -46,6 +46,19 @@ public class Level {
         } else throw new IllegalArgumentException("Development not found in visible developments");
     }
 
+    private Development findMatchingDevelopment(String developmentName) {
+        for (Development development : visibleDevelopments) {
+            if (development.name().equals(developmentName)) {
+                return development;
+            }
+        }
+        throw new IllegalArgumentException("Development not found in visible developments");
+    }
+
+    public void removeVisibleDevelopment(String developmentName){
+        removeVisibleDevelopment(findMatchingDevelopment(developmentName));
+    }
+
     public int getTotalInvisible(){
         return this.invisibleDevelopments.size();
     }

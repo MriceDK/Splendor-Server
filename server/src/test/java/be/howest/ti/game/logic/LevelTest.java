@@ -51,4 +51,12 @@ class LevelTest {
     void takeTopDevelopment() {
         assertEquals(developments.get(4), l1.takeTopDevelopment());
     }
+
+    @Test
+    void testRemoveVisibleDevelopmentString() {
+        l1.removeVisibleDevelopment("Developement 1");
+        assertEquals(developments.subList(1, 5), l1.getVisibleDevelopments());
+        assertThrows(IllegalArgumentException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
+
+    }
 }
