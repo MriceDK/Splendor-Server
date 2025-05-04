@@ -55,4 +55,8 @@ public class Market {
     public void removeDevelopment(String level, Development development){
         levels.get(level).removeVisibleDevelopment(development);
     }
+
+    public void removeDevelopment(String level, String developmentName){
+        levels.get(level).removeVisibleDevelopment(developmentName);
+    }
 }
