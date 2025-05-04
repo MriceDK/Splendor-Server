@@ -41,4 +41,18 @@ class GameLobbyTest {
         assertEquals(2, lobby.getTotalPlayers());
     }
 
+    @Test
+    public void aPlayerCannotJoinWhenMaxSizeIsReached(){
+        GameLobby lobby = new GameLobby(1, "Test Game", 2);
+
+        lobby.addPlayer("John");
+        lobby.addPlayer("Alice");
+
+
+
+        assertThrows(IllegalStateException.class, () -> lobby.addPlayer("Alice"));
+        assertEquals(2, lobby.getTotalPlayers());
+
+    }
+
 }
