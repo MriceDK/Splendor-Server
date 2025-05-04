@@ -44,4 +44,12 @@ public class Level {
         invisibleDevelopments.remove(firstDevelopment);
         return firstDevelopment;
     }
+
+    @Override
+    public String toString() {
+        return "Level{" +
+                "invisibleDevelopments=" + invisibleDevelopments.size() +
+                "visibleDevelopments=" + visibleDevelopments +
+                '}';
+    }
 }
