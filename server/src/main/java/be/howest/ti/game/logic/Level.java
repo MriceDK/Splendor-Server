@@ -7,13 +7,13 @@ import java.util.List;
 
 public class Level {
 
-    private final List<Development> visibleDevelopments = new ArrayList<>();
+    private static final int maxVisible = 4;
+    private final List<Development> visibleDevelopments = new ArrayList<>(maxVisible);
     private final List<Development> invisibleDevelopments;
 
     public Level(List<Development> developments){
         this.invisibleDevelopments = developments;
-
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < maxVisible; i++) {
             makeRandomVisible();
         }
     }
