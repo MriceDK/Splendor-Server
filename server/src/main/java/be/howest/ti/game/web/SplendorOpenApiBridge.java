@@ -74,7 +74,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
         List<GameSuperclass> games  = service.getGames();
 
-        return new GetGamesResponse();
+        return new GetGamesResponse(games);
     }
 
     @Operation("create-game")
