@@ -25,6 +25,6 @@ public class Noble {
     }
 
     public void nobleVisit(Player player){
-        //TODO
+        Purse bonusesPlayer = player.getBonuses();
     }
 }
