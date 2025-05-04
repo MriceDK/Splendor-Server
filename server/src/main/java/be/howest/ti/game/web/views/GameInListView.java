@@ -26,7 +26,7 @@ public class GameInListView {
         return res;
     }
 
-    public boolean getHasStarted() {
+    public boolean getStarted() {
         return game.hasStarted();
     }
 
