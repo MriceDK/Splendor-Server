@@ -62,10 +62,8 @@ public class GameLobby {
         if (players.contains(newPlayer)) {
             throw new IllegalStateException("There already exists a player with the same name in this game.");
         }
-
-        players.add(newPlayer);
     }
-public int getGameId() {
+    public int getGameId() {
         return gameId;
     }
 }
