@@ -32,4 +32,14 @@ class SplendorServiceImplTest {
         assertEquals("John", service.getGames().getFirst().getPlayers().getFirst().getName());
     }
 
+    @Test
+    public void startGameWhenLobbyIsFull() {
+        service.createLobby(2, "Yoni");
+        System.out.println(service.getGames().getFirst().getGameId());
+
+        service.startGame(0);
+
+        System.out.println(service.getGames().getFirst().getGameId());
+    }
+
 }
