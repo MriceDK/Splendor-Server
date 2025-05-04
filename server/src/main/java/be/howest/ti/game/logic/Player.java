@@ -49,24 +49,7 @@ public class Player {
         //TODO
     }
 
-    public void claimNoble(Noble noble){
-        if (playerMeetsRequirements(noble)){
-            acquiredNobles.add(noble);
-
-        }
-
-    }
-
-    private boolean playerMeetsRequirements(Noble noble) {
-        for (Token token : Token.values()) {
-            int required = noble.neededBonuses().getTokens().get(token);
-            int actual = bonuses.getTokens().get(token);
-            if (actual < required) {
-                return false;
-            }
-        }
-        return true;
-    }
+    public void claimNoble(Noble noble){acquiredNobles.add(noble);}
 
     public void acquireTokens(Map<Token,Integer> tokens){
         //TODO

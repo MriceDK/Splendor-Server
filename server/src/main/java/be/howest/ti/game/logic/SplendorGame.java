@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -52,9 +53,32 @@ public class SplendorGame {
 
     }
 
-    public boolean checkForNoble(){
-        //TODO
-        return false;
+    public void checkForNoble(){
+        List<Noble> possibleNobles = new ArrayList<>();
+        for (Noble noble : unclaimedNobles){
+            if (playerMeetsRequirements(currentPlayer, noble)){
+                possibleNobles.add(noble);
+
+            }
+
+        }
+        int ONE_NOBLE = 1;
+        if (possibleNobles.size() > ONE_NOBLE){
+            setGameState(GameState.CHOOSE_NOBLE);
+        } else {
+            currentPlayer.claimNoble(possibleNobles.getFirst());
+        }
+    }
+
+    private boolean playerMeetsRequirements(Player player, Noble noble) {
+        for (Token token : Token.values()) {
+            int required = noble.neededBonuses().getTokens().get(token);
+            int actual = player.getBonuses().getTokens().get(token);
+            if (actual < required) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void acquireNoble(){
