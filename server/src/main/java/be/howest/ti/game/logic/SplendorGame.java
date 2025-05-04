@@ -97,6 +97,11 @@ public class SplendorGame {
         //TODO
     }
 
+    //For testing purposes
+    public void setUnclaimedNobles(Set<Noble> nobles) {
+        this.unclaimedNobles = nobles;
+    }
+
 
 
 

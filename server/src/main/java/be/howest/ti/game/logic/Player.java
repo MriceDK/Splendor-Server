@@ -70,4 +70,14 @@ public class Player {
     public int hashCode() {
         return Objects.hashCode(name);
     }
+
+    //For testing purposes
+    public void setBonuses(Purse bonuses) {
+        this.bonuses = bonuses;
+    }
+
+   //For testing purposes
+    public void setAcquiredNobles(Set<Noble> nobles) {
+        this.acquiredNobles = nobles;
+    }
 }
