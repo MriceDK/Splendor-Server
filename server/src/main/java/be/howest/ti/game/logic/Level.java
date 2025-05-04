@@ -56,12 +56,4 @@ public class Level {
         }
         return invisibleDevelopments.poll();
     }
-
-    @Override
-    public String toString() {
-        return "Level{" +
-                "invisibleDevelopments=" + invisibleDevelopments.size() +
-                "visibleDevelopments=" + visibleDevelopments +
-                '}';
-    }
 }
