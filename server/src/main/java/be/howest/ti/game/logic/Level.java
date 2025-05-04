@@ -1,35 +1,72 @@
 package be.howest.ti.game.logic;
 
-import java.util.List;
+import java.util.*;
 
 public class Level {
 
-    private List<Development> visibleDevelopments;
-    private List<Development> invisibleDevelopments;
+    private static final int MAX_VISIBLE = 4;
+    private final List<Development> visibleDevelopments = new ArrayList<>(MAX_VISIBLE);
+    private final Queue<Development> invisibleDevelopments;
+    private final int levelNumber;
 
-    public Level(List<Development> developments){
-        //TODO
+    public Level(List<Development> developments, int levelNumber) {
+        for (Development development : developments) {
+            if (development.level() != levelNumber) {
+                throw new IllegalArgumentException(development.name() + " does not match the level number of " + levelNumber);
+            }
+        }
+
+        this.levelNumber = levelNumber;
+        this.invisibleDevelopments = new LinkedList<>(developments);
+//        TODO: shuffle the developments or just insert already shuffled developments
+//        Collections.shuffle((List<?>) invisibleDevelopments);
+        for (int i = 0; i < MAX_VISIBLE && i < developments.size(); i++) {
+            this.visibleDevelopments.add(takeTopDevelopment());
+        }
+    }
+
+    public int getLevelNumber() {
+        return levelNumber;
     }
 
     public List<Development> getVisibleDevelopments() {
-        return visibleDevelopments;
-    }
-
-    public void removeDevelopment(Development development){
-        //TODO
+        return Collections.unmodifiableList(visibleDevelopments);
     }
 
     public void makeVisible(Development development){
-        //TODO
+        this.visibleDevelopments.add(development);
+    }
+
+
+
+    public void removeVisibleDevelopment(Development development){
+        if (visibleDevelopments.contains(development)) {
+            visibleDevelopments.remove(development);
+            makeVisible(invisibleDevelopments.poll());
+        } else throw new IllegalArgumentException("Development not found in visible developments");
+    }
+
+    private Development findMatchingDevelopment(String developmentName) {
+        for (Development development : visibleDevelopments) {
+            if (development.name().equals(developmentName)) {
+                return development;
+            }
+        }
+        throw new IllegalArgumentException("Development not found in visible developments");
+    }
+
+    public void removeVisibleDevelopment(String developmentName){
+        removeVisibleDevelopment(findMatchingDevelopment(developmentName));
     }
 
     public int getTotalInvisible(){
-        //TODO
-        return -1;
+        return this.invisibleDevelopments.size();
     }
 
     public Development takeTopDevelopment(){
-        //TODO
-        return null;
+        if (invisibleDevelopments.isEmpty()) {
+            throw new IllegalStateException("No developments left in this level");
+        }
+        return invisibleDevelopments.poll();
     }
 }
