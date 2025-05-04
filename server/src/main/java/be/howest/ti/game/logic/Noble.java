@@ -2,12 +2,14 @@ package be.howest.ti.game.logic;
 
 public class Noble {
 
-    private String name; // TODO make final
-    private int prestigePoints; // TODO make final
-    private Purse neededBonuses; // TODO make final
+    private final String name;
+    private final int prestigePoints;
+    private final Purse neededBonuses;
 
     public Noble(String name, int prestigePoints, Purse neededBonuses){
-        //TODO
+        this.name = name;
+        this.prestigePoints = prestigePoints;
+        this.neededBonuses = neededBonuses;
     }
 
     public String getName() {
