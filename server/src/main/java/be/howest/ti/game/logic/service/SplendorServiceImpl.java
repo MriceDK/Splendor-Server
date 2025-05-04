@@ -80,6 +80,18 @@ public class SplendorServiceImpl implements SplendorService {
         return games;
     }
 
+    public List<GameSuperclass> getGames(boolean hasStarted) {
+        List<GameSuperclass> res = new ArrayList<>();
+
+        if (hasStarted) {
+            res.addAll(getStartedGames());
+        } else {
+            res.addAll(getLobbies());
+        }
+
+        return res;
+    }
+
     public List<GameLobby> getLobbies() {
         List<GameLobby> lobbies = new ArrayList<>();
 
