@@ -33,6 +33,9 @@ public class Level {
     }
 
     public List<Development> getVisibleDevelopments() {
+        if (visibleDevelopments.isEmpty()) {
+            throw new IllegalStateException("No visible developments");
+        }
         return Collections.unmodifiableList(visibleDevelopments);
     }
 
@@ -43,16 +46,14 @@ public class Level {
 
     }
 
-    private void makeVisible(Development development){
-        this.visibleDevelopments.add(development);
-        this.invisibleDevelopments.remove(development);
-    }
-
     public int getTotalInvisible(){
         return this.invisibleDevelopments.size();
     }
 
     public Development takeTopDevelopment(){
+        if (invisibleDevelopments.isEmpty()) {
+            throw new IllegalStateException("No invisible developments left");
+        }
         Development firstDevelopment = invisibleDevelopments.getFirst();
         invisibleDevelopments.remove(firstDevelopment);
         return firstDevelopment;
