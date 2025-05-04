@@ -33,8 +33,7 @@ public class Level {
     }
 
     public int getTotalInvisible(){
-        //TODO
-        return -1;
+        return this.invisibleDevelopments.size();
     }
 
     public Development takeTopDevelopment(){
