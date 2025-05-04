@@ -1,0 +1,51 @@
+package be.howest.ti.game.logic;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class LevelTest {
+
+    private Level l1;
+    private List<Development> developments;
+
+    @BeforeEach
+    void setUp() {
+        List<Development> developments = List.of(
+                new Development("Developement 1", 1, 1, null, null),
+                new Development("Developement 2", 1, 2, null, null),
+                new Development("Developement 3", 1, 3, null, null),
+                new Development("Developement 4", 1, 4, null, null),
+                new Development("Developement 5", 1, 5, null, null),
+                new Development("Developement 6", 1, 6, null, null)
+        );
+
+        this.developments = developments;
+        this.l1 = new Level(developments, 1);
+    }
+
+
+    @Test
+    void getVisibleDevelopments() {
+        assertEquals(developments.subList(0, 4), l1.getVisibleDevelopments());
+    }
+
+    @Test
+    void removeVisibleDevelopment() {
+        l1.removeVisibleDevelopment(developments.getFirst());
+        assertEquals(developments.subList(1, 5), l1.getVisibleDevelopments());
+    }
+
+    @Test
+    void getTotalInvisible() {
+        assertEquals(2, l1.getTotalInvisible());
+    }
+
+    @Test
+    void takeTopDevelopment() {
+        assertEquals(developments.get(4), l1.takeTopDevelopment());
+    }
+}
