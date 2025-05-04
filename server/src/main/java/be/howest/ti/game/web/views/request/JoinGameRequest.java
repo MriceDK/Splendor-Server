@@ -8,10 +8,10 @@ public class JoinGameRequest extends BaseSplendorRequest{
     }
 
     public int getGameId() {
-        return params.body().getJsonObject().getInteger("gameId");
+        return params.pathParameter("gameId").getInteger();
     }
 
     public String getPlayerName() {
-        return params.body().getJsonObject().getString("playerName");
+        return params.pathParameter("playerName").getString();
     }
 }
