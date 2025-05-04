@@ -1,14 +1,22 @@
 package be.howest.ti.game.logic;
 
+import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Level {
 
-    private List<Development> visibleDevelopments;
-    private List<Development> invisibleDevelopments;
+    private List<Development> visibleDevelopments = new ArrayList<>();
+    private final List<Development> invisibleDevelopments;
 
     public Level(List<Development> developments){
-        //TODO
+        this.invisibleDevelopments = developments;
+
+        SecureRandom secureRandom = new SecureRandom();
+        for (int i = 0; i < 4; i++) {
+            int randomInt = secureRandom.nextInt(invisibleDevelopments.size());
+            makeVisible(invisibleDevelopments.get(randomInt));
+        }
     }
 
     public List<Development> getVisibleDevelopments() {
