@@ -12,11 +12,15 @@ public class Level {
     public Level(List<Development> developments){
         this.invisibleDevelopments = developments;
 
-        SecureRandom secureRandom = new SecureRandom();
         for (int i = 0; i < 4; i++) {
-            int randomInt = secureRandom.nextInt(invisibleDevelopments.size());
-            makeVisible(invisibleDevelopments.get(randomInt));
+            makeRandomVisible();
         }
+    }
+
+    public void makeRandomVisible() {
+        SecureRandom secureRandom = new SecureRandom();
+        int randomInt = secureRandom.nextInt(invisibleDevelopments.size());
+        makeVisible(invisibleDevelopments.get(randomInt));
     }
 
     public List<Development> getVisibleDevelopments() {
@@ -30,7 +34,7 @@ public class Level {
 
     }
 
-    public void makeVisible(Development development){
+    private void makeVisible(Development development){
         this.visibleDevelopments.add(development);
         this.invisibleDevelopments.remove(development);
     }
