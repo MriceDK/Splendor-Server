@@ -14,26 +14,25 @@ public class Market {
         return levels;
     }
 
-    public void makeVisibleLevel(String level){
-        //TODO
+    public void makeVisibleLevel(String level, Development development){
+        levels.get(level).makeVisible(development);
     }
 
     public List<Development> getVisibleDevelopments(String level){
-        //TODO
-        return null;
+        return levels.get(level).getVisibleDevelopments();
     }
 
     public int getTotalInvisibleDevelopments(String level){
         //TODO
-        return -1;
+        return levels.get(level).getTotalInvisible();
     }
 
     public Development takeTopDevelopment(String level){
         //TODO
-        return null;
+        return levels.get(level).takeTopDevelopment();
     }
 
     public void removeDevelopment(String level, Development development){
-        //TODO
+        levels.get(level).removeVisibleDevelopment(development);
     }
 }
