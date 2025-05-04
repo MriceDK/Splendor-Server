@@ -14,7 +14,7 @@ public class GameInListView {
         this.game = game;
     }
 
-    public List<String> getPlayers() { // TODO array toont niet correct
+    public List<String> getPlayers() {
         List<String> res = new ArrayList<>();
 
         for (Player player : game.getPlayers()) {
