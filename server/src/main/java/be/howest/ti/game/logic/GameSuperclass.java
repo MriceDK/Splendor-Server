@@ -15,10 +15,6 @@ public class GameSuperclass {
         players = new ArrayList<>();
     }
 
-    public GameSuperclass(int gameId){
-        this(gameId, null);
-    }
-
     public int getGameId() {
         return gameId;
     }
@@ -31,5 +27,15 @@ public class GameSuperclass {
 
     public String getGameName() {
         return gameName;
+    }
+
+    public void addPlayer(String name){
+        Player newPlayer = new Player(name);
+
+        if (players.contains(newPlayer)) {
+            throw new IllegalStateException("There already exists a player with the same name in this game.");
+        }
+
+        players.add(newPlayer);
     }
 }
