@@ -41,4 +41,20 @@ class GameLobbyTest {
         assertEquals(2, lobby.getTotalPlayers());
     }
 
+    @Test
+    public void gameStartsWhenLobbyIsFull() {
+        GameLobby lobby = new GameLobby(1, "Very Creative Game Name", 3);
+
+        lobby.addPlayer("John");
+        lobby.addPlayer("Alice");
+        lobby.addPlayer("Erwin");
+
+        SplendorGame game = lobby.startGame();
+
+        assertEquals(1, game.getGameId());
+        assertEquals("Very Creative Game Name", game.getGameName());
+        assertEquals(3, game.getMaxPlayers());
+        assertEquals(3, game.getTotalPlayers());
+    }
+
 }

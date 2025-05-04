@@ -1,7 +1,6 @@
 package be.howest.ti.game.logic;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameLobby extends GameSuperclass {
@@ -17,8 +16,17 @@ public class GameLobby extends GameSuperclass {
         this(gameId, null, maxPlayers);
     }
 
-    public void startGame(){
-        //TODO
+    public SplendorGame startGame(){
+        if (isFull()) {
+            return new SplendorGame(this);
+        } else {
+            return null;
+        }
+
+    }
+
+    private boolean isFull() {
+        return super.getMaxPlayers() == super.getTotalPlayers();
     }
 
     public void addPlayer(String name){
