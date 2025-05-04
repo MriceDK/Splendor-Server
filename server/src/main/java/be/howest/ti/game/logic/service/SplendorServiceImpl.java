@@ -2,7 +2,6 @@ package be.howest.ti.game.logic.service;
 
 import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.GameSuperclass;
-import be.howest.ti.game.logic.Player;
 import be.howest.ti.game.logic.SplendorGame;
 
 import java.util.ArrayList;
@@ -10,17 +9,17 @@ import java.util.List;
 
 public class SplendorServiceImpl implements SplendorService {
 
-    private final List<GameSuperclass> allGames;
+    private final List<GameSuperclass> games;
 
     public SplendorServiceImpl() {
-        allGames = new ArrayList<>();
+        games = new ArrayList<>();
     }
 
     public GameLobby createLobby(int maxPlayers, String creatorName) {
         int gameId = generateGameId();
         GameLobby newLobby = new GameLobby(gameId, maxPlayers);
         newLobby.addPlayer(creatorName);
-        allGames.add(newLobby);
+        games.add(newLobby);
 
         return newLobby;
     }
@@ -29,7 +28,7 @@ public class SplendorServiceImpl implements SplendorService {
         int gameId = generateGameId();
         GameLobby newLobby = new GameLobby(gameId, gameName, maxPlayers);
         newLobby.addPlayer(creatorName);
-        allGames.add(newLobby);
+        games.add(newLobby);
 
         return newLobby;
     }
@@ -37,8 +36,8 @@ public class SplendorServiceImpl implements SplendorService {
     public void startGame(GameLobby lobby) {
         SplendorGame game = lobby.startGame();
 
-        allGames.remove(lobby);
-        allGames.add(game);
+        games.remove(lobby);
+        games.add(game);
     }
 
     public GameLobby findLobby(int gameId) {
@@ -60,7 +59,7 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     public GameSuperclass findGame(int gameId) {
-        for (GameSuperclass game : getAllGames()) {
+        for (GameSuperclass game : getGames()) {
             if (gameId == game.getGameId()) {
                 return game;
             }
@@ -77,14 +76,14 @@ public class SplendorServiceImpl implements SplendorService {
         }
     }
 
-    public List<GameSuperclass> getAllGames() {
-        return allGames;
+    public List<GameSuperclass> getGames() {
+        return games;
     }
 
     public List<GameLobby> getLobbies() {
         List<GameLobby> lobbies = new ArrayList<>();
 
-        for (GameSuperclass game : allGames) {
+        for (GameSuperclass game : games) {
 
             if (!game.hasStarted()) {
                 lobbies.add((GameLobby) game);
@@ -98,7 +97,7 @@ public class SplendorServiceImpl implements SplendorService {
     public List<SplendorGame> getStartedGames() {
         List<SplendorGame> startedGames = new ArrayList<>();
 
-        for (GameSuperclass game : allGames) {
+        for (GameSuperclass game : games) {
 
             if (game.hasStarted()) {
                 startedGames.add((SplendorGame) game);
@@ -110,7 +109,7 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     public int generateGameId() {
-        return allGames.size();
+        return games.size();
     }
 
 }
