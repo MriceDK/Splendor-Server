@@ -1,69 +1,23 @@
 package be.howest.ti.game.logic;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class GameLobby {
+public class GameLobby extends GameSuperclass {
 
-    private final int gameId; // TODO make final + find a way to genereate a unique gameId per instance
-    private final List<Player> players;
-    private final int maxPlayers;
-    private String gameName;
-
-    public GameLobby(int gameId, String gameName, int maxPlayers){
-        this.gameId = gameId;
-        this.gameName = gameName;
-        this.maxPlayers = maxPlayers;
-        players = new ArrayList<>();
+    public GameLobby(int gameId, String gameName, int maxPlayers) {
+        super(gameId, gameName, maxPlayers);
     }
 
-    public GameLobby(int gameId, int maxPlayers){
+    public GameLobby(int gameId, int maxPlayers) {
         this(gameId, null, maxPlayers);
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public SplendorGame startGame() {
+        return new SplendorGame(this);
     }
 
-    public int getTotalPlayers() { return players.size(); }
-
-    public int getMaxPlayers() {
-        return maxPlayers;
-    }
-
-    public String getGameName() {
-        return gameName;
-    }
-
-    private void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
-
-    public void startGame(){
-        //TODO
-    }
-
-    public void addPlayer(String name){
-        Player newPlayer = new Player(name);
-
-        validateNewPlayer(newPlayer);
-
-        players.add(newPlayer);
-
-    }
-
-    private void validateNewPlayer(Player newPlayer) {
-        if (players.size() >= maxPlayers){
-            throw new IllegalStateException("There are already " + maxPlayers + " in the game!");
-
-        }
-
-        if (players.contains(newPlayer)) {
-            throw new IllegalStateException("There already exists a player with the same name in this game.");
-        }
-    }
-    public int getGameId() {
-        return gameId;
+    public boolean isFull() {
+        return super.getMaxPlayers() == super.getTotalPlayers();
     }
 }

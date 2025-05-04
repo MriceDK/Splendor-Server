@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class SplendorGame {
-    private int gameId; // TODO make final
-    private String gameName; // TODO make final
-    private List<Player> players; // TODO make final
+public class SplendorGame extends GameSuperclass {
     private Purse tokenBank; // TODO make final
     private Set<Noble> unclaimedNobles; // TODO make final
     private Market market; // TODO make final
@@ -15,16 +12,8 @@ public class SplendorGame {
     private GameState gameState;
     private Player winner;
 
-    public SplendorGame(GameLobby gameLobby){
-        //TODO
-    }
-
-    public int getGameId() {
-        return gameId;
-    }
-
-    public String getGameName() {
-        return gameName;
+    public SplendorGame(GameSuperclass gameLobby){
+        super(gameLobby);
     }
 
     public Player getWinner() {
@@ -47,10 +36,8 @@ public class SplendorGame {
         //TODO
     }
 
-
     public void reserveDevelopment(Development development){
         //TODO
-
     }
 
     public void checkForNoble(){
