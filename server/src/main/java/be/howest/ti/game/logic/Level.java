@@ -33,7 +33,7 @@ public class Level {
         return Collections.unmodifiableList(visibleDevelopments);
     }
 
-    private void makeVisible(Development development){
+    public void makeVisible(Development development){
         if (!invisibleDevelopments.contains(development)) {
             throw new IllegalArgumentException(development.name() + " was not found in invisible developments");
         }
