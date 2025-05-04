@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Market {
 
-    private Map<String, Level> levels; // TODO make final
+    private final Map<String, Level> levels;
 
     public Market(){
         this.levels = new HashMap<>();
