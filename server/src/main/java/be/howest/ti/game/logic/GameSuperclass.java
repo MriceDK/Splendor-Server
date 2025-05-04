@@ -61,4 +61,11 @@ public abstract class GameSuperclass {
             throw new IllegalStateException("There already exists a player with the same name in this game.");
         }
     }
+
+    public boolean hasStarted() {
+
+        if (getClass() == GameLobby.class) {
+            return false;
+        } else return getClass() == SplendorGame.class;
+    }
 }

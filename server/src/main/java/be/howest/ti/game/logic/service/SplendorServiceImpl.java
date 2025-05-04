@@ -7,7 +7,6 @@ import be.howest.ti.game.logic.SplendorGame;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SplendorServiceImpl implements SplendorService {
 
@@ -38,13 +37,11 @@ public class SplendorServiceImpl implements SplendorService {
         return newLobby;
     }
 
-    public void startGame(int gameId) {
-        GameLobby lobby = findLobby(gameId);
+    public void startGame(GameLobby lobby) {
         SplendorGame game = lobby.startGame();
 
         games.add(game);
         lobbies.remove(lobby);
-
     }
 
     public GameLobby findLobby(int gameId) {
@@ -56,12 +53,34 @@ public class SplendorServiceImpl implements SplendorService {
         throw new IllegalArgumentException("Game not found");
     }
 
+    public SplendorGame findStartedGame(int gameId) {
+        for (SplendorGame game : games) {
+            if (gameId == game.getGameId()) {
+                return game;
+            }
+        }
+        throw new IllegalArgumentException("Game not found");
+    }
+
+    public GameSuperclass findGame(int gameId) {
+        for (GameSuperclass game : getAllGames()) {
+            if (gameId == game.getGameId()) {
+                return game;
+            }
+        }
+        throw new IllegalArgumentException("Game not found");
+    }
+
     @Override
     public void joinLobby(GameLobby lobby, String playerName) {
         lobby.addPlayer(playerName);
+
+        if (lobby.isFull()) {
+            startGame(lobby);
+        }
     }
 
-    public List<GameSuperclass> getGames() {
+    public List<GameSuperclass> getAllGames() {
         List<GameSuperclass> list = new ArrayList<>();
 
         list.addAll(lobbies);

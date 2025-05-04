@@ -22,7 +22,7 @@ public class GameLobby extends GameSuperclass {
 
     }
 
-    private boolean isFull() {
+    public boolean isFull() {
         return super.getMaxPlayers() == super.getTotalPlayers();
     }
 
