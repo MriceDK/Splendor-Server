@@ -62,6 +62,10 @@ public class SplendorGame {
             }
 
         }
+        chooseNobleNeccessaryCheck(possibleNobles);
+    }
+
+    private void chooseNobleNeccessaryCheck(List<Noble> possibleNobles) {
         int ONE_NOBLE = 1;
         if (possibleNobles.size() > ONE_NOBLE){
             setGameState(GameState.CHOOSE_NOBLE);
