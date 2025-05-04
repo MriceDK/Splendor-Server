@@ -23,8 +23,4 @@ public class Noble {
     public Purse getNeededBonuses() {
         return neededBonuses;
     }
-
-    public void nobleVisit(Player player){
-        Purse bonusesPlayer = player.getBonuses();
-    }
 }
