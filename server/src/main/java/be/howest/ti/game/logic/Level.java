@@ -24,7 +24,10 @@ public class Level {
     }
 
     public void removeDevelopment(Development development){
-        //TODO
+        if (visibleDevelopments.contains(development)) {
+            visibleDevelopments.remove(development);
+        } else throw new IllegalArgumentException("Development not found in visible developments");
+
     }
 
     public void makeVisible(Development development){
