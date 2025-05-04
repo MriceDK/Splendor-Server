@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Level {
 
-    private List<Development> visibleDevelopments = new ArrayList<>();
+    private final List<Development> visibleDevelopments = new ArrayList<>();
     private final List<Development> invisibleDevelopments;
 
     public Level(List<Development> developments){
