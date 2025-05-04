@@ -62,6 +62,10 @@ public class SplendorGame {
             }
 
         }
+        int EMPTY_NOBLES = 0;
+        if (possibleNobles.size() == EMPTY_NOBLES){
+            throw new IllegalStateException("No nobles can visit the current player");
+        }
         chooseNobleNecessaryCheck(possibleNobles);
     }
 
