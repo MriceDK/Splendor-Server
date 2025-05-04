@@ -24,6 +24,14 @@ public class Level {
         makeVisible(invisibleDevelopments.get(randomInt));
     }
 
+    private void makeVisible(Development development){
+        if (!invisibleDevelopments.contains(development)) {
+            throw new IllegalArgumentException("Development not found in invisible developments");
+        }
+        this.visibleDevelopments.add(development);
+        this.invisibleDevelopments.remove(development);
+    }
+
     public List<Development> getVisibleDevelopments() {
         return Collections.unmodifiableList(visibleDevelopments);
     }
