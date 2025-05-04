@@ -72,7 +72,18 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public GetGamesResponse getGames(GetGamesRequest request) {
         SplendorService service = getService(request);
 
-        List<GameSuperclass> games  = service.getGames();
+        List<GameSuperclass> games;
+
+        try {
+            if (request.getStarted()) {
+                games = service.getGames(true);
+            } else {
+                games = service.getGames(false);
+            }
+        } catch (NullPointerException ex) {
+            games = service.getGames();
+        }
+
 
         return new GetGamesResponse(games);
     }

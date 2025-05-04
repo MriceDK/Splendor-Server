@@ -8,4 +8,8 @@ public class GetGamesRequest extends BaseSplendorRequest {
     public GetGamesRequest(RoutingContext ctx) {
         super(ctx);
     }
+
+    public boolean getStarted() {
+        return params.queryParameter("started").getBoolean();
+    }
 }
