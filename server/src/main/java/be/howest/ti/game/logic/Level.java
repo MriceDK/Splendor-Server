@@ -28,7 +28,8 @@ public class Level {
     }
 
     public void makeVisible(Development development){
-        //TODO
+        this.visibleDevelopments.add(development);
+        this.invisibleDevelopments.remove(development);
     }
 
     public int getTotalInvisible(){
