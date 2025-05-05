@@ -39,14 +39,15 @@ public class Level {
 
 
 
-    public void removeVisibleDevelopment(Development development){
+    public Development removeVisibleDevelopment(Development development){
         if (visibleDevelopments.contains(development)) {
             visibleDevelopments.remove(development);
             makeVisible(invisibleDevelopments.poll());
+            return development;
         } else throw new IllegalArgumentException("Development not found in visible developments");
     }
 
-    private Development findMatchingDevelopment(String developmentName) {
+    public Development findMatchingDevelopment(String developmentName) {
         for (Development development : visibleDevelopments) {
             if (development.name().equals(developmentName)) {
                 return development;
@@ -55,8 +56,8 @@ public class Level {
         throw new IllegalArgumentException("Development not found in visible developments");
     }
 
-    public void removeVisibleDevelopment(String developmentName){
-        removeVisibleDevelopment(findMatchingDevelopment(developmentName));
+    public Development removeVisibleDevelopment(String developmentName){
+        return removeVisibleDevelopment(findMatchingDevelopment(developmentName));
     }
 
     public int getTotalInvisible(){
