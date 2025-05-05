@@ -49,10 +49,16 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void acquireTokens(Player player, Purse tokens){
+        playerTurnChecker(player);
+        player.acquireTokens(tokens.getTokens());
+
+        tokenBank.removeTokens(tokens.getTokens());
+    }
+
+    private void playerTurnChecker(Player player) {
         if(!player.equals(currentPlayer)){
             throw new IllegalStateException("It's not this player's turn");
         }
-
     }
 
     public void returnTokens(Purse tokens){
