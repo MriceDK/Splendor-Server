@@ -57,11 +57,20 @@ public class Market {
     }
 
     public Development removeVisibleDevelopment(String developmentName) {
+        Development matchingDevelopment = findMatchingDevelopmentOverAllLevels(developmentName);
+        return levels.get(matchingDevelopment.level()).removeVisibleDevelopment(developmentName);
+    }
+
+    public Development findMatchingDevelopmentOverAllLevels(String developmentName) {
+        Development matchingDevelopment = null;
         for (Level level : levels.values()) {
             if (level.getVisibleDevelopments().contains(level.findMatchingDevelopment(developmentName))) {
-                return level.removeVisibleDevelopment(developmentName);
+                matchingDevelopment = level.findMatchingDevelopment(developmentName);
             }
         }
-        throw new IllegalArgumentException("Development not found in visible developments");
+        if (matchingDevelopment == null) {
+            throw new IllegalArgumentException("Development not found in visible developments");
+        }
+        return matchingDevelopment;
     }
 }
