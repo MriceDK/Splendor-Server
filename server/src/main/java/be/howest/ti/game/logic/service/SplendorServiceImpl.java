@@ -6,11 +6,10 @@ import be.howest.ti.game.logic.SplendorGame;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SplendorServiceImpl implements SplendorService {
 
-    private static int incrementalIdentifier = 0;
+    private static int INCREMENTAL_IDENTIFIER = 0;
 
     private final List<GameSuperclass> games;
 
@@ -129,9 +128,9 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     public int generateGameId() {
-        int gameId = incrementalIdentifier;
+        int gameId = INCREMENTAL_IDENTIFIER;
 
-        incrementalIdentifier++;
+        INCREMENTAL_IDENTIFIER++;
 
         return gameId;
     }
