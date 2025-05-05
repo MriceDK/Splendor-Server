@@ -3,6 +3,7 @@ package be.howest.ti.game.logic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,9 +34,9 @@ class SplendorGameTest {
         // TODO: Change this when the actual Development cards are implemented
         // assertEquals uses an exact copy of the Development object that was reserved
         // haven't figured out how to get this any other way
-        assertEquals(new Development("Development 1", 1, 1, null, null),
+        assertEquals(new Development("Development 1", 1, 1, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
                 startedGame.getCurrentPlayer().getReservedCards().getFirst());
-        assertFalse(startedGame.getMarket().getVisibleDevelopments(1).contains(new Development("Development 1", 1, 1, null, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))));
+        assertFalse(startedGame.getMarket().getVisibleDevelopments(1).contains(new Development("Development 1", 1, 1, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))));
     }
 
     @Test
@@ -46,7 +47,21 @@ class SplendorGameTest {
         // TODO: Change this when the actual Development cards are implemented
         // assertTrue uses an exact copy of the Development object that was reserved
         // haven't figured out how to get this any other way
-        assertTrue(startedGame.getCurrentPlayer().getReservedCards().contains(new Development("Development 5", 1, 5, null, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))));
+        assertTrue(startedGame.getCurrentPlayer().getReservedCards().contains(new Development("Development 5", 1, 5, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))));
+    }
+
+    @Test
+    public void buyDevelopment() {
+        lobby.addPlayer("Bobby");
+        SplendorGame startedGame = new SplendorGame(lobby);
+        startedGame.getCurrentPlayer().getTokens().addToken(Token.DIAMOND, 1);
+        startedGame.getCurrentPlayer().getTokens().addToken(Token.SAPPHIRE, 1);
+
+        Purse payment = new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1));
+        startedGame.buyDevelopment(payment, "Development 1");
+        assertEquals(0, startedGame.getCurrentPlayer().getTokens().getTokens().get(Token.DIAMOND));
+        assertEquals(0, startedGame.getCurrentPlayer().getTokens().getTokens().get(Token.SAPPHIRE));
+        assertEquals(1, startedGame.getCurrentPlayer().getBonuses().getTokens().get(Token.EMERALD));
     }
 
 }
