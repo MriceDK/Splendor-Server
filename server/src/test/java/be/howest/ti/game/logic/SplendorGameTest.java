@@ -82,7 +82,9 @@ class SplendorGameTest {
         game.setCurrentPlayer(player);
         game.setUnclaimedNobles(Set.of(noble));
 
-        assertThrows(IllegalStateException.class, game::checkForNoble);
+        game.checkForNoble();
+
+        assertFalse(player.getAcquiredNobles().contains(noble));
     }
 
 }
