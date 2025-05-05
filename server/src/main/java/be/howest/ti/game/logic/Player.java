@@ -45,7 +45,10 @@ public class Player {
     }
 
     public void reserveDevelopment(Development development){
-        //TODO
+        if (reservedCards.size() == 3) {
+            throw new IllegalStateException("You can only have 3 reserved cards at a time");
+        }
+        reservedCards.add(development);
     }
 
     public void claimNoble(Noble noble){
