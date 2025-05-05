@@ -56,11 +56,12 @@ public class Market {
         return levels.get(level).takeTopDevelopment();
     }
 
-    public void removeVisibleDevelopment(int level, Development development){
-        levels.get(level).removeVisibleDevelopment(development);
-    }
-
-    public void removeVisibleDevelopment(String level, String developmentName){
-        levels.get(level).removeVisibleDevelopment(developmentName);
+    public Development removeVisibleDevelopment(String developmentName) {
+        for (Level level : levels.values()) {
+            if (level.getVisibleDevelopments().contains(level.findMatchingDevelopment(developmentName))) {
+                return level.removeVisibleDevelopment(developmentName);
+            }
+        }
+        throw new IllegalArgumentException("Development not found in visible developments");
     }
 }
