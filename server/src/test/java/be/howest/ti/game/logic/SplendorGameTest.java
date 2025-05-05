@@ -3,6 +3,8 @@ package be.howest.ti.game.logic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SplendorGameTest {
@@ -16,10 +18,11 @@ class SplendorGameTest {
 
     @Test
     public void copyConstructor() {
+        lobby.addPlayer("Bobby");
         SplendorGame game = new SplendorGame(lobby);
         assertEquals(1, game.getGameId());
         assertNull(game.getGameName());
-        assertEquals(0, game.getTotalPlayers());
+        assertEquals(1, game.getTotalPlayers());
     }
 
     @Test
