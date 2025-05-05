@@ -51,8 +51,8 @@ public class Player {
 
     public void claimNoble(Noble noble){acquiredNobles.add(noble);}
 
-    public void acquireTokens(Map<Token,Integer> tokens){
-        //TODO
+    public void acquireTokens(Map<Token,Integer> tokensToAcquire){
+        tokens.addTokens(tokensToAcquire);
     }
 
     public void returnTokens(Map<Token,Integer> tokens){
