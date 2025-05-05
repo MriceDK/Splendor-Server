@@ -48,8 +48,11 @@ public class SplendorGame extends GameSuperclass {
         //TODO
     }
 
-    public void acquireTokens(Purse tokens){
-        //TODO
+    public void acquireTokens(Player player, Purse tokens){
+        if(!player.equals(currentPlayer)){
+            throw new IllegalStateException("It's not this player's turn");
+        }
+
     }
 
     public void returnTokens(Purse tokens){
