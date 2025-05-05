@@ -123,6 +123,11 @@ public class SplendorServiceImpl implements SplendorService {
         return startedGames;
     }
 
+    public void removeGame(int gameId) {
+        GameSuperclass game = findGame(gameId);
+        games.remove(game);
+    }
+
     public int generateGameId() {
         int gameId = incrementalIdentifier;
 

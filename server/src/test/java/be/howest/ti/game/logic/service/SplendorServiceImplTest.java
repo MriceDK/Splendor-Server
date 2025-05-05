@@ -54,4 +54,26 @@ class SplendorServiceImplTest {
         assertFalse(service.findGame(lobby.getGameId()).hasStarted());
     }
 
+    @Test
+    public void removeGame() {
+        service.createLobby(4, "John", "game-01");
+        service.createLobby(4, "John", "game-02");
+
+        service.removeGame(0);
+
+        assertThrows(IllegalArgumentException.class, () -> service.findGame(0));
+    }
+
+    @Test
+    public void gameIdGeneratesCorrectly() {
+        service.createLobby(4, "John", "game-01");
+        service.createLobby(4, "John", "game-02");
+
+        service.removeGame(1);
+
+        service.createLobby(4, "John", "game-03");
+
+        assertEquals("game-03", service.findGame(2).getGameName());
+    }
+
 }
