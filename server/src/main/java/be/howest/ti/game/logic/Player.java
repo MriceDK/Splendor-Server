@@ -40,7 +40,21 @@ public class Player {
         return reservedCards;
     }
 
+    private boolean checkIfPaymentIsSufficient(Development development, Purse payment){
+        boolean res = true;
+        for (Token token : development.cost().getTokens().keySet()) {
+            int paymentTokenValue = payment.getTokens().get(token);
+            int bonusTokenValue = bonuses.getTokens().get(token);
+            int developmentTokenCost = development.cost().getTokens().get(token);
+            res = (paymentTokenValue + bonusTokenValue == developmentTokenCost) && res;
+        }
+        return res;
+    }
+
     public void buyDevelopment(Development development, Purse payment){
+        if (!checkIfPaymentIsSufficient(development, payment)) {
+            throw new IllegalArgumentException("This payment is not sufficient for the development");
+        }
         prestigePoints += development.prestigePoints();
         bonuses.addToken(development.bonus(), 1);
         tokens.removeTokens(payment.getTokens());
