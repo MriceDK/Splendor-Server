@@ -12,6 +12,8 @@ public class SplendorGame extends GameSuperclass {
     private GameState gameState;
     private Player winner;
 
+    private static final int ONE_NOBLE = 1;
+
     public SplendorGame(GameSuperclass gameLobby){
         super(gameLobby);
     }
@@ -51,13 +53,12 @@ public class SplendorGame extends GameSuperclass {
         }
         int EMPTY_NOBLES = 0;
         if (possibleNobles.size() == EMPTY_NOBLES){
-            throw new IllegalStateException("No nobles can visit the current player");
+            return;
         }
         chooseNobleNecessaryCheck(possibleNobles);
     }
 
-    private void chooseNobleNecessaryCheck(List<Noble> possibleNobles) {
-        int ONE_NOBLE = 1;
+    private void chooseNobleNecessaryCheck(List<Noble> possibleNobles){
         if (possibleNobles.size() > ONE_NOBLE){
             setGameState(GameState.CHOOSE_NOBLE);
         } else {
@@ -66,9 +67,9 @@ public class SplendorGame extends GameSuperclass {
     }
 
     private boolean playerMeetsRequirements(Player player, Noble noble) {
-        for (Token token : Token.values()) {
-            int required = noble.neededBonuses().getTokens().get(token);
-            int actual = player.getBonuses().getTokens().get(token);
+        for (Token bonus : Token.values()) {
+            int required = noble.neededBonuses().getTokens().get(bonus);
+            int actual = player.getBonuses().getTokens().get(bonus);
             if (actual < required) {
                 return false;
             }
