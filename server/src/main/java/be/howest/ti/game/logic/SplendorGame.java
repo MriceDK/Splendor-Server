@@ -1,6 +1,5 @@
 package be.howest.ti.game.logic;
 
-import java.util.List;
 import java.util.Set;
 
 public class SplendorGame extends GameSuperclass {
@@ -45,8 +44,12 @@ public class SplendorGame extends GameSuperclass {
         //TODO
     }
 
-    public void reserveDevelopment(Development development){
-        //TODO
+    public void reserveDevelopment(String developmentName){
+        currentPlayer.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
+    }
+
+    public void reserveDevelopmentFromLevel(int level){
+        currentPlayer.reserveDevelopment(market.takeTopDevelopment(level));
     }
 
     public boolean checkForNoble(){
