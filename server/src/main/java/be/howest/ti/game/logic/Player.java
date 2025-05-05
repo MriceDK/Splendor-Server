@@ -49,14 +49,11 @@ public class Player {
         //TODO
     }
 
-    public void claimNoble(Noble noble){
+    public void claimNoble(Noble noble){acquiredNobles.add(noble);}
+
+    public void acquireTokens(Map<Token,Integer> tokensToAcquire){
         //TODO
     }
-
-    public void acquireTokens(Map<Token,Integer> tokens){
-        //TODO
-    }
-
     public void returnTokens(Map<Token,Integer> tokens){
         //TODO
     }
@@ -71,5 +68,15 @@ public class Player {
     @Override
     public int hashCode() {
         return Objects.hashCode(name);
+    }
+
+    //For testing purposes
+    public void setBonuses(Purse bonuses) {
+        this.bonuses = bonuses;
+    }
+
+   //For testing purposes
+    public void setAcquiredNobles(Set<Noble> nobles) {
+        this.acquiredNobles = nobles;
     }
 }
