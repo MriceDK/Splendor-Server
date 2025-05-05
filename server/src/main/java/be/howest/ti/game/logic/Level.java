@@ -53,7 +53,7 @@ public class Level {
                 return development;
             }
         }
-        throw new IllegalArgumentException("Development not found in visible developments");
+        return null;
     }
 
     public Development removeVisibleDevelopment(String developmentName){
