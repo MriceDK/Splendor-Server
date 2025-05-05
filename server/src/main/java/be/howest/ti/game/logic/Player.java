@@ -5,8 +5,8 @@ import java.util.*;
 public class Player {
 
     private final String name;
-    private Purse tokens; // TODO make final
-    private Purse bonuses; // TODO make final
+    private final Purse tokens;
+    private final Purse bonuses;
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private final List<Development> reservedCards;
@@ -14,6 +14,8 @@ public class Player {
     public Player (String name){
         this.name = name;
         this.reservedCards = new ArrayList<>();
+        this.tokens = new Purse();
+        this.bonuses = new Purse();
     }
 
     public String getName() {
