@@ -41,14 +41,16 @@ public class Player {
     }
 
     private boolean checkIfPaymentIsSufficient(Development development, Purse payment){
-        boolean res = true;
         for (Token token : development.cost().getTokens().keySet()) {
+            int ownTokenValue = tokens.getTokens().get(token);
             int paymentTokenValue = payment.getTokens().get(token);
             int bonusTokenValue = bonuses.getTokens().get(token);
             int developmentTokenCost = development.cost().getTokens().get(token);
-            res = (paymentTokenValue + bonusTokenValue == developmentTokenCost) && res;
+
+            if (paymentTokenValue + bonusTokenValue != developmentTokenCost) return false;
+            if (ownTokenValue < paymentTokenValue) return false;
         }
-        return res;
+        return true;
     }
 
     public void buyDevelopment(Development development, Purse payment){
