@@ -1,8 +1,6 @@
 package be.howest.ti.game.logic;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Player {
 
@@ -11,10 +9,11 @@ public class Player {
     private Purse bonuses; // TODO make final
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
-    private Development[] reservedCards;
+    private final List<Development> reservedCards;
 
     public Player (String name){
         this.name = name;
+        this.reservedCards = new ArrayList<>();
     }
 
     public String getName() {
@@ -37,7 +36,7 @@ public class Player {
         return prestigePoints;
     }
 
-    public Development[] getReservedCards() {
+    public List<Development> getReservedCards() {
         return reservedCards;
     }
 
