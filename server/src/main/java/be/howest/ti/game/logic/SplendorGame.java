@@ -13,7 +13,6 @@ public class SplendorGame extends GameSuperclass {
     private Player winner;
 
     private static final int ONE_NOBLE = 1;
-    private static final int EMPTY_NOBLES = 0;
 
     public SplendorGame(GameSuperclass gameLobby){
         super(gameLobby);
@@ -52,7 +51,7 @@ public class SplendorGame extends GameSuperclass {
             }
 
         }
-        if (possibleNobles.size() == EMPTY_NOBLES){
+        if (possibleNobles.isEmpty()){
             return;
         }
         chooseNobleNecessaryCheck(possibleNobles);
