@@ -40,8 +40,10 @@ public class Player {
         return reservedCards;
     }
 
-    public void buyDevelopment(Development development){
-        //TODO
+    public void buyDevelopment(Development development, Purse payment){
+        prestigePoints += development.prestigePoints();
+        bonuses.addToken(development.bonus(), 1);
+        tokens.removeTokens(payment.getTokens());
     }
 
     public void reserveDevelopment(Development development){
