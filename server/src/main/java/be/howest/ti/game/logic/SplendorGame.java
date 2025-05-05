@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class SplendorGame extends GameSuperclass {
@@ -63,6 +64,12 @@ public class SplendorGame extends GameSuperclass {
 
     public void returnTokens(Purse tokens){
         //TODO
+    }
+
+
+    //For testing purposes
+    public void setTokenBank(Map<Token, Integer> tokensToSetTokenBank){
+        tokenBank.addTokens(tokensToSetTokenBank);
     }
 
 
