@@ -33,6 +33,14 @@ public class SplendorGame extends GameSuperclass {
         this.winner = winner;
     }
 
+    public Market getMarket() {
+        return market;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public void buyDevelopment(Purse payment, Development development){
         //TODO
     }
