@@ -6,13 +6,15 @@ import java.util.Set;
 public class SplendorGame extends GameSuperclass {
     private Purse tokenBank; // TODO make final
     private Set<Noble> unclaimedNobles; // TODO make final
-    private Market market; // TODO make final
+    private final Market market;
     private Player currentPlayer;
     private GameState gameState;
     private Player winner;
 
     public SplendorGame(GameSuperclass gameLobby){
         super(gameLobby);
+        this.market = new Market();
+        this.currentPlayer = gameLobby.getPlayers().getFirst();
     }
 
     public Player getWinner() {
