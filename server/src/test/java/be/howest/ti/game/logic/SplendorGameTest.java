@@ -35,7 +35,7 @@ class SplendorGameTest {
         // haven't figured out how to get this any other way
         assertEquals(new Development("Development 1", 1, 1, null, null),
                 startedGame.getCurrentPlayer().getReservedCards().getFirst());
-        assertFalse(startedGame.getMarket().getVisibleDevelopments(1).contains(new Development("Development 1", 1, 1, null, null)));
+        assertFalse(startedGame.getMarket().getVisibleDevelopments(1).contains(new Development("Development 1", 1, 1, null, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))));
     }
 
     @Test
@@ -46,7 +46,7 @@ class SplendorGameTest {
         // TODO: Change this when the actual Development cards are implemented
         // assertTrue uses an exact copy of the Development object that was reserved
         // haven't figured out how to get this any other way
-        assertTrue(startedGame.getCurrentPlayer().getReservedCards().contains(new Development("Development 5", 1, 5, null, null)));
+        assertTrue(startedGame.getCurrentPlayer().getReservedCards().contains(new Development("Development 5", 1, 5, null, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))));
     }
 
 }
