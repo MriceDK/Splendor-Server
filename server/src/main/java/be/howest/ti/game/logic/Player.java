@@ -40,32 +40,33 @@ public class Player {
         return reservedCards;
     }
 
-    private boolean checkIfPaymentIsSufficient(Development development, Purse payment){
+    public void checkIfPaymentIsSufficient(Development development, Purse payment){
         for (Token token : development.cost().getTokens().keySet()) {
             int ownTokenValue = tokens.getTokens().get(token);
             int paymentTokenValue = payment.getTokens().get(token);
             int bonusTokenValue = bonuses.getTokens().get(token);
             int developmentTokenCost = development.cost().getTokens().get(token);
 
-            if (paymentTokenValue + bonusTokenValue != developmentTokenCost) return false;
-            if (ownTokenValue < paymentTokenValue) return false;
+            if (paymentTokenValue + bonusTokenValue != developmentTokenCost) throw new IllegalArgumentException("The payment is not sufficient");
+            if (ownTokenValue < paymentTokenValue) throw new IllegalArgumentException("You don't have enough tokens of this type");
         }
-        return true;
+    }
+
+    public void checkIfPlayerIsAllowedToReserve() {
+        if (reservedCards.size() == 3) {
+            throw new IllegalStateException("You can only have 3 reserved cards at a time");
+        }
     }
 
     public void buyDevelopment(Development development, Purse payment){
-        if (!checkIfPaymentIsSufficient(development, payment)) {
-            throw new IllegalArgumentException("This payment is not sufficient for the development");
-        }
+        checkIfPaymentIsSufficient(development, payment);
         prestigePoints += development.prestigePoints();
         bonuses.addToken(development.bonus(), 1);
         tokens.removeTokens(payment.getTokens());
     }
 
     public void reserveDevelopment(Development development){
-        if (reservedCards.size() == 3) {
-            throw new IllegalStateException("You can only have 3 reserved cards at a time");
-        }
+        checkIfPlayerIsAllowedToReserve();
         reservedCards.add(development);
     }
 
