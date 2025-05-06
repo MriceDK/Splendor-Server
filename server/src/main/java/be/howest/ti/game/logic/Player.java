@@ -44,6 +44,10 @@ public class Player {
         return reservedDevelopments;
     }
 
+    public List<Development> getBoughtDevelopments() {
+        return boughtDevelopments;
+    }
+
     public void checkIfPaymentIsSufficient(Development development, Purse payment){
         for (Token token : development.cost().getTokens().keySet()) {
             int ownTokenValue = tokens.getTokens().get(token);
