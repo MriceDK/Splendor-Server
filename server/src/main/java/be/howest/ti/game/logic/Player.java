@@ -11,6 +11,11 @@ public class Player {
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
 
+    private static final int ZERO_TOKENS = 0;
+    private static final int MAX_DIFFERENT_TOKENS = 3;
+    private static final int MAX_OF_SAME_TOKEN = 2;
+    private static final int SAME_TOKEN = 1;
+
     public Player (String name){
         this.name = name;
         this.reservedDevelopments = new ArrayList<>();
@@ -75,8 +80,36 @@ public class Player {
     public void claimNoble(Noble noble){acquiredNobles.add(noble);}
 
     public void acquireTokens(Map<Token,Integer> tokensToAcquire){
-        //TODO
+        int sizeOfTokensToAcquire = 0;
+        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.entrySet()){
+            if (tokenToAcquire.getValue() > ZERO_TOKENS){
+                sizeOfTokensToAcquire++;
+            }
+
+
+        }
+        ruleCheckToAcquireTokens(tokensToAcquire, sizeOfTokensToAcquire);
+        tokens.addTokens(tokensToAcquire);
     }
+
+    private void ruleCheckToAcquireTokens(Map<Token, Integer> tokensToAcquire, int sizeOfTokensToAcquire) {
+        if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
+            throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
+        }
+
+        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.entrySet()){
+            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
+                throw new IllegalArgumentException("You cannot acquire more than two tokens of the same type");
+            }
+
+            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != SAME_TOKEN) {
+                throw new IllegalArgumentException("You can only take two of the same token type if you're taking only that type");
+            }
+
+        }
+    }
+
+
     public void returnTokens(Map<Token,Integer> tokens){
         //TODO
     }
