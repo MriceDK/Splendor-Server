@@ -117,8 +117,23 @@ public class Player {
     }
 
 
-    public void returnTokens(Map<Token,Integer> tokens){
-        //TODO
+    public void returnTokens(Map<Token, Integer> tokensToReturn) {
+        int totalTokens = tokens.getTotal();
+        int returnTokens = tokensToReturn.values().stream().mapToInt(Integer::intValue).sum(); //get values out of map, make them int and adds them up
+        int diffTotalTokensAndReturnTokens = totalTokens - returnTokens;
+
+        if (totalTokens <= TO_MUCH_TOTAL_TOKENS_PER_PLAYER) {
+            throw new IllegalStateException("You may only return tokens if you have more than 10.");
+        }
+        if (diffTotalTokensAndReturnTokens >= TO_MUCH_TOTAL_TOKENS_PER_PLAYER) {
+            throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10 or fewer.");
+        }
+
+        if (diffTotalTokensAndReturnTokens < MAX_TOTAL_TOKENS_PER_PLAYER) {
+            throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10 or fewer.");
+        }
+
+        tokens.removeTokens(tokensToReturn);
     }
 
 
