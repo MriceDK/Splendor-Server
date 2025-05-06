@@ -10,10 +10,12 @@ public class Player {
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
+    private final List<Development> boughtDevelopments;
 
     public Player (String name){
         this.name = name;
         this.reservedDevelopments = new ArrayList<>();
+        this.boughtDevelopments = new ArrayList<>();
         this.tokens = new Purse();
         this.bonuses = new Purse();
     }

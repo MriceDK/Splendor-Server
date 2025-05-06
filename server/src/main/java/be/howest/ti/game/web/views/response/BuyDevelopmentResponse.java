@@ -8,12 +8,12 @@ import java.util.List;
 
 public class BuyDevelopmentResponse extends AbstractResponseWithHiddenStatus{
 
-    private final List<DevelopmentInListView> developments;
+    private final List<Development> developments;
     private final Purse payment;
 
-    public BuyDevelopmentResponse(List<Development> development) {
+    public BuyDevelopmentResponse(List<Development> developments) {
         super(200);
-        this.development = development;
+        this.developments = developments;
         this.payment = payment;
     }
 
