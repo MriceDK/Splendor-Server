@@ -7,5 +7,8 @@ public class GetGameDetailsRequest extends BaseSplendorRequest {
     public GetGameDetailsRequest(RoutingContext ctx) {
         super(ctx);
     }
-    
+
+    public int getGameId() {
+        return 0; // TODO
+    }
 }
