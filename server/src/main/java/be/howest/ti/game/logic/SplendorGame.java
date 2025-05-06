@@ -11,6 +11,7 @@ public class SplendorGame extends GameSuperclass {
     private Player currentPlayer;
     private GameState gameState;
     private Player winner;
+    private static int MAX_TOTAL_TOKENS = 10;
 
     private static final int ONE_NOBLE = 1;
 
@@ -102,9 +103,23 @@ public class SplendorGame extends GameSuperclass {
         //TODO
     }
 
-    public void returnTokens(Purse tokens){
-        //TODO
+    public void returnTokens(Purse tokensToReturn) {
+        int totalBefore = currentPlayer.getTokens().getTotal();
+        int returnAmount = tokensToReturn.getTotal();
+
+        if (totalBefore <= MAX_TOTAL_TOKENS) {
+            throw new IllegalStateException("You may only return tokens if you have more than 10.");
+        }
+
+        if (totalBefore - returnAmount > MAX_TOTAL_TOKENS) {
+            throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10 or fewer.");
+        }
+
+        currentPlayer.returnTokens(tokensToReturn.getTokens());
+        tokenBank.addTokens(tokensToReturn.getTokens());
     }
+
+
 
     //For testing purposes
     public void setUnclaimedNobles(Set<Noble> nobles) {

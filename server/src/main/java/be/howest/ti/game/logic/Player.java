@@ -5,17 +5,23 @@ import java.util.*;
 public class Player {
 
     private final String name;
-    private final Purse tokens;
+    private Purse tokens;
     private Purse bonuses;
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
+    private static int MAX_TOTAL_TOKENS = 10;
 
     public Player (String name){
         this.name = name;
         this.reservedDevelopments = new ArrayList<>();
         this.tokens = new Purse();
         this.bonuses = new Purse();
+    }
+
+    //for testing purposes
+    public void setTokens(Purse purse){
+        this.tokens = purse;
     }
 
     public String getName() {
@@ -77,8 +83,19 @@ public class Player {
     public void acquireTokens(Map<Token,Integer> tokensToAcquire){
         //TODO
     }
-    public void returnTokens(Map<Token,Integer> tokens){
-        //TODO
+
+    public void returnTokens(Map<Token, Integer> tokensToReturn) {
+        int totalTokens = tokens.getTotal();
+        int returnTokens = tokensToReturn.size();
+        if (totalTokens < MAX_TOTAL_TOKENS){
+            throw new IllegalStateException("You may only return tokens if you have more than 10.");
+        }
+
+        if (totalTokens - returnTokens > MAX_TOTAL_TOKENS) {
+            throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10 or fewer.");
+        }
+
+        tokens.removeTokens(tokensToReturn);
     }
 
     @Override
