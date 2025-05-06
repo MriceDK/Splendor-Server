@@ -14,11 +14,14 @@ class GameSuperclassTest {
     public void testNaturalOrderByGameIdAscending() {
         List<GameSuperclass> games = new ArrayList<>();
 
+        GameLobby gameLobby = new GameLobby(2, 2);
+        gameLobby.addPlayer("bob");
+
         games.add(new GameLobby(1, 1));
         games.add(new GameLobby(4, 4));
         games.add(new GameLobby(3, 3));
         games.add(new GameLobby(5, 1));
-        games.add(new SplendorGame(new GameLobby(2, 2)));
+        games.add(new SplendorGame(gameLobby));
 
         Collections.sort(games);
 
