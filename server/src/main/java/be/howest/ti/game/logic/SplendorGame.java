@@ -2,7 +2,6 @@ package be.howest.ti.game.logic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class SplendorGame extends GameSuperclass {
@@ -114,7 +113,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void returnTokens(Purse tokensToReturn) {
-        currentPlayer.returnTokens(tokensToReturn.getTokens());
+        currentPlayer.totalReturnTokens(tokensToReturn.getTokens());
         tokenBank.addTokens(tokensToReturn.getTokens());
     }
 
