@@ -4,6 +4,7 @@ package be.howest.ti.game.logic.service;
 import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.GameSuperclass;
 import be.howest.ti.game.logic.Player;
+import be.howest.ti.game.logic.SplendorGame;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ public interface SplendorService {
 
 
     public GameLobby findLobby(int gameid);
+    public SplendorGame findStartedGame(int gameId)
 
     void joinLobby(GameLobby lobby, String playerName);
 

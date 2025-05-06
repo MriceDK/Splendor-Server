@@ -2,6 +2,7 @@ package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.GameSuperclass;
+import be.howest.ti.game.logic.SplendorGame;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
@@ -147,6 +148,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     @Operation("buy-development")
     public BuyDevelopmentResponse buyDevelopment(BuyDevelopmentRequest request) {
+        SplendorService service = getService(request);
+        SplendorGame game = service.findStartedGame(request.getGameId());
         return new BuyDevelopmentResponse("buy-development");
     }
 
