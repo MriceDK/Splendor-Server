@@ -9,11 +9,11 @@ public class Player {
     private Purse bonuses;
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
-    private final List<Development> reservedCards;
+    private final List<Development> reservedDevelopments;
 
     public Player (String name){
         this.name = name;
-        this.reservedCards = new ArrayList<>();
+        this.reservedDevelopments = new ArrayList<>();
         this.tokens = new Purse();
         this.bonuses = new Purse();
     }
@@ -39,7 +39,7 @@ public class Player {
     }
 
     public List<Development> getReservedDevelopments() {
-        return reservedCards;
+        return reservedDevelopments;
     }
 
     public void checkIfPaymentIsSufficient(Development development, Purse payment){
@@ -55,7 +55,7 @@ public class Player {
     }
 
     public void checkIfPlayerIsAllowedToReserve() {
-        if (reservedCards.size() == 3) {
+        if (reservedDevelopments.size() == 3) {
             throw new IllegalStateException("You can only have 3 reserved cards at a time");
         }
     }
@@ -69,7 +69,7 @@ public class Player {
 
     public void reserveDevelopment(Development development){
         checkIfPlayerIsAllowedToReserve();
-        reservedCards.add(development);
+        reservedDevelopments.add(development);
     }
 
     public void claimNoble(Noble noble){acquiredNobles.add(noble);}
