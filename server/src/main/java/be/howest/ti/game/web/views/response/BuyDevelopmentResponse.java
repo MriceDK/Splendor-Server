@@ -9,15 +9,14 @@ import java.util.List;
 public class BuyDevelopmentResponse extends AbstractResponseWithHiddenStatus{
 
     private final List<Development> developments;
-    private final Purse payment;
 
     public BuyDevelopmentResponse(List<Development> developments) {
         super(200);
         this.developments = developments;
-        this.payment = payment;
+
     }
 
     public List<Development> getDevelopments(){
-        return null;
+        return developments;
     }
 }
