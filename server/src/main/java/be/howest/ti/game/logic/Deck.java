@@ -18,8 +18,8 @@ public class Deck {
 
         this.levelNumber = levelNumber;
         this.invisibleDevelopments = new LinkedList<>(developments);
-//        TODO: shuffle the developments or just insert already shuffled developments
-//        Collections.shuffle((List<?>) invisibleDevelopments);
+
+        Collections.shuffle((List<?>) invisibleDevelopments);
         for (int i = 0; i < MAX_VISIBLE && i < developments.size(); i++) {
             makeVisible(takeTopDevelopment());
         }
