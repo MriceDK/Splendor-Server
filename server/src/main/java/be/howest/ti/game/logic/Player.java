@@ -71,6 +71,7 @@ public class Player {
         prestigePoints += development.prestigePoints();
         bonuses.addToken(development.bonus(), 1);
         tokens.removeTokens(payment.getTokens());
+        boughtDevelopments.add(development);
     }
 
     public void reserveDevelopment(Development development){
