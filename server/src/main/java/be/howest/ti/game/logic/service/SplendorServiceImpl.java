@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SplendorServiceImpl implements SplendorService {
 
-    private static int INCREMENTAL_IDENTIFIER = 0;
+    private int incrementalIdentifier = 0;
 
     private final List<GameSuperclass> games;
 
@@ -128,9 +128,9 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     public int generateGameId() {
-        int gameId = INCREMENTAL_IDENTIFIER;
+        int gameId = incrementalIdentifier;
 
-        INCREMENTAL_IDENTIFIER++;
+        incrementalIdentifier++;
 
         return gameId;
     }

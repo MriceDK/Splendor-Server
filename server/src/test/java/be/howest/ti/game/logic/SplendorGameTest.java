@@ -31,7 +31,7 @@ class SplendorGameTest {
     public void reserveDevelopment() {
         lobby.addPlayer("Bobby");
         SplendorGame startedGame = new SplendorGame(lobby);
-        startedGame.reserveDevelopment("Development 1");
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name());
         // TODO: Change this when the actual Development cards are implemented
         // assertEquals uses an exact copy of the Development object that was reserved
         // haven't figured out how to get this any other way
