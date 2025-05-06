@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
 
     @Test
-    void totalReturnTokensWhenPossible() {
+    void returnTokensWhenPossible() {
         Player player = new Player("Zelensky");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.DIAMOND, 5);
@@ -25,14 +25,14 @@ class PlayerTest {
         tokensToReturn.put(Token.RUBY, 1);
         Purse returnPurse = new Purse(tokensToReturn);
 
-        player.totalReturnTokens(returnPurse.getTokens());
+        player.ReturnTokens(returnPurse.getTokens());
 
         assertEquals(10, player.getTokens().getTotal());
 
     }
 
     @Test
-    void totalReturnTokensWhenLessThan10Tokens() {
+    void returnTokensWhenLessThan10Tokens() {
         Player player = new Player("Trump");
 
         Map<Token, Integer> initialTokens = new HashMap<>();
@@ -48,11 +48,11 @@ class PlayerTest {
         tokensToReturn.put(Token.RUBY, 1);
 
         // This should throw because player only has 6 tokens (less than 10)
-        assertThrows(IllegalStateException.class, () -> player.totalReturnTokens(tokensToReturn));
+        assertThrows(IllegalStateException.class, () -> player.ReturnTokens(tokensToReturn));
     }
 
     @Test
-    void totalReturnTokensWhenStillMoreThan10Tokens() {
+    void returnTokensWhenStillMoreThan10Tokens() {
         Player player = new Player("Bart De Wever");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.ONYX, 4);
@@ -67,11 +67,11 @@ class PlayerTest {
         Map<Token, Integer> tokensToReturn = new HashMap<>();
         tokensToReturn.put(Token.ONYX, 2);
 
-        assertThrows(IllegalArgumentException.class, () -> player.totalReturnTokens(tokensToReturn));
+        assertThrows(IllegalArgumentException.class, () -> player.ReturnTokens(tokensToReturn));
     }
 
     @Test
-    void totalReturnTokensWhenResultIsLessThen0() {
+    void returnTokensWhenResultIsLessThen0() {
         Player player = new Player("Macron");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.DIAMOND, 3);
@@ -85,11 +85,11 @@ class PlayerTest {
         Map<Token, Integer> tokensToReturn = new HashMap<>();
         tokensToReturn.put(Token.RUBY, 4);
 
-        assertThrows(IllegalArgumentException.class, () -> player.totalReturnTokens(tokensToReturn));
+        assertThrows(IllegalArgumentException.class, () -> player.ReturnTokens(tokensToReturn));
     }
 
     @Test
-    void totalReturnTokensUntilMaxTenTokens() {
+    void returnTokensUntilMaxTenTokens() {
         Player player = new Player("Mark Rutte");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.DIAMOND, 3);
@@ -104,7 +104,7 @@ class PlayerTest {
         tokensToReturn.put(Token.RUBY, 1);
         tokensToReturn.put(Token.EMERALD, 3);
 
-        assertThrows(IllegalArgumentException.class, () -> player.totalReturnTokens(tokensToReturn));
+        assertThrows(IllegalArgumentException.class, () -> player.ReturnTokens(tokensToReturn));
 
     }
 

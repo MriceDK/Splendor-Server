@@ -6,11 +6,12 @@ public class Player {
 
     private final String name;
     private Purse tokens;
-    private Purse bonuses;
+    private final Purse bonuses;
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
-
+    
+    private static final int TOO_MANY_TOTAL_TOKENS_PER_PLAYER = 11;
     private static final int MAX_TOTAL_TOKENS_PER_PLAYER = 10;
 
     private static final int ZERO_TOKENS = 0;
@@ -117,15 +118,15 @@ public class Player {
     }
 
 
-    public void totalReturnTokens(Map<Token, Integer> tokensToReturn) {
+    public void ReturnTokens(Map<Token, Integer> totalReturnTokens) {
         int totalTokens = tokens.getTotal();
-        int returnTokens = tokensToReturn.values().stream().mapToInt(Integer::intValue).sum(); //get values out of map, make them int and adds them up
+        int returnTokens = totalReturnTokens.values().stream().mapToInt(Integer::intValue).sum(); //get values out of map, make them int and adds them up
         int diffTotalTokensAndReturnTokens = totalTokens - returnTokens;
 
         if (totalTokens <= MAX_TOTAL_TOKENS_PER_PLAYER) {
             throw new IllegalStateException("You may only return tokens if you have more than 10.");
         }
-        if (diffTotalTokensAndReturnTokens > MAX_TOTAL_TOKENS_PER_PLAYER) {
+        if (diffTotalTokensAndReturnTokens >= TOO_MANY_TOTAL_TOKENS_PER_PLAYER) {
             throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10.");
         }
 
@@ -133,7 +134,7 @@ public class Player {
             throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10.");
         }
 
-        tokens.removeTokens(tokensToReturn);
+        tokens.removeTokens(totalReturnTokens);
     }
 
 
