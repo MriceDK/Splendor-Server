@@ -22,7 +22,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public Player getWinner() {
-        return winner;
+        return null; // TODO change this method into a calculation method, that calculates if there is a winner or not
     }
 
     public void setGameState(GameState gameState) {
