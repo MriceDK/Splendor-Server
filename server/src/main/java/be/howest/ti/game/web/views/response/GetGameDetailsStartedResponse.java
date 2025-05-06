@@ -1,9 +1,8 @@
 package be.howest.ti.game.web.views.response;
 
-import be.howest.ti.game.logic.GameState;
-import be.howest.ti.game.logic.GameSuperclass;
-import be.howest.ti.game.logic.Player;
-import be.howest.ti.game.logic.SplendorGame;
+import be.howest.ti.game.logic.*;
+
+import java.util.Map;
 
 public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
 
@@ -17,6 +16,11 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
     // TODO getPlayers -> view van player
     // TODO getMarket -> view van deck
     // TODO getUnclaimedTokens
+
+    public Map<Token, Integer> getUnclaimedTokens() {
+        return startedGame.getTokenBank().getTokens();
+    }
+
     // TODO getUnclaimedNobles -> view van noble
 
     public GameState getGameState() {
