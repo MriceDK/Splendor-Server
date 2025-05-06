@@ -2,14 +2,14 @@ package be.howest.ti.game.logic;
 
 import java.util.*;
 
-public class Level {
+public class Deck {
 
     private static final int MAX_VISIBLE = 4;
     private final List<Development> visibleDevelopments = new ArrayList<>(MAX_VISIBLE);
     private final Queue<Development> invisibleDevelopments;
     private final int levelNumber;
 
-    public Level(List<Development> developments, int levelNumber) {
+    public Deck(List<Development> developments, int levelNumber) {
         for (Development development : developments) {
             if (development.level() != levelNumber) {
                 throw new IllegalArgumentException(development.name() + " does not match the level number of " + levelNumber);
