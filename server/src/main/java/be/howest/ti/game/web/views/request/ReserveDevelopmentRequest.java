@@ -16,10 +16,10 @@ public class ReserveDevelopmentRequest extends BaseSplendorRequest {
     }
 
     public String getDevelopmentName() {
-        return params.body().getJsonObject().getJsonObject("Development").getString("name");
+        return params.body().getJsonObject().getJsonObject("development").getString("name");
     }
 
     public int getDevelopmentLevel() {
-        return params.body().getJsonObject().getJsonObject("Development").getInteger("level");
+        return params.body().getJsonObject().getJsonObject("development").getInteger("level");
     }
 }
