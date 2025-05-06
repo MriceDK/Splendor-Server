@@ -10,7 +10,7 @@ public class Player {
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
-    private static int MAX_TOTAL_TOKENS = 10;
+    private static final int MAX_TOTAL_TOKENS = 10;
 
     public Player (String name){
         this.name = name;
