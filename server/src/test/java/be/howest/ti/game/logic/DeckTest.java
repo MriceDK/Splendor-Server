@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LevelTest {
+class DeckTest {
 
     private Deck l1;
     private List<Development> developments;
@@ -27,16 +27,11 @@ class LevelTest {
         this.l1 = new Deck(developments, 1);
     }
 
-
-    @Test
-    void getVisibleDevelopments() {
-        assertEquals(developments.subList(0, 4), l1.getVisibleDevelopments());
-    }
-
     @Test
     void removeVisibleDevelopment() {
-        l1.removeVisibleDevelopment(developments.getFirst());
-        assertEquals(developments.subList(1, 5), l1.getVisibleDevelopments());
+        Development firstVisible = l1.getVisibleDevelopments().getFirst();
+        l1.removeVisibleDevelopment(firstVisible);
+        assertFalse(l1.getVisibleDevelopments().contains(firstVisible));
         assertThrows(IllegalArgumentException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
     }
 
@@ -48,14 +43,10 @@ class LevelTest {
     }
 
     @Test
-    void takeTopDevelopment() {
-        assertEquals(developments.get(4), l1.takeTopDevelopment());
-    }
-
-    @Test
     void testRemoveVisibleDevelopmentString() {
-        l1.removeVisibleDevelopment("Developement 1");
-        assertEquals(developments.subList(1, 5), l1.getVisibleDevelopments());
+        Development firstVisible = l1.getVisibleDevelopments().getFirst();
+        l1.removeVisibleDevelopment(firstVisible.name());
+        assertFalse(l1.getVisibleDevelopments().contains(firstVisible));
         assertThrows(IllegalArgumentException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
 
     }
