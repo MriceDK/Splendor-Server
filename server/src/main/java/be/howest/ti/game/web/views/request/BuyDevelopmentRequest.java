@@ -29,10 +29,13 @@ public class BuyDevelopmentRequest extends BaseSplendorRequest{
 
     public Purse getPayment(){
         Map<Token, Integer> mapToAdd = new HashMap<>();
-        JsonObject JsonObjectToIterate = params.body().getJsonObject().getJsonObject("payment"));
+        JsonObject JsonObjectToIterate = params.body().getJsonObject().getJsonObject("payment");
+
         for (Map.Entry<String, Object> paymentToken : JsonObjectToIterate){
+
             Token tokenToAdd = Token.valueOf(paymentToken.getKey().toUpperCase());
             int valueToAdd = (Integer) paymentToken.getValue();
+
             mapToAdd.put(tokenToAdd, valueToAdd);
 
         }
