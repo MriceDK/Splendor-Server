@@ -6,6 +6,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class SplendorGame extends GameSuperclass {
+
+    private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS = 7;
+    private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS = 5;
+    private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_TWO_PLAYERS = 4;
+
+    private final static int INITAL_GOLD_AMOUNT = 5;
+
     private Purse tokenBank; // TODO make final
     private Set<Noble> unclaimedNobles; // TODO make final
     private final Market market;
@@ -19,7 +26,7 @@ public class SplendorGame extends GameSuperclass {
         super(gameLobby);
         this.market = new Market();
         this.currentPlayer = getPlayers().getFirst();
-        this.tokenBank = Purse.TOKEN_BANK;
+        this.tokenBank = generateTokenBank();
     }
 
     public Player getWinner() {
@@ -135,5 +142,35 @@ public class SplendorGame extends GameSuperclass {
 
     public Purse getTokenBank() {
         return tokenBank;
+    }
+
+    private Purse generateTokenBank() {
+        int amountPerToken = 0;
+
+        if (getTotalPlayers() == 4) {
+            amountPerToken = TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS;
+        }
+        else if (getTotalPlayers() == 3) {
+            amountPerToken = TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS;
+        }
+        else if (getTotalPlayers() == 2) {
+            amountPerToken = TOKEN_AMOUNT_IN_TOKENBANK_FOR_TWO_PLAYERS;
+        }
+
+        return generateTokenBank(amountPerToken);
+
+    }
+
+    private Purse generateTokenBank(int amountPerToken) {
+        return new Purse(
+                Map.of(
+                        Token.DIAMOND, amountPerToken,
+                        Token.EMERALD, amountPerToken,
+                        Token.ONYX, amountPerToken,
+                        Token.RUBY, amountPerToken,
+                        Token.SAPPHIRE, amountPerToken,
+                        Token.GOLD, INITAL_GOLD_AMOUNT
+                )
+        );
     }
 }
