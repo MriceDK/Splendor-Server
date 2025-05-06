@@ -128,7 +128,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
 
-
-
-
+    public GameState getGameState() {
+        return gameState;
+    }
 }
