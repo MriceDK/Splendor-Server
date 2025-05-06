@@ -7,7 +7,7 @@ import java.util.Set;
 public class SplendorGame extends GameSuperclass {
     private Purse tokenBank; // TODO make final
     private Set<Noble> unclaimedNobles; // TODO make final
-    private Market market; // TODO make final
+    private final Market market;
     private Player currentPlayer;
     private GameState gameState;
     private Player winner;
@@ -16,6 +16,8 @@ public class SplendorGame extends GameSuperclass {
 
     public SplendorGame(GameSuperclass gameLobby){
         super(gameLobby);
+        this.market = new Market();
+        this.currentPlayer = gameLobby.getPlayers().getFirst();
     }
 
     public Player getWinner() {
@@ -34,12 +36,27 @@ public class SplendorGame extends GameSuperclass {
         this.winner = winner;
     }
 
-    public void buyDevelopment(Purse payment, Development development){
-        //TODO
+    public Market getMarket() {
+        return market;
     }
 
-    public void reserveDevelopment(Development development){
-        //TODO
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void buyDevelopment(Purse payment, String developmentName){
+        currentPlayer.checkIfPaymentIsSufficient(market.findMatchingDevelopmentOverAllLevels(developmentName), payment);
+        currentPlayer.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
+    }
+
+    public void reserveDevelopment(String developmentName){
+        currentPlayer.checkIfPlayerIsAllowedToReserve();
+        currentPlayer.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
+    }
+
+    public void reserveDevelopmentFromLevel(int level){
+        currentPlayer.checkIfPlayerIsAllowedToReserve();
+        currentPlayer.reserveDevelopment(market.takeTopDevelopment(level));
     }
 
     public void checkForNoble(){
