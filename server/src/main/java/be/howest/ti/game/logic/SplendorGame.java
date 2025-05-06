@@ -18,7 +18,7 @@ public class SplendorGame extends GameSuperclass {
     public SplendorGame(GameSuperclass gameLobby){
         super(gameLobby);
         this.market = new Market();
-        this.currentPlayer = gameLobby.getPlayers().getFirst();
+        this.currentPlayer = getPlayers().getFirst();
     }
 
     public Player getWinner() {

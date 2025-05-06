@@ -124,33 +124,30 @@ class SplendorGameTest {
 
     @Test
     void testAcquireValidTokens() {
-
+        lobby.addPlayer("Rutte");
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1));
-        Player player1 = new Player("Rutte");
+
         Purse tokenBank = new Purse();
-        game.setCurrentPlayer(player1);
         tokenBank.addTokens(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4));
 
         game.setTokenBank(tokenBank);
 
 
 
-        game.acquireTokens(player1, requested);
+        game.acquireTokens(game.getCurrentPlayer(), requested);
 
-        assertEquals(1, player1.getTokens().getTokens().get(Token.DIAMOND));
+        assertEquals(1, game.getCurrentPlayer().getTokens().getTokens().get(Token.DIAMOND));
         assertEquals(3, tokenBank.getTokens().get(Token.DIAMOND));
     }
 
     @Test
     void testAcquireTokensWrongPlayer() {
+        lobby.addPlayer("Musk");
+        lobby.addPlayer("Macron");
         SplendorGame game = new SplendorGame(lobby);
-        Player player1 = new Player("Musk");
-        Player player2 = new Player("Macron");
         Purse requested = new Purse();
         Purse tokenBank = new Purse();
-        game.setCurrentPlayer(player1);
-
         tokenBank.addTokens(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4));
 
 
@@ -159,35 +156,31 @@ class SplendorGameTest {
 
         requested.addTokens(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1));
 
-        assertThrows(IllegalStateException.class, () -> game.acquireTokens(player2, requested));
+        assertThrows(IllegalStateException.class, () -> game.acquireTokens(game.getPlayers().get(1), requested));
     }
 
     @Test
     void testAcquireInvalidTokenCount() {
+        lobby.addPlayer("Vance");
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse();
         Purse tokenBank = new Purse();
-        Player player1 = new Player("Vance");
-        game.setCurrentPlayer(player1);
-
         tokenBank.addTokens(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4));
         game.setTokenBank(tokenBank);
 
         requested.addTokens(Map.of(Token.DIAMOND, 2, Token.SAPPHIRE, 1));
 
-        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(player1, requested));
+        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
     }
 
     @Test
     void testAcquireTooManyTypes() {
+        lobby.addPlayer("PM Greenland");
         Purse requested = new Purse();
         SplendorGame game = new SplendorGame(lobby);
-        Player player1 = new Player("PM Greenland");
         Purse tokenBank = new Purse();
         tokenBank.addTokens(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4));
         game.setTokenBank(tokenBank);
-
-        game.setCurrentPlayer(player1);
         requested.addTokens(Map.of(
                 Token.DIAMOND, 1,
                 Token.SAPPHIRE, 1,
@@ -195,7 +188,7 @@ class SplendorGameTest {
                 Token.RUBY, 1
         ));
 
-        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(player1, requested));
+        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
     }
 
 

@@ -87,7 +87,7 @@ public class Player {
         tokens.addTokens(tokensToAcquire);
     }
 
-    private static void ruleCheckToAcquireTokens(Map<Token, Integer> tokensToAcquire, int sizeOfTokensToAcquire) {
+    private void ruleCheckToAcquireTokens(Map<Token, Integer> tokensToAcquire, int sizeOfTokensToAcquire) {
         if (sizeOfTokensToAcquire > 3){
             throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
         }
