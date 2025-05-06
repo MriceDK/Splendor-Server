@@ -3,8 +3,7 @@ package be.howest.ti.game.logic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,7 +46,7 @@ class SplendorGameTest {
         // TODO: Change this when the actual Development cards are implemented
         // assertTrue uses an exact copy of the Development object that was reserved
         // haven't figured out how to get this any other way
-        assertTrue(startedGame.getCurrentPlayer().getReservedCards().contains(new Development("Development 5", 1, 5, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))));
+        assertTrue(startedGame.getCurrentPlayer().getReservedDevelopments().contains(new Development("Development 5", 1, 5, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))));
     }
 
     @Test
@@ -62,6 +61,68 @@ class SplendorGameTest {
         assertEquals(0, startedGame.getCurrentPlayer().getTokens().getTokens().get(Token.DIAMOND));
         assertEquals(0, startedGame.getCurrentPlayer().getTokens().getTokens().get(Token.SAPPHIRE));
         assertEquals(1, startedGame.getCurrentPlayer().getBonuses().getTokens().get(Token.EMERALD));
+    }
+
+    @Test
+    void checkForNobleGood() {
+        Player player = new Player("Alice");
+
+        Map<Token, Integer> playerBonuses = new HashMap<>();
+        for (Token token : Token.values()) {
+            if (token != Token.GOLD) {
+                playerBonuses.put(token, 3);
+            }
+        }
+        Purse bonuses = new Purse(playerBonuses);
+        player.setBonuses(bonuses);
+        player.setAcquiredNobles(new HashSet<>());
+
+        Map<Token, Integer> nobleRequirements = new HashMap<>();
+        for (Token token : Token.values()) {
+            if (token != Token.GOLD) {
+                nobleRequirements.put(token, 2);
+            }
+        }
+        Noble noble = new Noble("De Wever", 3, new Purse(nobleRequirements));
+
+        SplendorGame game = new SplendorGame(lobby);
+        game.setCurrentPlayer(player);
+        game.setUnclaimedNobles(Set.of(noble));
+
+
+        game.checkForNoble();
+        assertTrue(player.getAcquiredNobles().contains(noble));
+    }
+
+    @Test
+    void checkForNobleBad() {
+        Player player = new Player("Alice");
+
+        Map<Token, Integer> playerBonuses = new HashMap<>();
+        for (Token token : Token.values()) {
+            if (token != Token.GOLD) {
+                playerBonuses.put(token, 3);
+            }
+        }
+        Purse bonuses = new Purse(playerBonuses);
+        player.setBonuses(bonuses);
+        player.setAcquiredNobles(new HashSet<>());
+
+        Map<Token, Integer> nobleRequirements = new HashMap<>();
+        for (Token token : Token.values()) {
+            if (token != Token.GOLD) {
+                nobleRequirements.put(token, 5);
+            }
+        }
+        Noble noble = new Noble("De Wever", 3, new Purse(nobleRequirements));
+
+        SplendorGame game = new SplendorGame(lobby);
+        game.setCurrentPlayer(player);
+        game.setUnclaimedNobles(Set.of(noble));
+
+        game.checkForNoble();
+
+        assertFalse(player.getAcquiredNobles().contains(noble));
     }
 
 }

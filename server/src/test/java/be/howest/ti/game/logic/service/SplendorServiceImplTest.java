@@ -19,18 +19,18 @@ class SplendorServiceImplTest {
     public void createLobbyWithTwoParameters() {
         service.createLobby(2, "Yoni");
 
-        assertNull(service.getAllGames().getFirst().getGameName());
-        assertEquals(2, service.getAllGames().getFirst().getMaxPlayers());
-        assertEquals("Yoni", service.getAllGames().getFirst().getPlayers().getFirst().getName());
+        assertNull(service.getGames().getFirst().getGameName());
+        assertEquals(2, service.getGames().getFirst().getMaxPlayers());
+        assertEquals("Yoni", service.getGames().getFirst().getPlayers().getFirst().getName());
     }
 
     @Test
     public void createLobbyWithThreeParameters() {
         service.createLobby(4, "John", "Epic Splendor Game");
 
-        assertEquals("Epic Splendor Game", service.getAllGames().getFirst().getGameName());
-        assertEquals(4, service.getAllGames().getFirst().getMaxPlayers());
-        assertEquals("John", service.getAllGames().getFirst().getPlayers().getFirst().getName());
+        assertEquals("Epic Splendor Game", service.getGames().getFirst().getGameName());
+        assertEquals(4, service.getGames().getFirst().getMaxPlayers());
+        assertEquals("John", service.getGames().getFirst().getPlayers().getFirst().getName());
     }
 
     @Test

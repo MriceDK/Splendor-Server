@@ -1,6 +1,7 @@
 package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.GameLobby;
+import be.howest.ti.game.logic.GameSuperclass;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
@@ -68,8 +69,23 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     //region Game Management operations
 
     @Operation("get-games")
-    public NotYetImplementedResponse getGames(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-games");
+    public GetGamesResponse getGames(GetGamesRequest request) {
+        SplendorService service = getService(request);
+
+        List<GameSuperclass> games;
+
+        try {
+            if (request.getStarted()) {
+                games = service.getGames(true);
+            } else {
+                games = service.getGames(false);
+            }
+        } catch (NullPointerException ex) {
+            games = service.getGames();
+        }
+
+
+        return new GetGamesResponse(games);
     }
 
     @Operation("create-game")
