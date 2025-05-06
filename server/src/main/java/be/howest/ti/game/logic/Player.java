@@ -11,6 +11,8 @@ public class Player {
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
 
+    private static final int ZERO_TOKENS = 0;
+
     public Player (String name){
         this.name = name;
         this.reservedDevelopments = new ArrayList<>();
@@ -77,7 +79,7 @@ public class Player {
     public void acquireTokens(Map<Token,Integer> tokensToAcquire){
         int sizeOfTokensToAcquire = 0;
         for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.entrySet()){
-            if (tokenToAcquire.getValue() > 0){
+            if (tokenToAcquire.getValue() > ZERO_TOKENS){
                 sizeOfTokensToAcquire++;
             }
 
