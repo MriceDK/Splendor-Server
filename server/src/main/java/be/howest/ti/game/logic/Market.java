@@ -69,7 +69,7 @@ public class Market {
             }
         }
         if (matchingDevelopment == null) {
-            throw new IllegalArgumentException("Development not found in visible developments");
+            throw new IllegalStateException("Development not found in visible developments");
         }
         return matchingDevelopment;
     }
