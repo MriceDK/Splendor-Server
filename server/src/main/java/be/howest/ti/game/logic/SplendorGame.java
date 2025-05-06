@@ -2,6 +2,7 @@ package be.howest.ti.game.logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class SplendorGame extends GameSuperclass {
@@ -98,8 +99,17 @@ public class SplendorGame extends GameSuperclass {
         currentPlayer.claimNoble(possibleNobles.getFirst());
     }
 
-    public void acquireTokens(Purse tokens){
-        //TODO
+    public void acquireTokens(Player player, Purse tokens){
+        playerTurnChecker(player);
+        player.acquireTokens(tokens.getTokens());
+
+        tokenBank.removeTokens(tokens.getTokens());
+    }
+
+    private void playerTurnChecker(Player player) {
+        if(!player.equals(currentPlayer)){
+            throw new IllegalStateException("It's not this player's turn");
+        }
     }
 
     public void returnTokens(Purse tokens){
@@ -109,6 +119,12 @@ public class SplendorGame extends GameSuperclass {
     //For testing purposes
     public void setUnclaimedNobles(Set<Noble> nobles) {
         this.unclaimedNobles = nobles;
+    }
+
+
+    //For testing purposes
+    public void setTokenBank(Purse tokensToSetTokenBank){
+        this.tokenBank = tokensToSetTokenBank;
     }
 
 
