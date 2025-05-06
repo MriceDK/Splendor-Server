@@ -24,7 +24,7 @@ public class BuyDevelopmentRequest extends BaseSplendorRequest{
     }
 
     public String getDevelopmentName(){
-        return params.body().getJsonObject().getString("development");
+        return params.body().getJsonObject().getJsonObject("development").getString("name");
     }
 
     public Purse getPayment(){
