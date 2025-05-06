@@ -18,6 +18,7 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
 
     public Map<Token, Integer> getUnclaimedTokens() {
         return startedGame.getTokenBank().getTokens();
+        // For some reason the tokenNames don't show in the right format as declared in the ToString, get help
     }
 
     // TODO getUnclaimedNobles -> view van noble
