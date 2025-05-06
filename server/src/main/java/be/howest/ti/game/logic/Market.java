@@ -10,6 +10,10 @@ public class Market {
         this.levels = new HashMap<>();
         // TODO: Make the developments actually real and not just placeholders
 
+        List<Development> developmentLevel1 = new ArrayList<>();
+        List<Development> developmentLevel2 = new ArrayList<>();
+        List<Development> developmentLevel3 = new ArrayList<>();
+
         try {
             File developmentCards = new File("src/main/resources/data/developments.txt");
             Scanner reader = new Scanner(developmentCards);
@@ -18,21 +22,34 @@ public class Market {
                 String data = reader.nextLine();
                 String[] developmentInfo = data.split("\\t");
 
-                System.out.println(developmentInfo[0]);
+                String name = developmentInfo[0];
+                int level = Integer.parseInt(developmentInfo[1]);
                 Token bonus = getTokenType(developmentInfo[2].toCharArray()[0]);
+                int prestigePoints = Integer.parseInt(developmentInfo[3]);
                 String cost = developmentInfo[5];
                 Purse costs = new Purse();
-
                 char[] ch = cost.toCharArray();
+
                 for (int i = 0; i < ch.length; i++) {
                     costs.addToken(getTokenType(ch[i]), 1);
                 }
+                Development dev = new Development(name, level, prestigePoints, bonus, costs);
 
-                Development dev = new Development(developmentInfo[0], Integer.parseInt(developmentInfo[1]), Integer.parseInt(developmentInfo[4]), bonus, costs);
-
-                System.out.println(dev.toString());
+                if (level == 1) {
+                    developmentLevel1.add(dev);
+                } else if (level == 2) {
+                    developmentLevel2.add(dev);
+                } else if (level == 3) {
+                    developmentLevel3.add(dev);
+                } else {
+                    throw new IllegalStateException("Unknown level: " + level);
+                }
             }
             reader.close();
+            levels.put(1, new Deck(developmentLevel1, 1));
+            levels.put(2, new Deck(developmentLevel2, 2));
+            levels.put(3, new Deck(developmentLevel3, 3));
+
         } catch (FileNotFoundException e) {
             throw new IllegalStateException("File not found.");
         }
