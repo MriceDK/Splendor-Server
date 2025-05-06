@@ -13,6 +13,8 @@ public class Player {
 
     private static final int ZERO_TOKENS = 0;
     private static final int MAX_DIFFERENT_TOKENS = 3;
+    private static final int MAX_OF_SAME_TOKEN = 2;
+    private static final int SAME_TOKEN = 1;
 
     public Player (String name){
         this.name = name;
@@ -96,11 +98,11 @@ public class Player {
         }
 
         for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.entrySet()){
-            if (tokenToAdd.getValue() > 2){
+            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
                 throw new IllegalArgumentException("You cannot acquire more than two tokens of the same type");
             }
 
-            if (tokenToAdd.getValue() == 2 && sizeOfTokensToAcquire != 1) {
+            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != SAME_TOKEN) {
                 throw new IllegalArgumentException("You can only take two of the same token type if you're taking only that type");
             }
 
