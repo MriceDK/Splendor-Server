@@ -83,7 +83,6 @@ class PlayerTest {
 
         Map<Token, Integer> tokensToReturn = new HashMap<>();
         tokensToReturn.put(Token.RUBY, 4);
-        Purse returnPurse = new Purse(tokensToReturn);
 
         assertThrows(IllegalArgumentException.class, () -> player.returnTokens(tokensToReturn));
     }
