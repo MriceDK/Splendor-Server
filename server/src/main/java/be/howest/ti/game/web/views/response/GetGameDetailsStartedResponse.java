@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
 
-    private SplendorGame startedGame;
+    private final SplendorGame startedGame;
 
     public GetGameDetailsStartedResponse(GameSuperclass game) {
         super(game);
