@@ -29,14 +29,15 @@ class SplendorGameTest {
     void testAcquireValidTokens() {
 
         SplendorGame game = new SplendorGame(lobby);
-        Purse requested = new Purse();
+        Purse requested = new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1));
         Player player1 = new Player("Rutte");
         Purse tokenBank = new Purse();
         game.setCurrentPlayer(player1);
-
         tokenBank.addTokens(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4));
 
-        requested.addTokens(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1));
+        game.setTokenBank(tokenBank);
+
+
 
         game.acquireTokens(player1, requested);
 
@@ -55,6 +56,10 @@ class SplendorGameTest {
 
         tokenBank.addTokens(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4));
 
+
+        game.setTokenBank(tokenBank);
+
+
         requested.addTokens(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1));
 
         assertThrows(IllegalStateException.class, () -> game.acquireTokens(player2, requested));
@@ -64,8 +69,12 @@ class SplendorGameTest {
     void testAcquireInvalidTokenCount() {
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse();
+        Purse tokenBank = new Purse();
         Player player1 = new Player("Vance");
         game.setCurrentPlayer(player1);
+
+        tokenBank.addTokens(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4));
+        game.setTokenBank(tokenBank);
 
         requested.addTokens(Map.of(Token.DIAMOND, 2, Token.SAPPHIRE, 1));
 
@@ -75,6 +84,13 @@ class SplendorGameTest {
     @Test
     void testAcquireTooManyTypes() {
         Purse requested = new Purse();
+        SplendorGame game = new SplendorGame(lobby);
+        Player player1 = new Player("PM Greenland");
+        Purse tokenBank = new Purse();
+        tokenBank.addTokens(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4));
+        game.setTokenBank(tokenBank);
+
+        game.setCurrentPlayer(player1);
         requested.addTokens(Map.of(
                 Token.DIAMOND, 1,
                 Token.SAPPHIRE, 1,

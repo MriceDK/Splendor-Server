@@ -15,6 +15,7 @@ public class Player {
 
     public Player (String name){
         this.name = name;
+        this.tokens = new Purse();
     }
 
     public String getName() {
@@ -54,7 +55,14 @@ public class Player {
     }
 
     public void acquireTokens(Map<Token,Integer> tokensToAcquire){
-        int sizeOfTokensToAcquire = tokensToAcquire.size();
+        int sizeOfTokensToAcquire = 0;
+        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.entrySet()){
+            if (tokenToAcquire.getValue() > 0){
+                sizeOfTokensToAcquire++;
+            }
+
+
+        }
         ruleCheckToAcquireTokens(tokensToAcquire, sizeOfTokensToAcquire);
         tokens.addTokens(tokensToAcquire);
     }

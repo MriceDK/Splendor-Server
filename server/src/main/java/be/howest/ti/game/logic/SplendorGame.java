@@ -68,8 +68,8 @@ public class SplendorGame extends GameSuperclass {
 
 
     //For testing purposes
-    public void setTokenBank(Map<Token, Integer> tokensToSetTokenBank){
-        tokenBank.addTokens(tokensToSetTokenBank);
+    public void setTokenBank(Purse tokensToSetTokenBank){
+        this.tokenBank = tokensToSetTokenBank;
     }
 
 
