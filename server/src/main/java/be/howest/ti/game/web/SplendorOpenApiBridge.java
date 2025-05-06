@@ -115,8 +115,18 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("get-game-details")
-    public NotYetImplementedResponse getGameDetails(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-game-details");
+    public GetGameDetailsResponse getGameDetails(GetGameDetailsRequest request) {
+        SplendorService service = getService(request);
+
+        GameSuperclass game = service.findGame(
+                request.getGameId()
+        );
+
+        if (game.hasStarted()) {
+            return new GetGameDetailsStartedResponse(game);
+        } else {
+            return new GetGameDetailsUnstartedResponse(game);
+        }
     }
 
     @Operation("join-game")

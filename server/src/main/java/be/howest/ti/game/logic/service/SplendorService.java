@@ -11,6 +11,7 @@ public interface SplendorService {
 
 
     public GameLobby findLobby(int gameid);
+    public GameSuperclass findGame(int gameId);
 
     void joinLobby(GameLobby lobby, String playerName);
 
