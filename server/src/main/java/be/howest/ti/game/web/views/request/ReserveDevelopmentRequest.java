@@ -15,7 +15,11 @@ public class ReserveDevelopmentRequest extends BaseSplendorRequest {
         return params.pathParameter("playerName").getString();
     }
 
-    public String getDevelopment() {
-        return params.body().getJsonObject().getString("development");
+    public String getDevelopmentName() {
+        return params.body().getJsonObject().getJsonObject("Development").getString("name");
+    }
+
+    public int getDevelopmentLevel() {
+        return params.body().getJsonObject().getJsonObject("Development").getInteger("level");
     }
 }
