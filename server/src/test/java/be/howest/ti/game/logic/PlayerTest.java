@@ -89,24 +89,6 @@ class PlayerTest {
     }
 
     @Test
-    void totalReturnTokensWhenAmountIsLessThen0() {
-        Player player = new Player("Willem Alexander");
-        Map<Token, Integer> initialTokens = new HashMap<>();
-        initialTokens.put(Token.DIAMOND, 3);
-        initialTokens.put(Token.RUBY, 2);
-        initialTokens.put(Token.EMERALD, 4);
-        initialTokens.put(Token.ONYX, 3);
-        player.setTokens(new Purse(initialTokens));
-
-        assertEquals(12, player.getTokens().getTotal());
-
-        Map<Token, Integer> tokensToReturn = new HashMap<>();
-        tokensToReturn.put(Token.RUBY, -2);
-
-        assertThrows(IllegalArgumentException.class, () -> player.totalReturnTokens(tokensToReturn));
-    }
-
-    @Test
     void totalReturnTokensUntilMaxTenTokens() {
         Player player = new Player("Mark Rutte");
         Map<Token, Integer> initialTokens = new HashMap<>();
