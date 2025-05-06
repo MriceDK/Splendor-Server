@@ -122,7 +122,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
                 request.getGameId()
         );
 
-        return new GetGameDetailsResponse(game);
+        if (game.hasStarted()) {
+            return new GetGameDetailsStartedResponse(game);
+        } else {
+            return new GetGameDetailsUnstartedResponse(game);
+        }
     }
 
     @Operation("join-game")
