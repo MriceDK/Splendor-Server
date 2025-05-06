@@ -13,4 +13,8 @@ public class BuyDevelopmentRequest extends BaseSplendorRequest{
     public String getPlayerName() {
         return params.pathParameter("playerName").getString();
     }
+
+    public String getDevelopmentName(){
+        return params.body().getJsonObject().getString("development");
+    }
 }
