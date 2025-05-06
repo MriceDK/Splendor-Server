@@ -12,6 +12,7 @@ public class Player {
     private final List<Development> reservedDevelopments;
 
     private static final int ZERO_TOKENS = 0;
+    private static final int MAX_DIFFERENT_TOKENS = 3;
 
     public Player (String name){
         this.name = name;
@@ -90,7 +91,7 @@ public class Player {
     }
 
     private void ruleCheckToAcquireTokens(Map<Token, Integer> tokensToAcquire, int sizeOfTokensToAcquire) {
-        if (sizeOfTokensToAcquire > 3){
+        if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
             throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
         }
 
