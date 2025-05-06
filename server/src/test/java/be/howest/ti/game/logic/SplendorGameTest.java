@@ -84,7 +84,7 @@ class SplendorGameTest {
             }
         }
         Noble noble = new Noble("De Wever", 3, new Purse(nobleRequirements));
-
+        lobby.addPlayer("Alice");
         SplendorGame game = new SplendorGame(lobby);
         game.setCurrentPlayer(player);
         game.setUnclaimedNobles(Set.of(noble));
@@ -97,7 +97,7 @@ class SplendorGameTest {
     @Test
     void checkForNobleBad() {
         Player player = new Player("Alice");
-
+        lobby.addPlayer("Alice");
         Map<Token, Integer> playerBonuses = new HashMap<>();
         for (Token token : Token.values()) {
             if (token != Token.GOLD) {
