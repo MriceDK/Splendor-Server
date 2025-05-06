@@ -11,7 +11,6 @@ public class Player {
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
 
-    private static final int TOO_MANY_TOTAL_TOKENS_PER_PLAYER = 11;
     private static final int MAX_TOTAL_TOKENS_PER_PLAYER = 10;
 
     private static final int ZERO_TOKENS = 0;
