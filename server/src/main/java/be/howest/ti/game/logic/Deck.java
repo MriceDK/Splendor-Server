@@ -21,7 +21,7 @@ public class Deck {
 //        TODO: shuffle the developments or just insert already shuffled developments
 //        Collections.shuffle((List<?>) invisibleDevelopments);
         for (int i = 0; i < MAX_VISIBLE && i < developments.size(); i++) {
-            this.visibleDevelopments.add(takeTopDevelopment());
+            makeVisible(takeTopDevelopment());
         }
     }
 
@@ -33,7 +33,7 @@ public class Deck {
         return Collections.unmodifiableList(visibleDevelopments);
     }
 
-    public void makeVisible(Development development){
+    private void makeVisible(Development development){
         this.visibleDevelopments.add(development);
     }
 

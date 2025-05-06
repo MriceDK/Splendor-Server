@@ -40,10 +40,6 @@ public class Market {
         return levels;
     }
 
-    public void makeVisibleLevel(int level, Development development){
-        levels.get(level).makeVisible(development);
-    }
-
     public List<Development> getVisibleDevelopments(int level){
         return levels.get(level).getVisibleDevelopments();
     }
