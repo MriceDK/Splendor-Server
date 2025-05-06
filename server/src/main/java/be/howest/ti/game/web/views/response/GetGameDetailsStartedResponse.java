@@ -8,5 +8,13 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         super(game);
     }
 
+    // TODO getPlayers -> view van player
+    // TODO getMarket -> view van deck
+    // TODO getUnclaimedTokens
+    // TODO getUnclaimedNobles -> view van noble
+    // TODO getGameState
+    // TODO getCurrentPlayer
+    // TODO getWinner
+
 
 }
