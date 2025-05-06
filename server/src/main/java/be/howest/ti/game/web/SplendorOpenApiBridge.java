@@ -141,8 +141,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     //region Game Action operations
     @Operation("update-tokens")
-    public NotYetImplementedResponse updateTokens(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("update-tokens");
+    public BuyGameResponse updateTokens(BuyGameRequest request) {
+        return new BuyGameResponse("update-tokens");
     }
 
     @Operation("buy-development")
