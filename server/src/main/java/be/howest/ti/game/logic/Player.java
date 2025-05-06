@@ -10,7 +10,7 @@ public class Player {
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
-    private static final int MAX_TOTAL_TOKENS = 10;
+    private static final int MAX_TOTAL_TOKENS_PER_PLAYER = 10;
 
     public Player (String name){
         this.name = name;
@@ -87,11 +87,11 @@ public class Player {
     public void returnTokens(Map<Token, Integer> tokensToReturn) {
         int totalTokens = tokens.getTotal();
         int returnTokens = tokensToReturn.size();
-        if (totalTokens < MAX_TOTAL_TOKENS){
+        if (totalTokens < MAX_TOTAL_TOKENS_PER_PLAYER){
             throw new IllegalStateException("You may only return tokens if you have more than 10.");
         }
 
-        if (totalTokens - returnTokens > MAX_TOTAL_TOKENS) {
+        if (totalTokens - returnTokens > MAX_TOTAL_TOKENS_PER_PLAYER) {
             throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10 or fewer.");
         }
 
