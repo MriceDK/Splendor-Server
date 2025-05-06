@@ -11,29 +11,33 @@ public class Market {
         this.levels = new HashMap<>();
         // TODO: Make the developments actually real and not just placeholders
         levels.put(1, new Deck(List.of(
-                new Development("Development 1", 1, 1, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 2", 1, 2, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 3", 1, 3, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 4", 1, 4, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 5", 1, 5, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 6", 1, 6, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))
+                new Development("Diamond Mine", 1, 0, Token.DIAMOND, new Purse(Map.of(Token.ONYX, 1, Token.SAPPHIRE, 1, Token.DIAMOND, 3))),
+                new Development("Diamond Vein", 1, 0, Token.DIAMOND, new Purse(Map.of(Token.ONYX, 2, Token.SAPPHIRE, 2))),
+                new Development("Shimmering Quarry", 1, 0, Token.DIAMOND, new Purse(Map.of(Token.SAPPHIRE, 3))),
+                new Development("Brilliant Mine", 1, 0, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 2, Token.ONYX, 1))),
+                new Development("Radiant Crystal Cave", 1, 0, Token.DIAMOND, new Purse(Map.of(Token.ONYX, 1, Token.SAPPHIRE, 2, Token.EMERALD, 2))),
+                new Development("Facet Workshop", 1, 0, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 1, Token.ONYX, 1, Token.SAPPHIRE, 1, Token.EMERALD, 2))),
+                new Development("Glistening Vault", 1, 0, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 1, Token.ONYX, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1))),
+                new Development("Sparkling Chamber", 1, 1, Token.DIAMOND, new Purse(Map.of(Token.EMERALD, 4)))
         ), 1));
         levels.put(2, new Deck(List.of(
-                new Development("Development 7", 2, 1, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 8", 2, 2, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 9", 2, 3, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 10", 2, 4, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 11", 2, 5, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 12", 2, 6, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))
-        ), 2));
+                new Development("Polished Vault", 2, 1, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 2, Token.ONYX, 2, Token.EMERALD, 3))),
+                new Development("Diamond Refinery", 2, 1, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 3, Token.SAPPHIRE, 3, Token.DIAMOND, 2))),
+                new Development("Radiant Workshop", 2, 2, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 4, Token.ONYX, 2, Token.EMERALD, 1))),
+                new Development("Gleaming Estate", 2, 2, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 5))),
+                new Development("Sparkling Guild", 2, 2, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 5, Token.ONYX, 3))),
+                new Development("Brilliant Collection", 2, 3, Token.DIAMOND, new Purse(Map.of(Token.DIAMOND, 6)))
+
+
+                ), 2));
         levels.put(3, new Deck(List.of(
-                new Development("Development 13", 3, 1, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 14", 3, 2, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 15", 3, 3, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 16", 3, 4, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 17", 3, 5, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 18", 3, 6, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))
-        ), 3));
+                new Development("Grand Diamond Vault", 3, 3, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 5, Token.ONYX, 3, Token.SAPPHIRE, 3, Token.EMERALD, 3))),
+                new Development("Exquisite Diamond Vault", 3, 4, Token.DIAMOND, new Purse(Map.of(Token.ONYX, 7))),
+                new Development("Royal Diamond Chamber", 3, 4, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 3, Token.ONYX, 6, Token.DIAMOND, 3))),
+                new Development("Master Diamond Atelier", 3, 5, Token.DIAMOND, new Purse(Map.of(Token.ONYX, 7, Token.DIAMOND, 3))),
+
+
+                ), 3));
     }
 
     public Map<Integer, Deck> getLevels() {
