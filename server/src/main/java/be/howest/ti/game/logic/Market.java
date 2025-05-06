@@ -1,7 +1,6 @@
 package be.howest.ti.game.logic;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.io.*;
 
 public class Market {
 
@@ -10,6 +9,35 @@ public class Market {
     public Market(){
         this.levels = new HashMap<>();
         // TODO: Make the developments actually real and not just placeholders
+
+        try {
+            File developmentCards = new File("src/main/resources/data/developments.txt");
+            Scanner reader = new Scanner(developmentCards);
+            reader.nextLine();
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine();
+                String[] developmentInfo = data.split("\\t");
+
+                System.out.println(developmentInfo[0]);
+                Token bonus = getTokenType(developmentInfo[2].toCharArray()[0]);
+                String cost = developmentInfo[5];
+                Purse costs = new Purse();
+
+                char[] ch = cost.toCharArray();
+                for (int i = 0; i < ch.length; i++) {
+                    costs.addToken(getTokenType(ch[i]), 1);
+                }
+
+                Development dev = new Development(developmentInfo[0], Integer.parseInt(developmentInfo[1]), Integer.parseInt(developmentInfo[4]), bonus, costs);
+
+                System.out.println(dev.toString());
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException("File not found.");
+        }
+
+
         levels.put(1, new Deck(List.of(
                 new Development("Diamond Mine", 1, 0, Token.DIAMOND, new Purse(Map.of(Token.ONYX, 1, Token.SAPPHIRE, 1, Token.DIAMOND, 3))),
                 new Development("Diamond Vein", 1, 0, Token.DIAMOND, new Purse(Map.of(Token.ONYX, 2, Token.SAPPHIRE, 2))),
@@ -34,7 +62,7 @@ public class Market {
                 new Development("Grand Diamond Vault", 3, 3, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 5, Token.ONYX, 3, Token.SAPPHIRE, 3, Token.EMERALD, 3))),
                 new Development("Exquisite Diamond Vault", 3, 4, Token.DIAMOND, new Purse(Map.of(Token.ONYX, 7))),
                 new Development("Royal Diamond Chamber", 3, 4, Token.DIAMOND, new Purse(Map.of(Token.RUBY, 3, Token.ONYX, 6, Token.DIAMOND, 3))),
-                new Development("Master Diamond Atelier", 3, 5, Token.DIAMOND, new Purse(Map.of(Token.ONYX, 7, Token.DIAMOND, 3))),
+                new Development("Master Diamond Atelier", 3, 5, Token.DIAMOND, new Purse(Map.of(Token.ONYX, 7, Token.DIAMOND, 3)))
 
 
                 ), 3));
@@ -72,5 +100,17 @@ public class Market {
             throw new IllegalStateException("Development not found in visible developments");
         }
         return matchingDevelopment;
+    }
+
+    public Token getTokenType(char tokenChar)
+    {
+        return switch (tokenChar) {
+            case 'C' -> Token.DIAMOND;
+            case 'S' -> Token.SAPPHIRE;
+            case 'R' -> Token.RUBY;
+            case 'E' -> Token.EMERALD;
+            case 'O' -> Token.ONYX;
+            default -> throw new IllegalArgumentException("Invalid token char: " + tokenChar);
+        };
     }
 }
