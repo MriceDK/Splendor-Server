@@ -6,6 +6,17 @@ import java.util.Objects;
 
 public class Purse {
 
+    public static Purse TOKEN_BANK = new Purse(
+            Map.of(
+                    Token.DIAMOND, 7,
+                    Token.EMERALD, 7,
+                    Token.ONYX, 7,
+                    Token.RUBY, 7,
+                    Token.SAPPHIRE, 7,
+                    Token.GOLD, 5
+            )
+    );
+
     private final Map<Token, Integer> tokens ;
 
     public Purse(){

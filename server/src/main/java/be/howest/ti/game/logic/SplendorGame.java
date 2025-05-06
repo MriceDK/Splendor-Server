@@ -19,6 +19,7 @@ public class SplendorGame extends GameSuperclass {
         super(gameLobby);
         this.market = new Market();
         this.currentPlayer = getPlayers().getFirst();
+        this.tokenBank = Purse.TOKEN_BANK;
     }
 
     public Player getWinner() {
@@ -130,5 +131,9 @@ public class SplendorGame extends GameSuperclass {
 
     public GameState getGameState() {
         return gameState;
+    }
+
+    public Purse getTokenBank() {
+        return tokenBank;
     }
 }
