@@ -1,21 +1,21 @@
 package be.howest.ti.game.logic;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Player {
 
     private final String name;
-    private Purse tokens; // TODO make final
-    private Purse bonuses; // TODO make final
+    private final Purse tokens;
+    private Purse bonuses;
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
-    private Development[] reservedCards;
+    private final List<Development> reservedDevelopments;
 
     public Player (String name){
         this.name = name;
+        this.reservedDevelopments = new ArrayList<>();
         this.tokens = new Purse();
+        this.bonuses = new Purse();
     }
 
     public String getName() {
@@ -38,21 +38,41 @@ public class Player {
         return prestigePoints;
     }
 
-    public Development[] getReservedCards() {
-        return reservedCards;
+    public List<Development> getReservedDevelopments() {
+        return reservedDevelopments;
     }
 
-    public void buyDevelopment(Development development){
-        //TODO
+    public void checkIfPaymentIsSufficient(Development development, Purse payment){
+        for (Token token : development.cost().getTokens().keySet()) {
+            int ownTokenValue = tokens.getTokens().get(token);
+            int paymentTokenValue = payment.getTokens().get(token);
+            int bonusTokenValue = bonuses.getTokens().get(token);
+            int developmentTokenCost = development.cost().getTokens().get(token);
+
+            if (paymentTokenValue + bonusTokenValue != developmentTokenCost) throw new IllegalArgumentException("The payment is not sufficient");
+            if (ownTokenValue < paymentTokenValue) throw new IllegalArgumentException("You don't have enough tokens of this type");
+        }
+    }
+
+    public void checkIfPlayerIsAllowedToReserve() {
+        if (reservedDevelopments.size() == 3) {
+            throw new IllegalStateException("You can only have 3 reserved cards at a time");
+        }
+    }
+
+    public void buyDevelopment(Development development, Purse payment){
+        checkIfPaymentIsSufficient(development, payment);
+        prestigePoints += development.prestigePoints();
+        bonuses.addToken(development.bonus(), 1);
+        tokens.removeTokens(payment.getTokens());
     }
 
     public void reserveDevelopment(Development development){
-        //TODO
+        checkIfPlayerIsAllowedToReserve();
+        reservedDevelopments.add(development);
     }
 
-    public void claimNoble(Noble noble){
-        //TODO
-    }
+    public void claimNoble(Noble noble){acquiredNobles.add(noble);}
 
     public void acquireTokens(Map<Token,Integer> tokensToAcquire){
         int sizeOfTokensToAcquire = 0;
@@ -99,5 +119,15 @@ public class Player {
     @Override
     public int hashCode() {
         return Objects.hashCode(name);
+    }
+
+    //For testing purposes
+    public void setBonuses(Purse bonuses) {
+        this.bonuses = bonuses;
+    }
+
+   //For testing purposes
+    public void setAcquiredNobles(Set<Noble> nobles) {
+        this.acquiredNobles = nobles;
     }
 }

@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LevelTest {
 
-    private Level l1;
+    private Deck l1;
     private List<Development> developments;
 
     @BeforeEach
@@ -24,7 +24,7 @@ class LevelTest {
         );
 
         this.developments = developments;
-        this.l1 = new Level(developments, 1);
+        this.l1 = new Deck(developments, 1);
     }
 
 
@@ -43,7 +43,7 @@ class LevelTest {
     @Test
     void getTotalInvisible() {
         assertEquals(2, l1.getTotalInvisible());
-        Level l2 = new Level(List.of(), 1);
+        Deck l2 = new Deck(List.of(), 1);
         assertThrows(IllegalStateException.class, l2::takeTopDevelopment);
     }
 
