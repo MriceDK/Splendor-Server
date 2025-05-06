@@ -1,4 +1,21 @@
 package be.howest.ti.game.web.views.request;
 
-public class ReserveDevelopmentRequest {
+import io.vertx.ext.web.RoutingContext;
+
+public class ReserveDevelopmentRequest extends BaseSplendorRequest {
+    public ReserveDevelopmentRequest(RoutingContext ctx) {
+        super(ctx);
+    }
+
+    public int getGameId() {
+        return params.pathParameter("gameId").getInteger();
+    }
+
+    public String getPlayerName() {
+        return params.pathParameter("playerName").getString();
+    }
+
+    public String getDevelopment() {
+        return params.body().getJsonObject().getString("development");
+    }
 }
