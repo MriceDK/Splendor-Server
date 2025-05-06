@@ -38,7 +38,7 @@ public class Player {
         return prestigePoints;
     }
 
-    public List<Development> getReservedCards() {
+    public List<Development> getReservedDevelopments() {
         return reservedCards;
     }
 
