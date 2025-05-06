@@ -104,17 +104,6 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void returnTokens(Purse tokensToReturn) {
-        int totalBefore = currentPlayer.getTokens().getTotal();
-        int returnAmount = tokensToReturn.getTotal();
-
-        if (totalBefore <= MAX_TOTAL_TOKENS) {
-            throw new IllegalStateException("You may only return tokens if you have more than 10.");
-        }
-
-        if (totalBefore - returnAmount > MAX_TOTAL_TOKENS) {
-            throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10 or fewer.");
-        }
-
         currentPlayer.returnTokens(tokensToReturn.getTokens());
         tokenBank.addTokens(tokensToReturn.getTokens());
     }
