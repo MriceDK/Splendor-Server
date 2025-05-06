@@ -15,7 +15,6 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
 
     // TODO getPlayers -> view van player
     // TODO getMarket -> view van deck
-    // TODO getUnclaimedTokens
 
     public Map<Token, Integer> getUnclaimedTokens() {
         return startedGame.getTokenBank().getTokens();
