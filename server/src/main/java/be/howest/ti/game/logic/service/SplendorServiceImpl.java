@@ -9,6 +9,8 @@ import java.util.List;
 
 public class SplendorServiceImpl implements SplendorService {
 
+    private static int INCREMENTAL_IDENTIFIER = 0;
+
     private final List<GameSuperclass> games;
 
     public SplendorServiceImpl() {
@@ -120,8 +122,17 @@ public class SplendorServiceImpl implements SplendorService {
         return startedGames;
     }
 
+    public void removeGame(int gameId) {
+        GameSuperclass game = findGame(gameId);
+        games.remove(game);
+    }
+
     public int generateGameId() {
-        return games.size();
+        int gameId = INCREMENTAL_IDENTIFIER;
+
+        INCREMENTAL_IDENTIFIER++;
+
+        return gameId;
     }
 
 }
