@@ -6,7 +6,7 @@ public class Player {
 
     private final String name;
     private final Purse tokens;
-    private final Purse bonuses;
+    private Purse bonuses;
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private final List<Development> reservedCards;
