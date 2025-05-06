@@ -9,6 +9,6 @@ public class GetGameDetailsRequest extends BaseSplendorRequest {
     }
 
     public int getGameId() {
-        return 0; // TODO
+        return params.pathParameter("gameId").getInteger();
     }
 }
