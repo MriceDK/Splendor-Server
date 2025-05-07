@@ -1,7 +1,10 @@
 package be.howest.ti.game.web.views.response;
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.web.views.DeckInListView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
@@ -15,6 +18,16 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
 
     // TODO getPlayers -> view van player
     // TODO getMarket -> view van deck
+
+    public List<DeckInListView> getMarket() {
+        List<DeckInListView> res = new ArrayList<>();
+
+        for (Deck deck : startedGame.getMarket().getLevels().values()) {
+            res.add(new DeckInListView(deck));
+        }
+
+        return res;
+    }
 
     public Map<Token, Integer> getUnclaimedTokens() {
         return startedGame.getTokenBank().getTokens();
