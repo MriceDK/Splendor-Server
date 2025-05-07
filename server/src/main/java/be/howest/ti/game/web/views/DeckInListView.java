@@ -4,14 +4,20 @@ import be.howest.ti.game.logic.Deck;
 
 public class DeckInListView {
 
-    private Deck deck;
+    private final Deck deck;
 
     public DeckInListView(Deck deck) {
         this.deck = deck;
     }
 
-    // TODO getLevel
-    // TODO getCardStackSize
+    public int getLevel() {
+        return deck.getLevelNumber();
+    }
+
+    public int getCardStackSize() {
+        return deck.getTotalInvisible();
+    }
+
     // TODO getVisibleCards -> view van development
 
 }
