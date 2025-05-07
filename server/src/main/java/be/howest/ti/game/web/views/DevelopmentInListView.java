@@ -23,7 +23,7 @@ public class DevelopmentInListView {
     }
 
     public Map<Token, Integer> getCost() {
-        return development.cost().getTokens();
+        return development.cost().getAvailableTokens();
     }
 
     public Token getBonus() {
