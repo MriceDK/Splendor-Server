@@ -8,7 +8,10 @@ public class Market {
 
     public Market(){
         this.levels = new HashMap<>();
+        fillMarket();
+    }
 
+    private void fillMarket() {
         List<Development> developmentLevel1 = new ArrayList<>();
         List<Development> developmentLevel2 = new ArrayList<>();
         List<Development> developmentLevel3 = new ArrayList<>();
