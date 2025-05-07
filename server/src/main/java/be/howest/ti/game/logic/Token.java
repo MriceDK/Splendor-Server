@@ -1,6 +1,6 @@
 package be.howest.ti.game.logic;
 
-public enum Token {
+public enum Token { // TODO volgorde van tokens in de list moet nog geïmplementeerd worden
     DIAMOND {
         @Override
         public String toString() {
