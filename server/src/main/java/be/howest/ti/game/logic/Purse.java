@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -77,6 +78,20 @@ public class Purse {
         for (Token token : tokensToRemove.keySet()) {
             removeToken(token, tokensToRemove.get(token));
         }
+    }
+
+    public Map<Token, Integer> getAvailableTokens() {
+        Map<Token, Integer> res = new HashMap<>();
+
+        tokens.forEach((token, value) -> {
+
+            if (value > 0) {
+                res.put(token, value);
+            }
+
+        });
+
+        return res;
     }
 
     @Override
