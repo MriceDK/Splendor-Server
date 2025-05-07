@@ -12,7 +12,7 @@ public interface SplendorService {
 
 
     public GameLobby findLobby(int gameid);
-    public SplendorGame findStartedGame(int gameId)
+    public SplendorGame findStartedGame(int gameId);
 
     void joinLobby(GameLobby lobby, String playerName);
 
