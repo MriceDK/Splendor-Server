@@ -1,6 +1,10 @@
 package be.howest.ti.game.web.views;
 
 import be.howest.ti.game.logic.Deck;
+import be.howest.ti.game.logic.Development;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeckInListView {
 
@@ -18,6 +22,14 @@ public class DeckInListView {
         return deck.getTotalInvisible();
     }
 
-    // TODO getVisibleCards -> view van development
+    public List<DevelopmentInListView> getVisibleCards() {
+        List<DevelopmentInListView> res = new ArrayList<>();
+
+        for (Development visibleDevelopment : deck.getVisibleDevelopments()) {
+            res.add(new DevelopmentInListView(visibleDevelopment));
+        }
+
+        return res;
+    }
 
 }
