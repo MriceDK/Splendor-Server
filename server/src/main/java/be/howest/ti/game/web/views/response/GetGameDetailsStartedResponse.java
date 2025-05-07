@@ -2,10 +2,9 @@ package be.howest.ti.game.web.views.response;
 
 import be.howest.ti.game.logic.*;
 import be.howest.ti.game.web.views.DeckInListView;
+import be.howest.ti.game.web.views.NobleInSetView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
 
@@ -17,7 +16,6 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
     }
 
     // TODO getPlayers -> view van player
-    // TODO getMarket -> view van deck
 
     public List<DeckInListView> getMarket() {
         List<DeckInListView> res = new ArrayList<>();
@@ -35,6 +33,16 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
     }
 
     // TODO getUnclaimedNobles -> view van noble
+
+    public Set<NobleInSetView> getUnclaimedNobles() {
+        Set<NobleInSetView> res = new HashSet<>();
+
+        for (Noble unclaimedNoble : startedGame.getUnclaimedNobles()) {
+            res.add(new NobleInSetView(unclaimedNoble));
+        }
+
+        return res;
+    }
 
     public GameState getGameState() {
         return startedGame.getGameState();

@@ -140,6 +140,10 @@ public class SplendorGame extends GameSuperclass {
         return gameState;
     }
 
+    public Set<Noble> getUnclaimedNobles() {
+        return unclaimedNobles;
+    }
+
     public Purse getTokenBank() {
         return tokenBank;
     }
