@@ -8,7 +8,7 @@ public class Player {
     private Purse tokens;
     private Purse bonuses;
     private Set<Noble> acquiredNobles; // TODO make final
-    private int prestigePoints; // TODO verwijder dit veld en maak een berekeningsmethode ervoor
+    private int prestigePoints;
     private final List<Development> reservedDevelopments;
     
     private static final int TOO_MANY_TOTAL_TOKENS_PER_PLAYER = 11;
@@ -25,7 +25,7 @@ public class Player {
         this.reservedDevelopments = new ArrayList<>();
         this.tokens = new Purse();
         this.bonuses = new Purse();
-        this.prestigePoints = 0; // TODO Verwijder dit eens de developments worden bijgehouden
+        this.prestigePoints = 0;
     }
 
     //for testing purposes
