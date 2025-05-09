@@ -3,6 +3,7 @@ package be.howest.ti.game.web.views.response;
 import be.howest.ti.game.logic.*;
 import be.howest.ti.game.web.views.DeckInListView;
 import be.howest.ti.game.web.views.NobleInSetView;
+import be.howest.ti.game.web.views.PlayerInListView;
 
 import java.util.*;
 
@@ -16,6 +17,18 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
     }
 
     // TODO getPlayers -> view van player
+
+    public List<PlayerInListView> getPlayers() {
+        List<PlayerInListView> res = new ArrayList<>();
+
+        for (Player player : startedGame.getPlayers()) {
+
+            res.add(new PlayerInListView(player));
+
+        }
+
+        return res;
+    }
 
     public List<DeckInListView> getMarket() {
         List<DeckInListView> res = new ArrayList<>();
