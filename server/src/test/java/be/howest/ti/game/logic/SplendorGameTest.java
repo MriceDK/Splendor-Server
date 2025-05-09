@@ -54,7 +54,7 @@ class SplendorGameTest {
         startedGame.getCurrentPlayer().getTokens().addTokens(firstDevelopment.cost().getTokens());
 
 
-        Purse payment = new Purse(firstDevelopment.cost().getTokens());
+        Purse payment = firstDevelopment.cost();
         startedGame.buyDevelopment(payment, startedGame.getMarket().getVisibleDevelopments(1).getFirst().name());
         assertEquals(1,startedGame.getCurrentPlayer().getBonuses().getTokens().get(firstDevelopment.bonus()));
     }
