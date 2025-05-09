@@ -19,7 +19,6 @@ public class SplendorGame extends GameSuperclass {
     private Player currentPlayer;
     private GameState gameState;
     private Player winner;
-    private static int MAX_TOTAL_TOKENS = 10;
 
     private static final int ONE_NOBLE = 1;
 
