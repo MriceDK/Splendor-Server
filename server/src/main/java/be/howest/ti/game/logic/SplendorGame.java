@@ -2,7 +2,6 @@ package be.howest.ti.game.logic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class SplendorGame extends GameSuperclass {
@@ -19,6 +18,7 @@ public class SplendorGame extends GameSuperclass {
     private Player currentPlayer;
     private GameState gameState;
     private Player winner;
+    private static int MAX_TOTAL_TOKENS = 10;
 
     private static final int ONE_NOBLE = 1;
 
@@ -136,9 +136,12 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public void returnTokens(Purse tokens){
-        //TODO
+    public void returnTokens(Purse tokensToReturn) {
+        currentPlayer.ReturnTokens(tokensToReturn.getTokens());
+        tokenBank.addTokens(tokensToReturn.getTokens());
     }
+
+
 
     //For testing purposes
     public void setUnclaimedNobles(Set<Noble> nobles) {
