@@ -34,6 +34,15 @@ public class PlayerInListView {
     }
 
     // TODO getBuilt -> Hiervoor moeten we nog het veld developments toevoegen aan de Player class
+    public List<DevelopmentInListView> getBuilt() {
+        List<DevelopmentInListView> res = new ArrayList<>();
+
+//        for (Development development : player.getOwnedDevelopments()) {
+//            res.add(new DevelopmentInListView(development));
+//        }
+
+        return res;
+    }
 
     public Set<NobleInSetView> getNobles() {
         Set<NobleInSetView> res = new HashSet<>();
