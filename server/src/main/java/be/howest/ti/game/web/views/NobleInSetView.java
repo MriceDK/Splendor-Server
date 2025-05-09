@@ -1,6 +1,7 @@
 package be.howest.ti.game.web.views;
 
 import be.howest.ti.game.logic.Noble;
+import be.howest.ti.game.logic.Purse;
 import be.howest.ti.game.logic.Token;
 
 import java.util.Map;
@@ -17,8 +18,9 @@ public class NobleInSetView {
         return noble.name();
     }
 
-    public Map<Token, Integer> getNeededBonusses() {
-        return noble.neededBonuses().getAvailableTokens();
+    public Map<String, Integer> getNeededBonuses() {
+        Map<Token, Integer> bonuses = noble.neededBonuses().getAvailableTokens();
+        return Purse.toMapStringInteger(bonuses);
     }
 
     public int getPrestigePoints() {

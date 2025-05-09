@@ -1,6 +1,7 @@
 package be.howest.ti.game.web.views;
 
 import be.howest.ti.game.logic.Development;
+import be.howest.ti.game.logic.Purse;
 import be.howest.ti.game.logic.Token;
 
 import java.util.Map;
@@ -22,12 +23,13 @@ public class DevelopmentInListView {
         return development.level();
     }
 
-    public Map<Token, Integer> getCost() {
-        return development.cost().getAvailableTokens();
+    public Map<String, Integer> getCost() {
+        Map<Token, Integer> cost = development.cost().getAvailableTokens();
+        return Purse.toMapStringInteger(cost);
     }
 
-    public Token getBonus() {
-        return development.bonus();
+    public String getBonus() {
+        return development.bonus().toString();
     }
 
     public int getPrestigePoints() {

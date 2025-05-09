@@ -1,7 +1,6 @@
 package be.howest.ti.game.logic;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -110,5 +109,15 @@ public class Purse {
     public String toString() {
         return tokens.toString();
 
+    }
+
+    public static Map<String, Integer> toMapStringInteger(Map<Token, Integer> tokens) {
+        Map<String, Integer> res = new HashMap<>();
+
+        tokens.forEach((token, value) -> {
+            res.put(token.toString(), value);
+        });
+
+        return res;
     }
 }

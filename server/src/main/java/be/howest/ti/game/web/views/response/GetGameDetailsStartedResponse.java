@@ -38,9 +38,9 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         return res;
     }
 
-    public Map<Token, Integer> getUnclaimedTokens() {
-        return startedGame.getTokenBank().getTokens();
-        // For some reason the tokenNames don't show in the right format as declared in the ToString, get help
+    public Map<String, Integer> getUnclaimedTokens() {
+        Map<Token, Integer> tokens = startedGame.getTokenBank().getTokens();
+        return Purse.toMapStringInteger(tokens);
     }
 
     public Set<NobleInSetView> getUnclaimedNobles() {
