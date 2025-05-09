@@ -24,6 +24,22 @@ public class SplendorGame extends GameSuperclass {
 
     public SplendorGame(GameSuperclass gameLobby){
         super(gameLobby);
+        // TODO Remove this dummy data when we have the actual nobles
+        this.unclaimedNobles = Set.of(
+                new Noble("noble-1", 3, new Purse(
+                        Map.of(
+                                Token.SAPPHIRE, 4,
+                                Token.RUBY, 4
+                        )
+                )),
+                new Noble("noble-2", 3, new Purse(
+                        Map.of(
+                                Token.ONYX, 4,
+                                Token.EMERALD, 4
+                        )
+                ))
+        );
+
         this.market = new Market();
         this.currentPlayer = getPlayers().getFirst();
         this.tokenBank = generateTokenBank();
