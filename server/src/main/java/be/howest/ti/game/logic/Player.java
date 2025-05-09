@@ -21,9 +21,11 @@ public class Player {
 
     public Player (String name){
         this.name = name;
+        this.acquiredNobles = new HashSet<>();
         this.reservedDevelopments = new ArrayList<>();
         this.tokens = new Purse();
         this.bonuses = new Purse();
+        this.prestigePoints = 0;
     }
 
     //for testing purposes

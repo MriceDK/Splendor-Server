@@ -115,7 +115,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("get-game-details")
-    public GetGameDetailsResponse getGameDetails(GetGameDetailsRequest request) {
+    public GetGameDetailsResponse getGameDetails(GetGameDetailsRequest request) { // TODO find a way to sort the response properties
         SplendorService service = getService(request);
 
         GameSuperclass game = service.findGame(
@@ -156,12 +156,12 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("buy-development")
-    public NotYetImplementedResponse buyDevelopment(BuyDevelopmentRequest request) {
+    public NotYetImplementedResponse buyDevelopment(BaseSplendorRequest request) {
         return new NotYetImplementedResponse("buy-development");
     }
 
     @Operation("reserve-development")
-    public NotYetImplementedResponse reserveDevelopment(ReserveDevelopmentRequest request) {
+    public NotYetImplementedResponse reserveDevelopment(BaseSplendorRequest request) {
         return new NotYetImplementedResponse("reserve-development");
     }
 
