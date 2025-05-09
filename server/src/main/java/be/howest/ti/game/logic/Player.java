@@ -8,7 +8,7 @@ public class Player {
     private final Purse tokens;
     private Purse bonuses;
     private Set<Noble> acquiredNobles; // TODO make final
-    private int prestigePoints;
+    private int prestigePoints; // TODO verwijder dit veld en maak een berekeningsmethode ervoor
     private final List<Development> reservedDevelopments;
 
     private static final int ZERO_TOKENS = 0;
@@ -18,9 +18,11 @@ public class Player {
 
     public Player (String name){
         this.name = name;
+        this.acquiredNobles = new HashSet<>();
         this.reservedDevelopments = new ArrayList<>();
         this.tokens = new Purse();
         this.bonuses = new Purse();
+        this.prestigePoints = 0; // TODO Verwijder dit eens de developments worden bijgehouden
     }
 
     public String getName() {
