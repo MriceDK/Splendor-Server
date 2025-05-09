@@ -16,8 +16,6 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         startedGame = (SplendorGame) game;
     }
 
-    // TODO getPlayers -> view van player
-
     public List<PlayerInListView> getPlayers() {
         List<PlayerInListView> res = new ArrayList<>();
 
@@ -44,8 +42,6 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         return startedGame.getTokenBank().getTokens();
         // For some reason the tokenNames don't show in the right format as declared in the ToString, get help
     }
-
-    // TODO getUnclaimedNobles -> view van noble
 
     public Set<NobleInSetView> getUnclaimedNobles() {
         Set<NobleInSetView> res = new HashSet<>();
