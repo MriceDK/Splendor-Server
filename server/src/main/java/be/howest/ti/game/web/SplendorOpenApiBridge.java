@@ -155,16 +155,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         String playername = request.getPlayerName();
         int gameId = request.getGameId();
         boolean takeOrReturn = request.addOrReturnCheck();
-        GameSuperclass game = service.findGame(gameId);
+        SplendorGame game = service.findStartedGame(gameId);
+        SplendorGame gameSplendor = ga
         List<Player> players = game.getPlayers();
-        Player player = new Player(null);
+        Player player = game.find;
 
-        for (Player playerInPlayers : players){
-            if(playerInPlayers.getName().equals(playername)){
-                player = playerInPlayers;
-
-            }
-        }
         Map<Token, Integer> tokensToChange = request.getTokensToAdd();
         if (takeOrReturn){
             player.acquireTokens(tokensToChange);
