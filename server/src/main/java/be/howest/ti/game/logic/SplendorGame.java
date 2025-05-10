@@ -144,9 +144,10 @@ public class SplendorGame extends GameSuperclass {
 
     //For testing purposes
     public void setUnclaimedNobles(Set<Noble> nobles) {
-        this.unclaimedNobles = nobles;
+        int TOTAL_AMOUNT_UNCLAIMED_NOBLES = getTotalPlayers() + 1;
 
         List<Noble> allNobles = new ArrayList<>();
+        Set<Noble> selectedNobles = new HashSet<>();
 
         try {
             File developmentCards = new File("src/main/resources/data/developments.txt");
@@ -168,6 +169,14 @@ public class SplendorGame extends GameSuperclass {
 
                 allNobles.add(new Noble(name, prestigePoints, costs));
             }
+
+            Collections.shuffle((List<?>) allNobles);
+
+            for (int i = 0; i < TOTAL_AMOUNT_UNCLAIMED_NOBLES + 1; i++) {
+                selectedNobles.add(allNobles.get(i));
+            }
+
+            this.unclaimedNobles = selectedNobles;
 
         } catch (FileNotFoundException e) {
             throw new IllegalStateException("File not found.");
