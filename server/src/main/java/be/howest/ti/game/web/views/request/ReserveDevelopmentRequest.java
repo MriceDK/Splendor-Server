@@ -16,10 +16,15 @@ public class ReserveDevelopmentRequest extends BaseSplendorRequest {
     }
 
     public String getDevelopmentName() {
-        return params.body().getJsonObject().getJsonObject("development").getString("name");
+        if (params.body().getJsonObject().getJsonObject("development").containsKey("name")) {
+            return params.body().getJsonObject().getJsonObject("development").getString("name");
+        }
+        throw new IllegalArgumentException("Please provide a valid development name");
     }
 
     public int getDevelopmentLevel() {
-        return params.body().getJsonObject().getJsonObject("development").getInteger("level");
+        if (params.body().getJsonObject().getJsonObject("development").containsKey("level")) {
+            return params.body().getJsonObject().getJsonObject("development").getInteger("level");
+        } else throw new IllegalArgumentException("Please provide a valid level (1-3)");
     }
 }
