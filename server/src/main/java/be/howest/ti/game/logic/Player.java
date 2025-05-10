@@ -5,19 +5,34 @@ import java.util.*;
 public class Player {
 
     private final String name;
-    private final Purse tokens;
+    private Purse tokens;
     private Purse bonuses;
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
+
+    private static final int TOO_MANY_TOTAL_TOKENS_PER_PLAYER = 11;
+    private static final int MAX_TOTAL_TOKENS_PER_PLAYER = 10;
     private final List<Development> boughtDevelopments;
+
+    private static final int ZERO_TOKENS = 0;
+    private static final int MAX_DIFFERENT_TOKENS = 3;
+    private static final int MAX_OF_SAME_TOKEN = 2;
+    private static final int SAME_TOKEN = 1;
 
     public Player (String name){
         this.name = name;
+        this.acquiredNobles = new HashSet<>();
         this.reservedDevelopments = new ArrayList<>();
-        this.boughtDevelopments = new ArrayList<>();
         this.tokens = new Purse();
         this.bonuses = new Purse();
+        this.prestigePoints = 0;
+        this.boughtDevelopments = new ArrayList<>();
+    }
+
+    //for testing purposes
+    public void setTokens(Purse purse){
+        this.tokens = purse;
     }
 
     public String getName() {
@@ -82,11 +97,55 @@ public class Player {
     public void claimNoble(Noble noble){acquiredNobles.add(noble);}
 
     public void acquireTokens(Map<Token,Integer> tokensToAcquire){
-        //TODO
+        int sizeOfTokensToAcquire = 0;
+        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.entrySet()){
+            if (tokenToAcquire.getValue() > ZERO_TOKENS){
+                sizeOfTokensToAcquire++;
+            }
+
+
+        }
+        ruleCheckToAcquireTokens(tokensToAcquire, sizeOfTokensToAcquire);
+        tokens.addTokens(tokensToAcquire);
     }
-    public void returnTokens(Map<Token,Integer> tokens){
-        //TODO
+
+    private void ruleCheckToAcquireTokens(Map<Token, Integer> tokensToAcquire, int sizeOfTokensToAcquire) {
+        if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
+            throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
+        }
+
+        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.entrySet()){
+            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
+                throw new IllegalArgumentException("You cannot acquire more than two tokens of the same type");
+            }
+
+            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != SAME_TOKEN) {
+                throw new IllegalArgumentException("You can only take two of the same token type if you're taking only that type");
+            }
+
+        }
     }
+
+
+    public void ReturnTokens(Map<Token, Integer> totalReturnTokens) {
+        int totalTokens = tokens.getTotal();
+        int returnTokens = totalReturnTokens.values().stream().mapToInt(Integer::intValue).sum(); //get values out of map, make them int and adds them up
+        int diffTotalTokensAndReturnTokens = totalTokens - returnTokens;
+
+        if (totalTokens <= MAX_TOTAL_TOKENS_PER_PLAYER) {
+            throw new IllegalStateException("You may only return tokens if you have more than 10.");
+        }
+        if (diffTotalTokensAndReturnTokens >= TOO_MANY_TOTAL_TOKENS_PER_PLAYER) {
+            throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10.");
+        }
+
+        if (diffTotalTokensAndReturnTokens < MAX_TOTAL_TOKENS_PER_PLAYER) {
+            throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10.");
+        }
+
+        tokens.removeTokens(totalReturnTokens);
+    }
+
 
     @Override
     public boolean equals(Object o) {

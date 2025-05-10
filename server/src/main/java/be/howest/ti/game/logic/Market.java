@@ -1,7 +1,6 @@
 package be.howest.ti.game.logic;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.io.*;
 
 public class Market {
 
@@ -9,31 +8,55 @@ public class Market {
 
     public Market(){
         this.levels = new HashMap<>();
-        // TODO: Make the developments actually real and not just placeholders
-        levels.put(1, new Deck(List.of(
-                new Development("Development 1", 1, 1, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 2", 1, 2, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 3", 1, 3, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 4", 1, 4, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 5", 1, 5, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 6", 1, 6, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))
-        ), 1));
-        levels.put(2, new Deck(List.of(
-                new Development("Development 7", 2, 1, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 8", 2, 2, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 9", 2, 3, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 10", 2, 4, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 11", 2, 5, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 12", 2, 6, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))
-        ), 2));
-        levels.put(3, new Deck(List.of(
-                new Development("Development 13", 3, 1, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 14", 3, 2, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 15", 3, 3, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 16", 3, 4, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 17", 3, 5, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1))),
-                new Development("Development 18", 3, 6, Token.EMERALD, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)))
-        ), 3));
+        fillMarket();
+    }
+
+    private void fillMarket() {
+        List<Development> developmentLevel1 = new ArrayList<>();
+        List<Development> developmentLevel2 = new ArrayList<>();
+        List<Development> developmentLevel3 = new ArrayList<>();
+
+        try {
+            File developmentCards = new File("src/main/resources/data/developments.txt");
+            Scanner reader = new Scanner(developmentCards);
+            reader.nextLine(); //Skip first line because of headers
+
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine();
+                String[] developmentInfo = data.split("\\t");
+
+                String name = developmentInfo[0];
+                int level = Integer.parseInt(developmentInfo[1]);
+                Token bonus = getTokenType(developmentInfo[2].toCharArray()[0]);
+                int prestigePoints = Integer.parseInt(developmentInfo[3]);
+                char[] costChars = developmentInfo[5].toCharArray();
+
+                Purse costs = new Purse();
+                for (char c : costChars) {
+                    costs.addToken(getTokenType(c), 1);
+                }
+
+                Development card = new Development(name, level, prestigePoints, bonus, costs);
+
+                if (level == 1) {
+                    developmentLevel1.add(card);
+                } else if (level == 2) {
+                    developmentLevel2.add(card);
+                } else if (level == 3) {
+                    developmentLevel3.add(card);
+                } else {
+                    throw new IllegalStateException("Unknown level: " + level);
+                }
+            }
+            reader.close();
+
+            levels.put(1, new Deck(developmentLevel1, 1));
+            levels.put(2, new Deck(developmentLevel2, 2));
+            levels.put(3, new Deck(developmentLevel3, 3));
+
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException("File not found.");
+        }
     }
 
     public Map<Integer, Deck> getLevels() {
@@ -68,5 +91,17 @@ public class Market {
             throw new IllegalStateException("Development not found in visible developments");
         }
         return matchingDevelopment;
+    }
+
+    public Token getTokenType(char tokenChar)
+    {
+        return switch (tokenChar) {
+            case 'C' -> Token.DIAMOND;
+            case 'S' -> Token.SAPPHIRE;
+            case 'R' -> Token.RUBY;
+            case 'E' -> Token.EMERALD;
+            case 'O' -> Token.ONYX;
+            default -> throw new IllegalArgumentException("Invalid token char: " + tokenChar);
+        };
     }
 }
