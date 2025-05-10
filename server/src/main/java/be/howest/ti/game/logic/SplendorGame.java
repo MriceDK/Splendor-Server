@@ -50,14 +50,14 @@ public class SplendorGame extends GameSuperclass {
         currentPlayer.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
     }
 
-    public void reserveDevelopment(String developmentName){
+    public Development reserveDevelopment(String developmentName){
         currentPlayer.checkIfPlayerIsAllowedToReserve();
-        currentPlayer.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
+        return currentPlayer.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
     }
 
-    public void reserveDevelopmentFromLevel(int level){
+    public Development reserveDevelopmentFromLevel(int level){
         currentPlayer.checkIfPlayerIsAllowedToReserve();
-        currentPlayer.reserveDevelopment(market.takeTopDevelopment(level));
+        return currentPlayer.reserveDevelopment(market.takeTopDevelopment(level));
     }
 
     public void checkForNoble(){

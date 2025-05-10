@@ -2,6 +2,7 @@ package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.GameSuperclass;
+import be.howest.ti.game.logic.SplendorGame;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
@@ -157,12 +158,24 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     @Operation("buy-development")
     public BuyDevelopmentResponse buyDevelopment(BuyDevelopmentRequest request) {
-        return new BuyDevelopmentResponse("buy-development");
+        return new BuyDevelopmentResponse();
     }
 
     @Operation("reserve-development")
     public ReserveDevelopmentResponse reserveDevelopment(ReserveDevelopmentRequest request) {
-        return new ReserveDevelopmentResponse();
+        SplendorService service = getService(request);
+
+        int level = request.getDevelopmentLevel();
+        SplendorGame game = service.findStartedGame(request.getGameId());
+
+        if (request.getDevelopmentName() != null) {
+
+            return new ReserveDevelopmentResponse(game.reserveDevelopment(request.getDevelopmentName()));
+
+        } else if (0 < level && level <= 3) {
+            game.reserveDevelopmentFromLevel(request.getDevelopmentLevel());
+            return new ReserveDevelopmentResponse(game.reserveDevelopmentFromLevel(request.getDevelopmentLevel()));
+        } else throw new IllegalArgumentException("Please provide a valid level (1-3) or a development name");
     }
 
     @Operation("buy-reserved-development")
