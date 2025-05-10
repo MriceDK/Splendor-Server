@@ -69,6 +69,20 @@ public class SplendorGame extends GameSuperclass {
         return currentPlayer;
     }
 
+    public Player findPlayer(String playerName) {
+        List<Player> players = getPlayers();
+        Player requestPlayer = null;
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
+                requestPlayer = player;
+            }
+        }
+        if (requestPlayer == null) {
+            throw new IllegalArgumentException("Player not found");
+        }
+        return requestPlayer;
+    }
+
     public void buyDevelopment(Purse payment, String developmentName){
         currentPlayer.checkIfPaymentIsSufficient(market.findMatchingDevelopmentOverAllLevels(developmentName), payment);
         currentPlayer.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
