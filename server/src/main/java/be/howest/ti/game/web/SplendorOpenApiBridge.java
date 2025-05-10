@@ -154,6 +154,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
         String playername = request.getPlayerName();
         int gameId = request.getGameId();
+        boolean takeOrReturn = request.addOrReturnCheck();
         GameSuperclass game = service.findGame(gameId);
         List<Player> players = game.getPlayers();
         Player player = new Player(null);

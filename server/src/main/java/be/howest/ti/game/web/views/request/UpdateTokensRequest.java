@@ -22,22 +22,27 @@ public class UpdateTokensRequest extends BaseSplendorRequest {
 
     public Map<Token, Integer> getTokensToAdd(){
 
-        Map<Token, Integer> mapToChange = new HashMap<>();
+        Map<Token, Integer> mapToAdd = new HashMap<>();
         JsonObject jsonObj = getAddOrReturn();
         for (Map.Entry<String, Object> tokenToTake : jsonObj){
 
         Token tokenToAdd = Token.valueOf(tokenToTake.getKey().toUpperCase());
         int valueToAdd = (Integer) tokenToTake.getValue();
 
-        mapToChange.put(tokenToAdd, valueToAdd);
+        mapToAdd.put(tokenToAdd, valueToAdd);
 
         }
 
-        return mapToChange;
+        return mapToAdd;
     }
 
     private JsonObject getAddOrReturn() {
         JsonObject json = params.body().getJsonObject();
         return json.getJsonObject("return", json.getJsonObject("take"));
+    }
+
+    public boolean addOrReturnCheck(){
+        JsonObject json = params.body().getJsonObject();
+        return json.containsKey("take");
     }
 }
