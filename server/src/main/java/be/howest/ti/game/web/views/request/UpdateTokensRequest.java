@@ -5,6 +5,9 @@ import be.howest.ti.game.logic.Token;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UpdateTokensRequest extends BaseSplendorRequest {
     public UpdateTokensRequest(RoutingContext ctx) {
         super(ctx);
@@ -18,12 +21,20 @@ public class UpdateTokensRequest extends BaseSplendorRequest {
         return params.pathParameter("playerName").getString();
     }
 
-    public Purse getKeyword(){
+    public Map<Token, Integer> getTokensToAdd(){
 
+        Map<Token, Integer> mapToAdd = new HashMap<>();
         JsonObject json = params.body().getJsonObject();
         JsonObject jsonObj =  json.getJsonObject("return", json.getJsonObject("take"));
-        for (Token token : jsonObj){
+        for (Map.Entry<String, Object> tokenToTake : jsonObj){
+
+        Token tokenToAdd = Token.valueOf(tokenToTake.getKey().toUpperCase());
+        int valueToAdd = (Integer) tokenToTake.getValue();
+
+        mapToAdd.put(tokenToAdd, valueToAdd);
 
         }
+
+        return mapToAdd;
     }
 }
