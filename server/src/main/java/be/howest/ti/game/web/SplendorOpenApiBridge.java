@@ -166,7 +166,6 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         } else{
             player.returnTokens(tokensToChange);
         }
-        player.acquireTokens(tokensToChange);
         return new UpdateTokensResponse(player.getTokens());
     }
 
