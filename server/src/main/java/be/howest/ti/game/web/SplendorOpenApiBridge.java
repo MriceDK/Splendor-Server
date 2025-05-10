@@ -152,15 +152,15 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     @Operation("update-tokens")
     public UpdateTokensResponse updateTokens(UpdateTokensRequest request) {
         SplendorService service = getService(request);
+
         String playername = request.getPlayerName();
         int gameId = request.getGameId();
         boolean takeOrReturn = request.addOrReturnCheck();
-        SplendorGame game = service.findStartedGame(gameId);
-        SplendorGame gameSplendor = ga
-        List<Player> players = game.getPlayers();
-        Player player = game.find;
-
         Map<Token, Integer> tokensToChange = request.getTokensToAdd();
+
+        SplendorGame game = service.findStartedGame(gameId);
+        Player player = game.findPlayer(playername);
+
         if (takeOrReturn){
             player.acquireTokens(tokensToChange);
         } else{
