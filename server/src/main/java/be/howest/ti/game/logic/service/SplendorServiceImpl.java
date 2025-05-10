@@ -57,7 +57,7 @@ public class SplendorServiceImpl implements SplendorService {
                 return game;
             }
         }
-        throw new IllegalArgumentException("Game not found");
+        throw new IllegalArgumentException("Game not found or it has not started yet");
     }
 
     public GameSuperclass findGame(int gameId) {
