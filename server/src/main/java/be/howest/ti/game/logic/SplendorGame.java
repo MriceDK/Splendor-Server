@@ -1,9 +1,8 @@
 package be.howest.ti.game.logic;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class SplendorGame extends GameSuperclass {
 
@@ -146,6 +145,45 @@ public class SplendorGame extends GameSuperclass {
     //For testing purposes
     public void setUnclaimedNobles(Set<Noble> nobles) {
         this.unclaimedNobles = nobles;
+
+        List<Noble> allNobles = new ArrayList<>();
+
+        try {
+            File developmentCards = new File("src/main/resources/data/developments.txt");
+            Scanner reader = new Scanner(developmentCards);
+            reader.nextLine(); //Skip first line because of headers
+
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine();
+                String[] nobleInfo = data.split("\\t");
+
+                String name = nobleInfo[0];
+                char[] costChars = nobleInfo[1].toCharArray();
+                int prestigePoints = Integer.parseInt(nobleInfo[2]);
+
+                Purse costs = new Purse();
+                for (char c : costChars) {
+                    costs.addToken(getTokenType(c), 1);
+                }
+
+                allNobles.add(new Noble(name, prestigePoints, costs));
+            }
+
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException("File not found.");
+        }
+    }
+
+    //TODO: Move/Delete this method because it is exactly the same as in Market class
+    public Token getTokenType(char tokenChar) {
+        return switch (tokenChar) {
+            case 'C' -> Token.DIAMOND;
+            case 'S' -> Token.SAPPHIRE;
+            case 'R' -> Token.RUBY;
+            case 'E' -> Token.EMERALD;
+            case 'O' -> Token.ONYX;
+            default -> throw new IllegalArgumentException("Invalid token char: " + tokenChar);
+        };
     }
 
 

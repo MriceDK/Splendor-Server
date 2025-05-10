@@ -93,8 +93,8 @@ public class Market {
         return matchingDevelopment;
     }
 
-    public Token getTokenType(char tokenChar)
-    {
+    //TODO: Move/Delete this method because it is exactly the same as in SplendorGame class
+    public Token getTokenType(char tokenChar) {
         return switch (tokenChar) {
             case 'C' -> Token.DIAMOND;
             case 'S' -> Token.SAPPHIRE;
