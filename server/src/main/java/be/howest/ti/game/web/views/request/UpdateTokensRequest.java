@@ -1,5 +1,7 @@
 package be.howest.ti.game.web.views.request;
 
+import be.howest.ti.game.logic.Purse;
+import be.howest.ti.game.logic.Token;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
@@ -16,9 +18,12 @@ public class UpdateTokensRequest extends BaseSplendorRequest {
         return params.pathParameter("playerName").getString();
     }
 
-    public JsonObject getKeyword(){
+    public Purse getKeyword(){
 
         JsonObject json = params.body().getJsonObject();
-        return json.getJsonObject("return", json.getJsonObject("take"));
+        JsonObject jsonObj =  json.getJsonObject("return", json.getJsonObject("take"));
+        for (Token token : jsonObj){
+
+        }
     }
 }
