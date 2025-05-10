@@ -3,11 +3,7 @@ package be.howest.ti.game.logic.service;
 
 import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.GameSuperclass;
-import be.howest.ti.game.logic.Player;
-import be.howest.ti.game.logic.Token;
-
 import java.util.List;
-import java.util.Map;
 
 public interface SplendorService {
 

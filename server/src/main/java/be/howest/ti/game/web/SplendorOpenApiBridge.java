@@ -165,8 +165,13 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
             }
         }
-        Map<Token, Integer> mapToAdd = request.getTokensToAdd();
-        player.acquireTokens(mapToAdd);
+        Map<Token, Integer> tokensToChange = request.getTokensToAdd();
+        if (takeOrReturn){
+            player.acquireTokens(tokensToChange);
+        } else{
+            player.returnTokens(tokensToChange);
+        }
+        player.acquireTokens(tokensToChange);
         return new UpdateTokensResponse(player.getTokens());
     }
 
