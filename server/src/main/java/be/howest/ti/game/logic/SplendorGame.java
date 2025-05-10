@@ -13,7 +13,7 @@ public class SplendorGame extends GameSuperclass {
     private final static int INITAL_GOLD_AMOUNT = 5;
 
     private Purse tokenBank; // TODO make final
-    private Set<Noble> unclaimedNobles; // TODO make final
+    private final Set<Noble> unclaimedNobles;
     private final Market market;
     private Player currentPlayer;
     private GameState gameState;
@@ -23,25 +23,11 @@ public class SplendorGame extends GameSuperclass {
 
     public SplendorGame(GameSuperclass gameLobby){
         super(gameLobby);
-        // TODO Remove this dummy data when we have the actual nobles
-        this.unclaimedNobles = Set.of(
-                new Noble("noble-1", 3, new Purse(
-                        Map.of(
-                                Token.SAPPHIRE, 4,
-                                Token.RUBY, 4
-                        )
-                )),
-                new Noble("noble-2", 3, new Purse(
-                        Map.of(
-                                Token.ONYX, 4,
-                                Token.EMERALD, 4
-                        )
-                ))
-        );
 
         this.market = new Market();
         this.currentPlayer = getPlayers().getFirst();
         this.tokenBank = generateTokenBank();
+        this.unclaimedNobles = setUnclaimedNobles();
     }
 
     public Player getWinner() {
@@ -140,17 +126,14 @@ public class SplendorGame extends GameSuperclass {
         tokenBank.addTokens(tokensToReturn.getTokens());
     }
 
-
-
-    //For testing purposes
-    public void setUnclaimedNobles(Set<Noble> nobles) {
+    public Set<Noble> setUnclaimedNobles() {
         int TOTAL_AMOUNT_UNCLAIMED_NOBLES = getTotalPlayers() + 1;
 
         List<Noble> allNobles = new ArrayList<>();
         Set<Noble> selectedNobles = new HashSet<>();
 
         try {
-            File developmentCards = new File("src/main/resources/data/developments.txt");
+            File developmentCards = new File("src/main/resources/data/nobles.txt");
             Scanner reader = new Scanner(developmentCards);
             reader.nextLine(); //Skip first line because of headers
 
@@ -176,7 +159,7 @@ public class SplendorGame extends GameSuperclass {
                 selectedNobles.add(allNobles.get(i));
             }
 
-            this.unclaimedNobles = selectedNobles;
+            return selectedNobles;
 
         } catch (FileNotFoundException e) {
             throw new IllegalStateException("File not found.");
