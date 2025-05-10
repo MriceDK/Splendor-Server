@@ -22,6 +22,4 @@ public interface SplendorService {
 
     List<GameSuperclass> getGames();
     List<GameSuperclass> getGames(boolean hasStarted);
-
-    Map<Token, Integer> getTokensToAdd();
 }

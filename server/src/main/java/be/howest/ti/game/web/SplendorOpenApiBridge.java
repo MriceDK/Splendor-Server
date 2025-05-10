@@ -156,7 +156,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
         String playername = request.getPlayerName();
         int gameId = request.getGameId();
-        Map<Token, Integer> mapToAdd = service.getTokensToAdd();
+        Map<Token, Integer> mapToAdd = request.getTokensToAdd();
         return new UpdateTokensResponse("update-tokens");
     }
 
