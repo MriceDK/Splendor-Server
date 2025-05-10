@@ -1,6 +1,5 @@
 package be.howest.ti.game.web.views.request;
 
-import be.howest.ti.game.logic.Purse;
 import be.howest.ti.game.logic.Token;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -24,8 +23,7 @@ public class UpdateTokensRequest extends BaseSplendorRequest {
     public Map<Token, Integer> getTokensToAdd(){
 
         Map<Token, Integer> mapToAdd = new HashMap<>();
-        JsonObject json = params.body().getJsonObject();
-        JsonObject jsonObj =  json.getJsonObject("return", json.getJsonObject("take"));
+        JsonObject jsonObj = getAddOrReturn();
         for (Map.Entry<String, Object> tokenToTake : jsonObj){
 
         Token tokenToAdd = Token.valueOf(tokenToTake.getKey().toUpperCase());
@@ -36,5 +34,10 @@ public class UpdateTokensRequest extends BaseSplendorRequest {
         }
 
         return mapToAdd;
+    }
+
+    private JsonObject getAddOrReturn() {
+        JsonObject json = params.body().getJsonObject();
+        return json.getJsonObject("return", json.getJsonObject("take"));
     }
 }
