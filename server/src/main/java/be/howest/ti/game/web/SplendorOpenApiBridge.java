@@ -166,16 +166,19 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
 
         int level = request.getDevelopmentLevel();
+        String playerName = request.getPlayerName();
         SplendorGame game = service.findStartedGame(request.getGameId());
 
-        if (request.getDevelopmentName() != null) {
+        if (game.findPlayer(playerName).equals(game.getCurrentPlayer())) {
+            if (request.getDevelopmentName() != null) {
+                return new ReserveDevelopmentResponse(game.reserveDevelopment(request.getDevelopmentName()));
+            } else if (0 < level && level <= 3) {
+                return new ReserveDevelopmentResponse(game.reserveDevelopmentFromLevel(request.getDevelopmentLevel()));
+            } else throw new IllegalArgumentException("Please provide a valid level (1-3) or a development name");
+        } else throw new IllegalStateException("It's not your turn");
 
-            return new ReserveDevelopmentResponse(game.reserveDevelopment(request.getDevelopmentName()));
 
-        } else if (0 < level && level <= 3) {
-            game.reserveDevelopmentFromLevel(request.getDevelopmentLevel());
-            return new ReserveDevelopmentResponse(game.reserveDevelopmentFromLevel(request.getDevelopmentLevel()));
-        } else throw new IllegalArgumentException("Please provide a valid level (1-3) or a development name");
+
     }
 
     @Operation("buy-reserved-development")
