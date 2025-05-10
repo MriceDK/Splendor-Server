@@ -50,14 +50,13 @@ class SplendorGameTest {
     public void buyDevelopment() {
         lobby.addPlayer("Bobby");
         SplendorGame startedGame = new SplendorGame(lobby);
-        startedGame.getCurrentPlayer().getTokens().addToken(Token.DIAMOND, 1);
-        startedGame.getCurrentPlayer().getTokens().addToken(Token.SAPPHIRE, 1);
+        Development firstDevelopment = startedGame.getMarket().getVisibleDevelopments(1).getFirst();
+        startedGame.getCurrentPlayer().getTokens().addTokens(firstDevelopment.cost().getTokens());
 
-        Purse payment = new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1));
+
+        Purse payment = firstDevelopment.cost();
         startedGame.buyDevelopment(payment, startedGame.getMarket().getVisibleDevelopments(1).getFirst().name());
-        assertEquals(0, startedGame.getCurrentPlayer().getTokens().getTokens().get(Token.DIAMOND));
-        assertEquals(0, startedGame.getCurrentPlayer().getTokens().getTokens().get(Token.SAPPHIRE));
-        assertEquals(1, startedGame.getCurrentPlayer().getBonuses().getTokens().get(Token.EMERALD));
+        assertEquals(1,startedGame.getCurrentPlayer().getBonuses().getTokens().get(firstDevelopment.bonus()));
     }
 
     @Test

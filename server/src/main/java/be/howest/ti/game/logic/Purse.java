@@ -79,6 +79,20 @@ public class Purse {
         }
     }
 
+    public Map<Token, Integer> getAvailableTokens() {
+        Map<Token, Integer> res = new HashMap<>();
+
+        tokens.forEach((token, value) -> {
+
+            if (value > 0) {
+                res.put(token, value);
+            }
+
+        });
+
+        return res;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -95,5 +109,15 @@ public class Purse {
     public String toString() {
         return tokens.toString();
 
+    }
+
+    public static Map<String, Integer> toMapStringInteger(Map<Token, Integer> tokens) {
+        Map<String, Integer> res = new HashMap<>();
+
+        tokens.forEach((token, value) -> {
+            res.put(token.toString(), value);
+        });
+
+        return res;
     }
 }
