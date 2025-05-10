@@ -2,6 +2,7 @@ package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.GameSuperclass;
+import be.howest.ti.game.logic.Token;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
@@ -152,6 +153,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     //region Game Action operations
     @Operation("update-tokens")
     public UpdateTokensResponse updateTokens(UpdateTokensRequest request) {
+        SplendorService service = getService(request);
+        String playername = request.getPlayerName();
+        int gameId = request.getGameId();
+        Map<Token, Integer> mapToAdd = service.getTokensToAdd();
         return new UpdateTokensResponse("update-tokens");
     }
 

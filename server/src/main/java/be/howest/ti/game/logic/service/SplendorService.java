@@ -4,8 +4,10 @@ package be.howest.ti.game.logic.service;
 import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.GameSuperclass;
 import be.howest.ti.game.logic.Player;
+import be.howest.ti.game.logic.Token;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SplendorService {
 
@@ -20,4 +22,6 @@ public interface SplendorService {
 
     List<GameSuperclass> getGames();
     List<GameSuperclass> getGames(boolean hasStarted);
+
+    Map<Token, Integer> getTokensToAdd();
 }
