@@ -133,8 +133,8 @@ public class SplendorGame extends GameSuperclass {
         Set<Noble> selectedNobles = new HashSet<>();
 
         try {
-            File developmentCards = new File("src/main/resources/data/nobles.txt");
-            Scanner reader = new Scanner(developmentCards);
+            File nobleData = new File("src/main/resources/data/nobles.txt");
+            Scanner reader = new Scanner(nobleData);
             reader.nextLine(); //Skip first line because of headers
 
             while (reader.hasNextLine()) {
