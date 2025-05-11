@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import static be.howest.ti.game.logic.Token.getTokenType;
+
 public class SplendorGame extends GameSuperclass {
 
     private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS = 7;
@@ -185,24 +187,10 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    //TODO: Move/Delete this method because it is exactly the same as in Market class
-    public Token getTokenType(char tokenChar) {
-        return switch (tokenChar) {
-            case 'C' -> Token.DIAMOND;
-            case 'S' -> Token.SAPPHIRE;
-            case 'R' -> Token.RUBY;
-            case 'E' -> Token.EMERALD;
-            case 'O' -> Token.ONYX;
-            default -> throw new IllegalArgumentException("Invalid token char: " + tokenChar);
-        };
-    }
-
-
     //For testing purposes
     public void setTokenBank(Purse tokensToSetTokenBank){
         this.tokenBank = tokensToSetTokenBank;
     }
-
 
     public GameState getGameState() {
         return gameState;

@@ -41,6 +41,19 @@ public enum Token { // TODO volgorde van tokens in de list moet nog geïmplement
         public String toString() {
             return "Gold";
         }
-    }
+    };
 
+
+    public static Token getTokenType(char tokenChar) {
+        return switch (tokenChar) {
+            case 'C' -> Token.DIAMOND;
+            case 'S' -> Token.SAPPHIRE;
+            case 'R' -> Token.RUBY;
+            case 'E' -> Token.EMERALD;
+            case 'O' -> Token.ONYX;
+            default -> throw new IllegalArgumentException("Invalid token char: " + tokenChar);
+        };
+    }
 }
+
+

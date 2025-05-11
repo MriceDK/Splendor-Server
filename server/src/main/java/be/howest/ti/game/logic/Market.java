@@ -2,6 +2,8 @@ package be.howest.ti.game.logic;
 import java.util.*;
 import java.io.*;
 
+import static be.howest.ti.game.logic.Token.getTokenType;
+
 public class Market {
 
     private final Map<Integer, Deck> levels;
@@ -91,17 +93,5 @@ public class Market {
             throw new IllegalStateException("Development not found in visible developments");
         }
         return matchingDevelopment;
-    }
-
-    //TODO: Move/Delete this method because it is exactly the same as in SplendorGame class
-    public Token getTokenType(char tokenChar) {
-        return switch (tokenChar) {
-            case 'C' -> Token.DIAMOND;
-            case 'S' -> Token.SAPPHIRE;
-            case 'R' -> Token.RUBY;
-            case 'E' -> Token.EMERALD;
-            case 'O' -> Token.ONYX;
-            default -> throw new IllegalArgumentException("Invalid token char: " + tokenChar);
-        };
     }
 }
