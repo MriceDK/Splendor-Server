@@ -161,9 +161,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorGame game = service.findStartedGame(gameId);
         Player player = game.findPlayer(playername);
 
-        if (takeOrReturn && player.equals(game.getCurrentPlayer())){
+        if (takeOrReturn && game.playerTurnChecker(player)){
             player.acquireTokens(tokensToChange);
-        } else if (!takeOrReturn && player.equals(game.getCurrentPlayer())){
+        } else if (!takeOrReturn && game.playerTurnChecker(player)){
             game.returnTokens(new Purse(tokensToChange));
         } else {
             throw new IllegalStateException("It's not this players turn right now");
