@@ -1,8 +1,6 @@
 package be.howest.ti.game.web;
 
-import be.howest.ti.game.logic.GameLobby;
-import be.howest.ti.game.logic.GameSuperclass;
-import be.howest.ti.game.logic.SplendorGame;
+import be.howest.ti.game.logic.*;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
@@ -152,8 +150,25 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     //region Game Action operations
     @Operation("update-tokens")
-    public NotYetImplementedResponse updateTokens(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("update-tokens");
+    public UpdateTokensResponse updateTokens(UpdateTokensRequest request) {
+        SplendorService service = getService(request);
+
+        String playername = request.getPlayerName();
+        int gameId = request.getGameId();
+        boolean takeOrReturn = request.addOrReturnCheck();
+        Map<Token, Integer> tokensToChange = request.getTokensToAdd();
+
+        SplendorGame game = service.findStartedGame(gameId);
+        Player player = game.findPlayer(playername);
+
+        if (takeOrReturn){
+            game.acquireTokens(player, new Purse(tokensToChange));
+        } else if (!takeOrReturn){
+            game.returnTokens(player, new Purse(tokensToChange));
+        } else {
+            throw new IllegalStateException("Received bad JSON object");
+        }
+        return new UpdateTokensResponse(player.getTokens());
     }
 
     @Operation("buy-development")

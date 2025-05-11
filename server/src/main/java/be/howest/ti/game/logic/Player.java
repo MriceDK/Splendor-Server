@@ -121,7 +121,7 @@ public class Player {
     }
 
 
-    public void ReturnTokens(Map<Token, Integer> totalReturnTokens) {
+    public void returnTokens(Map<Token, Integer> totalReturnTokens) {
         int totalTokens = tokens.getTotal();
         int returnTokens = totalReturnTokens.values().stream().mapToInt(Integer::intValue).sum(); //get values out of map, make them int and adds them up
         int diffTotalTokensAndReturnTokens = totalTokens - returnTokens;

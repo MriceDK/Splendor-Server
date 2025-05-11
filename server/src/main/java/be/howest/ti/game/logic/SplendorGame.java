@@ -138,21 +138,26 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void acquireTokens(Player player, Purse tokens){
-        playerTurnChecker(player);
-        player.acquireTokens(tokens.getTokens());
-
-        tokenBank.removeTokens(tokens.getTokens());
-    }
-
-    private void playerTurnChecker(Player player) {
-        if(!player.equals(currentPlayer)){
-            throw new IllegalStateException("It's not this player's turn");
+        if(playerTurnChecker(player)){
+            player.acquireTokens(tokens.getTokens());
+            tokenBank.removeTokens(tokens.getTokens());
         }
     }
 
-    public void returnTokens(Purse tokensToReturn) {
-        currentPlayer.ReturnTokens(tokensToReturn.getTokens());
-        tokenBank.addTokens(tokensToReturn.getTokens());
+    public boolean playerTurnChecker(Player player) {
+        if(!player.equals(currentPlayer)){
+            throw new IllegalStateException("It's not this player's turn");
+        } else {
+            return true;
+        }
+    }
+
+    public void returnTokens(Player player, Purse tokensToReturn) {
+        if (playerTurnChecker(player)){
+            player.returnTokens(tokensToReturn.getTokens());
+            tokenBank.addTokens(tokensToReturn.getTokens());
+        }
+
     }
 
 
