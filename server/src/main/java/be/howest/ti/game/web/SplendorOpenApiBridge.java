@@ -164,12 +164,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
         if (takeOrReturn){
             game.acquireTokens(player, new Purse(tokensToChange));
-        } else if (!takeOrReturn){
-            game.returnTokens(player, new Purse(tokensToChange));
         } else {
-            throw new IllegalStateException("Received bad JSON object");
+            game.returnTokens(player, new Purse(tokensToChange));
         }
         return new UpdateTokensResponse(player.getTokens());
+
     }
 
     @Operation("buy-development")
@@ -179,15 +178,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorGame game = service.findStartedGame(request.getGameId());
         Player activePlayer = game.getCurrentPlayer();
 
-        if (Objects.equals(activePlayer.getName(), request.getPlayerName())){
+        game.buyDevelopment(request.getPayment(), request.getDevelopmentName() , activePlayer);
 
-            Development development = game.getMarket().findMatchingDevelopmentOverAllLevels(request.getDevelopmentName());
-            activePlayer.buyDevelopment(development, request.getPayment());
-            PlayerInListView activePlayerView = new PlayerInListView(activePlayer);
-            return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayer.getTokens().getTokens());
-
-        }
-        throw new IllegalStateException("Not the current player");
+        PlayerInListView activePlayerView = new PlayerInListView(activePlayer);
+        return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayer.getTokens().getTokens());
     }
 
     @Operation("reserve-development")
