@@ -192,14 +192,13 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             }
         }
 
-
         SplendorGame game = service.findStartedGame(request.getGameId());
-
+        Player player = game.findPlayer(request.getPlayerName());
 
         if (name != null) {
-            return new ReserveDevelopmentResponse(game.reserveDevelopment(name));
+            return new ReserveDevelopmentResponse(game.reserveDevelopment(name, player));
         } else if (0 < level && level <= 3) {
-            return new ReserveDevelopmentResponse(game.reserveDevelopmentFromLevel(level));
+            return new ReserveDevelopmentResponse(game.reserveDevelopmentFromLevel(level, player));
         } else throw new IllegalArgumentException("Please provide a valid level (1-3) or a development name");
     }
 
