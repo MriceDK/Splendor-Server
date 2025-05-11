@@ -17,11 +17,11 @@ public class UpdateTokensResponse extends AbstractResponseWithHiddenStatus  {
     }
 
     public Map<String, Integer> getTokens(){
-        Map<String, Integer> mapTokensToReturn = new HashMap<>();
-        for (Map.Entry<Token, Integer> token : tokens.getTokens().entrySet()){
+        Map<String, Integer> mapTokensToReturn = Purse.toMapStringInteger(tokens.getTokens());
+        for (Map.Entry<String, Integer> token : mapTokensToReturn.entrySet()){
             if (token.getValue() != NO_VALUE_IN_TOKEN){
 
-                mapTokensToReturn.put(token.getKey().toString(), token.getValue());
+                mapTokensToReturn.put(token.getKey(), token.getValue());
 
             }
         }
