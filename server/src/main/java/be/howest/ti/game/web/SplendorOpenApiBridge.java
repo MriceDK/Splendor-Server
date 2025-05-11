@@ -163,8 +163,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
         if (takeOrReturn && player.equals(game.getCurrentPlayer())){
             player.acquireTokens(tokensToChange);
-        } else if (!takeOrReturn){
-            player.returnTokens(tokensToChange);
+        } else if (!takeOrReturn && player.equals(game.getCurrentPlayer())){
+            game.returnTokens(new Purse(tokensToChange));
         } else {
             throw new IllegalStateException("It's not this players turn right now");
         }
