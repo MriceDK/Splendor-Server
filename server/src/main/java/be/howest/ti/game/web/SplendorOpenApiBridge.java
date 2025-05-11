@@ -162,9 +162,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         Player player = game.findPlayer(playername);
 
         if (takeOrReturn){
-            player.acquireTokens(tokensToChange);
+            game.acquireTokens(player, new Purse(tokensToChange));
         } else if (!takeOrReturn){
             game.returnTokens(player, new Purse(tokensToChange));
+        } else {
+            throw new IllegalStateException("Received bad JSON object");
         }
         return new UpdateTokensResponse(player.getTokens());
     }
