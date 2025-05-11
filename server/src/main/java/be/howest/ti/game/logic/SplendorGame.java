@@ -54,6 +54,20 @@ public class SplendorGame extends GameSuperclass {
         return currentPlayer;
     }
 
+    public Player findPlayer(String playerName) {
+        List<Player> players = getPlayers();
+        Player requestPlayer = null;
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
+                requestPlayer = player;
+            }
+        }
+        if (requestPlayer == null) {
+            throw new IllegalArgumentException("Player not found");
+        }
+        return requestPlayer;
+    }
+
     public void buyDevelopment(Purse payment, String developmentName){
         currentPlayer.checkIfPaymentIsSufficient(market.findMatchingDevelopmentOverAllLevels(developmentName), payment);
         currentPlayer.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
@@ -109,21 +123,26 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void acquireTokens(Player player, Purse tokens){
-        playerTurnChecker(player);
-        player.acquireTokens(tokens.getTokens());
-
-        tokenBank.removeTokens(tokens.getTokens());
-    }
-
-    private void playerTurnChecker(Player player) {
-        if(!player.equals(currentPlayer)){
-            throw new IllegalStateException("It's not this player's turn");
+        if(playerTurnChecker(player)){
+            player.acquireTokens(tokens.getTokens());
+            tokenBank.removeTokens(tokens.getTokens());
         }
     }
 
-    public void returnTokens(Purse tokensToReturn) {
-        currentPlayer.ReturnTokens(tokensToReturn.getTokens());
-        tokenBank.addTokens(tokensToReturn.getTokens());
+    public boolean playerTurnChecker(Player player) {
+        if(!player.equals(currentPlayer)){
+            throw new IllegalStateException("It's not this player's turn");
+        } else {
+            return true;
+        }
+    }
+
+    public void returnTokens(Player player, Purse tokensToReturn) {
+        if (playerTurnChecker(player)){
+            player.returnTokens(tokensToReturn.getTokens());
+            tokenBank.addTokens(tokensToReturn.getTokens());
+        }
+
     }
 
     public Set<Noble> setUnclaimedNobles() {
