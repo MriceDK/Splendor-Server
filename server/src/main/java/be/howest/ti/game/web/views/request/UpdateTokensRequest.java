@@ -43,6 +43,12 @@ public class UpdateTokensRequest extends BaseSplendorRequest {
 
     public boolean addOrReturnCheck(){
         JsonObject json = params.body().getJsonObject();
-        return json.containsKey("take");
+        if (json.containsKey("take")){
+            return true;
+        } else if (json.containsKey("return")){
+            return false;
+        } else {
+            throw new IllegalStateException("A bad JSON Object was provided");
+        }
     }
 }
