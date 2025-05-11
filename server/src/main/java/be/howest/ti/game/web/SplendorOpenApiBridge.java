@@ -187,7 +187,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayer.getTokens().getTokens());
 
         }
-        return null;
+        throw new IllegalStateException("Not the current player");
     }
 
     @Operation("reserve-development")
