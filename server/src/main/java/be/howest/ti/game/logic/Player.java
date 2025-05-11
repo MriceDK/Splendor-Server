@@ -10,11 +10,10 @@ public class Player {
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
+    private final List<Development> ownedDevelopments;
 
     private static final int TOO_MANY_TOTAL_TOKENS_PER_PLAYER = 11;
     private static final int MAX_TOTAL_TOKENS_PER_PLAYER = 10;
-    private final List<Development> ownedDevelopments;
-
     private static final int ZERO_TOKENS = 0;
     private static final int MAX_DIFFERENT_TOKENS = 3;
     private static final int MAX_OF_SAME_TOKEN = 2;
