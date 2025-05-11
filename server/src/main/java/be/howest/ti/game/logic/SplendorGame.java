@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import static be.howest.ti.game.logic.Token.getTokenType;
-
 public class SplendorGame extends GameSuperclass {
 
     private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS = 7;
@@ -168,7 +166,7 @@ public class SplendorGame extends GameSuperclass {
 
                 Purse costs = new Purse();
                 for (char c : costChars) {
-                    costs.addToken(getTokenType(c), 1);
+                    costs.addToken(Token.getTokenType(c), 1);
                 }
 
                 allNobles.add(new Noble(name, prestigePoints, costs));

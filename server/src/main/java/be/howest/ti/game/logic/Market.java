@@ -2,8 +2,6 @@ package be.howest.ti.game.logic;
 import java.util.*;
 import java.io.*;
 
-import static be.howest.ti.game.logic.Token.getTokenType;
-
 public class Market {
 
     private final Map<Integer, Deck> levels;
@@ -29,13 +27,13 @@ public class Market {
 
                 String name = developmentInfo[0];
                 int level = Integer.parseInt(developmentInfo[1]);
-                Token bonus = getTokenType(developmentInfo[2].toCharArray()[0]);
+                Token bonus = Token.getTokenType(developmentInfo[2].toCharArray()[0]);
                 int prestigePoints = Integer.parseInt(developmentInfo[3]);
                 char[] costChars = developmentInfo[5].toCharArray();
 
                 Purse costs = new Purse();
                 for (char c : costChars) {
-                    costs.addToken(getTokenType(c), 1);
+                    costs.addToken(Token.getTokenType(c), 1);
                 }
 
                 Development card = new Development(name, level, prestigePoints, bonus, costs);
