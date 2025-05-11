@@ -152,9 +152,12 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public void returnTokens(Purse tokensToReturn) {
-        currentPlayer.returnTokens(tokensToReturn.getTokens());
-        tokenBank.addTokens(tokensToReturn.getTokens());
+    public void returnTokens(Player player, Purse tokensToReturn) {
+        if (playerTurnChecker(player)){
+            player.returnTokens(tokensToReturn.getTokens());
+            tokenBank.addTokens(tokensToReturn.getTokens());
+        }
+
     }
 
 
