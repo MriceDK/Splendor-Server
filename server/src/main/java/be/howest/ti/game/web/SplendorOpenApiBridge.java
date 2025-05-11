@@ -5,6 +5,7 @@ import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
 import be.howest.ti.game.web.tokens.TokenManager;
+import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
 import be.howest.ti.game.web.views.response.*;
 
@@ -182,7 +183,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
             Development development = game.getMarket().findMatchingDevelopmentOverAllLevels(request.getDevelopmentName());
             activePlayer.buyDevelopment(development, request.getPayment());
-            return new BuyDevelopmentResponse(activePlayer.getOwnedDevelopments());
+            PlayerInListView activePlayerView = new PlayerInListView(activePlayer);
+            return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayerView.getTokens());
 
         }
         return null;
