@@ -90,7 +90,6 @@ public class SplendorGame extends GameSuperclass {
 
     public Development reserveDevelopment(String developmentName, Player player){
         if (playerTurnChecker(player)) {
-            currentPlayer.checkIfPlayerIsAllowedToReserve();
             return currentPlayer.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
         }
         throw new IllegalStateException("It's not this player's turn");
@@ -98,7 +97,6 @@ public class SplendorGame extends GameSuperclass {
 
     public Development reserveDevelopmentFromLevel(int level, Player player){
         if (playerTurnChecker(player)) {
-            currentPlayer.checkIfPlayerIsAllowedToReserve();
             return currentPlayer.reserveDevelopment(market.takeTopDevelopment(level));
         }
         throw new IllegalStateException("It's not this player's turn");
