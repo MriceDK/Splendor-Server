@@ -184,7 +184,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             Development development = game.getMarket().findMatchingDevelopmentOverAllLevels(request.getDevelopmentName());
             activePlayer.buyDevelopment(development, request.getPayment());
             PlayerInListView activePlayerView = new PlayerInListView(activePlayer);
-            return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayerView.getTokens());
+            return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayer.getTokens().getTokens());
 
         }
         return null;
