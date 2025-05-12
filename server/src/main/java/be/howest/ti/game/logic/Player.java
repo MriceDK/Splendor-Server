@@ -82,9 +82,10 @@ public class Player {
         tokens.removeTokens(payment.getTokens());
     }
 
-    public void reserveDevelopment(Development development){
+    public Development reserveDevelopment(Development development){
         checkIfPlayerIsAllowedToReserve();
         reservedDevelopments.add(development);
+        return development;
     }
 
     public void claimNoble(Noble noble){acquiredNobles.add(noble);}

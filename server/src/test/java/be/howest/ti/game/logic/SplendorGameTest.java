@@ -31,10 +31,7 @@ class SplendorGameTest {
     public void reserveDevelopment() {
         lobby.addPlayer("Bobby");
         SplendorGame startedGame = new SplendorGame(lobby);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name());
-        // TODO: Change this when the actual Development cards are implemented
-        // assertEquals uses an exact copy of the Development object that was reserved
-        // haven't figured out how to get this any other way
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.findPlayer("Bobby"));
         assertEquals(1,startedGame.getCurrentPlayer().getReservedDevelopments().size());
     }
 
@@ -42,7 +39,7 @@ class SplendorGameTest {
     public void reserveDevelopmentFromLevel() {
         lobby.addPlayer("Bobby");
         SplendorGame startedGame = new SplendorGame(lobby);
-        startedGame.reserveDevelopmentFromLevel(1);
+        startedGame.reserveDevelopmentFromLevel(1, startedGame.findPlayer("Bobby"));
         assertEquals(1,startedGame.getCurrentPlayer().getReservedDevelopments().size());
     }
 
