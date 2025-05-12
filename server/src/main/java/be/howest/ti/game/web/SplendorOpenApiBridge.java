@@ -204,9 +204,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         Player player = game.findPlayer(request.getPlayerName());
 
         if (name != null) {
-            return new ReserveDevelopmentResponse(game.reserveDevelopment(name, player));
+            game.reserveDevelopment(name, player);
+            return new ReserveDevelopmentResponse(player.getReservedDevelopments(), player.getTokens());
         } else if (0 < level && level <= 3) {
-            return new ReserveDevelopmentResponse(game.reserveDevelopmentFromLevel(level, player));
+            game.reserveDevelopmentFromLevel(level, player);
+            return new ReserveDevelopmentResponse(player.getReservedDevelopments(), player.getTokens());
         } else throw new IllegalArgumentException("Please provide a valid level (1-3) or a development name");
     }
 
