@@ -10,8 +10,8 @@ import java.util.List;
 public interface SplendorService {
 
 
-    public GameLobby findLobby(int gameid);
-    public GameSuperclass findGame(int gameId);
+    GameLobby findLobby(int gameid);
+    GameSuperclass findGame(int gameId);
 
     void joinLobby(GameLobby lobby, String playerName);
 

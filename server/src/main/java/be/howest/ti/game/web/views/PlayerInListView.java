@@ -1,9 +1,6 @@
 package be.howest.ti.game.web.views;
 
-import be.howest.ti.game.logic.Development;
-import be.howest.ti.game.logic.Noble;
-import be.howest.ti.game.logic.Player;
-import be.howest.ti.game.logic.Token;
+import be.howest.ti.game.logic.*;
 
 import java.util.*;
 
@@ -19,8 +16,8 @@ public class PlayerInListView {
         return player.getName();
     }
 
-    public Map<Token, Integer> getTokens() {
-        return player.getTokens().getAvailableTokens();
+    public Map<String, Integer> getTokens() {
+        return Purse.toMapStringInteger(player.getTokens().getTokens());
     }
 
     public List<DevelopmentInListView> getReserve() {
@@ -33,13 +30,13 @@ public class PlayerInListView {
         return res;
     }
 
-    // TODO getBuilt -> Hiervoor moeten we nog het veld developments toevoegen aan de Player class
+
     public List<DevelopmentInListView> getBuilt() {
         List<DevelopmentInListView> res = new ArrayList<>();
 
-//        for (Development development : player.getOwnedDevelopments()) {
-//            res.add(new DevelopmentInListView(development));
-//        }
+       for (Development development : player.getOwnedDevelopments()) {
+          res.add(new DevelopmentInListView(development));
+       }
 
         return res;
     }

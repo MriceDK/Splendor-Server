@@ -10,10 +10,10 @@ public class Player {
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
-    
+    private final List<Development> ownedDevelopments;
+
     private static final int TOO_MANY_TOTAL_TOKENS_PER_PLAYER = 11;
     private static final int MAX_TOTAL_TOKENS_PER_PLAYER = 10;
-
     private static final int ZERO_TOKENS = 0;
     private static final int MAX_DIFFERENT_TOKENS = 3;
     private static final int MAX_OF_SAME_TOKEN = 2;
@@ -26,6 +26,7 @@ public class Player {
         this.tokens = new Purse();
         this.bonuses = new Purse();
         this.prestigePoints = 0;
+        this.ownedDevelopments = new ArrayList<>();
     }
 
     //for testing purposes
@@ -57,6 +58,10 @@ public class Player {
         return reservedDevelopments;
     }
 
+    public List<Development> getOwnedDevelopments() {
+        return ownedDevelopments;
+    }
+
     public void checkIfPaymentIsSufficient(Development development, Purse payment){
         for (Token token : development.cost().getTokens().keySet()) {
             int ownTokenValue = tokens.getTokens().get(token);
@@ -80,6 +85,7 @@ public class Player {
         prestigePoints += development.prestigePoints();
         bonuses.addToken(development.bonus(), 1);
         tokens.removeTokens(payment.getTokens());
+        ownedDevelopments.add(development);
     }
 
     public Development reserveDevelopment(Development development){

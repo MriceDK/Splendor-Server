@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class UpdateTokensResponse extends AbstractResponseWithHiddenStatus  {
     private final Purse tokens;
-    private final static int NO_VALUE_IN_TOKEN = 0;
 
     public UpdateTokensResponse(Purse tokens){
         super(200);
@@ -17,15 +16,8 @@ public class UpdateTokensResponse extends AbstractResponseWithHiddenStatus  {
     }
 
     public Map<String, Integer> getTokens(){
-        Map<String, Integer> mapTokensToReturn = new HashMap<>();
-        for (Map.Entry<Token, Integer> token : tokens.getTokens().entrySet()){
-            if (token.getValue() != NO_VALUE_IN_TOKEN){
 
-                mapTokensToReturn.put(token.getKey().toString(), token.getValue());
+        return Purse.toMapStringInteger(tokens.getAvailableTokens());
 
-            }
-        }
-
-        return mapTokensToReturn;
     }
 }

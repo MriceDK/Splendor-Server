@@ -5,6 +5,7 @@ import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
 import be.howest.ti.game.web.tokens.TokenManager;
+import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
 import be.howest.ti.game.web.views.response.*;
 
@@ -163,17 +164,24 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
         if (takeOrReturn){
             game.acquireTokens(player, new Purse(tokensToChange));
-        } else if (!takeOrReturn){
-            game.returnTokens(player, new Purse(tokensToChange));
         } else {
-            throw new IllegalStateException("Received bad JSON object");
+            game.returnTokens(player, new Purse(tokensToChange));
         }
         return new UpdateTokensResponse(player.getTokens());
+
     }
 
     @Operation("buy-development")
-    public NotYetImplementedResponse buyDevelopment(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("buy-development");
+    public BuyDevelopmentResponse buyDevelopment(BuyDevelopmentRequest request) {
+
+        SplendorService service = getService(request);
+        SplendorGame game = service.findStartedGame(request.getGameId());
+        Player activePlayer = game.getCurrentPlayer();
+
+        game.buyDevelopment(request.getPayment(), request.getDevelopmentName() , activePlayer);
+
+        PlayerInListView activePlayerView = new PlayerInListView(activePlayer);
+        return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayer.getTokens().getTokens());
     }
 
     @Operation("reserve-development")
