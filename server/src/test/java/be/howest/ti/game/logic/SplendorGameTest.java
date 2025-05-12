@@ -62,63 +62,34 @@ class SplendorGameTest {
     @Test
     void checkForNobleGood() {
         Player player = new Player("Alice");
-
-        Map<Token, Integer> playerBonuses = new HashMap<>();
-        for (Token token : Token.values()) {
-            if (token != Token.GOLD) {
-                playerBonuses.put(token, 3);
-            }
-        }
-        Purse bonuses = new Purse(playerBonuses);
-        player.setBonuses(bonuses);
-        player.setAcquiredNobles(new HashSet<>());
-
-        Map<Token, Integer> nobleRequirements = new HashMap<>();
-        for (Token token : Token.values()) {
-            if (token != Token.GOLD) {
-                nobleRequirements.put(token, 2);
-            }
-        }
-        Noble noble = new Noble("De Wever", 3, new Purse(nobleRequirements));
         lobby.addPlayer("Alice");
         SplendorGame game = new SplendorGame(lobby);
-        game.setCurrentPlayer(player);
-        game.setUnclaimedNobles(Set.of(noble));
 
+        Set<Noble> nobles = game.getUnclaimedNobles();
+        List<Noble> nobleList = new ArrayList<>(nobles);
+        Noble wantedNoble = nobleList.getFirst();
+
+        player.setBonuses(wantedNoble.neededBonuses());
+        game.setCurrentPlayer(player);
 
         game.checkForNoble();
-        assertTrue(player.getAcquiredNobles().contains(noble));
+        assertTrue(player.getAcquiredNobles().contains(wantedNoble));
     }
 
     @Test
     void checkForNobleBad() {
         Player player = new Player("Alice");
         lobby.addPlayer("Alice");
-        Map<Token, Integer> playerBonuses = new HashMap<>();
-        for (Token token : Token.values()) {
-            if (token != Token.GOLD) {
-                playerBonuses.put(token, 3);
-            }
-        }
-        Purse bonuses = new Purse(playerBonuses);
-        player.setBonuses(bonuses);
-        player.setAcquiredNobles(new HashSet<>());
-
-        Map<Token, Integer> nobleRequirements = new HashMap<>();
-        for (Token token : Token.values()) {
-            if (token != Token.GOLD) {
-                nobleRequirements.put(token, 5);
-            }
-        }
-        Noble noble = new Noble("De Wever", 3, new Purse(nobleRequirements));
-
         SplendorGame game = new SplendorGame(lobby);
+
+        Set<Noble> nobles = game.getUnclaimedNobles();
+        List<Noble> nobleList = new ArrayList<>(nobles);
+        Noble wantedNoble = nobleList.getFirst();
+
         game.setCurrentPlayer(player);
-        game.setUnclaimedNobles(Set.of(noble));
 
         game.checkForNoble();
-
-        assertFalse(player.getAcquiredNobles().contains(noble));
+        assertFalse(player.getAcquiredNobles().contains(wantedNoble));
     }
 
     @Test
