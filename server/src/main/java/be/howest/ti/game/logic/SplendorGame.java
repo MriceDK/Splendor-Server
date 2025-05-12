@@ -36,7 +36,6 @@ public class SplendorGame extends GameSuperclass {
 
     public void endTurn() {
         if (currentPlayer.getPrestigePoints() >= 15) {
-            setGameState(GameState.LAST_ROUND);
             winner = currentPlayer;
         } else {
             currentPlayer = getNextPlayer();
