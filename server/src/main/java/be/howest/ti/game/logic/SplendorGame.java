@@ -31,7 +31,23 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public Player getWinner() {
-        return null; // TODO change this method into a calculation method, that calculates if there is a winner or not
+        return winner;
+    }
+
+    public void endTurn() {
+        if (currentPlayer.getPrestigePoints() >= 15) {
+            winner = currentPlayer;
+        } else {
+            currentPlayer = getNextPlayer();
+            checkForNoble();
+        }
+    }
+
+    private Player getNextPlayer() {
+        List<Player> players = getPlayers();
+        int currentPlayerIndex = players.indexOf(currentPlayer);
+        int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        return players.get(nextPlayerIndex);
     }
 
     public void setGameState(GameState gameState) {
@@ -72,22 +88,31 @@ public class SplendorGame extends GameSuperclass {
         if (playerTurnChecker(player)){
             player.checkIfPaymentIsSufficient(market.findMatchingDevelopmentOverAllLevels(developmentName), payment);
             player.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
-
+            endTurn();
         }
     }
 
-    public Development reserveDevelopment(String developmentName, Player player){
+    public void reserveDevelopment(String developmentName, Player player){
         if (playerTurnChecker(player)) {
-            return currentPlayer.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
+            player.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
+            givePlayerGoldTokenIfPossible(player);
+            endTurn();
         }
-        throw new IllegalStateException("It's not this player's turn");
     }
 
-    public Development reserveDevelopmentFromLevel(int level, Player player){
-        if (playerTurnChecker(player)) {
-            return currentPlayer.reserveDevelopment(market.takeTopDevelopment(level));
+    private void givePlayerGoldTokenIfPossible(Player player) {
+        if (tokenBank.getTokens().get(Token.GOLD) > 0) {
+            tokenBank.removeToken(Token.GOLD, 1);
+            player.getTokens().addToken(Token.GOLD, 1);
         }
-        throw new IllegalStateException("It's not this player's turn");
+    }
+
+    public void reserveDevelopmentFromLevel(int level, Player player){
+        if (playerTurnChecker(player)) {
+            player.reserveDevelopment(market.takeTopDevelopment(level));
+            givePlayerGoldTokenIfPossible(player);
+            endTurn();
+        }
     }
 
     public void checkForNoble(){
@@ -133,6 +158,7 @@ public class SplendorGame extends GameSuperclass {
         if(playerTurnChecker(player)){
             player.acquireTokens(tokens.getTokens());
             tokenBank.removeTokens(tokens.getTokens());
+            endTurn();
         }
     }
 
