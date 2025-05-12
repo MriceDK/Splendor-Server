@@ -72,22 +72,19 @@ public class SplendorGame extends GameSuperclass {
         if (playerTurnChecker(player)){
             player.checkIfPaymentIsSufficient(market.findMatchingDevelopmentOverAllLevels(developmentName), payment);
             player.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
-
         }
     }
 
-    public Development reserveDevelopment(String developmentName, Player player){
+    public void reserveDevelopment(String developmentName, Player player){
         if (playerTurnChecker(player)) {
-            return currentPlayer.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
+            player.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
         }
-        throw new IllegalStateException("It's not this player's turn");
     }
 
-    public Development reserveDevelopmentFromLevel(int level, Player player){
+    public void reserveDevelopmentFromLevel(int level, Player player){
         if (playerTurnChecker(player)) {
-            return currentPlayer.reserveDevelopment(market.takeTopDevelopment(level));
+            player.reserveDevelopment(market.takeTopDevelopment(level));
         }
-        throw new IllegalStateException("It's not this player's turn");
     }
 
     public void checkForNoble(){
