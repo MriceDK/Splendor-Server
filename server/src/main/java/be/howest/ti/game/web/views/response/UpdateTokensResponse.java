@@ -18,16 +18,16 @@ public class UpdateTokensResponse extends AbstractResponseWithHiddenStatus  {
 
     public Map<String, Integer> getTokens(){
         Map<String, Integer> mapTokensToIterate = Purse.toMapStringInteger(tokens.getTokens());
-        Map<String, Integer> mapToReturn = new HashMap<>();
+        Map<String, Integer> mapTokensToReturn = new HashMap<>();
 
         for (Map.Entry<String, Integer> token : mapTokensToIterate.entrySet()){
             if (token.getValue() != NO_VALUE_IN_TOKEN){
 
-                mapToReturn.put(token.getKey(), token.getValue());
+                mapTokensToReturn.put(token.getKey(), token.getValue());
 
             }
         }
 
-        return mapToReturn;
+        return mapTokensToReturn;
     }
 }
