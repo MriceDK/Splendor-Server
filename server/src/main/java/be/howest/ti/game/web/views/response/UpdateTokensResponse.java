@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class UpdateTokensResponse extends AbstractResponseWithHiddenStatus  {
     private final Purse tokens;
-    private final static int NO_VALUE_IN_TOKEN = 0;
 
     public UpdateTokensResponse(Purse tokens){
         super(200);
