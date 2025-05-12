@@ -88,10 +88,9 @@ public class Player {
         ownedDevelopments.add(development);
     }
 
-    public Development reserveDevelopment(Development development){
+    public void reserveDevelopment(Development development){
         checkIfPlayerIsAllowedToReserve();
         reservedDevelopments.add(development);
-        return development;
     }
 
     public void claimNoble(Noble noble){acquiredNobles.add(noble);}
