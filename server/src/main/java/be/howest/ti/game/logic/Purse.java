@@ -54,13 +54,13 @@ public class Purse {
         this.tokens.put(tokenToAdd, this.tokens.get(tokenToAdd) + amount);
     }
 
-    public void addTokens(Map<Token, Integer> tokensToAdd){
+    public void addTokens(Purse tokensToAdd){
         // Double for loop to first check if all tokens can be added
-        for (Token token : tokensToAdd.keySet()) {
-            checkIfAddIsAllowed(token, tokensToAdd.get(token));
+        for (Token token : tokensToAdd.getTokens().keySet()) {
+            checkIfAddIsAllowed(token, tokensToAdd.getTokens().get(token));
         }
-        for (Token token : tokensToAdd.keySet()) {
-            addToken(token, tokensToAdd.get(token));
+        for (Token token : tokensToAdd.getTokens().keySet()) {
+            addToken(token, tokensToAdd.getTokens().get(token));
         }
     }
 

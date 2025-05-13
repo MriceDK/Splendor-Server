@@ -94,9 +94,9 @@ public class Player {
 
     public void claimNoble(Noble noble){acquiredNobles.add(noble);}
 
-    public void acquireTokens(Map<Token,Integer> tokensToAcquire){
+    public void acquireTokens(Purse tokensToAcquire){
         int sizeOfTokensToAcquire = 0;
-        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.entrySet()){
+        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.getTokens().entrySet()){
             if (tokenToAcquire.getValue() > ZERO_TOKENS){
                 sizeOfTokensToAcquire++;
             }
@@ -107,12 +107,12 @@ public class Player {
         tokens.addTokens(tokensToAcquire);
     }
 
-    private void ruleCheckToAcquireTokens(Map<Token, Integer> tokensToAcquire, int sizeOfTokensToAcquire) {
+    private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire) {
         if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
             throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
         }
 
-        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.entrySet()){
+        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()){
             if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
                 throw new IllegalArgumentException("You cannot acquire more than two tokens of the same type");
             }
