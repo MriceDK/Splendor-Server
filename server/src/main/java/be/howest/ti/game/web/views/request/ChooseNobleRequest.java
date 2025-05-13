@@ -6,4 +6,5 @@ public class ChooseNobleRequest extends BaseSplendorRequest{
     public ChooseNobleRequest(RoutingContext ctx) {
         super(ctx);
     }
+
 }
