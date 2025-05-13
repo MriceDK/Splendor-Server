@@ -1,7 +1,5 @@
 package be.howest.ti.game.web.views.request;
 
-import be.howest.ti.game.logic.Development;
-import be.howest.ti.game.logic.Noble;
 import be.howest.ti.game.logic.Purse;
 import be.howest.ti.game.logic.Token;
 import io.vertx.core.json.JsonObject;
@@ -32,6 +30,10 @@ public class ChooseNobleRequest extends BaseSplendorRequest{
     }
 
     public Purse getNeededBonuses(){
+        return getTokens();
+    }
+
+    public Purse getTokens(){
         Map<Token, Integer> mapToAdd = new HashMap<>();
         JsonObject JsonObjectToIterate = params.body().getJsonObject().getJsonObject("neededBonuses");
 
