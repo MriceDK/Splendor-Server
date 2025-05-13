@@ -83,7 +83,7 @@ public class Player {
         checkIfPaymentIsSufficient(development, payment);
         prestigePoints += development.prestigePoints();
         bonuses.addToken(development.bonus(), 1);
-        tokens.removeTokens(payment.getTokens());
+        tokens.removeTokens(payment);
         ownedDevelopments.add(development);
     }
 
