@@ -86,7 +86,6 @@ public class SplendorGame extends GameSuperclass {
 
     public void buyDevelopment(Purse payment, String developmentName, Player player){
         if (playerTurnChecker(player)){
-            player.checkIfPaymentIsSufficient(market.findMatchingDevelopmentOverAllLevels(developmentName), payment);
             player.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
             endTurn();
         }
