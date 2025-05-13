@@ -10,7 +10,7 @@ public class SplendorGame extends GameSuperclass {
     private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS = 5;
     private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_TWO_PLAYERS = 4;
 
-    private final static int INITAL_GOLD_AMOUNT = 5;
+    private final static int INITIAL_GOLD_AMOUNT = 5;
 
     private Purse tokenBank; // TODO make final
     private final Set<Noble> unclaimedNobles;
@@ -260,7 +260,7 @@ public class SplendorGame extends GameSuperclass {
                         Token.ONYX, amountPerToken,
                         Token.RUBY, amountPerToken,
                         Token.SAPPHIRE, amountPerToken,
-                        Token.GOLD, INITAL_GOLD_AMOUNT
+                        Token.GOLD, INITIAL_GOLD_AMOUNT
                 )
         );
     }
