@@ -57,6 +57,22 @@ class SplendorGameTest {
     }
 
     @Test
+    public void buyDevelopmentTokenBankRefilled(){
+
+        lobby.addPlayer("Bobby");
+        SplendorGame startedGame = new SplendorGame(lobby);
+        Purse tokenBankBefore = startedGame.getTokenBank();
+        Development firstDevelopment = startedGame.getMarket().getVisibleDevelopments(1).getFirst();
+        startedGame.getCurrentPlayer().getTokens().addTokens(firstDevelopment.cost());
+
+        Purse payment = firstDevelopment.cost();
+        startedGame.buyDevelopment(payment, startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.getCurrentPlayer());
+        Purse tokenBankAfter = startedGame.getTokenBank();
+        assertEquals(tokenBankBefore, tokenBankAfter);
+
+    }
+
+    @Test
     void checkForNobleGood() {
         Player player = new Player("Alice");
         lobby.addPlayer("Alice");

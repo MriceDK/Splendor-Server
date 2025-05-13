@@ -88,6 +88,7 @@ public class SplendorGame extends GameSuperclass {
         if (playerTurnChecker(player)){
             player.checkIfPaymentIsSufficient(market.findMatchingDevelopmentOverAllLevels(developmentName), payment);
             player.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
+            tokenBank.addTokens(payment);
             endTurn();
         }
     }
