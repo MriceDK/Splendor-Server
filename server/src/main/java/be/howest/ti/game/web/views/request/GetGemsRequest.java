@@ -1,5 +1,10 @@
 package be.howest.ti.game.web.views.request;
 
-public class GetGemsRequest {
+import io.vertx.ext.web.RoutingContext;
 
+public class GetGemsRequest extends BaseSplendorRequest{
+
+    public GetGemsRequest(RoutingContext ctx) {
+        super(ctx);
+    }
 }

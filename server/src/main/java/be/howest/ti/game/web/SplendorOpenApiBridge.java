@@ -51,6 +51,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     @Operation("get-gems")
     public NotYetImplementedResponse getGems(BaseSplendorRequest request) {
+        SplendorService service = getService(request);
+
         return new NotYetImplementedResponse("get-gems");
     }
 
