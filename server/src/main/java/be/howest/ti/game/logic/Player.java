@@ -125,9 +125,9 @@ public class Player {
     }
 
 
-    public void returnTokens(Map<Token, Integer> totalReturnTokens) {
+    public void returnTokens(Purse totalReturnTokens) {
         int totalTokens = tokens.getTotal();
-        int returnTokens = totalReturnTokens.values().stream().mapToInt(Integer::intValue).sum(); //get values out of map, make them int and adds them up
+        int returnTokens = totalReturnTokens.getTokens().values().stream().mapToInt(Integer::intValue).sum(); //get values out of map, make them int and adds them up
         int diffTotalTokensAndReturnTokens = totalTokens - returnTokens;
 
         if (totalTokens <= MAX_TOTAL_TOKENS_PER_PLAYER) {

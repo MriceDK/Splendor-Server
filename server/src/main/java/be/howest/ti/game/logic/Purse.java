@@ -69,13 +69,13 @@ public class Purse {
         this.tokens.put(tokenToRemove, this.tokens.get(tokenToRemove) - amount);
     }
 
-    public void removeTokens(Map<Token, Integer> tokensToRemove){
+    public void removeTokens(Purse tokensToRemove){
         // Double for loop to first check if all tokens can be added
-        for (Token token : tokensToRemove.keySet()) {
-            checkIfDeleteIsAllowed(token, tokensToRemove.get(token));
+        for (Token token : tokensToRemove.getTokens().keySet()) {
+            checkIfDeleteIsAllowed(token, tokensToRemove.getTokens().get(token));
         }
-        for (Token token : tokensToRemove.keySet()) {
-            removeToken(token, tokensToRemove.get(token));
+        for (Token token : tokensToRemove.getTokens().keySet()) {
+            removeToken(token, tokensToRemove.getTokens().get(token));
         }
     }
 
