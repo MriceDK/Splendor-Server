@@ -7,16 +7,22 @@ import java.util.List;
 
 
 public class getDevelopmentsResponse extends AbstractResponseWithHiddenStatus{
-    private final List<DevelopmentInListView> developments = new ArrayList<>();
+    private final List<DevelopmentInListView> developmentsInListView;
 
     public getDevelopmentsResponse(List<Development> developments) {
         super(200);
+        developmentsInListView = convertDevelopmentToDevelopmentListView(developments);
+    }
+
+    private List<DevelopmentInListView> convertDevelopmentToDevelopmentListView(List<Development> developments) {
+        List<DevelopmentInListView> developmentsConverted = new ArrayList<>();
         for (Development development : developments) {
-            this.developments.add(new DevelopmentInListView(development));
+            developmentsConverted.add(new DevelopmentInListView(development));
         }
+        return developmentsConverted;
     }
 
     public List<DevelopmentInListView> getDevelopments() {
-        return developments;
+        return developmentsInListView;
     }
 }
