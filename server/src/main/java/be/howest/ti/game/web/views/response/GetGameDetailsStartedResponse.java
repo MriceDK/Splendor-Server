@@ -31,7 +31,7 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
     public List<DeckInListView> getMarket() {
         List<DeckInListView> res = new ArrayList<>();
 
-        for (Deck deck : startedGame.getMarket().getLevels().values()) {
+        for (Deck deck : startedGame.getMarket().getLevels()) {
             res.add(new DeckInListView(deck));
         }
 
