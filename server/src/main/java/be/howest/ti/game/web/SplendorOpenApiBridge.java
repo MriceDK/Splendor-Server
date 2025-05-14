@@ -45,8 +45,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     //region General operations
 
     @Operation("get-info")
-    public NotYetImplementedResponse getInfo(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-info");
+    public GetInfoResponse getInfo(GetInfoRequest request) {
+        return new GetInfoResponse();
     }
 
     @Operation("get-gems")
