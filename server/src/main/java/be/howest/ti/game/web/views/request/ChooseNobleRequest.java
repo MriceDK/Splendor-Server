@@ -30,10 +30,6 @@ public class ChooseNobleRequest extends BaseSplendorRequest{
     }
 
     public Purse getNeededBonuses(){
-        return getTokens();
-    }
-
-    public Purse getTokens(){
         Map<Token, Integer> mapToAdd = new HashMap<>();
         JsonObject JsonObjectToIterate = params.body().getJsonObject().getJsonObject("neededBonuses");
 
