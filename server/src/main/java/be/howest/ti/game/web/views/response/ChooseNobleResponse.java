@@ -4,10 +4,18 @@ import be.howest.ti.game.logic.Noble;
 
 public class ChooseNobleResponse extends AbstractResponseWithHiddenStatus {
 
-    private final Noble noble;
+    private Noble noble;
 
     public ChooseNobleResponse(Noble noble) {
         super(200);
+        this.noble = noble;
+    }
+
+    public Noble getNoble() {
+        return noble;
+    }
+
+    public void setNoble(Noble noble) {
         this.noble = noble;
     }
 }
