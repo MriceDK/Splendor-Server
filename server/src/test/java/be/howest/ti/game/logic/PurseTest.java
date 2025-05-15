@@ -67,7 +67,7 @@ class PurseTest {
         tokensToAdd.put(Token.DIAMOND, 3);
         tokensToAdd.put(Token.GOLD, 4);
 
-        emptyPurse.addTokens(tokensToAdd);
+        emptyPurse.addTokens(new Purse(tokensToAdd));
         assertEquals(3, emptyPurse.getTokens().get(Token.DIAMOND));
         assertEquals(4, emptyPurse.getTokens().get(Token.GOLD));
         assertEquals(0, emptyPurse.getTokens().get(Token.EMERALD));
@@ -93,9 +93,9 @@ class PurseTest {
         tokensToRemove.put(Token.RUBY, 3);
         tokensToRemove.put(Token.SAPPHIRE, 4);
 
-        assertThrows(IllegalArgumentException.class, () -> emptyPurse.removeTokens(tokensToRemove));
+        assertThrows(IllegalArgumentException.class, () -> emptyPurse.removeTokens(new Purse(tokensToRemove)));
 
-        filledPurse.removeTokens(tokensToRemove);
+        filledPurse.removeTokens(new Purse(tokensToRemove));
         assertEquals(2, filledPurse.getTokens().get(Token.RUBY));
         assertEquals(2, filledPurse.getTokens().get(Token.SAPPHIRE));
     }
