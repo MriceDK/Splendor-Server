@@ -2,20 +2,19 @@ package be.howest.ti.game.web.views.response;
 
 import be.howest.ti.game.logic.Noble;
 
+import java.util.List;
+
 public class ChooseNobleResponse extends AbstractResponseWithHiddenStatus {
 
-    private Noble noble;
+    private List<Noble> nobles;
 
-    public ChooseNobleResponse(Noble noble) {
+    public ChooseNobleResponse(List<Noble> nobles) {
         super(200);
-        this.noble = noble;
+        this.nobles = nobles;
     }
 
-    public Noble getNoble() {
-        return noble;
+    public List<Noble> getNobles() {
+        return nobles;
     }
 
-    public void setNoble(Noble noble) {
-        this.noble = noble;
-    }
 }
