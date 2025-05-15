@@ -1,10 +1,7 @@
 package be.howest.ti.game.logic.service;
 
 
-import be.howest.ti.game.logic.Development;
-import be.howest.ti.game.logic.GameLobby;
-import be.howest.ti.game.logic.GameSuperclass;
-import be.howest.ti.game.logic.SplendorGame;
+import be.howest.ti.game.logic.*;
 
 import java.util.List;
 
@@ -25,4 +22,5 @@ public interface SplendorService {
     SplendorGame findStartedGame(int gameId);
 
     List<Development> getAllDevelopments();
+    List<Noble> getAllNobles();
     }
