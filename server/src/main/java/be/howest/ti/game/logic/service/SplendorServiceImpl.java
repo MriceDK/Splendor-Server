@@ -126,6 +126,10 @@ public class SplendorServiceImpl implements SplendorService {
         games.remove(game);
     }
 
+    public void removeGames() {
+        games.clear();
+    }
+
     public int generateGameId() {
         int gameId = incrementalIdentifier;
 
