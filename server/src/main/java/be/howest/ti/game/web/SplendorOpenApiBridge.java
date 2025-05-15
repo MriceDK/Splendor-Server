@@ -56,7 +56,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     @Operation("get-nobles")
     public getNoblesResponse getNobles(getNoblesRequest request) {
-        return new getNoblesResponse();
+        SplendorService service = getService(request);
+        return new getNoblesResponse(service.getAllNobles());
     }
 
     @Operation("get-developments")
