@@ -105,11 +105,23 @@ public class SplendorGame extends GameSuperclass {
     private void chooseNobleNecessaryCheck(List<Noble> possibleNobles){
         if (possibleNobles.size() > ONE_NOBLE){
             setGameState(GameState.CHOOSE_NOBLE);
-            //TODO : ADD FUNCTIONALITY FOR WHEN TWO OR MORE NOBLES CLAIMABLE --> WHEN DOING ENDPOINT NOBLES
         } else {
             acquireNoble(possibleNobles);
         }
     }
+
+    public void chooseNoble(String nobleName) {
+        for (Noble noble : unclaimedNobles) {
+            if (noble.name().equals(nobleName) && playerMeetsRequirements(currentPlayer, noble)) {
+                currentPlayer.claimNoble(noble);
+                unclaimedNobles.remove(noble);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Invalid noble choice");
+    }
+
+
 
     private boolean playerMeetsRequirements(Player player, Noble noble) {
         for (Token bonus : Token.values()) {
