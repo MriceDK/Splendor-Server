@@ -62,16 +62,32 @@ public class Player {
     }
 
     public void checkIfPaymentIsSufficient(Development development, Purse payment){
-        for (Token token : development.cost().getTokens().keySet()) {
-            int ownTokenValue = tokens.getTokens().get(token);
-            int paymentTokenValue = payment.getTokens().get(token);
-            int bonusTokenValue = bonuses.getTokens().get(token);
-            int developmentTokenCost = development.cost().getTokens().get(token);
+        int totalTokensStillNeeded = 0;
 
-            if (paymentTokenValue + bonusTokenValue != developmentTokenCost) throw new IllegalArgumentException("The payment is not sufficient");
-            if (ownTokenValue < paymentTokenValue) throw new IllegalArgumentException("You don't have enough tokens of this type");
+        for (Token token : development.cost().getTokens().keySet()) {
+            if (!token.equals(Token.GOLD)) {
+                int ownTokenValue = tokens.getTokens().get(token);
+                int paymentTokenValue = payment.getTokens().get(token);
+                int bonusTokenValue = bonuses.getTokens().get(token);
+                int developmentTokenCost = development.cost().getTokens().get(token);
+
+                int totalTokenValue = paymentTokenValue + bonusTokenValue;
+
+                if (totalTokenValue != developmentTokenCost) {
+                    totalTokensStillNeeded += (developmentTokenCost - totalTokenValue);
+                }
+
+                if (ownTokenValue < paymentTokenValue) throw new IllegalArgumentException("You don't have enough tokens of this type");
+
+            }
         }
+
+        if (totalTokensStillNeeded - payment.getTokens().get(Token.GOLD) != 0) {
+            throw new IllegalArgumentException("The payment is not sufficient");
+        }
+
     }
+
 
     public void checkIfPlayerIsAllowedToReserve() {
         if (reservedDevelopments.size() == 3) {

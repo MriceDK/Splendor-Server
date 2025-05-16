@@ -3,6 +3,7 @@ package be.howest.ti.game.logic;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -100,6 +101,49 @@ class PlayerTest {
 
         assertThrows(IllegalArgumentException.class, () -> player.returnTokens(tokensToReturn));
 
+    }
+
+    @Test
+    public void buyDevelopmentCardWithGoldToken() {
+        Player player = new Player("Alice");
+        player.setTokens(new Purse(Map.of(
+                Token.GOLD, 4
+        )));
+
+        Development development = new Development("text", 1, 2, Token.DIAMOND, new Purse(Map.of(
+                Token.SAPPHIRE, 2,
+                Token.ONYX, 1
+        )));
+
+        player.buyDevelopment(development, new Purse(Map.of(
+                Token.GOLD, 3
+        )));
+
+        assertEquals(List.of(development),player.getOwnedDevelopments());
+        assertEquals(new Purse(Map.of(
+                Token.GOLD, 1
+        )), player.getTokens());
+    }
+
+    @Test
+    public void buyDevelopmentCardWithTooLessGoldToken() {
+        Player player = new Player("Alice");
+        player.setTokens(new Purse(Map.of(
+                Token.GOLD, 1
+        )));
+
+        Development development = new Development("text", 1, 2, Token.DIAMOND, new Purse(Map.of(
+                Token.SAPPHIRE, 2,
+                Token.ONYX, 1
+        )));
+
+        assertThrows(IllegalArgumentException.class, () -> player.buyDevelopment(development, new Purse(Map.of(
+                Token.GOLD, 3
+        ))));
+        assertTrue(player.getOwnedDevelopments().isEmpty());
+        assertEquals(new Purse(Map.of(
+                Token.GOLD, 1
+        )), player.getTokens());
     }
 
 }
