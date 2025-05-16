@@ -2,6 +2,8 @@ package be.howest.ti.game.web.views.response;
 
 public class deleteGamesResponse extends AbstractResponseWithHiddenStatus {
     public deleteGamesResponse() {
+public class DeleteGamesResponse extends AbstractResponseWithHiddenStatus {
+    public DeleteGamesResponse(List<GameSuperclass> gamesThatWereDeleted) {
         super(200);
     }
 
