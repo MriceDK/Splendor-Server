@@ -25,7 +25,7 @@ class PlayerTest {
         tokensToReturn.put(Token.RUBY, 1);
         Purse returnPurse = new Purse(tokensToReturn);
 
-        player.returnTokens(returnPurse.getTokens());
+        player.returnTokens(returnPurse);
 
         assertEquals(10, player.getTokens().getTotal());
 
@@ -43,9 +43,7 @@ class PlayerTest {
 
         assertEquals(6, player.getTokens().getTotal());
 
-        Map<Token, Integer> tokensToReturn = new HashMap<>();
-        tokensToReturn.put(Token.ONYX, 1);
-        tokensToReturn.put(Token.RUBY, 1);
+        Purse tokensToReturn = new Purse(Map.of(Token.ONYX, 1, Token.RUBY, 1));
 
         // This should throw because player only has 6 tokens (less than 10)
         assertThrows(IllegalStateException.class, () -> player.returnTokens(tokensToReturn));
@@ -64,8 +62,7 @@ class PlayerTest {
 
         assertEquals(14, player.getTokens().getTotal());
 
-        Map<Token, Integer> tokensToReturn = new HashMap<>();
-        tokensToReturn.put(Token.ONYX, 2);
+        Purse  tokensToReturn = new Purse(Map.of(Token.ONYX, 2));
 
         assertThrows(IllegalArgumentException.class, () -> player.returnTokens(tokensToReturn));
     }
@@ -82,8 +79,7 @@ class PlayerTest {
 
         assertEquals(12, player.getTokens().getTotal());
 
-        Map<Token, Integer> tokensToReturn = new HashMap<>();
-        tokensToReturn.put(Token.RUBY, 4);
+        Purse tokensToReturn = new Purse(Map.of(Token.RUBY, 4));
 
         assertThrows(IllegalArgumentException.class, () -> player.returnTokens(tokensToReturn));
     }
@@ -100,9 +96,7 @@ class PlayerTest {
 
         assertEquals(12, player.getTokens().getTotal());
 
-        Map<Token, Integer> tokensToReturn = new HashMap<>();
-        tokensToReturn.put(Token.RUBY, 1);
-        tokensToReturn.put(Token.EMERALD, 3);
+        Purse tokensToReturn = new Purse(Map.of(Token.RUBY, 1, Token.EMERALD, 3));
 
         assertThrows(IllegalArgumentException.class, () -> player.returnTokens(tokensToReturn));
 

@@ -10,7 +10,7 @@ public class SplendorGame extends GameSuperclass {
     private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS = 5;
     private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_TWO_PLAYERS = 4;
 
-    private final static int INITAL_GOLD_AMOUNT = 5;
+    private final static int INITIAL_GOLD_AMOUNT = 5;
 
     private Purse tokenBank; // TODO make final
     private final Set<Noble> unclaimedNobles;
@@ -87,6 +87,7 @@ public class SplendorGame extends GameSuperclass {
     public void buyDevelopment(Purse payment, String developmentName, Player player){
         if (playerTurnChecker(player)){
             player.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
+            tokenBank.addTokens(payment);
             endTurn();
         }
     }
@@ -155,8 +156,8 @@ public class SplendorGame extends GameSuperclass {
 
     public void acquireTokens(Player player, Purse tokens){
         if(playerTurnChecker(player)){
-            player.acquireTokens(tokens.getTokens());
-            tokenBank.removeTokens(tokens.getTokens());
+            player.acquireTokens(tokens);
+            tokenBank.removeTokens(tokens);
             endTurn();
         }
     }
@@ -171,8 +172,8 @@ public class SplendorGame extends GameSuperclass {
 
     public void returnTokens(Player player, Purse tokensToReturn) {
         if (playerTurnChecker(player)){
-            player.returnTokens(tokensToReturn.getTokens());
-            tokenBank.addTokens(tokensToReturn.getTokens());
+            player.returnTokens(tokensToReturn);
+            tokenBank.addTokens(tokensToReturn);
         }
 
     }
@@ -259,7 +260,7 @@ public class SplendorGame extends GameSuperclass {
                         Token.ONYX, amountPerToken,
                         Token.RUBY, amountPerToken,
                         Token.SAPPHIRE, amountPerToken,
-                        Token.GOLD, INITAL_GOLD_AMOUNT
+                        Token.GOLD, INITIAL_GOLD_AMOUNT
                 )
         );
     }

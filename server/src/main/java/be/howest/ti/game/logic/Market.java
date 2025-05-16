@@ -1,94 +1,49 @@
 package be.howest.ti.game.logic;
+import be.howest.ti.game.util.reader.DevelopmentReader;
+
 import java.util.*;
-import java.io.*;
 
 public class Market {
 
-    private final Map<Integer, Deck> levels;
+    private final Deck[] levels = new Deck[3];
 
-    public Market(){
-        this.levels = new HashMap<>();
-        fillMarket();
+    public Market() {
+        DevelopmentReader reader = new DevelopmentReader();
+        levels[0] = new Deck(reader.getFirstLevel(), 1);
+        levels[1] = new Deck(reader.getSecondLevel(), 2);
+        levels[2] = new Deck(reader.getThirdLevel(), 3);
     }
 
-    private void fillMarket() {
-        List<Development> developmentLevel1 = new ArrayList<>();
-        List<Development> developmentLevel2 = new ArrayList<>();
-        List<Development> developmentLevel3 = new ArrayList<>();
-
-        try {
-            File developmentCards = new File("src/main/resources/data/developments.txt");
-            Scanner reader = new Scanner(developmentCards);
-            reader.nextLine(); //Skip first line because of headers
-
-            while (reader.hasNextLine()) {
-                String data = reader.nextLine();
-                String[] developmentInfo = data.split("\\t");
-
-                String name = developmentInfo[0];
-                int level = Integer.parseInt(developmentInfo[1]);
-                Token bonus = Token.getTokenType(developmentInfo[2].toCharArray()[0]);
-                int prestigePoints = Integer.parseInt(developmentInfo[3]);
-                char[] costChars = developmentInfo[5].toCharArray();
-
-                Purse costs = new Purse();
-                for (char c : costChars) {
-                    costs.addToken(Token.getTokenType(c), 1);
-                }
-
-                Development card = new Development(name, level, prestigePoints, bonus, costs);
-
-                if (level == 1) {
-                    developmentLevel1.add(card);
-                } else if (level == 2) {
-                    developmentLevel2.add(card);
-                } else if (level == 3) {
-                    developmentLevel3.add(card);
-                } else {
-                    throw new IllegalStateException("Unknown level: " + level);
-                }
-            }
-            reader.close();
-
-            levels.put(1, new Deck(developmentLevel1, 1));
-            levels.put(2, new Deck(developmentLevel2, 2));
-            levels.put(3, new Deck(developmentLevel3, 3));
-
-        } catch (FileNotFoundException e) {
-            throw new IllegalStateException("File not found.");
-        }
-    }
-
-    public Map<Integer, Deck> getLevels() {
+    public Deck[] getLevels() {
         return levels;
     }
 
     public List<Development> getVisibleDevelopments(int level){
-        return levels.get(level).getVisibleDevelopments();
+        return levels[level-1].getVisibleDevelopments();
     }
 
     public int getTotalInvisibleDevelopments(int level){
-        return levels.get(level).getTotalInvisible();
+        return levels[level-1].getTotalInvisible();
     }
 
     public Development takeTopDevelopment(int level){
-        return levels.get(level).takeTopDevelopment();
+        return levels[level-1].takeTopDevelopment();
     }
 
     public Development removeVisibleDevelopment(String developmentName) {
         Development matchingDevelopment = findMatchingDevelopmentOverAllLevels(developmentName);
-        return levels.get(matchingDevelopment.level()).removeVisibleDevelopment(developmentName);
+        return levels[matchingDevelopment.level()-1].removeVisibleDevelopment(developmentName);
     }
 
     public Development findMatchingDevelopmentOverAllLevels(String developmentName) {
         Development matchingDevelopment = null;
-        for (Deck level : levels.values()) {
+        for (Deck level : levels) {
             if (level.getVisibleDevelopments().contains(level.findMatchingDevelopment(developmentName)) && matchingDevelopment == null) {
                 matchingDevelopment = level.findMatchingDevelopment(developmentName);
             }
         }
         if (matchingDevelopment == null) {
-            throw new IllegalStateException("Development not found in visible developments");
+            throw new SplendorGameResourceNotFoundException("Development not found in visible developments");
         }
         return matchingDevelopment;
     }
