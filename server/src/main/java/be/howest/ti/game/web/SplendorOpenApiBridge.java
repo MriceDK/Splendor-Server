@@ -111,8 +111,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("delete-games")
-    public NotYetImplementedResponse deleteGames(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("delete-games");
+    public DeleteGamesResponse deleteGames(DeleteGamesRequest request) {
+        SplendorService service = getService(request);
+        return new DeleteGamesResponse(service.removeGames());
     }
 
     @Operation("get-game-details")

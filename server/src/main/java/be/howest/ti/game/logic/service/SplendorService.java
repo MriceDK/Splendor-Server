@@ -6,6 +6,7 @@ import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.GameSuperclass;
 import be.howest.ti.game.logic.SplendorGame;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface SplendorService {
@@ -21,6 +22,9 @@ public interface SplendorService {
 
     List<GameSuperclass> getGames();
     List<GameSuperclass> getGames(boolean hasStarted);
+
+    void removeGame(int gameId);
+    ArrayList<GameSuperclass> removeGames();
 
     SplendorGame findStartedGame(int gameId);
 
