@@ -45,8 +45,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     //region General operations
 
     @Operation("get-info")
-    public NotYetImplementedResponse getInfo(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-info");
+    public GetInfoResponse getInfo(GetInfoRequest request) {
+        return new GetInfoResponse();
     }
 
     @Operation("get-gems")
@@ -62,8 +62,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("get-developments")
-    public NotYetImplementedResponse getDevelopments(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-developments");
+    public getDevelopmentsResponse getDevelopments(GetDevelopmentsRequest request) {
+        SplendorService service = getService(request);
+        return new getDevelopmentsResponse(service.getAllDevelopments());
     }
 
     //endregion
