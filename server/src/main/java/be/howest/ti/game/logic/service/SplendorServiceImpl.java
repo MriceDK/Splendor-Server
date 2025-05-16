@@ -126,8 +126,14 @@ public class SplendorServiceImpl implements SplendorService {
         games.remove(game);
     }
 
-    public void removeGames() {
+    @Override
+    public ArrayList<GameSuperclass> removeGames() {
+        if (getGames().isEmpty()) {
+            throw new IllegalArgumentException("No games to delete");
+        }
+        ArrayList<GameSuperclass> gamesThatWereDeleted = new ArrayList<>(games);
         games.clear();
+        return gamesThatWereDeleted;
     }
 
     public int generateGameId() {

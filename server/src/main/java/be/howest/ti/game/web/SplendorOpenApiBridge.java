@@ -111,13 +111,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("delete-games")
-    public deleteGamesResponse deleteGames(deleteGamesRequest request) {
+    public DeleteGamesResponse deleteGames(DeleteGamesRequest request) {
         SplendorService service = getService(request);
-        if (service.getGames().isEmpty()) {
-            throw new IllegalArgumentException("No games to delete");
-        }
-        service.removeGames();
-        return new deleteGamesResponse();
+        return new DeleteGamesResponse(service.removeGames());
     }
 
     @Operation("get-game-details")
