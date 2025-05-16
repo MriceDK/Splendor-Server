@@ -13,24 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class SplendorGameTest {
 
     private GameSuperclass lobby;
-    private SplendorGame startedGame;
 
     @BeforeEach
     public void init() {
         lobby = new GameLobby(1, 4);
-        // TODO Undo this commit
-        setupStartedGame();
-    }
-
-    public void setupStartedGame() {
-        SplendorServiceImpl service = new SplendorServiceImpl();
-        GameLobby lobbyForStartedGame = service.createLobby(4, "Alice");
-
-        service.joinLobby(lobbyForStartedGame, "Alice");
-        service.joinLobby(lobbyForStartedGame, "Eric");
-        service.joinLobby(lobbyForStartedGame, "John");
-
-        startedGame = service.findStartedGame(0);
     }
 
     @Test
@@ -69,11 +55,6 @@ class SplendorGameTest {
         Purse payment = firstDevelopment.cost();
         startedGame.buyDevelopment(payment, startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.getCurrentPlayer());
         assertEquals(1,startedGame.getCurrentPlayer().getBonuses().getTokens().get(firstDevelopment.bonus()));
-    }
-
-    @Test
-    public void buyDevelopmentWithAGoldenToken() {
-
     }
 
     @Test
