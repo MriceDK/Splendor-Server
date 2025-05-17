@@ -111,19 +111,19 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public void chooseNoble(String nobleName) {
-        for (Noble noble : unclaimedNobles) {
-            if (noble.name().equals(nobleName)) {
-                if (playerMeetsRequirements(currentPlayer, noble)){
-                    currentPlayer.claimNoble(noble);
-                    unclaimedNobles.remove(noble);
-                    chosenNoble = noble;
-                    return;
-                }
-            }
+    public void chooseNoble(Noble noble) {
+        if (!unclaimedNobles.contains(noble)) {
+            throw new IllegalArgumentException("Noble not available");
         }
-        throw new IllegalArgumentException("Invalid noble choice");
+        if (!playerMeetsRequirements(currentPlayer, noble)) {
+            throw new IllegalArgumentException("Player does not meet requirements for this noble");
+        }
+
+        currentPlayer.claimNoble(noble);
+        unclaimedNobles.remove(noble);
+        chosenNoble = noble;
     }
+
 
     public Noble getChosenNoble() {
         return chosenNoble;
