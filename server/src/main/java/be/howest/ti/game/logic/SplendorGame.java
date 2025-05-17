@@ -39,8 +39,8 @@ public class SplendorGame extends GameSuperclass {
         if (currentPlayer.getPrestigePoints() >= 15) {
             winner = currentPlayer;
         } else {
-            currentPlayer = getNextPlayer();
             checkForNoble();
+            currentPlayer = getNextPlayer();
         }
     }
 
