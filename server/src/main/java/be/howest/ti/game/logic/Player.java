@@ -196,4 +196,8 @@ public class Player {
     public void setAcquiredNobles(Set<Noble> nobles) {
         this.acquiredNobles = nobles;
     }
+
+    public boolean hasTooManyTokens() {
+        return tokens.getTotal() >= MAX_TOTAL_TOKENS_PER_PLAYER;
+    }
 }
