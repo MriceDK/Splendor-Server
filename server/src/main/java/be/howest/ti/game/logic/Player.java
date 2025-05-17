@@ -171,4 +171,8 @@ public class Player {
         throw new IllegalArgumentException("Development is not in the reserved developments of player " + name);
 
     }
+
+    public void removeReservedDevelopment(Development development) {
+        reservedDevelopments.remove(development);
+    }
 }
