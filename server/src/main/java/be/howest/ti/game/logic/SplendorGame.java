@@ -18,6 +18,7 @@ public class SplendorGame extends GameSuperclass {
     private Player currentPlayer;
     private GameState gameState;
     private Player winner;
+    private Noble chosenNoble;
 
     private static final int ONE_NOBLE = 1;
 
@@ -112,15 +113,21 @@ public class SplendorGame extends GameSuperclass {
 
     public void chooseNoble(String nobleName) {
         for (Noble noble : unclaimedNobles) {
-            if (noble.name().equals(nobleName) && playerMeetsRequirements(currentPlayer, noble)) {
-                currentPlayer.claimNoble(noble);
-                unclaimedNobles.remove(noble);
-                return;
+            if (noble.name().equals(nobleName)) {
+                if (playerMeetsRequirements(currentPlayer, noble)){
+                    currentPlayer.claimNoble(noble);
+                    unclaimedNobles.remove(noble);
+                    chosenNoble = noble;
+                    return;
+                }
             }
         }
         throw new IllegalArgumentException("Invalid noble choice");
     }
 
+    public Noble getChosenNoble() {
+        return chosenNoble;
+    }
 
 
     private boolean playerMeetsRequirements(Player player, Noble noble) {
