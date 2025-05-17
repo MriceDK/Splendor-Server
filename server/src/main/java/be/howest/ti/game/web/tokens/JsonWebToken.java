@@ -23,21 +23,29 @@ public class JsonWebToken implements TokenManager{
     }
 
     public String createToken(SplendorHTTPPlayer user) {
-
         String playerToken = JWT.create()
-                .withIssuer("auth0")
+                .withIssuer("TI-SplendorGameServer-Group-11")
                 .withClaim("jti", UUID.randomUUID().toString())
                 .withIssuedAt(Date.from(Instant.now()))
+//                OPTIONAL parameter so that the token expires after a certain time (1 day)
+//                .withExpiresAt(Date.from(Instant.now().plusSeconds(60 * 60 * 24)))
                 .withClaim("gameId", user.getGameId())
                 .withClaim("playerName", user.getPlayerName())
                 .sign(algorithm);
+        // Creates a token with the player name and game id
+        // The token is signed with the secret token
+        // The token is encrypted with SHA256
+        // "jti" is a unique identifier for the token
+        // "iat" is the time the token was issued
 
         return playerToken;
     }
 
     private String createSecret() {
+        // Generates a random secret token
+        // The secret token is 256 bytes long
         SecureRandom random = new SecureRandom();
-        byte[] secret = new byte[64];
+        byte[] secret = new byte[256];
         random.nextBytes(secret);
 
         StringBuilder sb = new StringBuilder();
@@ -65,6 +73,10 @@ public class JsonWebToken implements TokenManager{
                     .withIssuer("auth0")
                     .build()
                     .verify(token).getClaims();
+            // Verifies the token with the secret token
+            // Verifying : JWT has the last part of the token as a signature which it then checks with the secret token and the algorithm
+            // The token is verified with SHA256
+            // This returns the claims of the token already decoded (Base64)
         } catch (JWTVerificationException exception) {
             //Invalid signature/claims
             throw new InvalidTokenException();
