@@ -183,11 +183,6 @@ public class SplendorGame extends GameSuperclass {
         return nobleReader.getRandomNobles(getTotalPlayers());
     }
 
-    //For testing purposes
-    public void setTokenBank(Purse tokensToSetTokenBank){
-        this.tokenBank = tokensToSetTokenBank;
-    }
-
     public GameState getGameState() {
         return gameState;
     }
