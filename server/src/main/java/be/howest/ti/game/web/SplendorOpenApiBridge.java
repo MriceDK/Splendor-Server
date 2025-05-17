@@ -3,7 +3,9 @@ package be.howest.ti.game.web;
 import be.howest.ti.game.logic.*;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
+import be.howest.ti.game.web.tokens.JsonWebToken;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
+import be.howest.ti.game.web.tokens.SplendorHTTPPlayer;
 import be.howest.ti.game.web.tokens.TokenManager;
 import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
@@ -17,7 +19,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     private final Supplier<SplendorService> serviceFactory;
 
     public SplendorOpenApiBridge() {
-        this(SplendorServiceImpl::new, new PlainTextTokens());
+        this(SplendorServiceImpl::new, new JsonWebToken());
     }
 
     // Factory needed to differentiate between group-tokens, can be simplified with a single service in the student version.
@@ -92,7 +94,6 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     @Operation("create-game")
     public CreateGameResponse createGame(CreateGameRequest request) {
         SplendorService service = getService(request);
-
         GameLobby game;
         if (request.getGameName() == null) {
             game = service.createLobby(
@@ -107,7 +108,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             );
         }
 
-        return new CreateGameResponse(game, request.getPlayerName());
+        String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
+
+        return new CreateGameResponse(game, request.getPlayerName(), token);
     }
 
     @Operation("delete-games")
@@ -137,7 +140,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
         service.joinLobby(service.findLobby(gameId), playerName);
-        return new JoinGameResponse(gameId, playerName);
+        GameSuperclass game = service.findGame(gameId);
+        String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
+
+
+        return new JoinGameResponse(gameId, playerName, token);
     }
 
     //endregion
