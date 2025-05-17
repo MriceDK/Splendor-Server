@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
 
     private Development dev1;
-    private Development dev2;
 
     @BeforeEach
     public void init() {
