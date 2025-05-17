@@ -57,6 +57,11 @@ class SplendorGameTest {
     }
 
     @Test
+    public void buyDevelopmentNotEnoughTokens(){
+
+    }
+
+    @Test
     public void buyDevelopmentTokenBankRefilled(){
 
         lobby.addPlayer("Bobby");
