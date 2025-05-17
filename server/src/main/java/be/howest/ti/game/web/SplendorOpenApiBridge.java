@@ -179,12 +179,12 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
         SplendorGame game = service.findStartedGame(request.getGameId());
         Player player = game.findPlayer(request.getPlayerName());
+
         try {
             game.buyDevelopment(request.getPayment(), request.getDevelopmentName() , player);
         } catch (Exception e){
-            buyReserveDevelopment(request);
+            return buyReserveDevelopment(game, request.getDevelopmentName(), player, request.getPayment());
         }
-
 
         PlayerInListView activePlayerView = new PlayerInListView(player);
         return new BuyDevelopmentResponse(activePlayerView.getBuilt(), player.getTokens().getTokens());
@@ -220,13 +220,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("buy-reserved-development")
-    public BuyDevelopmentResponse buyReserveDevelopment(BuyDevelopmentRequest request) {
+    private BuyDevelopmentResponse buyReserveDevelopment(SplendorGame game, String developmentName, Player player, Purse payment) {
 
-        SplendorService service = getService(request);
-        SplendorGame game = service.findStartedGame(request.getGameId());
-        Player player = game.findPlayer(request.getPlayerName());
-
-        game.buyReservedDevelopment(request.getPayment(), request.getDevelopmentName() , player);
+        game.buyReservedDevelopment(payment, developmentName , player);
 
         PlayerInListView activePlayerView = new PlayerInListView(player);
         return new BuyDevelopmentResponse(activePlayerView.getBuilt(), player.getTokens().getTokens());
