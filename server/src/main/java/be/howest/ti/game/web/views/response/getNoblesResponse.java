@@ -1,8 +1,6 @@
 package be.howest.ti.game.web.views.response;
 
-import be.howest.ti.game.logic.Development;
 import be.howest.ti.game.logic.Noble;
-import be.howest.ti.game.web.views.DevelopmentInListView;
 import be.howest.ti.game.web.views.NobleInSetView;
 
 import java.util.ArrayList;

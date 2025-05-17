@@ -1,16 +1,18 @@
 package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.logic.service.GameManager;
 import be.howest.ti.game.logic.service.GameOperations;
 import be.howest.ti.game.logic.service.SplendorService;
-import be.howest.ti.game.logic.service.GameManager;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
 import be.howest.ti.game.web.tokens.TokenManager;
 import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
 import be.howest.ti.game.web.views.response.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is not a monster class, it is a bridge :-)
@@ -164,7 +166,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorGame game = service.findStartedGame(gameId);
         Player player = game.findPlayer(playername);
 
-        if (takeOrReturn){
+        if (takeOrReturn) {
             game.acquireTokens(player, new Purse(tokensToChange));
         } else {
             game.returnTokens(player, new Purse(tokensToChange));
@@ -180,7 +182,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorGame game = service.findStartedGame(request.getGameId());
         Player activePlayer = game.getCurrentPlayer();
 
-        game.buyDevelopment(request.getPayment(), request.getDevelopmentName() , activePlayer);
+        game.buyDevelopment(request.getPayment(), request.getDevelopmentName(), activePlayer);
 
         PlayerInListView activePlayerView = new PlayerInListView(activePlayer);
         return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayer.getTokens().getTokens());
