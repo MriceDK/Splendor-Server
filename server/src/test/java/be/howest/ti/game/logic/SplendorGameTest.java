@@ -175,4 +175,17 @@ class SplendorGameTest {
     }
 
 
+    @Test
+    void buyReservedDevelopmentGood() {
+    }
+
+    @Test
+    void buyReservedDevelopmentDevelopmentNotReserved(){
+
+    }
+
+    @Test
+    void buyReservedDevelopmentNotEnoughTokens(){
+
+    }
 }
