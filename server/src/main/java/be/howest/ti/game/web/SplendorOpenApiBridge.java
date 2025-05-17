@@ -181,14 +181,14 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         Player player = game.findPlayer(request.getPlayerName());
         try {
             game.buyDevelopment(request.getPayment(), request.getDevelopmentName() , player);
-
-            PlayerInListView activePlayerView = new PlayerInListView(player);
-            return new BuyDevelopmentResponse(activePlayerView.getBuilt(), player.getTokens().getTokens());
-
         } catch (Exception e){
             buyReserveDevelopment(request);
         }
-        throw new IllegalStateException("Something went wrong");
+
+
+        PlayerInListView activePlayerView = new PlayerInListView(player);
+        return new BuyDevelopmentResponse(activePlayerView.getBuilt(), player.getTokens().getTokens());
+
     }
 
     @Operation("reserve-development")
