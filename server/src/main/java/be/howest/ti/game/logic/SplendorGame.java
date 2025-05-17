@@ -37,7 +37,6 @@ public class SplendorGame extends GameSuperclass {
 
     public void endTurn() {
         checkForNoble();
-
         setGameState(GameState.TURN_ACTION);
         currentPlayer = getNextPlayer();
 
@@ -89,6 +88,10 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void buyDevelopment(Purse payment, String developmentName, Player player){
+        if (!gameState.equals(GameState.TURN_ACTION)) {
+            throw new IllegalStateException("The game state does not align with what you want to do!");
+        }
+
         if (playerTurnChecker(player)){
             player.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
             tokenBank.addTokens(payment);
@@ -97,10 +100,20 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void reserveDevelopment(String developmentName, Player player){
+        if (!gameState.equals(GameState.TURN_ACTION)) {
+            throw new IllegalStateException("The game state does not align with what you want to do!");
+        }
+
         if (playerTurnChecker(player)) {
             player.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
             givePlayerGoldTokenIfPossible(player);
-            endTurn();
+
+            if (currentPlayer.hasTooManyTokens()) {
+                setGameState(GameState.RETURN_GEMS);
+            } else {
+                endTurn();
+            }
+
         }
     }
 
@@ -112,15 +125,20 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void reserveDevelopmentFromLevel(int level, Player player){
+        if (!gameState.equals(GameState.TURN_ACTION)) {
+            throw new IllegalStateException("The game state does not align with what you want to do!");
+        }
+
         if (playerTurnChecker(player)) {
             player.reserveDevelopment(market.takeTopDevelopment(level));
             givePlayerGoldTokenIfPossible(player);
 
             if (currentPlayer.hasTooManyTokens()) {
                 setGameState(GameState.RETURN_GEMS);
+            } else {
+                endTurn();
             }
 
-            endTurn();
         }
     }
 
@@ -164,15 +182,20 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void acquireTokens(Player player, Purse tokens){
+        if (!gameState.equals(GameState.TURN_ACTION)) {
+            throw new IllegalStateException("The game state does not align with what you want to do!");
+        }
+
         if(playerTurnChecker(player)){
             player.acquireTokens(tokens);
             tokenBank.removeTokens(tokens);
 
             if (currentPlayer.hasTooManyTokens()) {
                 setGameState(GameState.RETURN_GEMS);
+            } else {
+                endTurn();
             }
 
-            endTurn();
         }
     }
 
