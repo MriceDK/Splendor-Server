@@ -61,17 +61,41 @@ public class Player {
         return ownedDevelopments;
     }
 
-    public void checkIfPaymentIsSufficient(Development development, Purse payment){
-        for (Token token : development.cost().getTokens().keySet()) {
-            int ownTokenValue = tokens.getTokens().get(token);
-            int paymentTokenValue = payment.getTokens().get(token);
-            int bonusTokenValue = bonuses.getTokens().get(token);
-            int developmentTokenCost = development.cost().getTokens().get(token);
+    public void checkIfPaymentIsSufficient(Development development, Purse payment) {
+        int goldNeeded = getNeededGold(development.cost(), payment);
 
-            if (paymentTokenValue + bonusTokenValue != developmentTokenCost) throw new IllegalArgumentException("The payment is not sufficient");
-            if (ownTokenValue < paymentTokenValue) throw new IllegalArgumentException("You don't have enough tokens of this type");
+        if (goldNeeded != 0 && !hasEnoughGoldTokens(goldNeeded, payment)) {
+            throw new IllegalArgumentException("The payment is not sufficient");
         }
     }
+
+    private boolean hasEnoughGoldTokens(int goldNeeded, Purse payment) {
+        return payment.getTokenValue(Token.GOLD) == goldNeeded;
+    }
+
+    private int getNeededGold(Purse cost, Purse payment) {
+        int totalStillNeeded = 0;
+
+        for (Token token : cost.getNormalTokens().keySet()) {
+
+            int tokenValueNeeded = cost.getTokenValue(token);
+            int bonusValue = bonuses.getTokenValue(token);
+            int tokenValue = payment.getTokenValue(token);
+
+            int totalTokenWorth = bonusValue + tokenValue;
+
+            if (bonusValue >= tokenValueNeeded && tokenValue > 0) {
+                throw new IllegalArgumentException("The payment is not sufficient");
+            }
+
+            if (bonusValue < tokenValueNeeded && totalTokenWorth != tokenValueNeeded) {
+                totalStillNeeded += tokenValueNeeded - totalTokenWorth;
+            }
+        }
+
+        return totalStillNeeded;
+    }
+
 
     public void checkIfPlayerIsAllowedToReserve() {
         if (reservedDevelopments.size() == 3) {
@@ -81,10 +105,10 @@ public class Player {
 
     public void buyDevelopment(Development development, Purse payment){
         checkIfPaymentIsSufficient(development, payment);
-        prestigePoints += development.prestigePoints();
-        bonuses.addToken(development.bonus(), 1);
         tokens.removeTokens(payment);
         ownedDevelopments.add(development);
+        prestigePoints += development.prestigePoints();
+        bonuses.addToken(development.bonus(), 1);
     }
 
     public void reserveDevelopment(Development development){

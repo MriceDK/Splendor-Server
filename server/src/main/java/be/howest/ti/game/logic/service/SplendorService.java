@@ -28,4 +28,6 @@ public interface SplendorService {
     List<Development> getAllDevelopments();
 
     void buyReservedDevelopment(SplendorGame game, Player player, String developmentName, Purse payment);
+
+    List<Noble> getAllNobles();
 }
