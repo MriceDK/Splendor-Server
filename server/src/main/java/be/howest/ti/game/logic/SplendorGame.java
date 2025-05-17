@@ -28,6 +28,7 @@ public class SplendorGame extends GameSuperclass {
         this.currentPlayer = getPlayers().getFirst();
         this.tokenBank = generateTokenBank();
         this.unclaimedNobles = setUnclaimedNobles();
+        this.gameState = GameState.TURN_ACTION;
     }
 
     public Player getWinner() {
@@ -35,12 +36,19 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void endTurn() {
-        if (currentPlayer.getPrestigePoints() >= 15) {
-            winner = currentPlayer;
-        } else {
-            currentPlayer = getNextPlayer();
-            checkForNoble();
+        checkForNoble();
+
+        setGameState(GameState.TURN_ACTION);
+        currentPlayer = getNextPlayer();
+
+        if (currentPlayer.isWinnerWorthy()) {
+            setGameState(GameState.WINNER_FOUND);
+            winner = calculateWinner();
         }
+    }
+
+    private Player calculateWinner() {
+        return null; // TODO implement calculateWinner
     }
 
     private Player getNextPlayer() {
@@ -50,16 +58,12 @@ public class SplendorGame extends GameSuperclass {
         return players.get(nextPlayerIndex);
     }
 
-    public void setGameState(GameState gameState) {
+    private void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
-    }
-
-    public void setWinner(Player winner) {
-        this.winner = winner;
     }
 
     public Market getMarket() {
@@ -111,6 +115,11 @@ public class SplendorGame extends GameSuperclass {
         if (playerTurnChecker(player)) {
             player.reserveDevelopment(market.takeTopDevelopment(level));
             givePlayerGoldTokenIfPossible(player);
+
+            if (currentPlayer.hasTooManyTokens()) {
+                setGameState(GameState.RETURN_GEMS);
+            }
+
             endTurn();
         }
     }
@@ -158,6 +167,11 @@ public class SplendorGame extends GameSuperclass {
         if(playerTurnChecker(player)){
             player.acquireTokens(tokens);
             tokenBank.removeTokens(tokens);
+
+            if (currentPlayer.hasTooManyTokens()) {
+                setGameState(GameState.RETURN_GEMS);
+            }
+
             endTurn();
         }
     }
