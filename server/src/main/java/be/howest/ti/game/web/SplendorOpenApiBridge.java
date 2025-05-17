@@ -215,8 +215,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("buy-reserved-development")
-    public NotYetImplementedResponse buyReserveDevelopment(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("buy-reserved-development");
+    public BuyDevelopmentResponse buyReserveDevelopment(BuyDevelopmentRequest request) {
+        SplendorService service = getService(request);
+
+        return new BuyDevelopmentResponse("buy-reserved-development");
     }
 
     @Operation("choose-noble")
