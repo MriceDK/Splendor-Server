@@ -163,6 +163,12 @@ public class Player {
     }
 
     public Development findDevelopmentInReservedDevelopments(String developmentName) {
+        for (Development reservedDevelopment: reservedDevelopments){
+            if (reservedDevelopment.name().equals(developmentName)){
+                return reservedDevelopment;
+            }
+        }
+        throw new IllegalArgumentException("Development is not in the reserved developments of player " + name);
 
     }
 }
