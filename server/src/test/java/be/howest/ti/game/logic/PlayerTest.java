@@ -158,7 +158,7 @@ class PlayerTest {
     @Test
     public void buyingDevelopmentIsPossibleWhenYouHaveMoreBonusesThanCostOfDevelopment() {
         Player player = new Player("Alice");
-        player.setBonuses( new Purse(Map.of(Token.SAPPHIRE, 4, Token.ONYX, 5)) );
+        player.getBonuses().addTokens( new Purse(Map.of(Token.SAPPHIRE, 4, Token.ONYX, 5)) );
 
         player.buyDevelopment(dev1, new Purse());
 

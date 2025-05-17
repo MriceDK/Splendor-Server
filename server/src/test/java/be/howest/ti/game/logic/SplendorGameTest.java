@@ -83,7 +83,7 @@ class SplendorGameTest {
         List<Noble> nobleList = new ArrayList<>(nobles);
         Noble wantedNoble = nobleList.getFirst();
 
-        player.setBonuses(wantedNoble.neededBonuses());
+        player.getBonuses().addTokens(wantedNoble.neededBonuses());
         game.setCurrentPlayer(player);
 
         game.checkForNoble();

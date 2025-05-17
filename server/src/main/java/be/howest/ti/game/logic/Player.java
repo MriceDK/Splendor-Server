@@ -176,9 +176,4 @@ public class Player {
         return Objects.hashCode(name);
     }
 
-    //For testing purposes
-    public void setBonuses(Purse bonuses) {
-        this.bonuses = bonuses;
-    }
-
 }
