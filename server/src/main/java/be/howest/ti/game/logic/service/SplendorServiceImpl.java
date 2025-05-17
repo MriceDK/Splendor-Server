@@ -151,6 +151,7 @@ public class SplendorServiceImpl implements SplendorService {
 
     @Override
     public void buyReservedDevelopment(SplendorGame game, Player player, String developmentName, Purse payment) {
+        game.buyReservedDevelopment(payment, developmentName, player);
 
     }
 
