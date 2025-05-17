@@ -38,8 +38,8 @@ public class SplendorGame extends GameSuperclass {
         if (currentPlayer.getPrestigePoints() >= 15) {
             winner = currentPlayer;
         } else {
-            currentPlayer = getNextPlayer();
             checkForNoble();
+            currentPlayer = getNextPlayer();
         }
     }
 
@@ -133,11 +133,27 @@ public class SplendorGame extends GameSuperclass {
     private void chooseNobleNecessaryCheck(List<Noble> possibleNobles){
         if (possibleNobles.size() > ONE_NOBLE){
             setGameState(GameState.CHOOSE_NOBLE);
-            //TODO : ADD FUNCTIONALITY FOR WHEN TWO OR MORE NOBLES CLAIMABLE --> WHEN DOING ENDPOINT NOBLES
         } else {
             acquireNoble(possibleNobles);
         }
     }
+
+    public Noble chooseNoble(Noble noble) {
+        if (!unclaimedNobles.contains(noble)) {
+            throw new IllegalArgumentException("Noble not available");
+        }
+        if (!playerMeetsRequirements(currentPlayer, noble)) {
+            throw new IllegalArgumentException("Player does not meet requirements for this noble");
+        }
+
+        currentPlayer.claimNoble(noble);
+        unclaimedNobles.remove(noble);
+        return noble;
+    }
+
+
+
+
 
     private boolean playerMeetsRequirements(Player player, Noble noble) {
         for (Token bonus : Token.values()) {

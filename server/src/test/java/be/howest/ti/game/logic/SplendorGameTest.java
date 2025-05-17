@@ -176,4 +176,34 @@ class SplendorGameTest {
     }
 
 
+    @Test
+    void chooseNobleGood() {
+        Player player = new Player("Gulf of Mexico");
+        lobby.addPlayer("Gulf of Mexico");
+        SplendorGame game = new SplendorGame(lobby);
+
+
+        List<Noble> nobles = new ArrayList<>(game.getUnclaimedNobles());
+        Noble possibleNobleToChoose1 = nobles.getFirst();
+        Noble possibleNobleToChoose2 = nobles.getLast();
+        game.setCurrentPlayer(player);
+        Purse requiredBonuses = new Purse(Map.of(Token.DIAMOND, 5, Token.EMERALD, 5, Token.SAPPHIRE, 5, Token.ONYX, 5, Token.RUBY, 5));
+        player.setBonuses(requiredBonuses);
+
+        game.chooseNoble(possibleNobleToChoose2);
+        assertTrue(player.getAcquiredNobles().contains(possibleNobleToChoose2));
+    }
+
+    @Test
+    void chooseNobleBad() {
+        lobby.addPlayer("Taiwan");
+        SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
+
+        List<Noble> nobles = new ArrayList<>(game.getUnclaimedNobles());
+        Noble nobleToChoose = nobles.getFirst();
+        game.setCurrentPlayer(player);
+
+        assertFalse(player.getAcquiredNobles().contains(nobleToChoose));
+    }
 }
