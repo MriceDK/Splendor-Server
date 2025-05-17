@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.service.PlayerPrestigePointsOrder;
 import be.howest.ti.game.util.reader.NobleReader;
 
 import java.util.*;
@@ -46,8 +47,12 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    private Player calculateWinner() {
-        return null; // TODO implement calculateWinner
+    private Player calculateWinner() { // TODO Write tests!!!
+        List<Player> rankListOfPlayers = getPlayers();
+
+        rankListOfPlayers.sort(new PlayerPrestigePointsOrder());
+
+        return rankListOfPlayers.getFirst();
     }
 
     private Player getNextPlayer() {
