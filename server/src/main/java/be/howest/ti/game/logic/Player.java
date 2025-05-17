@@ -61,12 +61,19 @@ public class Player {
         return ownedDevelopments;
     }
 
-    public void checkIfDevelopmentCanBeBought(Development development, Purse payment) {
-        paymentIsValid(development.cost(), payment);
+    public void checkIfPaymentIsSufficient(Development development, Purse payment) {
+        int goldNeeded = getNeededGold(development.cost(), payment);
 
+        if (goldNeeded != 0 && !hasEnoughGoldTokens(goldNeeded, payment)) {
+            throw new IllegalArgumentException("The payment is not sufficient");
+        }
     }
 
-    private void paymentIsValid(Purse cost, Purse payment) {
+    private boolean hasEnoughGoldTokens(int goldNeeded, Purse payment) {
+        return payment.getTokenValue(Token.GOLD) == goldNeeded;
+    }
+
+    private int getNeededGold(Purse cost, Purse payment) {
         int totalStillNeeded = 0;
 
         for (Token token : cost.getNormalTokens().keySet()) {
@@ -77,8 +84,6 @@ public class Player {
 
             int totalTokenWorth = bonusValue + tokenValue;
 
-            System.out.println(token.toString() + ": " + totalTokenWorth + " | cost: " + tokenValueNeeded);
-
             if (bonusValue >= tokenValueNeeded && tokenValue > 0) {
                 throw new IllegalArgumentException("The payment is not sufficient");
             }
@@ -88,17 +93,7 @@ public class Player {
             }
         }
 
-        System.out.println(Token.GOLD.toString() + ": " + payment.getTokenValue(Token.GOLD));
-        System.out.println("Still needed: " + totalStillNeeded);
-
-        if (totalStillNeeded != 0 && payment.getTokenValue(Token.GOLD) == totalStillNeeded) {
-            totalStillNeeded = 0;
-        }
-
-        if (totalStillNeeded != 0) {
-            throw new IllegalArgumentException("The payment is not sufficient");
-        }
-
+        return totalStillNeeded;
     }
 
 
@@ -109,7 +104,7 @@ public class Player {
     }
 
     public void buyDevelopment(Development development, Purse payment){
-        checkIfDevelopmentCanBeBought(development, payment);
+        checkIfPaymentIsSufficient(development, payment);
         tokens.removeTokens(payment);
         ownedDevelopments.add(development);
         prestigePoints += development.prestigePoints();
