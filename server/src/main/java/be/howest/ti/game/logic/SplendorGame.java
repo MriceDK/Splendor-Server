@@ -156,7 +156,7 @@ public class SplendorGame extends GameSuperclass {
 
     public void acquireTokens(Player player, Purse tokens){
         if(playerTurnChecker(player)){
-            player.acquireTokens(tokens);
+            player.acquireTokens(tokens, tokenBank);
             tokenBank.removeTokens(tokens);
             endTurn();
         }
