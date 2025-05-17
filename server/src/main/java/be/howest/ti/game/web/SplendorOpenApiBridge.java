@@ -55,8 +55,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("get-nobles")
-    public NotYetImplementedResponse getNobles(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-nobles");
+    public getNoblesResponse getNobles(getNoblesRequest request) {
+        SplendorService service = getService(request);
+        return new getNoblesResponse(service.getAllNobles());
     }
 
     @Operation("get-developments")
@@ -111,8 +112,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("delete-games")
-    public NotYetImplementedResponse deleteGames(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("delete-games");
+    public DeleteGamesResponse deleteGames(DeleteGamesRequest request) {
+        SplendorService service = getService(request);
+        return new DeleteGamesResponse(service.removeGames());
     }
 
     @Operation("get-game-details")

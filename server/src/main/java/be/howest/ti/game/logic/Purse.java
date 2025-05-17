@@ -26,6 +26,22 @@ public class Purse {
         return tokens;
     }
 
+    public int getTokenValue(Token token) {
+        return tokens.get(token);
+    }
+
+    public Map<Token, Integer> getNormalTokens() {
+        Map<Token, Integer> res = new HashMap<>();
+
+        tokens.forEach((token, value) -> {
+            if (!token.equals(Token.GOLD)) {
+                res.put(token, value);
+            }
+        });
+
+        return res;
+    }
+
     public int getTotal(){
         int total = 0;
         for (Integer value : this.tokens.values()) {
