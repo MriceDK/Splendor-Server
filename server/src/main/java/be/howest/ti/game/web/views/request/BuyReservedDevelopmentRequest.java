@@ -16,7 +16,7 @@ public class BuyReservedDevelopmentRequest extends PaymentReceiver {
     }
 
     public String getDevelopmentName(){
-        return params.pathParameter("development").getString();
+        return params.pathParameter("developmentName").getString();
     }
 
 }
