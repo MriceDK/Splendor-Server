@@ -20,12 +20,16 @@ public class PaymentReceiver extends BaseSplendorRequest {
 
         for (Map.Entry<String, Object> paymentToken : jsonObjectToIterate){
 
-            Token tokenToAdd = Token.valueOf(paymentToken.getKey().toUpperCase());
+            Token tokenToAdd = tokenTranslator(paymentToken);
             int valueToAdd = (Integer) paymentToken.getValue();
 
             mapToAdd.put(tokenToAdd, valueToAdd);
 
         }
         return new Purse(mapToAdd);
+    }
+
+    private static Token tokenTranslator(Map.Entry<String, Object> paymentToken) {
+        return Token.valueOf(paymentToken.getKey().toUpperCase());
     }
 }
