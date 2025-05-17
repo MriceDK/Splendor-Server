@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -9,6 +10,15 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
+
+    private Development dev1;
+    private Development dev2;
+
+    @BeforeEach
+    public void init() {
+        Purse dev1Cost = new Purse(Map.of(Token.SAPPHIRE, 3, Token.ONYX, 2));
+        dev1 = new Development("dev-1", 1, 0, Token.DIAMOND, dev1Cost);
+    }
 
     @Test
     void returnTokensWhenPossible() {
@@ -144,6 +154,16 @@ class PlayerTest {
         assertEquals(new Purse(Map.of(
                 Token.GOLD, 1
         )), player.getTokens());
+    }
+
+    @Test
+    public void buyingDevelopmentIsPossibleWhenYouHaveMoreBonusesThanCostOfDevelopment() {
+        Player player = new Player("Alice");
+        player.setBonuses( new Purse(Map.of(Token.SAPPHIRE, 4, Token.ONYX, 5)) );
+
+        player.buyDevelopment(dev1, new Purse());
+
+        assertEquals(List.of(dev1), player.getOwnedDevelopments());
     }
 
 }

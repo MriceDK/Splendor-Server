@@ -61,25 +61,41 @@ public class Player {
         return ownedDevelopments;
     }
 
-    public void checkIfPaymentIsSufficient(Development development, Purse payment){
-        int totalTokensStillNeeded = 0;
+    public void checkIfDevelopmentCanBeBought(Development development, Purse payment) {
+        paymentIsValid(development.cost(), payment);
 
-        for (Token token : development.cost().getNormalTokens().keySet()) {
-                int ownTokenValue = tokens.getTokenValue(token);
-                int paymentTokenValue = payment.getTokenValue(token);
-                int bonusTokenValue = bonuses.getTokenValue(token);
-                int developmentTokenCost = development.cost().getTokenValue(token);
+    }
 
-                int totalTokenValue = paymentTokenValue + bonusTokenValue;
+    private void paymentIsValid(Purse cost, Purse payment) {
+        int totalStillNeeded = 0;
 
-                if (totalTokenValue != developmentTokenCost) {
-                    totalTokensStillNeeded += (developmentTokenCost - totalTokenValue);
-                }
+        for (Token token : cost.getNormalTokens().keySet()) {
 
-                if (ownTokenValue < paymentTokenValue) throw new IllegalArgumentException("You don't have enough tokens of this type");
+            int tokenValueNeeded = cost.getTokenValue(token);
+            int bonusValue = bonuses.getTokenValue(token);
+            int tokenValue = payment.getTokenValue(token);
+
+            int totalTokenWorth = bonusValue + tokenValue;
+
+            System.out.println(token.toString() + ": " + totalTokenWorth + " | cost: " + tokenValueNeeded);
+
+            if (bonusValue >= tokenValueNeeded && tokenValue > 0) {
+                throw new IllegalArgumentException("The payment is not sufficient");
+            }
+
+            if (bonusValue < tokenValueNeeded && totalTokenWorth != tokenValueNeeded) {
+                totalStillNeeded += tokenValueNeeded - totalTokenWorth;
+            }
         }
 
-        if (totalTokensStillNeeded - payment.getTokens().get(Token.GOLD) != 0) {
+        System.out.println(Token.GOLD.toString() + ": " + payment.getTokenValue(Token.GOLD));
+        System.out.println("Still needed: " + totalStillNeeded);
+
+        if (totalStillNeeded != 0 && payment.getTokenValue(Token.GOLD) == totalStillNeeded) {
+            totalStillNeeded = 0;
+        }
+
+        if (totalStillNeeded != 0) {
             throw new IllegalArgumentException("The payment is not sufficient");
         }
 
@@ -93,11 +109,11 @@ public class Player {
     }
 
     public void buyDevelopment(Development development, Purse payment){
-        checkIfPaymentIsSufficient(development, payment);
-        prestigePoints += development.prestigePoints();
-        bonuses.addToken(development.bonus(), 1);
+        checkIfDevelopmentCanBeBought(development, payment);
         tokens.removeTokens(payment);
         ownedDevelopments.add(development);
+        prestigePoints += development.prestigePoints();
+        bonuses.addToken(development.bonus(), 1);
     }
 
     public void reserveDevelopment(Development development){
