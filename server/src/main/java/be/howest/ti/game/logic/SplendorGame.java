@@ -18,7 +18,6 @@ public class SplendorGame extends GameSuperclass {
     private Player currentPlayer;
     private GameState gameState;
     private Player winner;
-    private Noble chosenNoble;
 
     private static final int ONE_NOBLE = 1;
 
@@ -139,7 +138,7 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public void chooseNoble(Noble noble) {
+    public Noble chooseNoble(Noble noble) {
         if (!unclaimedNobles.contains(noble)) {
             throw new IllegalArgumentException("Noble not available");
         }
@@ -149,13 +148,11 @@ public class SplendorGame extends GameSuperclass {
 
         currentPlayer.claimNoble(noble);
         unclaimedNobles.remove(noble);
-        chosenNoble = noble;
+        return noble;
     }
 
 
-    public Noble getChosenNoble() {
-        return chosenNoble;
-    }
+
 
 
     private boolean playerMeetsRequirements(Player player, Noble noble) {
