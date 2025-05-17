@@ -6,15 +6,15 @@ import java.util.List;
 
 public class ChooseNobleResponse extends AbstractResponseWithHiddenStatus {
 
-    private List<Noble> nobles;
+    private Noble noble;
 
-    public ChooseNobleResponse(List<Noble> nobles) {
+    public ChooseNobleResponse(Noble noble) {
         super(200);
-        this.nobles = nobles;
+        this.noble = noble;
     }
 
-    public List<Noble> getNobles() {
-        return nobles;
+    public Noble getNoble() {
+        return noble;
     }
 
 }
