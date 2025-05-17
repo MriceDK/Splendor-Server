@@ -64,12 +64,11 @@ public class Player {
     public void checkIfPaymentIsSufficient(Development development, Purse payment){
         int totalTokensStillNeeded = 0;
 
-        for (Token token : development.cost().getTokens().keySet()) {
-            if (!token.equals(Token.GOLD)) {
-                int ownTokenValue = tokens.getTokens().get(token);
-                int paymentTokenValue = payment.getTokens().get(token);
-                int bonusTokenValue = bonuses.getTokens().get(token);
-                int developmentTokenCost = development.cost().getTokens().get(token);
+        for (Token token : development.cost().getNormalTokens().keySet()) {
+                int ownTokenValue = tokens.getTokenValue(token);
+                int paymentTokenValue = payment.getTokenValue(token);
+                int bonusTokenValue = bonuses.getTokenValue(token);
+                int developmentTokenCost = development.cost().getTokenValue(token);
 
                 int totalTokenValue = paymentTokenValue + bonusTokenValue;
 
@@ -78,8 +77,6 @@ public class Player {
                 }
 
                 if (ownTokenValue < paymentTokenValue) throw new IllegalArgumentException("You don't have enough tokens of this type");
-
-            }
         }
 
         if (totalTokensStillNeeded - payment.getTokens().get(Token.GOLD) != 0) {
