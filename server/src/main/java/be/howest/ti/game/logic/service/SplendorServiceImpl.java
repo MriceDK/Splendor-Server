@@ -149,4 +149,9 @@ public class SplendorServiceImpl implements SplendorService {
         return reader.getAllDevelopments();
     }
 
+    @Override
+    public void buyReservedDevelopment(SplendorGame game, Player player, String developmentName, Purse payment) {
+
+    }
+
 }
