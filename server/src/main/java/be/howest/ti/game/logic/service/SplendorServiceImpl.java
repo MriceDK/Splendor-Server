@@ -1,8 +1,7 @@
 package be.howest.ti.game.logic.service;
 
-import be.howest.ti.game.logic.GameLobby;
-import be.howest.ti.game.logic.GameSuperclass;
-import be.howest.ti.game.logic.SplendorGame;
+import be.howest.ti.game.logic.*;
+import be.howest.ti.game.util.reader.DevelopmentReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,12 +126,27 @@ public class SplendorServiceImpl implements SplendorService {
         games.remove(game);
     }
 
+    @Override
+    public ArrayList<GameSuperclass> removeGames() {
+        if (getGames().isEmpty()) {
+            throw new IllegalArgumentException("No games to delete");
+        }
+        ArrayList<GameSuperclass> gamesThatWereDeleted = new ArrayList<>(games);
+        games.clear();
+        return gamesThatWereDeleted;
+    }
+
     public int generateGameId() {
         int gameId = incrementalIdentifier;
 
         incrementalIdentifier++;
 
         return gameId;
+    }
+
+    public List<Development> getAllDevelopments() {
+        DevelopmentReader reader = new DevelopmentReader();
+        return reader.getAllDevelopments();
     }
 
 }

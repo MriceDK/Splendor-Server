@@ -5,6 +5,7 @@ import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
 import be.howest.ti.game.web.tokens.TokenManager;
+import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
 import be.howest.ti.game.web.views.response.*;
 
@@ -44,8 +45,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     //region General operations
 
     @Operation("get-info")
-    public NotYetImplementedResponse getInfo(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-info");
+    public GetInfoResponse getInfo(GetInfoRequest request) {
+        return new GetInfoResponse();
     }
 
     @Operation("get-gems")
@@ -59,8 +60,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("get-developments")
-    public NotYetImplementedResponse getDevelopments(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-developments");
+    public getDevelopmentsResponse getDevelopments(GetDevelopmentsRequest request) {
+        SplendorService service = getService(request);
+        return new getDevelopmentsResponse(service.getAllDevelopments());
     }
 
     //endregion
@@ -109,8 +111,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("delete-games")
-    public NotYetImplementedResponse deleteGames(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("delete-games");
+    public DeleteGamesResponse deleteGames(DeleteGamesRequest request) {
+        SplendorService service = getService(request);
+        return new DeleteGamesResponse(service.removeGames());
     }
 
     @Operation("get-game-details")
@@ -163,17 +166,24 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
         if (takeOrReturn){
             game.acquireTokens(player, new Purse(tokensToChange));
-        } else if (!takeOrReturn){
-            game.returnTokens(player, new Purse(tokensToChange));
         } else {
-            throw new IllegalStateException("Received bad JSON object");
+            game.returnTokens(player, new Purse(tokensToChange));
         }
         return new UpdateTokensResponse(player.getTokens());
+
     }
 
     @Operation("buy-development")
-    public NotYetImplementedResponse buyDevelopment(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("buy-development");
+    public BuyDevelopmentResponse buyDevelopment(BuyDevelopmentRequest request) {
+
+        SplendorService service = getService(request);
+        SplendorGame game = service.findStartedGame(request.getGameId());
+        Player activePlayer = game.getCurrentPlayer();
+
+        game.buyDevelopment(request.getPayment(), request.getDevelopmentName() , activePlayer);
+
+        PlayerInListView activePlayerView = new PlayerInListView(activePlayer);
+        return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayer.getTokens().getTokens());
     }
 
     @Operation("reserve-development")
@@ -196,9 +206,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         Player player = game.findPlayer(request.getPlayerName());
 
         if (name != null) {
-            return new ReserveDevelopmentResponse(game.reserveDevelopment(name, player));
+            game.reserveDevelopment(name, player);
+            return new ReserveDevelopmentResponse(player.getReservedDevelopments(), player.getTokens());
         } else if (0 < level && level <= 3) {
-            return new ReserveDevelopmentResponse(game.reserveDevelopmentFromLevel(level, player));
+            game.reserveDevelopmentFromLevel(level, player);
+            return new ReserveDevelopmentResponse(player.getReservedDevelopments(), player.getTokens());
         } else throw new IllegalArgumentException("Please provide a valid level (1-3) or a development name");
     }
 

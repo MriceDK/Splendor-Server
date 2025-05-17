@@ -10,14 +10,13 @@ public class Player {
     private Set<Noble> acquiredNobles; // TODO make final
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
-    
+    private final List<Development> ownedDevelopments;
+
     private static final int TOO_MANY_TOTAL_TOKENS_PER_PLAYER = 11;
     private static final int MAX_TOTAL_TOKENS_PER_PLAYER = 10;
-
     private static final int ZERO_TOKENS = 0;
     private static final int MAX_DIFFERENT_TOKENS = 3;
     private static final int MAX_OF_SAME_TOKEN = 2;
-    private static final int SAME_TOKEN = 1;
 
     public Player (String name){
         this.name = name;
@@ -26,6 +25,7 @@ public class Player {
         this.tokens = new Purse();
         this.bonuses = new Purse();
         this.prestigePoints = 0;
+        this.ownedDevelopments = new ArrayList<>();
     }
 
     //for testing purposes
@@ -57,6 +57,10 @@ public class Player {
         return reservedDevelopments;
     }
 
+    public List<Development> getOwnedDevelopments() {
+        return ownedDevelopments;
+    }
+
     public void checkIfPaymentIsSufficient(Development development, Purse payment){
         for (Token token : development.cost().getTokens().keySet()) {
             int ownTokenValue = tokens.getTokens().get(token);
@@ -79,20 +83,20 @@ public class Player {
         checkIfPaymentIsSufficient(development, payment);
         prestigePoints += development.prestigePoints();
         bonuses.addToken(development.bonus(), 1);
-        tokens.removeTokens(payment.getTokens());
+        tokens.removeTokens(payment);
+        ownedDevelopments.add(development);
     }
 
-    public Development reserveDevelopment(Development development){
+    public void reserveDevelopment(Development development){
         checkIfPlayerIsAllowedToReserve();
         reservedDevelopments.add(development);
-        return development;
     }
 
     public void claimNoble(Noble noble){acquiredNobles.add(noble);}
 
-    public void acquireTokens(Map<Token,Integer> tokensToAcquire){
+    public void acquireTokens(Purse tokensToAcquire){
         int sizeOfTokensToAcquire = 0;
-        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.entrySet()){
+        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.getTokens().entrySet()){
             if (tokenToAcquire.getValue() > ZERO_TOKENS){
                 sizeOfTokensToAcquire++;
             }
@@ -103,17 +107,17 @@ public class Player {
         tokens.addTokens(tokensToAcquire);
     }
 
-    private void ruleCheckToAcquireTokens(Map<Token, Integer> tokensToAcquire, int sizeOfTokensToAcquire) {
+    private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire) {
         if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
             throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
         }
 
-        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.entrySet()){
+        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()){
             if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
                 throw new IllegalArgumentException("You cannot acquire more than two tokens of the same type");
             }
 
-            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != SAME_TOKEN) {
+            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != 1) {
                 throw new IllegalArgumentException("You can only take two of the same token type if you're taking only that type");
             }
 
@@ -121,9 +125,9 @@ public class Player {
     }
 
 
-    public void returnTokens(Map<Token, Integer> totalReturnTokens) {
+    public void returnTokens(Purse totalReturnTokens) {
         int totalTokens = tokens.getTotal();
-        int returnTokens = totalReturnTokens.values().stream().mapToInt(Integer::intValue).sum(); //get values out of map, make them int and adds them up
+        int returnTokens = totalReturnTokens.getTokens().values().stream().mapToInt(Integer::intValue).sum(); //get values out of map, make them int and adds them up
         int diffTotalTokensAndReturnTokens = totalTokens - returnTokens;
 
         if (totalTokens <= MAX_TOTAL_TOKENS_PER_PLAYER) {
