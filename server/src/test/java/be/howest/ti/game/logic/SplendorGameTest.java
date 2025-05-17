@@ -167,13 +167,14 @@ class SplendorGameTest {
 
 
         List<Noble> nobles = new ArrayList<>(game.getUnclaimedNobles());
-        Noble nobleToChoose = nobles.getFirst();
+        Noble possibleNobleToChoose1 = nobles.getFirst();
+        Noble possibleNobleToChoose2 = nobles.getLast();
         game.setCurrentPlayer(player);
         Purse requiredBonuses = new Purse(Map.of(Token.DIAMOND, 5, Token.EMERALD, 5, Token.SAPPHIRE, 5, Token.ONYX, 5, Token.RUBY, 5));
         player.setBonuses(requiredBonuses);
 
-        game.chooseNoble(nobleToChoose.name());
-        assertTrue(player.getAcquiredNobles().contains(nobleToChoose));
+        game.chooseNoble(possibleNobleToChoose2);
+        assertTrue(player.getAcquiredNobles().contains(possibleNobleToChoose2));
     }
 
     @Test
