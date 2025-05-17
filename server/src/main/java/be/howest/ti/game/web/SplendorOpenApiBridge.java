@@ -231,8 +231,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         Purse bonusPurse = request.getNeededBonuses();
         Noble noble = new Noble(request.getNobleName(), request.getPrestigePoints(), bonusPurse);
 
-        game.chooseNoble(noble);
-        Noble chosenNoble = game.getChosenNoble();
+
+        Noble chosenNoble = game.chooseNoble(noble);
 
         return new ChooseNobleResponse(chosenNoble);
     }
