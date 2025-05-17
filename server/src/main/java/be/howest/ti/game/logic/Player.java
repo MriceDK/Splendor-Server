@@ -146,7 +146,7 @@ public class Player {
             }
 
             if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && tokenBank.getTokenValue(tokenToAdd.getKey()) <= 3){
-
+                throw new IllegalArgumentException("You can only take two of the same token type if the bank has more than four available tokens");
             }
         }
     }
