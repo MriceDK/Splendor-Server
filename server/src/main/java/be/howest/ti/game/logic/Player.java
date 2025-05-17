@@ -28,11 +28,6 @@ public class Player {
         this.ownedDevelopments = new ArrayList<>();
     }
 
-    //for testing purposes
-    public void setTokens(Purse purse){
-        this.tokens = purse;
-    }
-
     public String getName() {
         return name;
     }

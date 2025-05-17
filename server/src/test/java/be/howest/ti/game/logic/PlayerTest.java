@@ -26,7 +26,7 @@ class PlayerTest {
         initialTokens.put(Token.DIAMOND, 5);
         initialTokens.put(Token.RUBY, 4);
         initialTokens.put(Token.EMERALD, 3);
-        player.setTokens(new Purse(initialTokens));
+        player.getTokens().addTokens(new Purse(initialTokens));
 
         assertEquals(12, player.getTokens().getTotal());
 
@@ -49,7 +49,7 @@ class PlayerTest {
         initialTokens.put(Token.ONYX, 1);
         initialTokens.put(Token.SAPPHIRE, 2);
         initialTokens.put(Token.RUBY, 3);
-        player.setTokens(new Purse(initialTokens));
+        player.getTokens().addTokens(new Purse(initialTokens));
 
         assertEquals(6, player.getTokens().getTotal());
 
@@ -68,7 +68,7 @@ class PlayerTest {
         initialTokens.put(Token.DIAMOND, 2);
         initialTokens.put(Token.EMERALD, 3);
         initialTokens.put(Token.RUBY, 3);
-        player.setTokens(new Purse(initialTokens));
+        player.getTokens().addTokens(new Purse(initialTokens));
 
         assertEquals(14, player.getTokens().getTotal());
 
@@ -85,7 +85,7 @@ class PlayerTest {
         initialTokens.put(Token.RUBY, 2);
         initialTokens.put(Token.EMERALD, 4);
         initialTokens.put(Token.ONYX, 3);
-        player.setTokens(new Purse(initialTokens));
+        player.getTokens().addTokens(new Purse(initialTokens));
 
         assertEquals(12, player.getTokens().getTotal());
 
@@ -102,7 +102,7 @@ class PlayerTest {
         initialTokens.put(Token.RUBY, 2);
         initialTokens.put(Token.EMERALD, 4);
         initialTokens.put(Token.ONYX, 3);
-        player.setTokens(new Purse(initialTokens));
+        player.getTokens().addTokens(new Purse(initialTokens));
 
         assertEquals(12, player.getTokens().getTotal());
 
@@ -115,7 +115,7 @@ class PlayerTest {
     @Test
     public void buyDevelopmentCardWithGoldToken() {
         Player player = new Player("Alice");
-        player.setTokens(new Purse(Map.of(
+        player.getTokens().addTokens(new Purse(Map.of(
                 Token.GOLD, 4
         )));
 
@@ -137,7 +137,7 @@ class PlayerTest {
     @Test
     public void buyDevelopmentCardWithTooLessGoldToken() {
         Player player = new Player("Alice");
-        player.setTokens(new Purse(Map.of(
+        player.getTokens().addTokens(new Purse(Map.of(
                 Token.GOLD, 1
         )));
 
