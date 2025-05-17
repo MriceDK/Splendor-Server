@@ -181,8 +181,4 @@ public class Player {
         this.bonuses = bonuses;
     }
 
-   //For testing purposes
-    public void setAcquiredNobles(Set<Noble> nobles) {
-        this.acquiredNobles = nobles;
-    }
 }
