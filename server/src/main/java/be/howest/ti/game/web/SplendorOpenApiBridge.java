@@ -4,7 +4,8 @@ import be.howest.ti.game.logic.*;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.JsonWebToken;
-import be.howest.ti.game.web.tokens.PlainTextTokens;
+//import be.howest.ti.game.web.tokens.PlainTextTokens;
+// Import only to be used when working with PlainTextTokens instead of JsonWebToken
 import be.howest.ti.game.web.tokens.SplendorHTTPPlayer;
 import be.howest.ti.game.web.tokens.TokenManager;
 import be.howest.ti.game.web.views.PlayerInListView;
@@ -122,6 +123,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public GetGameDetailsResponse getGameDetails(GetGameDetailsRequest request) { // TODO find a way to sort the response properties
         SplendorService service = getService(request);
 
+        if (request.getAuthorizedGameId() != request.getGameId()) {
+            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+        }
+
         GameSuperclass game = service.findGame(
                 request.getGameId()
         );
@@ -162,6 +167,13 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public UpdateTokensResponse updateTokens(UpdateTokensRequest request) {
         SplendorService service = getService(request);
 
+        if (request.getAuthorizedGameId() != request.getGameId()) {
+            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+        }
+        if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
+            throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
+        }
+
         String playername = request.getPlayerName();
         int gameId = request.getGameId();
         boolean takeOrReturn = request.addOrReturnCheck();
@@ -183,6 +195,14 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public BuyDevelopmentResponse buyDevelopment(BuyDevelopmentRequest request) {
 
         SplendorService service = getService(request);
+
+        if (request.getAuthorizedGameId() != request.getGameId()) {
+            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+        }
+        if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
+            throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
+        }
+
         SplendorGame game = service.findStartedGame(request.getGameId());
         Player activePlayer = game.getCurrentPlayer();
 
@@ -196,6 +216,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public ReserveDevelopmentResponse reserveDevelopment(ReserveDevelopmentRequest request) {
         SplendorService service = getService(request);
 
+
         int level = -1;
         String name = null;
         try {
@@ -206,6 +227,13 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             } catch (IllegalArgumentException err) {
                 throw new IllegalArgumentException("Please provide a level (1-3) or a development name");
             }
+        }
+
+        if (request.getAuthorizedGameId() != request.getGameId()) {
+            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+        }
+        if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
+            throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
         }
 
         SplendorGame game = service.findStartedGame(request.getGameId());
