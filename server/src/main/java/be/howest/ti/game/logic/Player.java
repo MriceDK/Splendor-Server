@@ -198,6 +198,6 @@ public class Player {
     }
 
     public boolean hasTooManyTokens() {
-        return tokens.getTotal() >= MAX_TOTAL_TOKENS_PER_PLAYER;
+        return tokens.getTotal() > MAX_TOTAL_TOKENS_PER_PLAYER;
     }
 }
