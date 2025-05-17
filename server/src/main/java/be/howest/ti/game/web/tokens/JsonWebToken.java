@@ -70,7 +70,7 @@ public class JsonWebToken implements TokenManager{
         try {
             Algorithm algorithm = Algorithm.HMAC256(secretToken);
             return JWT.require(algorithm)
-                    .withIssuer("auth0")
+                    .withIssuer("TI-SplendorGameServer-Group-11")
                     .build()
                     .verify(token).getClaims();
             // Verifies the token with the secret token
