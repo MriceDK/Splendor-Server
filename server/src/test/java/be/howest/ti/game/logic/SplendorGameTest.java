@@ -177,6 +177,21 @@ class SplendorGameTest {
 
     @Test
     void buyReservedDevelopmentGood() {
+        lobby.addPlayer("Kentavious Cadwell-Pope");
+        SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
+
+        Development developmentToReserve = game.getMarket().getVisibleDevelopments(1).getFirst();
+        player.reserveDevelopment(developmentToReserve);
+
+        Purse payment = developmentToReserve.cost();
+        player.getTokens().addTokens(payment);
+
+        game.buyReservedDevelopment(payment, developmentToReserve.name(), player);
+
+        assertFalse(player.getReservedDevelopments().contains(developmentToReserve));
+        assertTrue(player.getOwnedDevelopments().contains(developmentToReserve));
+
     }
 
     @Test
