@@ -1,15 +1,6 @@
 package be.howest.ti.game.web.views.request;
 
-import be.howest.ti.game.logic.Purse;
-import be.howest.ti.game.logic.Token;
-import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import netscape.javascript.JSObject;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class BuyDevelopmentRequest extends PaymentReceiver{
 
