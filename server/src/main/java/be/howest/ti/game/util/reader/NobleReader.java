@@ -61,7 +61,6 @@ public class NobleReader {
     }
 
     public List<Noble> getAllNobles() {
-        // only used for the get-nobles endpoint
         return nobles;
     }
 
