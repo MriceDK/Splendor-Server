@@ -185,7 +185,7 @@ class SplendorGameTest {
         player.reserveDevelopment(developmentToReserve);
 
         Purse payment = developmentToReserve.cost();
-        player.getTokens().addTokens(payment);
+        player.acquireTokens(payment);
 
         game.buyReservedDevelopment(payment, developmentToReserve.name(), player);
 
@@ -196,6 +196,21 @@ class SplendorGameTest {
 
     @Test
     void buyReservedDevelopmentDevelopmentNotReserved(){
+        lobby.addPlayer("Mitchel Robinson");
+        SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
+
+        Development notReservedDevelopment = game.getMarket().getVisibleDevelopments(2).getFirst();
+
+        Purse payment = notReservedDevelopment.cost();
+        player.acquireTokens(payment);
+
+        game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player);
+
+        assertThrows(IllegalArgumentException.class, () -> {game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player);});
+
+
+
 
     }
 
