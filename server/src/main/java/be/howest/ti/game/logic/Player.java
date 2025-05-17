@@ -18,6 +18,8 @@ public class Player {
     private static final int MAX_DIFFERENT_TOKENS = 3;
     private static final int MAX_OF_SAME_TOKEN = 2;
 
+    private static final int MIN_POINTS_NEEDED_TO_WIN = 15;
+
     public Player (String name){
         this.name = name;
         this.acquiredNobles = new HashSet<>();
@@ -166,6 +168,10 @@ public class Player {
         }
 
         tokens.removeTokens(totalReturnTokens);
+    }
+
+    public boolean isWinnerWorthy() {
+        return prestigePoints >= MIN_POINTS_NEEDED_TO_WIN;
     }
 
 
