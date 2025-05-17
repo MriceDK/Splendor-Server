@@ -58,6 +58,16 @@ class SplendorGameTest {
 
     @Test
     public void buyDevelopmentNotEnoughTokens(){
+        lobby.addPlayer("Watergate concierge");
+        SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
+
+        Development developmentToBuy = game.getMarket().getVisibleDevelopments(1).getFirst();
+
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.buyDevelopment(player.getTokens(), developmentToBuy.name(), player);
+        });
 
     }
 
@@ -214,11 +224,6 @@ class SplendorGameTest {
 
 
 
-
-    }
-
-    @Test
-    void buyReservedDevelopmentNotEnoughTokens(){
 
     }
 }
