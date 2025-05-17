@@ -200,4 +200,8 @@ public class Player {
     public boolean hasTooManyTokens() {
         return tokens.getTotal() > MAX_TOTAL_TOKENS_PER_PLAYER;
     }
+
+    public String toString() {
+        return name;
+    }
 }
