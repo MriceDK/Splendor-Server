@@ -30,6 +30,7 @@ public class SplendorGame extends GameSuperclass {
         this.tokenBank = generateTokenBank();
         this.unclaimedNobles = setUnclaimedNobles();
         this.gameState = GameState.TURN_ACTION;
+        this.winner = null;
     }
 
     public Player getWinner() {
