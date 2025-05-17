@@ -24,7 +24,4 @@ public interface SplendorService {
     ArrayList<GameSuperclass> removeGames();
 
     SplendorGame findStartedGame(int gameId);
-
-    List<Development> getAllDevelopments();
-    List<Noble> getAllNobles();
     }
