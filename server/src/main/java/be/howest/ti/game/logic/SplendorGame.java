@@ -12,7 +12,7 @@ public class SplendorGame extends GameSuperclass {
 
     private final static int INITIAL_GOLD_AMOUNT = 5;
 
-    private Purse tokenBank; // TODO make final
+    private final Purse tokenBank;
     private final Set<Noble> unclaimedNobles;
     private final Market market;
     private Player currentPlayer;
