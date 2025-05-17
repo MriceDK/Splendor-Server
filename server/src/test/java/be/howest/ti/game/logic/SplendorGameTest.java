@@ -178,7 +178,7 @@ class SplendorGameTest {
 
     @Test
     void chooseNobleBad() {
-        lobby.addPlayer("UnqualifiedPlayer");
+        lobby.addPlayer("Taiwan");
         SplendorGame game = new SplendorGame(lobby);
         Player player = game.getCurrentPlayer();
 
