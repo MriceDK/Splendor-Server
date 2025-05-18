@@ -123,6 +123,10 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void buyReservedDevelopment(Purse payment, String developmentName, Player player){
+        if (!gameState.equals(GameState.TURN_ACTION)) {
+            throw new IllegalStateException("The game state does not align with what you want to do!");
+        }
+
         if (playerTurnChecker(player)){
             Development development = player.findDevelopmentInReservedDevelopments(developmentName);
             player.buyDevelopment(development, payment);

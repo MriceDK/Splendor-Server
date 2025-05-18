@@ -265,8 +265,6 @@ class SplendorGameTest {
         startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
 
         buyValidDevelopment(startedGame.getMarket().getVisibleDevelopments(1), 0, 3, false);
-
-
     }
 
     @Test
@@ -287,15 +285,57 @@ class SplendorGameTest {
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
 
         assertThrows(IllegalStateException.class, () -> buyValidDevelopment(startedGame.getMarket().getVisibleDevelopments(1), 0, 3, false));
+    }
 
+    @Test
+    void buyingAReservedDevelopmentIsAllowedWhenGameStateIsTurnAction() {
+        assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.ONYX, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
+
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
+
+        buyValidDevelopment(alice.getReservedDevelopments(), 0, alice.getReservedDevelopments().size() -1, true);
+    }
+
+    @Test
+    void buyingAReservedDevelopmentIsNotAllowedWhenGameStateIsNotTurnAction() {
+        assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
+
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.ONYX, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
+
+        assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
+
+        assertThrows(IllegalStateException.class, () -> buyValidDevelopment(alice.getReservedDevelopments(), 0, alice.getReservedDevelopments().size() -1, true));
     }
 
     private void buyValidDevelopment(List<Development> developments, int number, int max, boolean reserved) {
 
         try {
             if (reserved) {
-                // reserved
+                startedGame.buyReservedDevelopment(developments.get(number).cost(), developments.get(number).name(), alice);
             } else {
                 startedGame.buyDevelopment(developments.get(number).cost(), developments.get(number).name(), alice);
             }
