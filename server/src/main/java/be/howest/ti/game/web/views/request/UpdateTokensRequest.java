@@ -26,10 +26,10 @@ public class UpdateTokensRequest extends BaseSplendorRequest {
         JsonObject jsonObj = getAddOrReturn();
         for (Map.Entry<String, Object> tokenToTake : jsonObj){
 
-        Token tokenToAdd = Token.valueOf(tokenToTake.getKey().toUpperCase());
-        int valueToAdd = (Integer) tokenToTake.getValue();
+            Token tokenToAdd = Token.valueOf(tokenToTake.getKey().toUpperCase());
+            int valueToAdd = (Integer) tokenToTake.getValue();
 
-        mapTokensToAdd.put(tokenToAdd, valueToAdd);
+            mapTokensToAdd.put(tokenToAdd, valueToAdd);
 
         }
 
