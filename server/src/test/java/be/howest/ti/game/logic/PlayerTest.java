@@ -1,6 +1,5 @@
 package be.howest.ti.game.logic;
 
-import be.howest.ti.game.logic.service.PlayerPrestigePointsOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

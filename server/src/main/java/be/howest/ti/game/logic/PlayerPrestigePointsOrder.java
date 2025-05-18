@@ -1,6 +1,4 @@
-package be.howest.ti.game.logic.service;
-
-import be.howest.ti.game.logic.Player;
+package be.howest.ti.game.logic;
 
 import java.util.Comparator;
 

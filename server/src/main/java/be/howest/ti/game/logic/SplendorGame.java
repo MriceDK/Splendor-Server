@@ -1,6 +1,5 @@
 package be.howest.ti.game.logic;
 
-import be.howest.ti.game.logic.service.PlayerPrestigePointsOrder;
 import be.howest.ti.game.util.reader.NobleReader;
 
 import java.util.*;
