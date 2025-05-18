@@ -1,47 +1,17 @@
 package be.howest.ti.game.logic;
 
 public enum Token { // TODO volgorde van tokens in de list moet nog geïmplementeerd worden
-    DIAMOND {
-        @Override
-        public String toString() {
-            return "Diamond";
-        }
-    },
+    DIAMOND,
 
-    RUBY {
-        @Override
-        public String toString() {
-            return "Ruby";
-        }
-    },
+    RUBY,
 
-    SAPPHIRE {
-        @Override
-        public String toString() {
-            return "Sapphire";
-        }
-    },
+    SAPPHIRE,
 
-    ONYX {
-        @Override
-        public String toString() {
-            return "Onyx";
-        }
-    },
+    ONYX,
 
-    EMERALD {
-        @Override
-        public String toString() {
-            return "Emerald";
-        }
-    },
+    EMERALD,
 
-    GOLD {
-        @Override
-        public String toString() {
-            return "Gold";
-        }
-    };
+    GOLD;
 
 
     public static Token getTokenType(char tokenChar) {
