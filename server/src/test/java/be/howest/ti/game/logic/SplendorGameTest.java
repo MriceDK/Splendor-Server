@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.GameManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -220,7 +221,7 @@ class SplendorGameTest {
 
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
         assertEquals(alice, startedGame.getCurrentPlayer());
-        Exception ex = assertThrows(IllegalStateException.class, () -> startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2))));
+        Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2))));
         assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
     }
 
@@ -250,7 +251,7 @@ class SplendorGameTest {
 
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
         assertEquals(alice, startedGame.getCurrentPlayer());
-        Exception ex = assertThrows(IllegalStateException.class, () -> startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice));
+        Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice));
         assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
     }
 
@@ -287,7 +288,7 @@ class SplendorGameTest {
 
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
 
-        Exception ex = assertThrows(IllegalStateException.class, () -> buyValidDevelopment(startedGame.getMarket().getVisibleDevelopments(1), 0, 3, false));
+        Exception ex = assertThrows(SplendorGameRuleException.class, () -> buyValidDevelopment(startedGame.getMarket().getVisibleDevelopments(1), 0, 3, false));
         assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
     }
 
@@ -332,7 +333,7 @@ class SplendorGameTest {
 
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
 
-        Exception ex = assertThrows(IllegalStateException.class, () -> buyValidDevelopment(alice.getReservedDevelopments(), 0, alice.getReservedDevelopments().size() -1, true));
+        Exception ex = assertThrows(SplendorGameRuleException.class, () -> buyValidDevelopment(alice.getReservedDevelopments(), 0, alice.getReservedDevelopments().size() -1, true));
         assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
     }
 
@@ -358,7 +359,7 @@ class SplendorGameTest {
     @Test
     public void nobleCannotBeChosenWhenGameStateIsNotChooseNoble() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
-        Exception ex = assertThrows(IllegalStateException.class, () -> startedGame.chooseNoble(startedGame.getCurrentPlayer(), new Noble("test", 3, new Purse())));
+        Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.chooseNoble(startedGame.getCurrentPlayer(), new Noble("test", 3, new Purse())));
         assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
     }
 
@@ -385,7 +386,7 @@ class SplendorGameTest {
     @Test
     public void returningGemsIsNotAllowedWhenGameStateIsNotReturnGems() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
-        Exception ex = assertThrows(IllegalStateException.class, () -> startedGame.returnTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1))));
+        Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.returnTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1))));
         assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
     }
 

@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import be.howest.ti.game.util.reader.NobleReader;
 
 import java.util.*;
@@ -93,7 +94,7 @@ public class SplendorGame extends GameSuperclass {
 
     public void buyDevelopment(Purse payment, String developmentName, Player player){
         if (!gameState.equals(GameState.TURN_ACTION)) {
-            throw new IllegalStateException("The game state does not align with what you want to do!");
+            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
         }
 
         if (playerTurnChecker(player)){
@@ -119,7 +120,7 @@ public class SplendorGame extends GameSuperclass {
 
     public void reserveDevelopment(String developmentName, Player player){
         if (!gameState.equals(GameState.TURN_ACTION)) {
-            throw new IllegalStateException("The game state does not align with what you want to do!");
+            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
         }
 
         if (playerTurnChecker(player)) {
@@ -133,7 +134,7 @@ public class SplendorGame extends GameSuperclass {
 
     public void buyReservedDevelopment(Purse payment, String developmentName, Player player){
         if (!gameState.equals(GameState.TURN_ACTION)) {
-            throw new IllegalStateException("The game state does not align with what you want to do!");
+            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
         }
 
         if (playerTurnChecker(player)){
@@ -155,7 +156,7 @@ public class SplendorGame extends GameSuperclass {
 
     public void reserveDevelopmentFromLevel(int level, Player player){
         if (!gameState.equals(GameState.TURN_ACTION)) {
-            throw new IllegalStateException("The game state does not align with what you want to do!");
+            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
         }
 
         if (playerTurnChecker(player)) {
@@ -201,7 +202,7 @@ public class SplendorGame extends GameSuperclass {
     public Noble chooseNoble(Player player, Noble noble) {
 
         if (!gameState.equals(GameState.CHOOSE_NOBLE)) {
-            throw new IllegalStateException("The game state does not align with what you want to do!");
+            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
         }
         playerTurnChecker(player);
         if (!unclaimedNobles.contains(noble)) {
@@ -220,7 +221,7 @@ public class SplendorGame extends GameSuperclass {
 
     public void acquireTokens(Player player, Purse tokens){
         if (!gameState.equals(GameState.TURN_ACTION)) {
-            throw new IllegalStateException("The game state does not align with what you want to do!");
+            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
         }
 
         if(playerTurnChecker(player)){
@@ -243,7 +244,7 @@ public class SplendorGame extends GameSuperclass {
     public void returnTokens(Player player, Purse tokensToReturn) {
 
         if (!gameState.equals(GameState.RETURN_GEMS)) {
-            throw new IllegalStateException("The game state does not align with what you want to do!");
+            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
         }
 
         if (playerTurnChecker(player)) {
