@@ -7,13 +7,13 @@ import be.howest.ti.game.util.reader.NobleReader;
 
 import java.util.List;
 
-public class GameOperations {
-    public List<Development> getAllDevelopments() {
+public abstract class GameOperations {
+    public static List<Development> getAllDevelopments() {
         DevelopmentReader reader = new DevelopmentReader();
         return reader.getAllDevelopments();
     }
 
-    public List<Noble> getAllNobles() {
+    public static List<Noble> getAllNobles() {
         NobleReader reader = new NobleReader();
         return reader.getAllNobles();
     }
