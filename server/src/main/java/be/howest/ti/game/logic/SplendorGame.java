@@ -178,15 +178,23 @@ public class SplendorGame extends GameSuperclass {
 
     public void acquireTokens(Player player, Purse tokens){
         if(playerTurnChecker(player)){
+            int sizeOfTokensToAcquire = 0;
+            for (Map.Entry<Token, Integer> tokenToAcquire : tokens.getTokens().entrySet()){
+                if (tokenToAcquire.getValue() > ZERO_TOKENS){
+                    sizeOfTokensToAcquire++;
+                }
 
+            }
 
-            player.acquireTokens(tokens, tokenBank);
+            ruleCheckToAcquireTokens(tokens, sizeOfTokensToAcquire);
+
+            player.acquireTokens(tokens);
             tokenBank.removeTokens(tokens);
             endTurn();
         }
     }
 
-    private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire, Purse tokenBank) {
+    private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire) {
         if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
             throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
         }

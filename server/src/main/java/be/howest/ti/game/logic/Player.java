@@ -114,21 +114,9 @@ public class Player {
 
     public void claimNoble(Noble noble){acquiredNobles.add(noble);}
 
-    public void acquireTokens(Purse tokensToAcquire, Purse tokenBank){
-        int sizeOfTokensToAcquire = 0;
-        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.getTokens().entrySet()){
-            if (tokenToAcquire.getValue() > ZERO_TOKENS){
-                sizeOfTokensToAcquire++;
-            }
-
-
-        }
-        ruleCheckToAcquireTokens(tokensToAcquire, sizeOfTokensToAcquire, tokenBank);
+    public void acquireTokens(Purse tokensToAcquire){
         tokens.addTokens(tokensToAcquire);
     }
-
-
-
 
     public void returnTokens(Purse totalReturnTokens) {
         int totalTokens = tokens.getTotal();
