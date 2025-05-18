@@ -29,11 +29,6 @@ public class Player {
         this.ownedDevelopments = new ArrayList<>();
     }
 
-    //for testing purposes
-    public void setTokens(Purse purse){
-        this.tokens = purse;
-    }
-
     public String getName() {
         return name;
     }
@@ -185,13 +180,17 @@ public class Player {
         return Objects.hashCode(name);
     }
 
-    //For testing purposes
-    public void setBonuses(Purse bonuses) {
-        this.bonuses = bonuses;
+    public Development findDevelopmentInReservedDevelopments(String developmentName) {
+        for (Development reservedDevelopment: reservedDevelopments){
+            if (reservedDevelopment.name().equals(developmentName)){
+                return reservedDevelopment;
+            }
+        }
+        throw new IllegalArgumentException("Development is not in the reserved developments of player " + name);
+
     }
 
-   //For testing purposes
-    public void setAcquiredNobles(Set<Noble> nobles) {
-        this.acquiredNobles = nobles;
+    public void removeReservedDevelopment(Development development) {
+        reservedDevelopments.remove(development);
     }
 }

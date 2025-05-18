@@ -12,7 +12,7 @@ public class SplendorGame extends GameSuperclass {
 
     private final static int INITIAL_GOLD_AMOUNT = 5;
 
-    private Purse tokenBank; // TODO make final
+    private final Purse tokenBank;
     private final Set<Noble> unclaimedNobles;
     private final Market market;
     private Player currentPlayer;
@@ -96,6 +96,16 @@ public class SplendorGame extends GameSuperclass {
         if (playerTurnChecker(player)) {
             player.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
             givePlayerGoldTokenIfPossible(player);
+            endTurn();
+        }
+    }
+
+    public void buyReservedDevelopment(Purse payment, String developmentName, Player player){
+        if (playerTurnChecker(player)){
+            Development development = player.findDevelopmentInReservedDevelopments(developmentName);
+            player.buyDevelopment(development, payment);
+            player.removeReservedDevelopment(development);
+            tokenBank.addTokens(payment);
             endTurn();
         }
     }
@@ -197,11 +207,6 @@ public class SplendorGame extends GameSuperclass {
     public Set<Noble> setUnclaimedNobles() {
         NobleReader nobleReader = new NobleReader();
         return nobleReader.getRandomNobles(getTotalPlayers());
-    }
-
-    //For testing purposes
-    public void setTokenBank(Purse tokensToSetTokenBank){
-        this.tokenBank = tokensToSetTokenBank;
     }
 
     public GameState getGameState() {
