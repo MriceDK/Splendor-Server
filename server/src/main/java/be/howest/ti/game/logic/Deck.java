@@ -45,9 +45,8 @@ public class Deck {
         } else throw new IllegalArgumentException("Development not found in visible developments");
     }
 
-    public void refillMarket(){
+    public void refillMarket() {
         makeVisible(invisibleDevelopments.poll());
-
     }
 
     public Development findMatchingDevelopment(String developmentName) {
