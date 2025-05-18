@@ -260,7 +260,8 @@ class SplendorGameTest {
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
         startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
-        buyValidDevelopment(startedGame.getMarket().getVisibleDevelopments(1), 0, 3, false);
+        startedGame.getCurrentPlayer().getTokens().addTokens(startedGame.getMarket().getVisibleDevelopments(1).getFirst().cost());
+        startedGame.buyDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().cost(), startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
     }
 
     @Test
@@ -278,7 +279,9 @@ class SplendorGameTest {
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
 
-        Exception ex = assertThrows(SplendorGameRuleException.class, () -> buyValidDevelopment(startedGame.getMarket().getVisibleDevelopments(1), 0, 3, false));
+        startedGame.getCurrentPlayer().getTokens().addTokens(startedGame.getMarket().getVisibleDevelopments(1).getFirst().cost());
+
+        Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.buyDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().cost(), startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice));
         assertEquals(gameStateErrorMessage ,ex.getMessage());
     }
 
@@ -296,7 +299,8 @@ class SplendorGameTest {
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
 
-        buyValidDevelopment(alice.getReservedDevelopments(), 0, alice.getReservedDevelopments().size() -1, true);
+        startedGame.getCurrentPlayer().getTokens().addTokens(startedGame.getCurrentPlayer().getReservedDevelopments().getFirst().cost());
+        startedGame.buyReservedDevelopment(startedGame.getCurrentPlayer().getReservedDevelopments().getFirst().cost(), startedGame.getCurrentPlayer().getReservedDevelopments().getFirst().name(), alice);
     }
 
     @Test
@@ -316,27 +320,10 @@ class SplendorGameTest {
 
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
 
-        Exception ex = assertThrows(SplendorGameRuleException.class, () -> buyValidDevelopment(alice.getReservedDevelopments(), 0, alice.getReservedDevelopments().size() -1, true));
+        startedGame.getCurrentPlayer().getTokens().addTokens(startedGame.getCurrentPlayer().getReservedDevelopments().getFirst().cost());
+
+        Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.buyReservedDevelopment(startedGame.getCurrentPlayer().getReservedDevelopments().getFirst().cost(), startedGame.getCurrentPlayer().getReservedDevelopments().getFirst().name(), alice));
         assertEquals(gameStateErrorMessage ,ex.getMessage());
-    }
-
-    private void buyValidDevelopment(List<Development> developments, int number, int max, boolean reserved) {
-
-        try {
-            if (reserved) {
-                startedGame.buyReservedDevelopment(developments.get(number).cost(), developments.get(number).name(), alice);
-            } else {
-                startedGame.buyDevelopment(developments.get(number).cost(), developments.get(number).name(), alice);
-            }
-
-        } catch (IllegalArgumentException e) {
-            if (number == max ) {
-                return;
-            }
-            number += 1;
-            buyValidDevelopment(developments, number, max, reserved);
-
-        }
     }
 
     @Test
