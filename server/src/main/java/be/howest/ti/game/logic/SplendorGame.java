@@ -37,7 +37,6 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void endTurn() {
-        checkForNoble();
         setGameState(GameState.TURN_ACTION);
         currentPlayer = getNextPlayer();
 
@@ -100,8 +99,21 @@ public class SplendorGame extends GameSuperclass {
         if (playerTurnChecker(player)){
             player.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
             tokenBank.addTokens(payment);
-            endTurn();
+            endPhaseOfTurn(true);
         }
+    }
+
+    private void endPhaseOfTurn(boolean tokenOverflowShouldBeChecked) {
+        if (currentPlayer.hasTooManyTokens() && tokenOverflowShouldBeChecked) {
+            setGameState(GameState.RETURN_GEMS);
+            return;
+        }
+
+        if (!executeNobleClaimChecker()) {
+            return;
+        }
+
+        endTurn();
     }
 
     public void reserveDevelopment(String developmentName, Player player){
@@ -113,11 +125,7 @@ public class SplendorGame extends GameSuperclass {
             player.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
             givePlayerGoldTokenIfPossible(player);
 
-            if (currentPlayer.hasTooManyTokens()) {
-                setGameState(GameState.RETURN_GEMS);
-            } else {
-                endTurn();
-            }
+            endPhaseOfTurn(true);
 
         }
     }
@@ -132,7 +140,8 @@ public class SplendorGame extends GameSuperclass {
             player.buyDevelopment(development, payment);
             player.removeReservedDevelopment(development);
             tokenBank.addTokens(payment);
-            endTurn();
+
+            endPhaseOfTurn(false);
         }
     }
 
@@ -152,40 +161,48 @@ public class SplendorGame extends GameSuperclass {
             player.reserveDevelopment(market.takeTopDevelopment(level));
             givePlayerGoldTokenIfPossible(player);
 
-            if (currentPlayer.hasTooManyTokens()) {
-                setGameState(GameState.RETURN_GEMS);
-            } else {
-                endTurn();
-            }
+            endPhaseOfTurn(true);
 
         }
     }
 
-    public void checkForNoble() {
+    public boolean executeNobleClaimChecker() {
+        List<Noble> possibleNobles = getClaimableNobles();
+
+        if (possibleNobles.isEmpty()) {
+            return true;
+        }
+
+        return chooseNobleNecessaryCheck(possibleNobles);
+    }
+
+    private List<Noble> getClaimableNobles() {
         List<Noble> possibleNobles = new ArrayList<>();
         for (Noble noble : unclaimedNobles) {
             if (playerMeetsRequirements(currentPlayer, noble)) {
                 possibleNobles.add(noble);
-
             }
 
         }
-        if (possibleNobles.isEmpty()) {
-            return;
-        }
-        chooseNobleNecessaryCheck(possibleNobles);
+        return possibleNobles;
     }
 
-    private void chooseNobleNecessaryCheck(List<Noble> possibleNobles) {
+    private boolean chooseNobleNecessaryCheck(List<Noble> possibleNobles) {
         if (possibleNobles.size() > ONE_NOBLE) {
             setGameState(GameState.CHOOSE_NOBLE);
-            //TODO : ADD FUNCTIONALITY FOR WHEN TWO OR MORE NOBLES CLAIMABLE --> WHEN DOING ENDPOINT NOBLES
+            return false;
         } else {
             acquireNoble(possibleNobles);
+            return true;
         }
     }
 
     public Noble chooseNoble(Noble noble) {
+
+        if (!gameState.equals(GameState.CHOOSE_NOBLE)) {
+            throw new IllegalStateException("The game state does not align with what you want to do!");
+        }
+        // TODO Er moet nog gecheckt worden of de speler die dit wilt uitvoeren effectief aan de beurt is
         if (!unclaimedNobles.contains(noble)) {
             throw new IllegalArgumentException("Noble not available");
         }
@@ -195,6 +212,9 @@ public class SplendorGame extends GameSuperclass {
 
         currentPlayer.claimNoble(noble);
         unclaimedNobles.remove(noble);
+
+        endTurn();
+
         return noble;
     }
 
@@ -222,11 +242,7 @@ public class SplendorGame extends GameSuperclass {
             player.acquireTokens(tokens);
             tokenBank.removeTokens(tokens);
 
-            if (currentPlayer.hasTooManyTokens()) {
-                setGameState(GameState.RETURN_GEMS);
-            } else {
-                endTurn();
-            }
+            endPhaseOfTurn(true);
 
         }
     }
