@@ -12,6 +12,11 @@ public class SplendorGame extends GameSuperclass {
 
     private final static int INITIAL_GOLD_AMOUNT = 5;
 
+    private static final int ZERO_TOKENS = 0;
+    private static final int MAX_DIFFERENT_TOKENS = 3;
+    private static final int MAX_OF_SAME_TOKEN = 2;
+    private static final int MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS = 4;
+
     private final Purse tokenBank;
     private final Set<Noble> unclaimedNobles;
     private final Market market;

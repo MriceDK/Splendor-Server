@@ -14,10 +14,6 @@ public class Player {
 
     private static final int TOO_MANY_TOTAL_TOKENS_PER_PLAYER = 11;
     private static final int MAX_TOTAL_TOKENS_PER_PLAYER = 10;
-    private static final int ZERO_TOKENS = 0;
-    private static final int MAX_DIFFERENT_TOKENS = 3;
-    private static final int MAX_OF_SAME_TOKEN = 2;
-    private static final int MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS = 4;
 
     public Player (String name){
         this.name = name;
