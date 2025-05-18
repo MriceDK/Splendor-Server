@@ -194,7 +194,7 @@ class SplendorGameTest {
     @Test
     void acquiringTokensIsAllowedWhenGameStateIsTurnAction() {
         startedGame.acquireTokens(new Player("Alice"), new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(new Player("Gert"), new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(new Player("Gert"), new Purse(Map.of(Token.RUBY, 2)));
 
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
     }
@@ -203,21 +203,16 @@ class SplendorGameTest {
     void acquiringTokensIsNotAllowedWhenGameStateIsNotTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
-
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 2)));
 
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
         assertEquals(alice, startedGame.getCurrentPlayer());
@@ -237,21 +232,20 @@ class SplendorGameTest {
     void reservingDevelopmentIsNotAllowedWhenGameStateIsNotTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 2)));
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
+
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
 
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
         assertEquals(alice, startedGame.getCurrentPlayer());
-        Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice));
+        Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert));
         assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
     }
 
@@ -259,14 +253,12 @@ class SplendorGameTest {
     void buyingADevelopmentIsAllowedWhenGameStateIsTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
         buyValidDevelopment(startedGame.getMarket().getVisibleDevelopments(1), 0, 3, false);
     }
@@ -275,17 +267,15 @@ class SplendorGameTest {
     void buyingADevelopmentIsNotAllowedWhenGameStateIsNotTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.DIAMOND, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
 
         Exception ex = assertThrows(SplendorGameRuleException.class, () -> buyValidDevelopment(startedGame.getMarket().getVisibleDevelopments(1), 0, 3, false));
@@ -296,17 +286,13 @@ class SplendorGameTest {
     void buyingAReservedDevelopmentIsAllowedWhenGameStateIsTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
 
@@ -317,16 +303,13 @@ class SplendorGameTest {
     void buyingAReservedDevelopmentIsNotAllowedWhenGameStateIsNotTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
+
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
@@ -365,17 +348,15 @@ class SplendorGameTest {
 
     @Test
     public void returningGemsIsOnlyAllowedWhenGameStateIsReturnGems() {
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.DIAMOND, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.ONYX, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.RUBY, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
+        startedGame.reserveDevelopmentFromLevel(1, alice);
+        startedGame.reserveDevelopmentFromLevel(1, gert);
         startedGame.reserveDevelopmentFromLevel(1, alice);
 
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
@@ -473,7 +454,7 @@ class SplendorGameTest {
         assertNull(startedGame.getWinner());
 
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
 
         // Some time passes... A lot of turns have been played.
@@ -485,12 +466,12 @@ class SplendorGameTest {
 
         // The second player almost has enough prestige point to win the game!
 
-        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.ONYX, 2)));
 
         // The second player claimed a noble, and is now a possible winner
         // Last round activated
 
-        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 2)));
 
         // It is now the turn of the second player, and since he started his turn with equal or more than 15 prestige points,
         // The game will now calculate its winner.
