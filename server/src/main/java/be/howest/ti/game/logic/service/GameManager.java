@@ -7,13 +7,13 @@ import be.howest.ti.game.util.reader.NobleReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SplendorServiceImpl implements SplendorService {
+public class GameManager implements SplendorService {
 
     private int incrementalIdentifier = 0;
 
     private final List<GameSuperclass> games;
 
-    public SplendorServiceImpl() {
+    public GameManager() {
         games = new ArrayList<>();
     }
 

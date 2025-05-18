@@ -34,9 +34,9 @@ public class PlayerInListView {
     public List<DevelopmentInListView> getBuilt() {
         List<DevelopmentInListView> res = new ArrayList<>();
 
-       for (Development development : player.getOwnedDevelopments()) {
-          res.add(new DevelopmentInListView(development));
-       }
+        for (Development development : player.getOwnedDevelopments()) {
+            res.add(new DevelopmentInListView(development));
+        }
 
         return res;
     }
