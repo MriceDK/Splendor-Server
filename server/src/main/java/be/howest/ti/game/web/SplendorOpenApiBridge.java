@@ -217,7 +217,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public BuyDevelopmentResponse buyReserveDevelopment(BuyReservedDevelopmentRequest request) {
         SplendorService service = getService(request);
 
-        PlayerInListView playerView = new PlayerInListView(service.buyReservedDevelopment(request));
+        PlayerInListView playerView = new PlayerInListView(service.buyReservedDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPayment()));
         return new BuyDevelopmentResponse(playerView.getBuilt(), playerView.getTokens());
 
 

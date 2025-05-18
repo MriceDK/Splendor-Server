@@ -153,10 +153,10 @@ public class GameManager implements SplendorService {
     }
 
     @Override
-    public Player buyReservedDevelopment(BuyReservedDevelopmentRequest request) {
-        SplendorGame game = findStartedGame(request.getGameId());
-        Player player = game.findPlayer(request.getPlayerName());
-        game.buyReservedDevelopment(request.getPayment(), request.getDevelopmentName(), player);
+    public Player buyReservedDevelopment(int gameId, String playerName, String developmentName, Purse payment) {
+        SplendorGame game = findStartedGame(gameId);
+        Player player = game.findPlayer(playerName);
+        game.buyReservedDevelopment(payment, developmentName, player);
 
         return player;
     }
