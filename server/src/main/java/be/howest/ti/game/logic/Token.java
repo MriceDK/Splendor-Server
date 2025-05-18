@@ -55,7 +55,7 @@ public enum Token { // TODO volgorde van tokens in de list moet nog geïmplement
         };
     }
 
-    public String toDisplayName(Token token){
+    public static String toDisplayName(Token token){
         String tokenLowerCase = token.name().toLowerCase();
         return Character.toUpperCase(tokenLowerCase.charAt(0)) + tokenLowerCase.substring(1);
     }
