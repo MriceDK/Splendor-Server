@@ -2,9 +2,10 @@ package be.howest.ti.game.web.views.request;
 
 import io.vertx.ext.web.RoutingContext;
 
-public class BuyDevelopmentRequest extends PaymentReceiver{
-
-    public BuyDevelopmentRequest(RoutingContext ctx){super (ctx);}
+public class BuyReservedDevelopmentRequest extends PaymentReceiver {
+    public BuyReservedDevelopmentRequest(RoutingContext ctx) {
+        super(ctx);
+    }
 
     public int getGameId() {
         return params.pathParameter("gameId").getInteger();
@@ -15,7 +16,7 @@ public class BuyDevelopmentRequest extends PaymentReceiver{
     }
 
     public String getDevelopmentName(){
-        return params.body().getJsonObject().getJsonObject("development").getString("name");
+        return params.pathParameter("developmentName").getString();
     }
 
 }

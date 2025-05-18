@@ -100,6 +100,16 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
+    public void buyReservedDevelopment(Purse payment, String developmentName, Player player){
+        if (playerTurnChecker(player)){
+            Development development = player.findDevelopmentInReservedDevelopments(developmentName);
+            player.buyDevelopment(development, payment);
+            player.removeReservedDevelopment(development);
+            tokenBank.addTokens(payment);
+            endTurn();
+        }
+    }
+
     private void givePlayerGoldTokenIfPossible(Player player) {
         if (tokenBank.getTokens().get(Token.GOLD) > 0) {
             tokenBank.removeToken(Token.GOLD, 1);

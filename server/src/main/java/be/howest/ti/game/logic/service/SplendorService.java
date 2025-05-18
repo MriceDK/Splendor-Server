@@ -26,5 +26,8 @@ public interface SplendorService {
     SplendorGame findStartedGame(int gameId);
 
     List<Development> getAllDevelopments();
+
+    void buyReservedDevelopment(SplendorGame game, Player player, String developmentName, Purse payment);
+
     List<Noble> getAllNobles();
-    }
+}
