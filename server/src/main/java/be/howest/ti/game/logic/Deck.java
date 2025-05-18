@@ -38,7 +38,7 @@ public class Deck {
     }
 
 
-    public Development removeVisibleDevelopment(Development development) {
+    public Development removeDevelopmentAndRefill(Development development) {
         if (visibleDevelopments.contains(development)) {
             visibleDevelopments.remove(development);
             makeVisible(invisibleDevelopments.poll());
@@ -55,8 +55,8 @@ public class Deck {
         return null;
     }
 
-    public Development removeVisibleDevelopment(String developmentName) {
-        return removeVisibleDevelopment(findMatchingDevelopment(developmentName));
+    public Development removeDevelopmentAndRefill(String developmentName) {
+        return removeDevelopmentAndRefill(findMatchingDevelopment(developmentName));
     }
 
     public int getTotalInvisible() {

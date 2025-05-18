@@ -33,7 +33,7 @@ public class Market {
 
     public Development removeVisibleDevelopment(String developmentName) {
         Development matchingDevelopment = findMatchingDevelopmentOverAllLevels(developmentName);
-        return levels[matchingDevelopment.level() - 1].removeVisibleDevelopment(developmentName);
+        return levels[matchingDevelopment.level() - 1].removeDevelopmentAndRefill(developmentName);
     }
 
     public Development findMatchingDevelopmentOverAllLevels(String developmentName) {

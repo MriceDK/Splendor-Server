@@ -139,7 +139,6 @@ public class SplendorGame extends GameSuperclass {
     private void chooseNobleNecessaryCheck(List<Noble> possibleNobles) {
         if (possibleNobles.size() > ONE_NOBLE) {
             setGameState(GameState.CHOOSE_NOBLE);
-            //TODO : ADD FUNCTIONALITY FOR WHEN TWO OR MORE NOBLES CLAIMABLE --> WHEN DOING ENDPOINT NOBLES
         } else {
             acquireNoble(possibleNobles);
         }
