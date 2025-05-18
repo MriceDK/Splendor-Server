@@ -83,8 +83,7 @@ public class SplendorGame extends GameSuperclass {
     public void buyDevelopment(Purse payment, String developmentName, Player player) {
         if (playerTurnChecker(player)) {
             Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
-            player.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
-
+            player.buyDevelopment(market.removeVisibleDevelopment(development), payment);
             market.refillMarket(development.level() - 1);
             tokenBank.addTokens(payment);
             endTurn();
@@ -93,7 +92,9 @@ public class SplendorGame extends GameSuperclass {
 
     public void reserveDevelopment(String developmentName, Player player) {
         if (playerTurnChecker(player)) {
-            player.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
+            Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
+            player.reserveDevelopment(market.removeVisibleDevelopment(development));
+            market.refillMarket(development.level() - 1);
             givePlayerGoldTokenIfPossible(player);
             endTurn();
         }
