@@ -450,4 +450,41 @@ class SplendorGameTest {
 
         assertFalse(player.getAcquiredNobles().contains(nobleToChoose));
     }
+
+    @Test
+    void calculateWinner() {
+        // start game
+        // No winner has been found yet
+        assertNull(startedGame.getWinner());
+
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
+
+        // Some time passes... A lot of turns have been played.
+
+        startedGame.getCurrentPlayer().buyDevelopment(new Development("test", 3, 5, Token.ONYX, new Purse()), new Purse());
+        startedGame.getCurrentPlayer().buyDevelopment(new Development("test", 3, 5, Token.DIAMOND, new Purse()), new Purse());
+        startedGame.getCurrentPlayer().buyDevelopment(new Development("test", 3, 3, Token.DIAMOND, new Purse()), new Purse());
+        startedGame.getCurrentPlayer().getBonuses().addTokens(startedGame.getUnclaimedNobles().stream().toList().getFirst().neededBonuses());
+
+        // The second player almost has enough prestige point to win the game!
+
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
+
+        // The second player claimed a noble, and is now a possible winner
+        // Last round activated
+
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
+
+        // It is now the turn of the second player, and since he started his turn with equal or more than 15 prestige points,
+        // The game will now calculate its winner.
+
+        assertEquals(GameState.WINNER_FOUND, startedGame.getGameState());
+        assertEquals(gert, startedGame.getWinner());
+
+        // No single action can be carried out anymore
+        // TODO test this aswell
+
+    }
 }

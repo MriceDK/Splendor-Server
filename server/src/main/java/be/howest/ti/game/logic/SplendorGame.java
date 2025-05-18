@@ -46,7 +46,7 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    private Player calculateWinner() { // TODO Write tests!!!
+    private Player calculateWinner() {
         List<Player> rankListOfPlayers = getPlayers();
 
         rankListOfPlayers.sort(new PlayerPrestigePointsOrder());
@@ -251,7 +251,6 @@ public class SplendorGame extends GameSuperclass {
             tokenBank.addTokens(tokensToReturn);
 
             endPhaseOfTurn(false);
-            // TODO Dit moet nog getest worden
         }
 
     }
