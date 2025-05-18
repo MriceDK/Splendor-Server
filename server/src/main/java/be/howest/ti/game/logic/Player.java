@@ -118,6 +118,7 @@ public class Player {
             throw new IllegalArgumentException("Player does not meet requirements for this noble");
         }
         acquiredNobles.add(noble);
+        prestigePoints += noble.prestigePoints();
     }
 
     public boolean meetsRequirementsToClaimNoble(Noble noble) {
