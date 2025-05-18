@@ -41,9 +41,13 @@ public class Deck {
     public Development removeDevelopmentAndRefill(Development development) {
         if (visibleDevelopments.contains(development)) {
             visibleDevelopments.remove(development);
-            makeVisible(invisibleDevelopments.poll());
             return development;
         } else throw new IllegalArgumentException("Development not found in visible developments");
+    }
+
+    public void refillMarket(){
+        makeVisible(invisibleDevelopments.poll());
+
     }
 
     public Development findMatchingDevelopment(String developmentName) {
