@@ -19,21 +19,21 @@ public class Market {
         return levels;
     }
 
-    public List<Development> getVisibleDevelopments(int level){
-        return levels[level-1].getVisibleDevelopments();
+    public List<Development> getVisibleDevelopments(int level) {
+        return levels[level - 1].getVisibleDevelopments();
     }
 
-    public int getTotalInvisibleDevelopments(int level){
-        return levels[level-1].getTotalInvisible();
+    public int getTotalInvisibleDevelopments(int level) {
+        return levels[level - 1].getTotalInvisible();
     }
 
-    public Development takeTopDevelopment(int level){
-        return levels[level-1].takeTopDevelopment();
+    public Development takeTopDevelopment(int level) {
+        return levels[level - 1].takeTopDevelopment();
     }
 
     public Development removeVisibleDevelopment(String developmentName) {
         Development matchingDevelopment = findMatchingDevelopmentOverAllLevels(developmentName);
-        return levels[matchingDevelopment.level()-1].removeVisibleDevelopment(developmentName);
+        return levels[matchingDevelopment.level() - 1].removeVisibleDevelopment(developmentName);
     }
 
     public Development findMatchingDevelopmentOverAllLevels(String developmentName) {

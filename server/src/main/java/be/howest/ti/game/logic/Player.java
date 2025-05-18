@@ -19,7 +19,7 @@ public class Player {
     private static final int MAX_OF_SAME_TOKEN = 2;
     private static final int MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS = 4;
 
-    public Player (String name){
+    public Player(String name) {
         this.name = name;
         this.acquiredNobles = new HashSet<>();
         this.reservedDevelopments = new ArrayList<>();
@@ -99,7 +99,7 @@ public class Player {
         }
     }
 
-    public void buyDevelopment(Development development, Purse payment){
+    public void buyDevelopment(Development development, Purse payment) {
         checkIfPaymentIsSufficient(development, payment);
         tokens.removeTokens(payment);
         ownedDevelopments.add(development);
@@ -107,17 +107,19 @@ public class Player {
         bonuses.addToken(development.bonus(), 1);
     }
 
-    public void reserveDevelopment(Development development){
+    public void reserveDevelopment(Development development) {
         checkIfPlayerIsAllowedToReserve();
         reservedDevelopments.add(development);
     }
 
-    public void claimNoble(Noble noble){acquiredNobles.add(noble);}
+    public void claimNoble(Noble noble) {
+        acquiredNobles.add(noble);
+    }
 
     public void acquireTokens(Purse tokensToAcquire, Purse tokenBank){
         int sizeOfTokensToAcquire = 0;
-        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.getTokens().entrySet()){
-            if (tokenToAcquire.getValue() > ZERO_TOKENS){
+        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.getTokens().entrySet()) {
+            if (tokenToAcquire.getValue() > ZERO_TOKENS) {
                 sizeOfTokensToAcquire++;
             }
 
@@ -132,8 +134,8 @@ public class Player {
             throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
         }
 
-        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()){
-            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
+        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()) {
+            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN) {
                 throw new IllegalArgumentException("You cannot acquire more than two tokens of the same type");
             }
 
@@ -186,7 +188,7 @@ public class Player {
                 return reservedDevelopment;
             }
         }
-        throw new IllegalArgumentException("Development is not in the reserved developments of player " + name);
+        throw new IllegalStateException("Development is not in the reserved developments of player " + name);
 
     }
 

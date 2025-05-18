@@ -20,11 +20,11 @@ public class UpdateTokensRequest extends BaseSplendorRequest {
         return params.pathParameter("playerName").getString();
     }
 
-    public Map<Token, Integer> getTokensToAdd(){
+    public Map<Token, Integer> getTokensToAdd() {
 
         Map<Token, Integer> mapTokensToAdd = new HashMap<>();
         JsonObject jsonObj = getAddOrReturn();
-        for (Map.Entry<String, Object> tokenToTake : jsonObj){
+        for (Map.Entry<String, Object> tokenToTake : jsonObj) {
 
             Token tokenToAdd = Token.valueOf(tokenToTake.getKey().toUpperCase());
             int valueToAdd = (Integer) tokenToTake.getValue();
@@ -41,11 +41,11 @@ public class UpdateTokensRequest extends BaseSplendorRequest {
         return json.getJsonObject("return", json.getJsonObject("take"));
     }
 
-    public boolean addOrReturnCheck(){
+    public boolean addOrReturnCheck() {
         JsonObject json = params.body().getJsonObject();
-        if (json.containsKey("take")){
+        if (json.containsKey("take")) {
             return true;
-        } else if (json.containsKey("return")){
+        } else if (json.containsKey("return")) {
             return false;
         } else {
             throw new IllegalStateException("A bad JSON Object was provided");
