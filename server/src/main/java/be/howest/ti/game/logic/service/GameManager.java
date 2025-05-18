@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic.service;
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.util.reader.DevelopmentReader;
 import be.howest.ti.game.util.reader.NobleReader;
 import be.howest.ti.game.web.views.request.BaseSplendorRequest;
@@ -50,7 +51,7 @@ public class GameManager implements SplendorService {
                 return lobby;
             }
         }
-        throw new IllegalArgumentException("Lobby not found");
+        throw new SplendorGameResourceNotFoundException("Lobby not found");
     }
 
     public SplendorGame findStartedGame(int gameId) {
@@ -59,7 +60,7 @@ public class GameManager implements SplendorService {
                 return game;
             }
         }
-        throw new IllegalArgumentException("Game not found or it has not started yet");
+        throw new SplendorGameResourceNotFoundException("Game not found or it has not started yet");
     }
 
     public GameSuperclass findGame(int gameId) {
@@ -68,7 +69,7 @@ public class GameManager implements SplendorService {
                 return game;
             }
         }
-        throw new IllegalArgumentException("Game not found");
+        throw new SplendorGameResourceNotFoundException("Game not found");
     }
 
     @Override
@@ -132,7 +133,7 @@ public class GameManager implements SplendorService {
     @Override
     public ArrayList<GameSuperclass> removeGames() {
         if (getGames().isEmpty()) {
-            throw new IllegalArgumentException("No games to delete");
+            throw new SplendorGameResourceNotFoundException("No games to delete");
         }
         ArrayList<GameSuperclass> gamesThatWereDeleted = new ArrayList<>(games);
         games.clear();
