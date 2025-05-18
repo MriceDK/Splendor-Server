@@ -57,8 +57,9 @@ public class PlayerInListView {
         return player.getPrestigePoints();
     }
 
-    public Map<Token, Integer> getBonuses() {
-        return player.getBonuses().getAvailableTokens();
+    public Map<String, Integer> getBonuses() {
+        Map<Token, Integer> bonuses = player.getBonuses().getAvailableTokens();
+        return Purse.toMapStringInteger(bonuses) ;
     }
 
 }

@@ -204,7 +204,7 @@ class SplendorGameTest {
         Purse payment = notReservedDevelopment.cost();
         player.getTokens().addTokens(payment);
 
-        assertThrows(IllegalArgumentException.class, () -> {game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player);});
+        assertThrows(IllegalStateException.class, () -> {game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player);});
 
 
 
