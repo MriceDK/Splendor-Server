@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -218,7 +219,7 @@ class SplendorGameTest {
         Purse payment = notReservedDevelopment.cost();
         player.getTokens().addTokens(payment);
 
-        assertThrows(IllegalStateException.class, () -> {game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player);});
+        assertThrows(SplendorGameResourceNotFoundException.class, () -> {game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player);});
 
 
 

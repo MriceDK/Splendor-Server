@@ -1,5 +1,8 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
+import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+
 import java.util.*;
 
 public class Player {
@@ -122,14 +125,14 @@ public class Player {
         int diffTotalTokensAndReturnTokens = totalTokens - returnTokens;
 
         if (totalTokens <= MAX_TOTAL_TOKENS_PER_PLAYER) {
-            throw new IllegalStateException("You may only return tokens if you have more than 10.");
+            throw new SplendorGameRuleException("You may only return tokens if you have more than 10.");
         }
         if (diffTotalTokensAndReturnTokens >= TOO_MANY_TOTAL_TOKENS_PER_PLAYER) {
-            throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10.");
+            throw new SplendorGameRuleException("Returned tokens are insufficient. You must return enough to have 10.");
         }
 
         if (diffTotalTokensAndReturnTokens < MAX_TOTAL_TOKENS_PER_PLAYER) {
-            throw new IllegalArgumentException("Returned tokens are insufficient. You must return enough to have 10.");
+            throw new SplendorGameRuleException("Returned tokens are insufficient. You must return enough to have 10.");
         }
 
         tokens.removeTokens(totalReturnTokens);
@@ -154,7 +157,7 @@ public class Player {
                 return reservedDevelopment;
             }
         }
-        throw new IllegalStateException("Development is not in the reserved developments of player " + name);
+        throw new SplendorGameResourceNotFoundException("Development is not in the reserved developments of player " + name);
 
     }
 
