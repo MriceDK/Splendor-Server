@@ -1,6 +1,5 @@
 package be.howest.ti.game.web.views.response;
 
-import be.howest.ti.game.logic.Development;
 import be.howest.ti.game.logic.Purse;
 import be.howest.ti.game.logic.Token;
 import be.howest.ti.game.web.views.DevelopmentInListView;
@@ -8,7 +7,7 @@ import be.howest.ti.game.web.views.DevelopmentInListView;
 import java.util.List;
 import java.util.Map;
 
-public class BuyDevelopmentResponse extends AbstractResponseWithHiddenStatus{
+public class BuyDevelopmentResponse extends AbstractResponseWithHiddenStatus {
 
     private static final int NO_VALUE_IN_TOKEN = 0;
     private final List<DevelopmentInListView> developments;
@@ -21,11 +20,11 @@ public class BuyDevelopmentResponse extends AbstractResponseWithHiddenStatus{
 
     }
 
-    public List<DevelopmentInListView> getDevelopments(){
+    public List<DevelopmentInListView> getDevelopments() {
         return developments;
     }
 
-    public Map<String, Integer> getTokens(){
+    public Map<String, Integer> getTokens() {
 
         return new UpdateTokensResponse(new Purse(tokens)).getTokens();
     }

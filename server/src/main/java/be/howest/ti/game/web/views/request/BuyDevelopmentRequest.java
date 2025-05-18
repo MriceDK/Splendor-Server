@@ -4,7 +4,9 @@ import io.vertx.ext.web.RoutingContext;
 
 public class BuyDevelopmentRequest extends PaymentReceiver{
 
-    public BuyDevelopmentRequest(RoutingContext ctx){super (ctx);}
+    public BuyDevelopmentRequest(RoutingContext ctx) {
+        super(ctx);
+    }
 
     public int getGameId() {
         return params.pathParameter("gameId").getInteger();
@@ -14,7 +16,7 @@ public class BuyDevelopmentRequest extends PaymentReceiver{
         return params.pathParameter("playerName").getString();
     }
 
-    public String getDevelopmentName(){
+    public String getDevelopmentName() {
         return params.body().getJsonObject().getJsonObject("development").getString("name");
     }
 
