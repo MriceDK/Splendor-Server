@@ -1,8 +1,9 @@
 package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.logic.service.GameManager;
+import be.howest.ti.game.logic.service.GameOperations;
 import be.howest.ti.game.logic.service.SplendorService;
-import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.PlainTextTokens;
 import be.howest.ti.game.web.tokens.TokenManager;
 import be.howest.ti.game.web.views.PlayerInListView;
@@ -17,7 +18,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     private final Supplier<SplendorService> serviceFactory;
 
     public SplendorOpenApiBridge() {
-        this(SplendorServiceImpl::new, new PlainTextTokens());
+        this(GameManager::new, new PlainTextTokens());
     }
 
     // Factory needed to differentiate between group-tokens, can be simplified with a single service in the student version.
@@ -56,14 +57,12 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     @Operation("get-nobles")
     public getNoblesResponse getNobles(getNoblesRequest request) {
-        SplendorService service = getService(request);
-        return new getNoblesResponse(service.getAllNobles());
+        return new getNoblesResponse(GameOperations.getAllNobles());
     }
 
     @Operation("get-developments")
     public getDevelopmentsResponse getDevelopments(GetDevelopmentsRequest request) {
-        SplendorService service = getService(request);
-        return new getDevelopmentsResponse(service.getAllDevelopments());
+        return new getDevelopmentsResponse(GameOperations.getAllDevelopments());
     }
 
     //endregion
@@ -165,7 +164,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorGame game = service.findStartedGame(gameId);
         Player player = game.findPlayer(playername);
 
-        if (takeOrReturn){
+        if (takeOrReturn) {
             game.acquireTokens(player, new Purse(tokensToChange));
         } else {
             game.returnTokens(player, new Purse(tokensToChange));

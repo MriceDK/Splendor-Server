@@ -33,13 +33,12 @@ public class Deck {
         return Collections.unmodifiableList(visibleDevelopments);
     }
 
-    private void makeVisible(Development development){
+    private void makeVisible(Development development) {
         this.visibleDevelopments.add(development);
     }
 
 
-
-    public Development removeVisibleDevelopment(Development development){
+    public Development removeVisibleDevelopment(Development development) {
         if (visibleDevelopments.contains(development)) {
             visibleDevelopments.remove(development);
             makeVisible(invisibleDevelopments.poll());
@@ -56,15 +55,15 @@ public class Deck {
         return null;
     }
 
-    public Development removeVisibleDevelopment(String developmentName){
+    public Development removeVisibleDevelopment(String developmentName) {
         return removeVisibleDevelopment(findMatchingDevelopment(developmentName));
     }
 
-    public int getTotalInvisible(){
+    public int getTotalInvisible() {
         return this.invisibleDevelopments.size();
     }
 
-    public Development takeTopDevelopment(){
+    public Development takeTopDevelopment() {
         if (invisibleDevelopments.isEmpty()) {
             throw new IllegalStateException("No developments left in this level");
         }
