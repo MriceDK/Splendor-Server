@@ -8,6 +8,8 @@ import be.howest.ti.game.web.tokens.JsonWebToken;
 //import be.howest.ti.game.web.tokens.PlainTextTokens;
 // Import only to be used when working with PlainTextTokens instead of JsonWebToken
 import be.howest.ti.game.web.tokens.SplendorHTTPPlayer;
+import be.howest.ti.game.util.Config;
+import be.howest.ti.game.web.tokens.PlainTextTokens;
 import be.howest.ti.game.web.tokens.TokenManager;
 import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
@@ -33,6 +35,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     private final Map<String, SplendorService> services = new HashMap<>();
 
     private SplendorService getService(ContextBasedRequestView request) {
+        if (!request.getGroupSecret().toString().equals(Config.getString("group.secret"))) {
+            throw new ForbiddenAccessException("You are not allowed to access this group");
+        }
         return services.computeIfAbsent(request.getGroupSecret().toString(),
                 k -> serviceFactory.get());
     }
