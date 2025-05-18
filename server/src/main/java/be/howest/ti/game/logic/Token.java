@@ -54,6 +54,11 @@ public enum Token { // TODO volgorde van tokens in de list moet nog geïmplement
             default -> throw new IllegalArgumentException("Invalid token char: " + tokenChar);
         };
     }
+
+    public String toDisplayName(Token token){
+        String tokenLowerCase = token.name().toLowerCase();
+        return Character.toUpperCase(tokenLowerCase.charAt(0)) + tokenLowerCase.substring(1);
+    }
 }
 
 

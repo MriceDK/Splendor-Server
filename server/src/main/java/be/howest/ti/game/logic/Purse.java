@@ -131,7 +131,7 @@ public class Purse {
         Map<String, Integer> res = new HashMap<>();
 
         tokens.forEach((token, value) -> {
-            res.put(token.toString(), value);
+            res.put(token.toDisplayName(token), value);
         });
 
         return res;
