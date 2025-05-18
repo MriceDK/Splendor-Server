@@ -241,6 +241,11 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void returnTokens(Player player, Purse tokensToReturn) {
+
+        if (!gameState.equals(GameState.RETURN_GEMS)) {
+            throw new IllegalStateException("The game state does not align with what you want to do!");
+        }
+
         if (playerTurnChecker(player)) {
             player.returnTokens(tokensToReturn);
             tokenBank.addTokens(tokensToReturn);

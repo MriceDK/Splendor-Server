@@ -358,6 +358,33 @@ class SplendorGameTest {
     }
 
     @Test
+    public void returningGemsIsOnlyAllowedWhenGameStateIsReturnGems() {
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.DIAMOND, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.ONYX, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.RUBY, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2)));
+
+        startedGame.reserveDevelopmentFromLevel(1, alice);
+
+        assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
+        startedGame.returnTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1)));
+        assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
+    }
+
+    @Test
+    public void returningGemsIsNotAllowedWhenGameStateIsNotReturnGems() {
+        assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
+        Exception ex = assertThrows(IllegalStateException.class, () -> startedGame.returnTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1))));
+        assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
+    }
+
+    @Test
     void buyReservedDevelopmentGood() {
         lobby.addPlayer("Kentavious Cadwell-Pope");
         SplendorGame game = new SplendorGame(lobby);
