@@ -25,7 +25,7 @@ public interface SplendorService {
 
     void removeGame(int gameId);
 
-    ArrayList<GameSuperclass> removeGames();
+    List<GameSuperclass> removeGames();
 
     SplendorGame findStartedGame(int gameId);
 
