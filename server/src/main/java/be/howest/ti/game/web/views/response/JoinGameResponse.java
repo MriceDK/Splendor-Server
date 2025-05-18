@@ -3,11 +3,13 @@ package be.howest.ti.game.web.views.response;
 public class JoinGameResponse extends AbstractResponseWithHiddenStatus {
     private final int gameId;
     private final String playerName;
+    private final String token;
 
-    public JoinGameResponse(int gameId, String playerName) {
+    public JoinGameResponse(int gameId, String playerName, String token) {
         super(200);
         this.gameId = gameId;
         this.playerName = playerName;
+        this.token = token;
     }
 
     public int getGameId() {
@@ -19,6 +21,6 @@ public class JoinGameResponse extends AbstractResponseWithHiddenStatus {
     }
 
     public String getPlayerToken() {
-        return getGameId() + "_" + getPlayerName();
+        return token;
     }
 }
