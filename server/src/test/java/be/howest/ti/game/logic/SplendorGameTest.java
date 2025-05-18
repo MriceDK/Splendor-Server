@@ -353,7 +353,7 @@ class SplendorGameTest {
     @Test
     public void nobleCannotBeChosenWhenGameStateIsNotChooseNoble() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
-        assertThrows(IllegalStateException.class, () -> startedGame.chooseNoble(new Noble("test", 3, new Purse())));
+        assertThrows(IllegalStateException.class, () -> startedGame.chooseNoble(startedGame.getCurrentPlayer(), new Noble("test", 3, new Purse())));
     }
 
     @Test
@@ -401,7 +401,7 @@ class SplendorGameTest {
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.getCurrentPlayer());
 
         assertEquals(GameState.CHOOSE_NOBLE, startedGame.getGameState());
-        startedGame.chooseNoble(possibleNobleToChoose2);
+        startedGame.chooseNoble(player, possibleNobleToChoose2);
         assertTrue(player.getAcquiredNobles().contains(possibleNobleToChoose2));
     }
 

@@ -237,11 +237,12 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
         SplendorGame game = service.findStartedGame(gameId);
 
+        Player player = game.findPlayer(request.getPlayerName());
+
         Purse bonusPurse = request.getNeededBonuses();
         Noble noble = new Noble(request.getNobleName(), request.getPrestigePoints(), bonusPurse);
 
-
-        Noble chosenNoble = game.chooseNoble(noble);
+        Noble chosenNoble = game.chooseNoble(player, noble);
 
         return new ChooseNobleResponse(chosenNoble);
     }

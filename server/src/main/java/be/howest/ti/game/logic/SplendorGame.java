@@ -197,12 +197,12 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public Noble chooseNoble(Noble noble) {
+    public Noble chooseNoble(Player player, Noble noble) {
 
         if (!gameState.equals(GameState.CHOOSE_NOBLE)) {
             throw new IllegalStateException("The game state does not align with what you want to do!");
         }
-        // TODO Er moet nog gecheckt worden of de speler die dit wilt uitvoeren effectief aan de beurt is
+        playerTurnChecker(player);
         if (!unclaimedNobles.contains(noble)) {
             throw new IllegalArgumentException("Noble not available");
         }
