@@ -243,6 +243,9 @@ public class SplendorGame extends GameSuperclass {
         if (playerTurnChecker(player)) {
             player.returnTokens(tokensToReturn);
             tokenBank.addTokens(tokensToReturn);
+
+            endPhaseOfTurn(false);
+            // TODO Dit moet nog getest worden
         }
 
     }
