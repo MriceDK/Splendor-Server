@@ -189,7 +189,6 @@ public class SplendorGame extends GameSuperclass {
                 if (tokenToAcquire.getValue() > ZERO_TOKENS){
                     sizeOfTokensToAcquire++;
                 }
-
             }
 
             ruleCheckToAcquireTokens(tokens, sizeOfTokensToAcquire);
