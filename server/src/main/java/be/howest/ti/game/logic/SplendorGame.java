@@ -58,10 +58,6 @@ public class SplendorGame extends GameSuperclass {
         this.currentPlayer = currentPlayer;
     }
 
-    public void setWinner(Player winner) {
-        this.winner = winner;
-    }
-
     public Market getMarket() {
         return market;
     }
@@ -86,7 +82,9 @@ public class SplendorGame extends GameSuperclass {
 
     public void buyDevelopment(Purse payment, String developmentName, Player player) {
         if (playerTurnChecker(player)) {
-            player.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
+            Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
+            player.buyDevelopment(market.removeVisibleDevelopment(development), payment);
+            market.refillMarket(development.level());
             tokenBank.addTokens(payment);
             endTurn();
         }
@@ -94,7 +92,9 @@ public class SplendorGame extends GameSuperclass {
 
     public void reserveDevelopment(String developmentName, Player player) {
         if (playerTurnChecker(player)) {
-            player.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
+            Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
+            player.reserveDevelopment(market.removeVisibleDevelopment(development));
+            market.refillMarket(development.level());
             givePlayerGoldTokenIfPossible(player);
             endTurn();
         }
@@ -143,7 +143,6 @@ public class SplendorGame extends GameSuperclass {
     private void chooseNobleNecessaryCheck(List<Noble> possibleNobles) {
         if (possibleNobles.size() > ONE_NOBLE) {
             setGameState(GameState.CHOOSE_NOBLE);
-            //TODO : ADD FUNCTIONALITY FOR WHEN TWO OR MORE NOBLES CLAIMABLE --> WHEN DOING ENDPOINT NOBLES
         } else {
             acquireNoble(possibleNobles);
         }
