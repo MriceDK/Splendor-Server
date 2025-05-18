@@ -12,6 +12,11 @@ public class SplendorGame extends GameSuperclass {
 
     private final static int INITIAL_GOLD_AMOUNT = 5;
 
+    private static final int ZERO_TOKENS = 0;
+    private static final int MAX_DIFFERENT_TOKENS = 3;
+    private static final int MAX_OF_SAME_TOKEN = 2;
+    private static final int MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS = 4;
+
     private final Purse tokenBank;
     private final Set<Noble> unclaimedNobles;
     private final Market market;
@@ -117,7 +122,7 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public void reserveDevelopmentFromLevel(int level, Player player) {
+    public void reserveDevelopmentFromLevel(int level, Player player){
         if (playerTurnChecker(player)) {
             player.reserveDevelopment(market.takeTopDevelopment(level));
             givePlayerGoldTokenIfPossible(player);
@@ -161,10 +166,6 @@ public class SplendorGame extends GameSuperclass {
         return noble;
     }
 
-
-
-
-
     private boolean playerMeetsRequirements(Player player, Noble noble) {
         for (Token bonus : Token.values()) {
             int required = noble.neededBonuses().getTokens().get(bonus);
@@ -180,11 +181,40 @@ public class SplendorGame extends GameSuperclass {
         currentPlayer.claimNoble(possibleNobles.getFirst());
     }
 
-    public void acquireTokens(Player player, Purse tokens) {
-        if (playerTurnChecker(player)) {
+    public void acquireTokens(Player player, Purse tokens){
+        if (playerTurnChecker(player)){
+            int sizeOfTokensToAcquire = 0;
+            for (Map.Entry<Token, Integer> tokenToAcquire : tokens.getTokens().entrySet()){
+                if (tokenToAcquire.getValue() > ZERO_TOKENS){
+                    sizeOfTokensToAcquire++;
+                }
+            }
+
+            ruleCheckToAcquireTokens(tokens, sizeOfTokensToAcquire);
+
             player.acquireTokens(tokens);
             tokenBank.removeTokens(tokens);
             endTurn();
+        }
+    }
+
+    private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire) {
+        if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
+            throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
+        }
+
+        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()){
+            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
+                throw new IllegalArgumentException("You cannot acquire more than two tokens of the same type");
+            }
+
+            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != 1) {
+                throw new IllegalArgumentException("You can only take two of the same token type if you're taking only that type");
+            }
+
+            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && tokenBank.getTokenValue(tokenToAdd.getKey()) < MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS){
+                throw new IllegalArgumentException("You can only take two of the same token type if the bank has more than four available tokens");
+            }
         }
     }
 
