@@ -116,7 +116,7 @@ class SplendorGameTest {
         player.getBonuses().addTokens(wantedNoble.neededBonuses());
         game.setCurrentPlayer(player);
 
-        game.checkForNoble();
+        game.executeNobleClaimChecker();
         assertTrue(player.getAcquiredNobles().contains(wantedNoble));
     }
 
@@ -132,7 +132,7 @@ class SplendorGameTest {
 
         game.setCurrentPlayer(player);
 
-        game.checkForNoble();
+        game.executeNobleClaimChecker();
         assertFalse(player.getAcquiredNobles().contains(wantedNoble));
     }
 
@@ -351,6 +351,12 @@ class SplendorGameTest {
     }
 
     @Test
+    public void nobleCannotBeChosenWhenGameStateIsNotChooseNoble() {
+        assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
+        assertThrows(IllegalStateException.class, () -> startedGame.chooseNoble(new Noble("test", 3, new Purse())));
+    }
+
+    @Test
     void buyReservedDevelopmentGood() {
         lobby.addPlayer("Kentavious Cadwell-Pope");
         SplendorGame game = new SplendorGame(lobby);
@@ -381,26 +387,21 @@ class SplendorGameTest {
         player.getTokens().addTokens(payment);
 
         assertThrows(IllegalArgumentException.class, () -> {game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player);});
-
-
-
-
     }
+
     @Test
     void chooseNobleGood() {
-        Player player = new Player("Gulf of Mexico");
-        lobby.addPlayer("Gulf of Mexico");
-        SplendorGame game = new SplendorGame(lobby);
-
-
-        List<Noble> nobles = new ArrayList<>(game.getUnclaimedNobles());
-        Noble possibleNobleToChoose1 = nobles.getFirst();
+        List<Noble> nobles = new ArrayList<>(startedGame.getUnclaimedNobles());
         Noble possibleNobleToChoose2 = nobles.getLast();
-        game.setCurrentPlayer(player);
+        Player player = startedGame.getCurrentPlayer();
+
         Purse requiredBonuses = new Purse(Map.of(Token.DIAMOND, 5, Token.EMERALD, 5, Token.SAPPHIRE, 5, Token.ONYX, 5, Token.RUBY, 5));
         player.getBonuses().addTokens(requiredBonuses);
 
-        game.chooseNoble(possibleNobleToChoose2);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.getCurrentPlayer());
+
+        assertEquals(GameState.CHOOSE_NOBLE, startedGame.getGameState());
+        startedGame.chooseNoble(possibleNobleToChoose2);
         assertTrue(player.getAcquiredNobles().contains(possibleNobleToChoose2));
     }
 
