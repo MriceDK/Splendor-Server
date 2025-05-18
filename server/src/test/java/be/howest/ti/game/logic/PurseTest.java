@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -84,7 +85,7 @@ class PurseTest {
         filledPurse.removeToken(Token.GOLD, 2);
         assertEquals(0, filledPurse.getTokens().get(Token.GOLD));
 
-        assertThrows(IllegalArgumentException.class, () -> emptyPurse.removeToken(Token.DIAMOND, 1));
+        assertThrows(SplendorGameRuleException.class, () -> emptyPurse.removeToken(Token.DIAMOND, 1));
     }
 
     @Test
@@ -93,7 +94,7 @@ class PurseTest {
         tokensToRemove.put(Token.RUBY, 3);
         tokensToRemove.put(Token.SAPPHIRE, 4);
 
-        assertThrows(IllegalArgumentException.class, () -> emptyPurse.removeTokens(new Purse(tokensToRemove)));
+        assertThrows(SplendorGameRuleException.class, () -> emptyPurse.removeTokens(new Purse(tokensToRemove)));
 
         filledPurse.removeTokens(new Purse(tokensToRemove));
         assertEquals(2, filledPurse.getTokens().get(Token.RUBY));

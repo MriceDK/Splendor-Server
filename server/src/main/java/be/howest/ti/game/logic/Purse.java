@@ -1,5 +1,7 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -52,16 +54,16 @@ public class Purse {
 
     private void checkIfDeleteIsAllowed(Token tokenName, int amount) {
         if (this.tokens.get(tokenName) - amount < 0) {
-            throw new IllegalArgumentException("You can't delete more tokens than there are of this type");
+            throw new SplendorGameRuleException("You can't delete more tokens than there are of this type");
         }
         if (amount < 0) {
-            throw new IllegalArgumentException("You can only delete a positive amount of a token");
+            throw new SplendorGameRuleException("You can only delete a positive amount of a token");
         }
     }
 
     private void checkIfAddIsAllowed(Token tokenName, int amount) {
         if (amount < 0) {
-            throw new IllegalArgumentException("You can only add a positive amount of a token");
+            throw new SplendorGameRuleException("You can only add a positive amount of a token");
         }
     }
 

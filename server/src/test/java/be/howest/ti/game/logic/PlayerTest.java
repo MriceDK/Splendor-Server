@@ -147,7 +147,7 @@ class PlayerTest {
                 Token.ONYX, 1
         )));
 
-        assertThrows(IllegalArgumentException.class, () -> player.buyDevelopment(development, new Purse(Map.of(
+        assertThrows(SplendorGameRuleException.class, () -> player.buyDevelopment(development, new Purse(Map.of(
                 Token.GOLD, 3
         ))));
         assertTrue(player.getOwnedDevelopments().isEmpty());
