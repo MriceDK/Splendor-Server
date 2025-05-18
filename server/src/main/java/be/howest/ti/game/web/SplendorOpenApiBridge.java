@@ -50,8 +50,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("get-gems")
-    public NotYetImplementedResponse getGems(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-gems");
+    public GetGemsResponse getGems(GetGemsRequest request) {
+        return new GetGemsResponse();
     }
 
     @Operation("get-nobles")
