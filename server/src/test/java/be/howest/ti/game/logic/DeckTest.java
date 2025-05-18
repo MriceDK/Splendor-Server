@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,14 +33,14 @@ class DeckTest {
         Development firstVisible = l1.getVisibleDevelopments().getFirst();
         l1.removeVisibleDevelopment(firstVisible);
         assertFalse(l1.getVisibleDevelopments().contains(firstVisible));
-        assertThrows(IllegalArgumentException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
+        assertThrows(SplendorGameResourceNotFoundException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
     }
 
     @Test
     void getTotalInvisible() {
         assertEquals(2, l1.getTotalInvisible());
         Deck l2 = new Deck(List.of(), 1);
-        assertThrows(IllegalStateException.class, l2::takeTopDevelopment);
+        assertThrows(SplendorGameResourceNotFoundException.class, l2::takeTopDevelopment);
     }
 
     @Test
@@ -47,7 +48,7 @@ class DeckTest {
         Development firstVisible = l1.getVisibleDevelopments().getFirst();
         l1.removeVisibleDevelopment(firstVisible);
         assertFalse(l1.getVisibleDevelopments().contains(firstVisible));
-        assertThrows(IllegalArgumentException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
+        assertThrows(SplendorGameResourceNotFoundException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
 
     }
 }
