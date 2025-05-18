@@ -36,7 +36,7 @@ public class Market {
     }
 
     public void refillMarket(int level){
-        levels[level - 1].refillMarket();
+        levels[level - 1].refillVisibleDevelopments();
     }
 
     public Development findMatchingDevelopmentOverAllLevels(String developmentName) {
