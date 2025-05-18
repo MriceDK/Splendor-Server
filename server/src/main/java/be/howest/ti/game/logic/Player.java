@@ -182,7 +182,7 @@ public class Player {
                 return reservedDevelopment;
             }
         }
-        throw new IllegalArgumentException("Development is not in the reserved developments of player " + name);
+        throw new IllegalStateException("Development is not in the reserved developments of player " + name);
 
     }
 
