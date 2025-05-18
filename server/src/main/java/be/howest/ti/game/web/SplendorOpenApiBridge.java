@@ -1,9 +1,13 @@
 package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.logic.service.GameManager;
+import be.howest.ti.game.logic.service.GameOperations;
 import be.howest.ti.game.logic.service.SplendorService;
-import be.howest.ti.game.logic.service.SplendorServiceImpl;
-import be.howest.ti.game.web.tokens.PlainTextTokens;
+import be.howest.ti.game.web.tokens.JsonWebToken;
+//import be.howest.ti.game.web.tokens.PlainTextTokens;
+// Import only to be used when working with PlainTextTokens instead of JsonWebToken
+import be.howest.ti.game.web.tokens.SplendorHTTPPlayer;
 import be.howest.ti.game.web.tokens.TokenManager;
 import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
@@ -17,7 +21,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     private final Supplier<SplendorService> serviceFactory;
 
     public SplendorOpenApiBridge() {
-        this(SplendorServiceImpl::new, new PlainTextTokens());
+        this(GameManager::new, new JsonWebToken());
     }
 
     // Factory needed to differentiate between group-tokens, can be simplified with a single service in the student version.
@@ -56,14 +60,12 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     @Operation("get-nobles")
     public getNoblesResponse getNobles(getNoblesRequest request) {
-        SplendorService service = getService(request);
-        return new getNoblesResponse(service.getAllNobles());
+        return new getNoblesResponse(GameOperations.getAllNobles());
     }
 
     @Operation("get-developments")
     public getDevelopmentsResponse getDevelopments(GetDevelopmentsRequest request) {
-        SplendorService service = getService(request);
-        return new getDevelopmentsResponse(service.getAllDevelopments());
+        return new getDevelopmentsResponse(GameOperations.getAllDevelopments());
     }
 
     //endregion
@@ -93,7 +95,6 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     @Operation("create-game")
     public CreateGameResponse createGame(CreateGameRequest request) {
         SplendorService service = getService(request);
-
         GameLobby game;
         if (request.getGameName() == null) {
             game = service.createLobby(
@@ -108,7 +109,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             );
         }
 
-        return new CreateGameResponse(game, request.getPlayerName());
+        String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
+
+        return new CreateGameResponse(game, request.getPlayerName(), token);
     }
 
     @Operation("delete-games")
@@ -121,9 +124,16 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public GetGameDetailsResponse getGameDetails(GetGameDetailsRequest request) { // TODO find a way to sort the response properties
         SplendorService service = getService(request);
 
+        if (request.getAuthorizedGameId() != request.getGameId()) {
+            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+        }
+
         GameSuperclass game = service.findGame(
                 request.getGameId()
         );
+        if (!game.getPlayers().contains(new Player(request.getAuthorizedPlayerName()))) {
+            throw new ForbiddenAccessException("Unauthorized");
+        }
 
         if (game.hasStarted()) {
             return new GetGameDetailsStartedResponse(game);
@@ -139,7 +149,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
         service.joinLobby(service.findLobby(gameId), playerName);
-        return new JoinGameResponse(gameId, playerName);
+        GameSuperclass game = service.findGame(gameId);
+        String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
+
+
+        return new JoinGameResponse(gameId, playerName, token);
     }
 
     //endregion
@@ -157,6 +171,13 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public UpdateTokensResponse updateTokens(UpdateTokensRequest request) {
         SplendorService service = getService(request);
 
+        if (request.getAuthorizedGameId() != request.getGameId()) {
+            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+        }
+        if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
+            throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
+        }
+
         String playername = request.getPlayerName();
         int gameId = request.getGameId();
         boolean takeOrReturn = request.addOrReturnCheck();
@@ -165,7 +186,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorGame game = service.findStartedGame(gameId);
         Player player = game.findPlayer(playername);
 
-        if (takeOrReturn){
+        if (takeOrReturn) {
             game.acquireTokens(player, new Purse(tokensToChange));
         } else {
             game.returnTokens(player, new Purse(tokensToChange));
@@ -178,11 +199,19 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public BuyDevelopmentResponse buyDevelopment(BuyDevelopmentRequest request) {
 
         SplendorService service = getService(request);
+
+        if (request.getAuthorizedGameId() != request.getGameId()) {
+            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+        }
+        if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
+            throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
+        }
+
         SplendorGame game = service.findStartedGame(request.getGameId());
         Player player = game.findPlayer(request.getPlayerName());
         game.buyDevelopment(request.getPayment(), request.getDevelopmentName() , player);
         PlayerInListView activePlayerView = new PlayerInListView(player);
-        return new BuyDevelopmentResponse(activePlayerView.getBuilt(), player.getTokens().getTokens());
+        return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayerView.getTokens());
 
     }
 
@@ -202,6 +231,13 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             }
         }
 
+        if (request.getAuthorizedGameId() != request.getGameId()) {
+            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+        }
+        if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
+            throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
+        }
+
         SplendorGame game = service.findStartedGame(request.getGameId());
         Player player = game.findPlayer(request.getPlayerName());
 
@@ -217,15 +253,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     @Operation("buy-reserved-development")
     public BuyDevelopmentResponse buyReserveDevelopment(BuyReservedDevelopmentRequest request) {
         SplendorService service = getService(request);
-        SplendorGame game = service.findStartedGame(request.getGameId());
-        Player player = game.findPlayer(request.getPlayerName());
 
-
-        service.buyReservedDevelopment(game, player, request.getDevelopmentName(), request.getPayment());
-
-
-        PlayerInListView playerView = new PlayerInListView(player);
-        return new BuyDevelopmentResponse(playerView.getBuilt(), player.getTokens().getTokens());
+        PlayerInListView playerView = new PlayerInListView(service.buyReservedDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPayment()));
+        return new BuyDevelopmentResponse(playerView.getBuilt(), playerView.getTokens());
 
 
     }

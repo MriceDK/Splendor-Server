@@ -29,7 +29,7 @@ public class DevelopmentInListView {
     }
 
     public String getBonus() {
-        return development.bonus().toString();
+        return development.bonus().toDisplayName();
     }
 
     public int getPrestigePoints() {

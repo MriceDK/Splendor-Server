@@ -15,7 +15,7 @@ public class Player {
     private static final int TOO_MANY_TOTAL_TOKENS_PER_PLAYER = 11;
     private static final int MAX_TOTAL_TOKENS_PER_PLAYER = 10;
 
-    public Player (String name){
+    public Player(String name) {
         this.name = name;
         this.acquiredNobles = new HashSet<>();
         this.reservedDevelopments = new ArrayList<>();
@@ -95,7 +95,7 @@ public class Player {
         }
     }
 
-    public void buyDevelopment(Development development, Purse payment){
+    public void buyDevelopment(Development development, Purse payment) {
         checkIfPaymentIsSufficient(development, payment);
         tokens.removeTokens(payment);
         ownedDevelopments.add(development);
@@ -103,12 +103,14 @@ public class Player {
         bonuses.addToken(development.bonus(), 1);
     }
 
-    public void reserveDevelopment(Development development){
+    public void reserveDevelopment(Development development) {
         checkIfPlayerIsAllowedToReserve();
         reservedDevelopments.add(development);
     }
 
-    public void claimNoble(Noble noble){acquiredNobles.add(noble);}
+    public void claimNoble(Noble noble) {
+        acquiredNobles.add(noble);
+    }
 
     public void acquireTokens(Purse tokensToAcquire){
         tokens.addTokens(tokensToAcquire);
@@ -152,7 +154,7 @@ public class Player {
                 return reservedDevelopment;
             }
         }
-        throw new IllegalArgumentException("Development is not in the reserved developments of player " + name);
+        throw new IllegalStateException("Development is not in the reserved developments of player " + name);
 
     }
 

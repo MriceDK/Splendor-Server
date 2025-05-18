@@ -26,7 +26,7 @@ public class SplendorGame extends GameSuperclass {
 
     private static final int ONE_NOBLE = 1;
 
-    public SplendorGame(GameSuperclass gameLobby){
+    public SplendorGame(GameSuperclass gameLobby) {
         super(gameLobby);
 
         this.market = new Market();
@@ -89,15 +89,15 @@ public class SplendorGame extends GameSuperclass {
         return requestPlayer;
     }
 
-    public void buyDevelopment(Purse payment, String developmentName, Player player){
-        if (playerTurnChecker(player)){
+    public void buyDevelopment(Purse payment, String developmentName, Player player) {
+        if (playerTurnChecker(player)) {
             player.buyDevelopment(market.removeVisibleDevelopment(developmentName), payment);
             tokenBank.addTokens(payment);
             endTurn();
         }
     }
 
-    public void reserveDevelopment(String developmentName, Player player){
+    public void reserveDevelopment(String developmentName, Player player) {
         if (playerTurnChecker(player)) {
             player.reserveDevelopment(market.removeVisibleDevelopment(developmentName));
             givePlayerGoldTokenIfPossible(player);
@@ -130,24 +130,25 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public void checkForNoble(){
+    public void checkForNoble() {
         List<Noble> possibleNobles = new ArrayList<>();
-        for (Noble noble : unclaimedNobles){
-            if (playerMeetsRequirements(currentPlayer, noble)){
+        for (Noble noble : unclaimedNobles) {
+            if (playerMeetsRequirements(currentPlayer, noble)) {
                 possibleNobles.add(noble);
 
             }
 
         }
-        if (possibleNobles.isEmpty()){
+        if (possibleNobles.isEmpty()) {
             return;
         }
         chooseNobleNecessaryCheck(possibleNobles);
     }
 
-    private void chooseNobleNecessaryCheck(List<Noble> possibleNobles){
-        if (possibleNobles.size() > ONE_NOBLE){
+    private void chooseNobleNecessaryCheck(List<Noble> possibleNobles) {
+        if (possibleNobles.size() > ONE_NOBLE) {
             setGameState(GameState.CHOOSE_NOBLE);
+            //TODO : ADD FUNCTIONALITY FOR WHEN TWO OR MORE NOBLES CLAIMABLE --> WHEN DOING ENDPOINT NOBLES
         } else {
             acquireNoble(possibleNobles);
         }
@@ -177,12 +178,12 @@ public class SplendorGame extends GameSuperclass {
         return true;
     }
 
-    public void acquireNoble(List<Noble> possibleNobles){
+    public void acquireNoble(List<Noble> possibleNobles) {
         currentPlayer.claimNoble(possibleNobles.getFirst());
     }
 
     public void acquireTokens(Player player, Purse tokens){
-        if(playerTurnChecker(player)){
+        if (playerTurnChecker(player)){
             int sizeOfTokensToAcquire = 0;
             for (Map.Entry<Token, Integer> tokenToAcquire : tokens.getTokens().entrySet()){
                 if (tokenToAcquire.getValue() > ZERO_TOKENS){
@@ -220,7 +221,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public boolean playerTurnChecker(Player player) {
-        if(!player.equals(currentPlayer)){
+        if (!player.equals(currentPlayer)) {
             throw new IllegalStateException("It's not this player's turn");
         } else {
             return true;
@@ -228,7 +229,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void returnTokens(Player player, Purse tokensToReturn) {
-        if (playerTurnChecker(player)){
+        if (playerTurnChecker(player)) {
             player.returnTokens(tokensToReturn);
             tokenBank.addTokens(tokensToReturn);
         }
@@ -257,11 +258,9 @@ public class SplendorGame extends GameSuperclass {
 
         if (getTotalPlayers() == 4) {
             amountPerToken = TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS;
-        }
-        else if (getTotalPlayers() == 3) {
+        } else if (getTotalPlayers() == 3) {
             amountPerToken = TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS;
-        }
-        else if (getTotalPlayers() == 2) {
+        } else if (getTotalPlayers() == 2) {
             amountPerToken = TOKEN_AMOUNT_IN_TOKENBANK_FOR_TWO_PLAYERS;
         }
 

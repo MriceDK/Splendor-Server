@@ -34,9 +34,9 @@ public class PlayerInListView {
     public List<DevelopmentInListView> getBuilt() {
         List<DevelopmentInListView> res = new ArrayList<>();
 
-       for (Development development : player.getOwnedDevelopments()) {
-          res.add(new DevelopmentInListView(development));
-       }
+        for (Development development : player.getOwnedDevelopments()) {
+            res.add(new DevelopmentInListView(development));
+        }
 
         return res;
     }
@@ -57,8 +57,9 @@ public class PlayerInListView {
         return player.getPrestigePoints();
     }
 
-    public Map<Token, Integer> getBonuses() {
-        return player.getBonuses().getAvailableTokens();
+    public Map<String, Integer> getBonuses() {
+        Map<Token, Integer> bonuses = player.getBonuses().getAvailableTokens();
+        return Purse.toMapStringInteger(bonuses) ;
     }
 
 }

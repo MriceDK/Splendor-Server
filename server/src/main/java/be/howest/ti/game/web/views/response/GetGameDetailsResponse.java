@@ -2,11 +2,7 @@ package be.howest.ti.game.web.views.response;
 
 import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.GameSuperclass;
-import be.howest.ti.game.logic.Player;
 import be.howest.ti.game.logic.SplendorGame;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GetGameDetailsResponse extends AbstractResponseWithHiddenStatus {
 
