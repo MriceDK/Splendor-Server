@@ -1,8 +1,6 @@
 package be.howest.ti.game.logic;
 
 
-import java.util.List;
-
 public class GameLobby extends GameSuperclass {
 
     public GameLobby(int gameId, String gameName, int maxPlayers) {

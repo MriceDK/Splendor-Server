@@ -1,13 +1,23 @@
 package be.howest.ti.game.logic;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
+
+    private Development dev1;
+
+    @BeforeEach
+    public void init() {
+        Purse dev1Cost = new Purse(Map.of(Token.SAPPHIRE, 3, Token.ONYX, 2));
+        dev1 = new Development("dev-1", 1, 0, Token.DIAMOND, dev1Cost);
+    }
 
     @Test
     void returnTokensWhenPossible() {
@@ -16,7 +26,7 @@ class PlayerTest {
         initialTokens.put(Token.DIAMOND, 5);
         initialTokens.put(Token.RUBY, 4);
         initialTokens.put(Token.EMERALD, 3);
-        player.setTokens(new Purse(initialTokens));
+        player.getTokens().addTokens(new Purse(initialTokens));
 
         assertEquals(12, player.getTokens().getTotal());
 
@@ -39,7 +49,7 @@ class PlayerTest {
         initialTokens.put(Token.ONYX, 1);
         initialTokens.put(Token.SAPPHIRE, 2);
         initialTokens.put(Token.RUBY, 3);
-        player.setTokens(new Purse(initialTokens));
+        player.getTokens().addTokens(new Purse(initialTokens));
 
         assertEquals(6, player.getTokens().getTotal());
 
@@ -58,7 +68,7 @@ class PlayerTest {
         initialTokens.put(Token.DIAMOND, 2);
         initialTokens.put(Token.EMERALD, 3);
         initialTokens.put(Token.RUBY, 3);
-        player.setTokens(new Purse(initialTokens));
+        player.getTokens().addTokens(new Purse(initialTokens));
 
         assertEquals(14, player.getTokens().getTotal());
 
@@ -75,7 +85,7 @@ class PlayerTest {
         initialTokens.put(Token.RUBY, 2);
         initialTokens.put(Token.EMERALD, 4);
         initialTokens.put(Token.ONYX, 3);
-        player.setTokens(new Purse(initialTokens));
+        player.getTokens().addTokens(new Purse(initialTokens));
 
         assertEquals(12, player.getTokens().getTotal());
 
@@ -92,7 +102,7 @@ class PlayerTest {
         initialTokens.put(Token.RUBY, 2);
         initialTokens.put(Token.EMERALD, 4);
         initialTokens.put(Token.ONYX, 3);
-        player.setTokens(new Purse(initialTokens));
+        player.getTokens().addTokens(new Purse(initialTokens));
 
         assertEquals(12, player.getTokens().getTotal());
 
@@ -100,6 +110,59 @@ class PlayerTest {
 
         assertThrows(IllegalArgumentException.class, () -> player.returnTokens(tokensToReturn));
 
+    }
+
+    @Test
+    public void buyDevelopmentCardWithGoldToken() {
+        Player player = new Player("Alice");
+        player.getTokens().addTokens(new Purse(Map.of(
+                Token.GOLD, 4
+        )));
+
+        Development development = new Development("text", 1, 2, Token.DIAMOND, new Purse(Map.of(
+                Token.SAPPHIRE, 2,
+                Token.ONYX, 1
+        )));
+
+        player.buyDevelopment(development, new Purse(Map.of(
+                Token.GOLD, 3
+        )));
+
+        assertEquals(List.of(development),player.getOwnedDevelopments());
+        assertEquals(new Purse(Map.of(
+                Token.GOLD, 1
+        )), player.getTokens());
+    }
+
+    @Test
+    public void buyDevelopmentCardWithTooLessGoldToken() {
+        Player player = new Player("Alice");
+        player.getTokens().addTokens(new Purse(Map.of(
+                Token.GOLD, 1
+        )));
+
+        Development development = new Development("text", 1, 2, Token.DIAMOND, new Purse(Map.of(
+                Token.SAPPHIRE, 2,
+                Token.ONYX, 1
+        )));
+
+        assertThrows(IllegalArgumentException.class, () -> player.buyDevelopment(development, new Purse(Map.of(
+                Token.GOLD, 3
+        ))));
+        assertTrue(player.getOwnedDevelopments().isEmpty());
+        assertEquals(new Purse(Map.of(
+                Token.GOLD, 1
+        )), player.getTokens());
+    }
+
+    @Test
+    public void buyingDevelopmentIsPossibleWhenYouHaveMoreBonusesThanCostOfDevelopment() {
+        Player player = new Player("Alice");
+        player.getBonuses().addTokens( new Purse(Map.of(Token.SAPPHIRE, 4, Token.ONYX, 5)) );
+
+        player.buyDevelopment(dev1, new Purse());
+
+        assertEquals(List.of(dev1), player.getOwnedDevelopments());
     }
 
 }

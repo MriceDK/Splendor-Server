@@ -1,8 +1,9 @@
 package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.logic.service.GameManager;
+import be.howest.ti.game.logic.service.GameOperations;
 import be.howest.ti.game.logic.service.SplendorService;
-import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.JsonWebToken;
 //import be.howest.ti.game.web.tokens.PlainTextTokens;
 // Import only to be used when working with PlainTextTokens instead of JsonWebToken
@@ -20,7 +21,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     private final Supplier<SplendorService> serviceFactory;
 
     public SplendorOpenApiBridge() {
-        this(SplendorServiceImpl::new, new JsonWebToken());
+        this(GameManager::new, new JsonWebToken());
     }
 
     // Factory needed to differentiate between group-tokens, can be simplified with a single service in the student version.
@@ -53,19 +54,18 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("get-gems")
-    public NotYetImplementedResponse getGems(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-gems");
+    public GetGemsResponse getGems(GetGemsRequest request) {
+        return new GetGemsResponse();
     }
 
     @Operation("get-nobles")
-    public NotYetImplementedResponse getNobles(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-nobles");
+    public getNoblesResponse getNobles(getNoblesRequest request) {
+        return new getNoblesResponse(GameOperations.getAllNobles());
     }
 
     @Operation("get-developments")
     public getDevelopmentsResponse getDevelopments(GetDevelopmentsRequest request) {
-        SplendorService service = getService(request);
-        return new getDevelopmentsResponse(service.getAllDevelopments());
+        return new getDevelopmentsResponse(GameOperations.getAllDevelopments());
     }
 
     //endregion
@@ -115,8 +115,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("delete-games")
-    public NotYetImplementedResponse deleteGames(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("delete-games");
+    public DeleteGamesResponse deleteGames(DeleteGamesRequest request) {
+        SplendorService service = getService(request);
+        return new DeleteGamesResponse(service.removeGames());
     }
 
     @Operation("get-game-details")
@@ -185,7 +186,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorGame game = service.findStartedGame(gameId);
         Player player = game.findPlayer(playername);
 
-        if (takeOrReturn){
+        if (takeOrReturn) {
             game.acquireTokens(player, new Purse(tokensToChange));
         } else {
             game.returnTokens(player, new Purse(tokensToChange));
@@ -207,18 +208,16 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         }
 
         SplendorGame game = service.findStartedGame(request.getGameId());
-        Player activePlayer = game.getCurrentPlayer();
+        Player player = game.findPlayer(request.getPlayerName());
+        game.buyDevelopment(request.getPayment(), request.getDevelopmentName() , player);
+        PlayerInListView activePlayerView = new PlayerInListView(player);
+        return new BuyDevelopmentResponse(activePlayerView.getBuilt(), player.getTokens().getTokens());
 
-        game.buyDevelopment(request.getPayment(), request.getDevelopmentName() , activePlayer);
-
-        PlayerInListView activePlayerView = new PlayerInListView(activePlayer);
-        return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayer.getTokens().getTokens());
     }
 
     @Operation("reserve-development")
     public ReserveDevelopmentResponse reserveDevelopment(ReserveDevelopmentRequest request) {
         SplendorService service = getService(request);
-
 
         int level = -1;
         String name = null;
@@ -252,14 +251,38 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("buy-reserved-development")
-    public NotYetImplementedResponse buyReserveDevelopment(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("buy-reserved-development");
+    public BuyDevelopmentResponse buyReserveDevelopment(BuyReservedDevelopmentRequest request) {
+        SplendorService service = getService(request);
+        SplendorGame game = service.findStartedGame(request.getGameId());
+        Player player = game.findPlayer(request.getPlayerName());
+
+
+        service.buyReservedDevelopment(game, player, request.getDevelopmentName(), request.getPayment());
+
+
+        PlayerInListView playerView = new PlayerInListView(player);
+        return new BuyDevelopmentResponse(playerView.getBuilt(), player.getTokens().getTokens());
+
+
     }
 
     @Operation("choose-noble")
-    public NotYetImplementedResponse chooseNoble(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("choose-noble");
+    public ChooseNobleResponse chooseNoble(ChooseNobleRequest request) {
+        SplendorService service = getService(request);
+
+        int gameId = request.getGameId();
+
+        SplendorGame game = service.findStartedGame(gameId);
+
+        Purse bonusPurse = request.getNeededBonuses();
+        Noble noble = new Noble(request.getNobleName(), request.getPrestigePoints(), bonusPurse);
+
+
+        Noble chosenNoble = game.chooseNoble(noble);
+
+        return new ChooseNobleResponse(chosenNoble);
     }
+
     //endregion
 
 

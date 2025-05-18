@@ -8,11 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SplendorServiceImplTest {
 
-    private SplendorServiceImpl service;
+    private GameManager service;
 
     @BeforeEach
     public void init() {
-        service = new SplendorServiceImpl();
+        service = new GameManager();
     }
 
     @Test
@@ -60,6 +60,17 @@ class SplendorServiceImplTest {
         service.createLobby(4, "John", "game-02");
 
         service.removeGame(0);
+
+
+        assertThrows(IllegalArgumentException.class, () -> service.findGame(0));
+    }
+
+    @Test
+    public void removeGames() {
+        service.createLobby(4, "John", "game-01");
+        service.createLobby(4, "John", "game-02");
+
+        service.removeGames();
 
         assertThrows(IllegalArgumentException.class, () -> service.findGame(0));
     }

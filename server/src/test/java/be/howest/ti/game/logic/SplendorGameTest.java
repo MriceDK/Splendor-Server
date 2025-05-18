@@ -15,7 +15,7 @@ class SplendorGameTest {
 
     @BeforeEach
     public void init() {
-        lobby = new GameLobby(1, 4);
+        lobby = new GameLobby(1, 2);
     }
 
     @Test
@@ -57,6 +57,21 @@ class SplendorGameTest {
     }
 
     @Test
+    public void buyDevelopmentNotEnoughTokens(){
+        lobby.addPlayer("Watergate concierge");
+        SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
+
+        Development developmentToBuy = game.getMarket().getVisibleDevelopments(1).getFirst();
+
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.buyDevelopment(player.getTokens(), developmentToBuy.name(), player);
+        });
+
+    }
+
+    @Test
     public void buyDevelopmentTokenBankRefilled(){
 
         lobby.addPlayer("Bobby");
@@ -82,7 +97,7 @@ class SplendorGameTest {
         List<Noble> nobleList = new ArrayList<>(nobles);
         Noble wantedNoble = nobleList.getFirst();
 
-        player.setBonuses(wantedNoble.neededBonuses());
+        player.getBonuses().addTokens(wantedNoble.neededBonuses());
         game.setCurrentPlayer(player);
 
         game.checkForNoble();
@@ -108,20 +123,15 @@ class SplendorGameTest {
     @Test
     void testAcquireValidTokens() {
         lobby.addPlayer("Rutte");
+        lobby.addPlayer("Francken");
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1));
+        Player player = game.getCurrentPlayer();
 
-        Purse tokenBank = new Purse();
-        tokenBank.addTokens(new Purse(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4)));
+        game.acquireTokens(player, requested);
 
-        game.setTokenBank(tokenBank);
-
-
-
-        game.acquireTokens(game.getCurrentPlayer(), requested);
-
-        assertEquals(1, game.getCurrentPlayer().getTokens().getTokens().get(Token.DIAMOND));
-        assertEquals(3, tokenBank.getTokens().get(Token.DIAMOND));
+        assertEquals(1, player.getTokens().getTokens().get(Token.DIAMOND));
+        assertEquals(3, game.getTokenBank().getTokens().get(Token.DIAMOND));
     }
 
     @Test
@@ -130,12 +140,6 @@ class SplendorGameTest {
         lobby.addPlayer("Macron");
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse();
-        Purse tokenBank = new Purse();
-        tokenBank.addTokens(new Purse(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4)));
-
-
-        game.setTokenBank(tokenBank);
-
 
         requested.addTokens(new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)));
 
@@ -147,9 +151,6 @@ class SplendorGameTest {
         lobby.addPlayer("Vance");
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse();
-        Purse tokenBank = new Purse();
-        tokenBank.addTokens(new Purse(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4)));
-        game.setTokenBank(tokenBank);
 
         requested.addTokens(new Purse(Map.of(Token.DIAMOND, 2, Token.SAPPHIRE, 1)));
 
@@ -161,9 +162,7 @@ class SplendorGameTest {
         lobby.addPlayer("PM Greenland");
         Purse requested = new Purse();
         SplendorGame game = new SplendorGame(lobby);
-        Purse tokenBank = new Purse();
-        tokenBank.addTokens(new Purse(Map.of(Token.DIAMOND, 4, Token.SAPPHIRE, 4, Token.EMERALD, 4)));
-        game.setTokenBank(tokenBank);
+
         requested.addTokens(new Purse(Map.of(
                 Token.DIAMOND, 1,
                 Token.SAPPHIRE, 1,
@@ -175,4 +174,70 @@ class SplendorGameTest {
     }
 
 
+    @Test
+    void buyReservedDevelopmentGood() {
+        lobby.addPlayer("Kentavious Cadwell-Pope");
+        SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
+
+        Development developmentToReserve = game.getMarket().getVisibleDevelopments(1).getFirst();
+        player.reserveDevelopment(developmentToReserve);
+
+        Purse payment = developmentToReserve.cost();
+        player.getTokens().addTokens(payment);
+
+        game.buyReservedDevelopment(payment, developmentToReserve.name(), player);
+
+        assertFalse(player.getReservedDevelopments().contains(developmentToReserve));
+        assertTrue(player.getOwnedDevelopments().contains(developmentToReserve));
+
+    }
+
+    @Test
+    void buyReservedDevelopmentDevelopmentNotReserved(){
+        lobby.addPlayer("Mitchel Robinson");
+        SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
+
+        Development notReservedDevelopment = game.getMarket().getVisibleDevelopments(2).getFirst();
+
+        Purse payment = notReservedDevelopment.cost();
+        player.getTokens().addTokens(payment);
+
+        assertThrows(IllegalArgumentException.class, () -> {game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player);});
+
+
+
+
+    }
+    @Test
+    void chooseNobleGood() {
+        Player player = new Player("Gulf of Mexico");
+        lobby.addPlayer("Gulf of Mexico");
+        SplendorGame game = new SplendorGame(lobby);
+
+
+        List<Noble> nobles = new ArrayList<>(game.getUnclaimedNobles());
+        Noble possibleNobleToChoose1 = nobles.getFirst();
+        Noble possibleNobleToChoose2 = nobles.getLast();
+        game.setCurrentPlayer(player);
+        Purse requiredBonuses = new Purse(Map.of(Token.DIAMOND, 5, Token.EMERALD, 5, Token.SAPPHIRE, 5, Token.ONYX, 5, Token.RUBY, 5));
+        player.getBonuses().addTokens(requiredBonuses);
+
+        game.chooseNoble(possibleNobleToChoose2);
+        assertTrue(player.getAcquiredNobles().contains(possibleNobleToChoose2));
+    }
+
+    @Test
+    void chooseNobleBad() {
+        lobby.addPlayer("Taiwan");
+        SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
+
+        List<Noble> nobles = new ArrayList<>(game.getUnclaimedNobles());
+        Noble nobleToChoose = nobles.getFirst();
+        game.setCurrentPlayer(player);
+
+        assertFalse(player.getAcquiredNobles().contains(nobleToChoose));
+    }
 }

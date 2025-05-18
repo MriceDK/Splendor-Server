@@ -2,8 +2,8 @@ package be.howest.ti.game.web.views.request;
 
 import io.vertx.ext.web.RoutingContext;
 
-public class GetInfoRequest extends BaseSplendorRequest {
-    public GetInfoRequest(RoutingContext ctx) {
+public class DeleteGamesRequest extends BaseSplendorRequest {
+    public DeleteGamesRequest(RoutingContext ctx) {
         super(ctx);
     }
 }

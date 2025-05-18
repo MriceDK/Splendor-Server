@@ -2,7 +2,6 @@ package be.howest.ti.game.web.views.response;
 
 import be.howest.ti.game.logic.GameSuperclass;
 import be.howest.ti.game.web.views.GameInListView;
-import be.howest.ti.game.web.views.request.GetGamesRequest;
 
 import java.util.ArrayList;
 import java.util.Collections;
