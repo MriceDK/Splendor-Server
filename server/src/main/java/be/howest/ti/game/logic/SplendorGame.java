@@ -58,10 +58,6 @@ public class SplendorGame extends GameSuperclass {
         this.currentPlayer = currentPlayer;
     }
 
-    public void setWinner(Player winner) {
-        this.winner = winner;
-    }
-
     public Market getMarket() {
         return market;
     }
