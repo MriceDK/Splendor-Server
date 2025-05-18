@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
+import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -144,7 +145,7 @@ class SplendorGameTest {
 
         requested.addTokens(new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)));
 
-        assertThrows(IllegalStateException.class, () -> game.acquireTokens(game.getPlayers().get(1), requested));
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getPlayers().get(1), requested));
     }
 
     @Test
@@ -155,7 +156,7 @@ class SplendorGameTest {
 
         requested.addTokens(new Purse(Map.of(Token.DIAMOND, 2, Token.SAPPHIRE, 1)));
 
-        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
     }
 
     @Test
@@ -171,7 +172,7 @@ class SplendorGameTest {
                 Token.RUBY, 1
         )));
 
-        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
     }
 
     @Test
@@ -185,7 +186,7 @@ class SplendorGameTest {
         requested.addTokens(new Purse(Map.of(Token.DIAMOND, 2)));
         game.acquireTokens(game.getCurrentPlayer(), requested);
 
-        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
     }
 
 
