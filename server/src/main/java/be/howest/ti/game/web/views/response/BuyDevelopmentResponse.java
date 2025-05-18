@@ -12,9 +12,9 @@ public class BuyDevelopmentResponse extends AbstractResponseWithHiddenStatus{
 
     private static final int NO_VALUE_IN_TOKEN = 0;
     private final List<DevelopmentInListView> developments;
-    private final Map<Token, Integer> tokens;
+    private final Map<String, Integer> tokens;
 
-    public BuyDevelopmentResponse(List<DevelopmentInListView> developments, Map<Token, Integer> tokens) {
+    public BuyDevelopmentResponse(List<DevelopmentInListView> developments, Map<String, Integer> tokens) {
         super(200);
         this.developments = developments;
         this.tokens = tokens;
@@ -27,6 +27,6 @@ public class BuyDevelopmentResponse extends AbstractResponseWithHiddenStatus{
 
     public Map<String, Integer> getTokens(){
 
-        return new UpdateTokensResponse(new Purse(tokens)).getTokens();
+       return tokens;
     }
 }
