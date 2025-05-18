@@ -179,7 +179,7 @@ public class SplendorGame extends GameSuperclass {
     private List<Noble> getClaimableNobles() {
         List<Noble> possibleNobles = new ArrayList<>();
         for (Noble noble : unclaimedNobles) {
-            if (playerMeetsRequirements(currentPlayer, noble)) {
+            if (currentPlayer.meetsRequirementsToClaimNoble(noble)) {
                 possibleNobles.add(noble);
             }
 
@@ -206,26 +206,10 @@ public class SplendorGame extends GameSuperclass {
         if (!unclaimedNobles.contains(noble)) {
             throw new IllegalArgumentException("Noble not available");
         }
-        if (!playerMeetsRequirements(currentPlayer, noble)) {
-            throw new IllegalArgumentException("Player does not meet requirements for this noble");
-        }
 
         acquireNoble(noble);
-
         endTurn();
-
         return noble;
-    }
-
-    private boolean playerMeetsRequirements(Player player, Noble noble) {
-        for (Token bonus : Token.values()) {
-            int required = noble.neededBonuses().getTokens().get(bonus);
-            int actual = player.getBonuses().getTokens().get(bonus);
-            if (actual < required) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public void acquireNoble(Noble noble) {

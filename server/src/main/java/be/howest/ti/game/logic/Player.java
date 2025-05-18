@@ -114,8 +114,21 @@ public class Player {
     }
 
     public void claimNoble(Noble noble) {
-        // TODO De logica om te controleren of de noble al dan niet mag geclaimt worden moet hier
+        if (!meetsRequirementsToClaimNoble(noble)) {
+            throw new IllegalArgumentException("Player does not meet requirements for this noble");
+        }
         acquiredNobles.add(noble);
+    }
+
+    public boolean meetsRequirementsToClaimNoble(Noble noble) {
+        for (Token bonus : Token.values()) {
+            int required = noble.neededBonuses().getTokens().get(bonus);
+            int actual = getBonuses().getTokens().get(bonus);
+            if (actual < required) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void acquireTokens(Purse tokensToAcquire) {
