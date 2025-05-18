@@ -161,10 +161,6 @@ public class SplendorGame extends GameSuperclass {
         return noble;
     }
 
-
-
-
-
     private boolean playerMeetsRequirements(Player player, Noble noble) {
         for (Token bonus : Token.values()) {
             int required = noble.neededBonuses().getTokens().get(bonus);
