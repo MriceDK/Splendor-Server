@@ -46,7 +46,7 @@ public class Deck {
     }
 
     public void refillVisibleDevelopments() {
-        makeVisible(invisibleDevelopments.poll());
+        makeVisible(takeTopDevelopment());
     }
 
     public Development findMatchingDevelopment(String developmentName) {
