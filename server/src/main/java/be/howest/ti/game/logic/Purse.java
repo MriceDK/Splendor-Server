@@ -4,16 +4,16 @@ import java.util.*;
 
 public class Purse {
 
-    private final Map<Token, Integer> tokens ;
+    private final Map<Token, Integer> tokens;
 
-    public Purse(){
+    public Purse() {
         this.tokens = new HashMap<>();
         for (Token token : Token.values()) {
             this.tokens.put(token, 0);
         }
     }
 
-    public Purse(Map<Token, Integer> tokens){
+    public Purse(Map<Token, Integer> tokens) {
         this.tokens = new HashMap<>(tokens);
         for (Token token : Token.values()) {
             this.tokens.putIfAbsent(token, 0);
@@ -40,7 +40,7 @@ public class Purse {
         return res;
     }
 
-    public int getTotal(){
+    public int getTotal() {
         int total = 0;
         for (int value : this.tokens.values()) {
             total += value;
@@ -63,12 +63,12 @@ public class Purse {
         }
     }
 
-    public void addToken(Token tokenToAdd, Integer amount){
+    public void addToken(Token tokenToAdd, Integer amount) {
         checkIfAddIsAllowed(tokenToAdd, amount);
         this.tokens.put(tokenToAdd, this.tokens.get(tokenToAdd) + amount);
     }
 
-    public void addTokens(Purse tokensToAdd){
+    public void addTokens(Purse tokensToAdd) {
         // Double for loop to first check if all tokens can be added
         for (Token token : tokensToAdd.getTokens().keySet()) {
             checkIfAddIsAllowed(token, tokensToAdd.getTokens().get(token));
@@ -78,12 +78,12 @@ public class Purse {
         }
     }
 
-    public void removeToken(Token tokenToRemove, int amount){
+    public void removeToken(Token tokenToRemove, int amount) {
         checkIfDeleteIsAllowed(tokenToRemove, amount);
         this.tokens.put(tokenToRemove, this.tokens.get(tokenToRemove) - amount);
     }
 
-    public void removeTokens(Purse tokensToRemove){
+    public void removeTokens(Purse tokensToRemove) {
         // Double for loop to first check if all tokens can be added
         for (Token token : tokensToRemove.getTokens().keySet()) {
             checkIfDeleteIsAllowed(token, tokensToRemove.getTokens().get(token));

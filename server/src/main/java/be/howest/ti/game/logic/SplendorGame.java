@@ -13,7 +13,7 @@ public class SplendorGame extends GameSuperclass {
 
     private final static int INITIAL_GOLD_AMOUNT = 5;
 
-    private Purse tokenBank; // TODO make final
+    private final Purse tokenBank;
     private final Set<Noble> unclaimedNobles;
     private final Market market;
     private Player currentPlayer;
@@ -22,7 +22,7 @@ public class SplendorGame extends GameSuperclass {
 
     private static final int ONE_NOBLE = 1;
 
-    public SplendorGame(GameSuperclass gameLobby){
+    public SplendorGame(GameSuperclass gameLobby) {
         super(gameLobby);
 
         this.market = new Market();
@@ -123,6 +123,16 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
+    public void buyReservedDevelopment(Purse payment, String developmentName, Player player){
+        if (playerTurnChecker(player)){
+            Development development = player.findDevelopmentInReservedDevelopments(developmentName);
+            player.buyDevelopment(development, payment);
+            player.removeReservedDevelopment(development);
+            tokenBank.addTokens(payment);
+            endTurn();
+        }
+    }
+
     private void givePlayerGoldTokenIfPossible(Player player) {
         if (tokenBank.getTokens().get(Token.GOLD) > 0) {
             tokenBank.removeToken(Token.GOLD, 1);
@@ -148,28 +158,41 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public void checkForNoble(){
+    public void checkForNoble() {
         List<Noble> possibleNobles = new ArrayList<>();
-        for (Noble noble : unclaimedNobles){
-            if (playerMeetsRequirements(currentPlayer, noble)){
+        for (Noble noble : unclaimedNobles) {
+            if (playerMeetsRequirements(currentPlayer, noble)) {
                 possibleNobles.add(noble);
 
             }
 
         }
-        if (possibleNobles.isEmpty()){
+        if (possibleNobles.isEmpty()) {
             return;
         }
         chooseNobleNecessaryCheck(possibleNobles);
     }
 
-    private void chooseNobleNecessaryCheck(List<Noble> possibleNobles){
-        if (possibleNobles.size() > ONE_NOBLE){
+    private void chooseNobleNecessaryCheck(List<Noble> possibleNobles) {
+        if (possibleNobles.size() > ONE_NOBLE) {
             setGameState(GameState.CHOOSE_NOBLE);
             //TODO : ADD FUNCTIONALITY FOR WHEN TWO OR MORE NOBLES CLAIMABLE --> WHEN DOING ENDPOINT NOBLES
         } else {
             acquireNoble(possibleNobles);
         }
+    }
+
+    public Noble chooseNoble(Noble noble) {
+        if (!unclaimedNobles.contains(noble)) {
+            throw new IllegalArgumentException("Noble not available");
+        }
+        if (!playerMeetsRequirements(currentPlayer, noble)) {
+            throw new IllegalArgumentException("Player does not meet requirements for this noble");
+        }
+
+        currentPlayer.claimNoble(noble);
+        unclaimedNobles.remove(noble);
+        return noble;
     }
 
     private boolean playerMeetsRequirements(Player player, Noble noble) {
@@ -183,7 +206,7 @@ public class SplendorGame extends GameSuperclass {
         return true;
     }
 
-    public void acquireNoble(List<Noble> possibleNobles){
+    public void acquireNoble(List<Noble> possibleNobles) {
         currentPlayer.claimNoble(possibleNobles.getFirst());
     }
 
@@ -206,7 +229,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public boolean playerTurnChecker(Player player) {
-        if(!player.equals(currentPlayer)){
+        if (!player.equals(currentPlayer)) {
             throw new IllegalStateException("It's not this player's turn");
         } else {
             return true;
@@ -214,7 +237,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void returnTokens(Player player, Purse tokensToReturn) {
-        if (playerTurnChecker(player)){
+        if (playerTurnChecker(player)) {
             player.returnTokens(tokensToReturn);
             tokenBank.addTokens(tokensToReturn);
         }
@@ -224,11 +247,6 @@ public class SplendorGame extends GameSuperclass {
     public Set<Noble> setUnclaimedNobles() {
         NobleReader nobleReader = new NobleReader();
         return nobleReader.getRandomNobles(getTotalPlayers());
-    }
-
-    //For testing purposes
-    public void setTokenBank(Purse tokensToSetTokenBank){
-        this.tokenBank = tokensToSetTokenBank;
     }
 
     public GameState getGameState() {
@@ -248,11 +266,9 @@ public class SplendorGame extends GameSuperclass {
 
         if (getTotalPlayers() == 4) {
             amountPerToken = TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS;
-        }
-        else if (getTotalPlayers() == 3) {
+        } else if (getTotalPlayers() == 3) {
             amountPerToken = TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS;
-        }
-        else if (getTotalPlayers() == 2) {
+        } else if (getTotalPlayers() == 2) {
             amountPerToken = TOKEN_AMOUNT_IN_TOKENBANK_FOR_TWO_PLAYERS;
         }
 

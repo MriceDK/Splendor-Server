@@ -20,7 +20,7 @@ public class Player {
 
     private static final int MIN_POINTS_NEEDED_TO_WIN = 15;
 
-    public Player (String name){
+    public Player(String name) {
         this.name = name;
         this.acquiredNobles = new HashSet<>();
         this.reservedDevelopments = new ArrayList<>();
@@ -28,11 +28,6 @@ public class Player {
         this.bonuses = new Purse();
         this.prestigePoints = 0;
         this.ownedDevelopments = new ArrayList<>();
-    }
-
-    //for testing purposes
-    public void setTokens(Purse purse){
-        this.tokens = purse;
     }
 
     public String getName() {
@@ -105,7 +100,7 @@ public class Player {
         }
     }
 
-    public void buyDevelopment(Development development, Purse payment){
+    public void buyDevelopment(Development development, Purse payment) {
         checkIfPaymentIsSufficient(development, payment);
         tokens.removeTokens(payment);
         ownedDevelopments.add(development);
@@ -113,17 +108,19 @@ public class Player {
         bonuses.addToken(development.bonus(), 1);
     }
 
-    public void reserveDevelopment(Development development){
+    public void reserveDevelopment(Development development) {
         checkIfPlayerIsAllowedToReserve();
         reservedDevelopments.add(development);
     }
 
-    public void claimNoble(Noble noble){acquiredNobles.add(noble);}
+    public void claimNoble(Noble noble) {
+        acquiredNobles.add(noble);
+    }
 
-    public void acquireTokens(Purse tokensToAcquire){
+    public void acquireTokens(Purse tokensToAcquire) {
         int sizeOfTokensToAcquire = 0;
-        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.getTokens().entrySet()){
-            if (tokenToAcquire.getValue() > ZERO_TOKENS){
+        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.getTokens().entrySet()) {
+            if (tokenToAcquire.getValue() > ZERO_TOKENS) {
                 sizeOfTokensToAcquire++;
             }
 
@@ -134,12 +131,12 @@ public class Player {
     }
 
     private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire) {
-        if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
+        if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS) {
             throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
         }
 
-        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()){
-            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
+        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()) {
+            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN) {
                 throw new IllegalArgumentException("You cannot acquire more than two tokens of the same type");
             }
 
@@ -187,14 +184,18 @@ public class Player {
         return Objects.hashCode(name);
     }
 
-    //For testing purposes
-    public void setBonuses(Purse bonuses) {
-        this.bonuses = bonuses;
+    public Development findDevelopmentInReservedDevelopments(String developmentName) {
+        for (Development reservedDevelopment: reservedDevelopments){
+            if (reservedDevelopment.name().equals(developmentName)){
+                return reservedDevelopment;
+            }
+        }
+        throw new IllegalArgumentException("Development is not in the reserved developments of player " + name);
+
     }
 
-   //For testing purposes
-    public void setAcquiredNobles(Set<Noble> nobles) {
-        this.acquiredNobles = nobles;
+    public void removeReservedDevelopment(Development development) {
+        reservedDevelopments.remove(development);
     }
 
     public boolean hasTooManyTokens() {

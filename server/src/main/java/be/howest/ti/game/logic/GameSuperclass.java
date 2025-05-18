@@ -10,7 +10,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
     private final String gameName;
     private final int maxPlayers;
 
-    public GameSuperclass(int gameId, String gameName, int maxPlayers){
+    public GameSuperclass(int gameId, String gameName, int maxPlayers) {
         this.gameId = gameId;
         this.gameName = gameName;
         this.maxPlayers = maxPlayers;
@@ -32,7 +32,9 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         return players;
     }
 
-    public int getTotalPlayers() { return players.size(); }
+    public int getTotalPlayers() {
+        return players.size();
+    }
 
     public String getGameName() {
         return gameName;
@@ -42,7 +44,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         return maxPlayers;
     }
 
-    public void addPlayer(String name){
+    public void addPlayer(String name) {
         Player newPlayer = new Player(name);
 
         validateNewPlayer(newPlayer);

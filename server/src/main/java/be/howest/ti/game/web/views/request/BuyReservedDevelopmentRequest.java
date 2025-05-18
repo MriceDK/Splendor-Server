@@ -2,8 +2,8 @@ package be.howest.ti.game.web.views.request;
 
 import io.vertx.ext.web.RoutingContext;
 
-public class JoinGameRequest extends BaseSplendorRequest {
-    public JoinGameRequest(RoutingContext ctx) {
+public class BuyReservedDevelopmentRequest extends PaymentReceiver {
+    public BuyReservedDevelopmentRequest(RoutingContext ctx) {
         super(ctx);
     }
 
@@ -14,4 +14,9 @@ public class JoinGameRequest extends BaseSplendorRequest {
     public String getPlayerName() {
         return params.pathParameter("playerName").getString();
     }
+
+    public String getDevelopmentName(){
+        return params.pathParameter("developmentName").getString();
+    }
+
 }
