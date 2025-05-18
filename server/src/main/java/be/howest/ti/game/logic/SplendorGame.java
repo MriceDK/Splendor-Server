@@ -65,7 +65,7 @@ public class SplendorGame extends GameSuperclass {
         this.gameState = gameState;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
+    private void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
@@ -104,6 +104,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     private void endPhaseOfTurn(boolean tokenOverflowShouldBeChecked) {
+
         if (currentPlayer.hasTooManyTokens() && tokenOverflowShouldBeChecked) {
             setGameState(GameState.RETURN_GEMS);
             return;

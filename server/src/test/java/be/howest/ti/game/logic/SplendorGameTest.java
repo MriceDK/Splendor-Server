@@ -105,16 +105,17 @@ class SplendorGameTest {
 
     @Test
     void checkForNobleGood() {
-        Player player = new Player("Alice");
+
         lobby.addPlayer("Alice");
+        lobby.addPlayer("John");
         SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
 
         Set<Noble> nobles = game.getUnclaimedNobles();
         List<Noble> nobleList = new ArrayList<>(nobles);
         Noble wantedNoble = nobleList.getFirst();
 
         player.getBonuses().addTokens(wantedNoble.neededBonuses());
-        game.setCurrentPlayer(player);
 
         game.executeNobleClaimChecker();
         assertTrue(player.getAcquiredNobles().contains(wantedNoble));
@@ -122,15 +123,15 @@ class SplendorGameTest {
 
     @Test
     void checkForNobleBad() {
-        Player player = new Player("Alice");
         lobby.addPlayer("Alice");
+        lobby.addPlayer("John");
         SplendorGame game = new SplendorGame(lobby);
+
+        Player player = game.getCurrentPlayer();
 
         Set<Noble> nobles = game.getUnclaimedNobles();
         List<Noble> nobleList = new ArrayList<>(nobles);
         Noble wantedNoble = nobleList.getFirst();
-
-        game.setCurrentPlayer(player);
 
         game.executeNobleClaimChecker();
         assertFalse(player.getAcquiredNobles().contains(wantedNoble));
@@ -387,13 +388,10 @@ class SplendorGameTest {
         player.getTokens().addTokens(payment);
 
         assertThrows(IllegalStateException.class, () -> {game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player);});
-
-
-
-
     }
+
     @Test
-    void chooseNobleGood() {
+    void chooseNobleGoodAndGameStateShouldBeChooseNoble() {
         List<Noble> nobles = new ArrayList<>(startedGame.getUnclaimedNobles());
         Noble possibleNobleToChoose2 = nobles.getLast();
         Player player = startedGame.getCurrentPlayer();
@@ -411,12 +409,12 @@ class SplendorGameTest {
     @Test
     void chooseNobleBad() {
         lobby.addPlayer("Taiwan");
+        lobby.addPlayer("Japan");
         SplendorGame game = new SplendorGame(lobby);
         Player player = game.getCurrentPlayer();
 
         List<Noble> nobles = new ArrayList<>(game.getUnclaimedNobles());
         Noble nobleToChoose = nobles.getFirst();
-        game.setCurrentPlayer(player);
 
         assertFalse(player.getAcquiredNobles().contains(nobleToChoose));
     }
