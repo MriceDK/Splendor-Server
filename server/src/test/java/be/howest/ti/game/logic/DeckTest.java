@@ -28,11 +28,11 @@ class DeckTest {
     }
 
     @Test
-    void removeDevelopmentAndRefill() {
+    void removeVisibleDevelopment() {
         Development firstVisible = l1.getVisibleDevelopments().getFirst();
-        l1.removeDevelopmentAndRefill(firstVisible);
+        l1.removeVisibleDevelopment(firstVisible);
         assertFalse(l1.getVisibleDevelopments().contains(firstVisible));
-        assertThrows(IllegalArgumentException.class, () -> l1.removeDevelopmentAndRefill(new Development("Developement 7", 1, 6, null, null)));
+        assertThrows(IllegalArgumentException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
     }
 
     @Test
@@ -43,11 +43,11 @@ class DeckTest {
     }
 
     @Test
-    void testRemoveDevelopmentAndRefillString() {
+    void testRemoveVisibleDevelopmentString() {
         Development firstVisible = l1.getVisibleDevelopments().getFirst();
-        l1.removeDevelopmentAndRefill(firstVisible.name());
+        l1.removeVisibleDevelopment(firstVisible);
         assertFalse(l1.getVisibleDevelopments().contains(firstVisible));
-        assertThrows(IllegalArgumentException.class, () -> l1.removeDevelopmentAndRefill(new Development("Developement 7", 1, 6, null, null)));
+        assertThrows(IllegalArgumentException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
 
     }
 }

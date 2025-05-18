@@ -32,7 +32,7 @@ public class Market {
     }
 
     public Development removeVisibleDevelopment(Development matchingDevelopment) {
-        return levels[matchingDevelopment.level() - 1].removeDevelopmentAndRefill(matchingDevelopment);
+        return levels[matchingDevelopment.level() - 1].removeVisibleDevelopment(matchingDevelopment);
     }
 
     public void refillMarket(int level){
