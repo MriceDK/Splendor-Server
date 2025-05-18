@@ -174,6 +174,20 @@ class SplendorGameTest {
         assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
     }
 
+    @Test
+    void testAcquireTwoTokensWhenBankIsBelowOrAboveFour() {
+        lobby.addPlayer("Alice");
+        lobby.addPlayer("Bob");
+
+        SplendorGame game = new SplendorGame(lobby);
+        Purse requested = new Purse();
+
+        requested.addTokens(new Purse(Map.of(Token.DIAMOND, 2)));
+        game.acquireTokens(game.getCurrentPlayer(), requested);
+
+        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+    }
+
 
     @Test
     void buyReservedDevelopmentGood() {
