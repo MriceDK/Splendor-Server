@@ -19,6 +19,8 @@ class SplendorGameTest {
     private Player alice;
     private Player gert;
 
+    private String gameStateErrorMessage = "You can't do this at this point in the game";
+
     @BeforeEach
     public void init() {
         lobby = new GameLobby(1, 2);
@@ -215,7 +217,7 @@ class SplendorGameTest {
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
         assertEquals(alice, startedGame.getCurrentPlayer());
         Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 2))));
-        assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
+        assertEquals(gameStateErrorMessage ,ex.getMessage());
     }
 
     @Test
@@ -244,7 +246,7 @@ class SplendorGameTest {
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
         assertEquals(alice, startedGame.getCurrentPlayer());
         Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert));
-        assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
+        assertEquals(gameStateErrorMessage ,ex.getMessage());
     }
 
     @Test
@@ -277,7 +279,7 @@ class SplendorGameTest {
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
 
         Exception ex = assertThrows(SplendorGameRuleException.class, () -> buyValidDevelopment(startedGame.getMarket().getVisibleDevelopments(1), 0, 3, false));
-        assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
+        assertEquals(gameStateErrorMessage ,ex.getMessage());
     }
 
     @Test
@@ -315,7 +317,7 @@ class SplendorGameTest {
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
 
         Exception ex = assertThrows(SplendorGameRuleException.class, () -> buyValidDevelopment(alice.getReservedDevelopments(), 0, alice.getReservedDevelopments().size() -1, true));
-        assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
+        assertEquals(gameStateErrorMessage ,ex.getMessage());
     }
 
     private void buyValidDevelopment(List<Development> developments, int number, int max, boolean reserved) {
@@ -341,7 +343,7 @@ class SplendorGameTest {
     public void nobleCannotBeChosenWhenGameStateIsNotChooseNoble() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
         Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.chooseNoble(startedGame.getCurrentPlayer(), new Noble("test", 3, new Purse())));
-        assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
+        assertEquals(gameStateErrorMessage ,ex.getMessage());
     }
 
     @Test
@@ -366,7 +368,7 @@ class SplendorGameTest {
     public void returningGemsIsNotAllowedWhenGameStateIsNotReturnGems() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
         Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.returnTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1))));
-        assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
+        assertEquals(gameStateErrorMessage ,ex.getMessage());
     }
     @Test
     void testAcquireTwoTokensWhenBankIsBelowOrAboveFour() {
@@ -479,17 +481,17 @@ class SplendorGameTest {
 
         // No single action can be carried out anymore
         Exception ex1 = assertThrows(SplendorGameRuleException.class, () -> startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2))));
-        assertEquals("The game state does not align with what you want to do!" ,ex1.getMessage());
+        assertEquals(gameStateErrorMessage ,ex1.getMessage());
         Exception ex2 = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopmentFromLevel(1, gert));
-        assertEquals("The game state does not align with what you want to do!" ,ex2.getMessage());
+        assertEquals(gameStateErrorMessage ,ex2.getMessage());
         Exception ex3 = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert));
-        assertEquals("The game state does not align with what you want to do!" ,ex3.getMessage());
+        assertEquals(gameStateErrorMessage ,ex3.getMessage());
         Exception ex4 = assertThrows(SplendorGameRuleException.class, () -> startedGame.buyDevelopment(new Purse(), startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert));
-        assertEquals("The game state does not align with what you want to do!" ,ex4.getMessage());
+        assertEquals(gameStateErrorMessage ,ex4.getMessage());
         Exception ex5 = assertThrows(SplendorGameRuleException.class, () -> startedGame.buyReservedDevelopment(new Purse(), "non-existent", gert));
-        assertEquals("The game state does not align with what you want to do!" ,ex5.getMessage());
+        assertEquals(gameStateErrorMessage ,ex5.getMessage());
         Exception ex6 = assertThrows(SplendorGameRuleException.class, () -> startedGame.returnTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1))));
-        assertEquals("The game state does not align with what you want to do!" ,ex6.getMessage());
+        assertEquals(gameStateErrorMessage ,ex6.getMessage());
 
     }
 }

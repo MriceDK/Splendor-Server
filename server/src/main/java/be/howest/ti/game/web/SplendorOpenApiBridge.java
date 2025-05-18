@@ -35,6 +35,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     private final Map<String, SplendorService> services = new HashMap<>();
 
     private SplendorService getService(ContextBasedRequestView request) {
+        System.out.println(request.getGroupSecret().toString());
         if (!request.getGroupSecret().toString().equals(Config.getString("group.secret"))) {
             throw new ForbiddenAccessException("You are not allowed to access this group");
         }

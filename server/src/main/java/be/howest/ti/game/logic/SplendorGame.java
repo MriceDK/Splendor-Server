@@ -42,6 +42,12 @@ public class SplendorGame extends GameSuperclass {
         return winner;
     }
 
+    private void checkIfActionCanBeCarriedOut(GameState wantedGameState) {
+        if (!gameState.equals(wantedGameState)) {
+            throw new SplendorGameRuleException("You can't do this at this point in the game");
+        }
+    }
+
     public void endTurn() {
         setGameState(GameState.TURN_ACTION);
         currentPlayer = getNextPlayer();
@@ -98,9 +104,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void buyDevelopment(Purse payment, String developmentName, Player player){
-        if (!gameState.equals(GameState.TURN_ACTION)) {
-            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
-        }
+        checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
 
         if (playerTurnChecker(player)){
             Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
@@ -126,9 +130,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void reserveDevelopment(String developmentName, Player player){
-        if (!gameState.equals(GameState.TURN_ACTION)) {
-            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
-        }
+        checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
 
         if (playerTurnChecker(player)) {
             Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
@@ -142,9 +144,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void buyReservedDevelopment(Purse payment, String developmentName, Player player){
-        if (!gameState.equals(GameState.TURN_ACTION)) {
-            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
-        }
+        checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
 
         if (playerTurnChecker(player)){
             Development development = player.findDevelopmentInReservedDevelopments(developmentName);
@@ -164,9 +164,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void reserveDevelopmentFromLevel(int level, Player player){
-        if (!gameState.equals(GameState.TURN_ACTION)) {
-            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
-        }
+        checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
 
         if (playerTurnChecker(player)) {
             player.reserveDevelopment(market.takeTopDevelopment(level));
@@ -209,10 +207,8 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public Noble chooseNoble(Player player, Noble noble) {
+        checkIfActionCanBeCarriedOut(GameState.CHOOSE_NOBLE);
 
-        if (!gameState.equals(GameState.CHOOSE_NOBLE)) {
-            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
-        }
         playerTurnChecker(player);
         if (!unclaimedNobles.contains(noble)) {
             throw new IllegalArgumentException("Noble not available");
@@ -240,9 +236,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void acquireTokens(Player player, Purse tokens){
-        if (!gameState.equals(GameState.TURN_ACTION)) {
-            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
-        }
+        checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
 
         if(playerTurnChecker(player)){
 
@@ -292,10 +286,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void returnTokens(Player player, Purse tokensToReturn) {
-
-        if (!gameState.equals(GameState.RETURN_GEMS)) {
-            throw new SplendorGameRuleException("The game state does not align with what you want to do!");
-        }
+        checkIfActionCanBeCarriedOut(GameState.RETURN_GEMS);
 
         if (playerTurnChecker(player)) {
             player.returnTokens(tokensToReturn);
