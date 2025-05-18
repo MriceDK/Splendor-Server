@@ -114,6 +114,7 @@ public class Player {
     }
 
     public void claimNoble(Noble noble) {
+        // TODO De logica om te controleren of de noble al dan niet mag geclaimt worden moet hier
         acquiredNobles.add(noble);
     }
 

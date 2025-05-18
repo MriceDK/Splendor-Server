@@ -192,7 +192,7 @@ public class SplendorGame extends GameSuperclass {
             setGameState(GameState.CHOOSE_NOBLE);
             return false;
         } else {
-            acquireNoble(possibleNobles);
+            acquireNoble(possibleNobles.getFirst());
             return true;
         }
     }
@@ -210,8 +210,7 @@ public class SplendorGame extends GameSuperclass {
             throw new IllegalArgumentException("Player does not meet requirements for this noble");
         }
 
-        currentPlayer.claimNoble(noble);
-        unclaimedNobles.remove(noble);
+        acquireNoble(noble);
 
         endTurn();
 
@@ -229,8 +228,9 @@ public class SplendorGame extends GameSuperclass {
         return true;
     }
 
-    public void acquireNoble(List<Noble> possibleNobles) {
-        currentPlayer.claimNoble(possibleNobles.getFirst());
+    public void acquireNoble(Noble noble) {
+        currentPlayer.claimNoble(noble);
+        unclaimedNobles.remove(noble);
     }
 
     public void acquireTokens(Player player, Purse tokens){
