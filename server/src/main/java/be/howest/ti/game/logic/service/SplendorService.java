@@ -2,7 +2,6 @@ package be.howest.ti.game.logic.service;
 
 
 import be.howest.ti.game.logic.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +28,8 @@ public interface SplendorService {
 
     SplendorGame findStartedGame(int gameId);
 
-    void buyReservedDevelopment(SplendorGame game, Player player, String developmentName, Purse payment);
+    List<Development> getAllDevelopments();
+
+    Player buyReservedDevelopment(int gameId, String playerName, String DevelopmentName, Purse payment);
 
 }

@@ -6,11 +6,13 @@ public class CreateGameResponse extends AbstractResponseWithHiddenStatus {
 
     private final GameLobby game;
     private final String playerName;
+    private final String token;
 
-    public CreateGameResponse(GameLobby game, String playerName) {
+    public CreateGameResponse(GameLobby game, String playerName, String token) {
         super(200);
         this.game = game;
         this.playerName = playerName;
+        this.token = token;
     }
 
     public int getGameId() {
@@ -22,6 +24,6 @@ public class CreateGameResponse extends AbstractResponseWithHiddenStatus {
     }
 
     public String getPlayerToken() {
-        return getGameId() + "_" + getPlayerName();
+        return token;
     }
 }

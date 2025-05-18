@@ -3,6 +3,8 @@ package be.howest.ti.game.logic.service;
 import be.howest.ti.game.logic.*;
 import be.howest.ti.game.util.reader.DevelopmentReader;
 import be.howest.ti.game.util.reader.NobleReader;
+import be.howest.ti.game.web.views.request.BaseSplendorRequest;
+import be.howest.ti.game.web.views.request.BuyReservedDevelopmentRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,9 +153,12 @@ public class GameManager implements SplendorService {
     }
 
     @Override
-    public void buyReservedDevelopment(SplendorGame game, Player player, String developmentName, Purse payment) {
+    public Player buyReservedDevelopment(int gameId, String playerName, String developmentName, Purse payment) {
+        SplendorGame game = findStartedGame(gameId);
+        Player player = game.findPlayer(playerName);
         game.buyReservedDevelopment(payment, developmentName, player);
 
+        return player;
     }
 
     public List<Noble> getAllNobles() {
