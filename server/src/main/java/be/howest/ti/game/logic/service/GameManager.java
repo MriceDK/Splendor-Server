@@ -144,4 +144,21 @@ public class GameManager implements SplendorService {
 
         return gameId;
     }
+
+    public List<Development> getAllDevelopments() {
+        DevelopmentReader reader = new DevelopmentReader();
+        return reader.getAllDevelopments();
+    }
+
+    @Override
+    public void buyReservedDevelopment(SplendorGame game, Player player, String developmentName, Purse payment) {
+        game.buyReservedDevelopment(payment, developmentName, player);
+
+    }
+
+    public List<Noble> getAllNobles() {
+        NobleReader reader = new NobleReader();
+        return reader.getAllNobles();
+    }
+
 }

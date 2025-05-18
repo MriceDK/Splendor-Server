@@ -57,6 +57,21 @@ class SplendorGameTest {
     }
 
     @Test
+    public void buyDevelopmentNotEnoughTokens(){
+        lobby.addPlayer("Watergate concierge");
+        SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
+
+        Development developmentToBuy = game.getMarket().getVisibleDevelopments(1).getFirst();
+
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.buyDevelopment(player.getTokens(), developmentToBuy.name(), player);
+        });
+
+    }
+
+    @Test
     public void buyDevelopmentTokenBankRefilled(){
 
         lobby.addPlayer("Bobby");
@@ -160,6 +175,42 @@ class SplendorGameTest {
 
 
     @Test
+    void buyReservedDevelopmentGood() {
+        lobby.addPlayer("Kentavious Cadwell-Pope");
+        SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
+
+        Development developmentToReserve = game.getMarket().getVisibleDevelopments(1).getFirst();
+        player.reserveDevelopment(developmentToReserve);
+
+        Purse payment = developmentToReserve.cost();
+        player.getTokens().addTokens(payment);
+
+        game.buyReservedDevelopment(payment, developmentToReserve.name(), player);
+
+        assertFalse(player.getReservedDevelopments().contains(developmentToReserve));
+        assertTrue(player.getOwnedDevelopments().contains(developmentToReserve));
+
+    }
+
+    @Test
+    void buyReservedDevelopmentDevelopmentNotReserved(){
+        lobby.addPlayer("Mitchel Robinson");
+        SplendorGame game = new SplendorGame(lobby);
+        Player player = game.getCurrentPlayer();
+
+        Development notReservedDevelopment = game.getMarket().getVisibleDevelopments(2).getFirst();
+
+        Purse payment = notReservedDevelopment.cost();
+        player.getTokens().addTokens(payment);
+
+        assertThrows(IllegalArgumentException.class, () -> {game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player);});
+
+
+
+
+    }
+    @Test
     void chooseNobleGood() {
         Player player = new Player("Gulf of Mexico");
         lobby.addPlayer("Gulf of Mexico");
@@ -171,7 +222,7 @@ class SplendorGameTest {
         Noble possibleNobleToChoose2 = nobles.getLast();
         game.setCurrentPlayer(player);
         Purse requiredBonuses = new Purse(Map.of(Token.DIAMOND, 5, Token.EMERALD, 5, Token.SAPPHIRE, 5, Token.ONYX, 5, Token.RUBY, 5));
-        player.setBonuses(requiredBonuses);
+        player.getBonuses().addTokens(requiredBonuses);
 
         game.chooseNoble(possibleNobleToChoose2);
         assertTrue(player.getAcquiredNobles().contains(possibleNobleToChoose2));
