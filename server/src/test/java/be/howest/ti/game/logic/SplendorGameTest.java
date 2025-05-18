@@ -389,6 +389,20 @@ class SplendorGameTest {
         Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.returnTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1))));
         assertEquals("The game state does not align with what you want to do!" ,ex.getMessage());
     }
+    @Test
+    void testAcquireTwoTokensWhenBankIsBelowOrAboveFour() {
+        lobby.addPlayer("Alice");
+        lobby.addPlayer("Bob");
+
+        SplendorGame game = new SplendorGame(lobby);
+        Purse requested = new Purse();
+
+        requested.addTokens(new Purse(Map.of(Token.DIAMOND, 2)));
+        game.acquireTokens(game.getCurrentPlayer(), requested);
+
+        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+    }
+
 
     @Test
     void buyReservedDevelopmentGood() {

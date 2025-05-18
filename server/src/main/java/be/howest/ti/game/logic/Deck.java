@@ -41,9 +41,12 @@ public class Deck {
     public Development removeVisibleDevelopment(Development development) {
         if (visibleDevelopments.contains(development)) {
             visibleDevelopments.remove(development);
-            makeVisible(invisibleDevelopments.poll());
             return development;
         } else throw new IllegalArgumentException("Development not found in visible developments");
+    }
+
+    public void refillVisibleDevelopments() {
+        makeVisible(takeTopDevelopment());
     }
 
     public Development findMatchingDevelopment(String developmentName) {
@@ -53,10 +56,6 @@ public class Deck {
             }
         }
         return null;
-    }
-
-    public Development removeVisibleDevelopment(String developmentName) {
-        return removeVisibleDevelopment(findMatchingDevelopment(developmentName));
     }
 
     public int getTotalInvisible() {

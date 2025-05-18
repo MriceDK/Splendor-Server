@@ -45,7 +45,7 @@ class DeckTest {
     @Test
     void testRemoveVisibleDevelopmentString() {
         Development firstVisible = l1.getVisibleDevelopments().getFirst();
-        l1.removeVisibleDevelopment(firstVisible.name());
+        l1.removeVisibleDevelopment(firstVisible);
         assertFalse(l1.getVisibleDevelopments().contains(firstVisible));
         assertThrows(IllegalArgumentException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
 

@@ -14,9 +14,6 @@ public class Player {
 
     private static final int TOO_MANY_TOTAL_TOKENS_PER_PLAYER = 11;
     private static final int MAX_TOTAL_TOKENS_PER_PLAYER = 10;
-    private static final int ZERO_TOKENS = 0;
-    private static final int MAX_DIFFERENT_TOKENS = 3;
-    private static final int MAX_OF_SAME_TOKEN = 2;
 
     private static final int MIN_POINTS_NEEDED_TO_WIN = 15;
 
@@ -132,36 +129,9 @@ public class Player {
         return true;
     }
 
-    public void acquireTokens(Purse tokensToAcquire) {
-        int sizeOfTokensToAcquire = 0;
-        for (Map.Entry<Token, Integer> tokenToAcquire : tokensToAcquire.getTokens().entrySet()) {
-            if (tokenToAcquire.getValue() > ZERO_TOKENS) {
-                sizeOfTokensToAcquire++;
-            }
-
-
-        }
-        ruleCheckToAcquireTokens(tokensToAcquire, sizeOfTokensToAcquire);
+    public void acquireTokens(Purse tokensToAcquire){
         tokens.addTokens(tokensToAcquire);
     }
-
-    private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire) {
-        if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS) {
-            throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
-        }
-
-        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()) {
-            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN) {
-                throw new IllegalArgumentException("You cannot acquire more than two tokens of the same type");
-            }
-
-            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != 1) {
-                throw new IllegalArgumentException("You can only take two of the same token type if you're taking only that type");
-            }
-
-        }
-    }
-
 
     public void returnTokens(Purse totalReturnTokens) {
         int totalTokens = tokens.getTotal();
