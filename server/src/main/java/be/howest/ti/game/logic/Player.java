@@ -134,7 +134,7 @@ public class Player {
                 throw new SplendorGameRuleException("You can only take two of the same token type if you're taking only that type");
             }
 
-            if (tokenToAdd.getKey() == Token.GOLD){
+            if (tokenToAdd.getKey().equals(Token.GOLD) && tokenToAdd.getValue() != 0){
                 throw new SplendorGameRuleException("You cannot take a gold token");
             }
         }
