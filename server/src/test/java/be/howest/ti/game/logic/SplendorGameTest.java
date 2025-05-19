@@ -188,6 +188,37 @@ class SplendorGameTest {
         assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
     }
 
+    @Test
+    void errorWhenTryingToTakeOnlyGold(){
+        lobby.addPlayer("Alice");
+        lobby.addPlayer("Bob");
+
+        SplendorGame game = new SplendorGame(lobby);
+        Purse requested = new Purse();
+
+        requested.addTokens(new Purse(Map.of(Token.GOLD, 2)));
+
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+        assertEquals(5, game.getTokenBank().getTokenValue(Token.GOLD));
+
+    }
+
+    @Test
+    void givesErrorWhenTryingToTakeGoldAndOthers(){
+        lobby.addPlayer("Alice");
+        lobby.addPlayer("Bob");
+
+        SplendorGame game = new SplendorGame(lobby);
+        Purse requested = new Purse();
+
+        requested.addTokens(new Purse(Map.of(Token.GOLD, 1, Token.DIAMOND, 1, Token.EMERALD, 1)));
+
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+        assertEquals(5, game.getTokenBank().getTokenValue(Token.GOLD));
+
+    }
+
+
 
     @Test
     void buyReservedDevelopmentGood() {
