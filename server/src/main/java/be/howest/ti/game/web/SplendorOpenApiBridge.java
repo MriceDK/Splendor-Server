@@ -230,14 +230,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
         }
 
-        SplendorGame game = service.findStartedGame(request.getGameId());
-        Player player = game.findPlayer(request.getPlayerName());
-
         if (name != null) {
-            game.reserveDevelopment(name, player);
+            Player player = service.reserveDevelopment(request.getGameId(), request.getPlayerName(), name);
             return new ReserveDevelopmentResponse(player.getReservedDevelopments(), player.getTokens());
         } else if (0 < level && level <= 3) {
-            game.reserveDevelopmentFromLevel(level, player);
+            Player player = service.reserveDevelopmentFromLevel(request.getGameId(), request.getPlayerName(), level);
             return new ReserveDevelopmentResponse(player.getReservedDevelopments(), player.getTokens());
         } else throw new IllegalArgumentException("Please provide a valid level (1-3) or a development name");
     }
