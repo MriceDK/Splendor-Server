@@ -183,13 +183,7 @@ public class SplendorGame extends GameSuperclass {
 
     public void acquireTokens(Player player, Purse tokens){
         if (playerTurnChecker(player)){
-            int sizeOfTokensToAcquire = 0;
-            for (Map.Entry<Token, Integer> tokenToAcquire : tokens.getTokens().entrySet()){
-                if (tokenToAcquire.getValue() > ZERO_TOKENS){
-                    sizeOfTokensToAcquire++;
-                }
-            }
-
+            int sizeOfTokensToAcquire = tokens.getAvailableTokens().size();
             ruleCheckToAcquireTokens(tokens, sizeOfTokensToAcquire);
 
             player.acquireTokens(tokens);
