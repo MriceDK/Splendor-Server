@@ -5,6 +5,5 @@ public enum GameState {
     TURN_ACTION,
     RETURN_GEMS,
     CHOOSE_NOBLE,
-    WINNER_FOUND,
-    LAST_ROUND
+    WINNER_FOUND
 }

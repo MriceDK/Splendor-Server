@@ -1,8 +1,6 @@
 package be.howest.ti.game.logic;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Purse {
 
@@ -44,7 +42,7 @@ public class Purse {
 
     public int getTotal() {
         int total = 0;
-        for (Integer value : this.tokens.values()) {
+        for (int value : this.tokens.values()) {
             total += value;
         }
         return total;

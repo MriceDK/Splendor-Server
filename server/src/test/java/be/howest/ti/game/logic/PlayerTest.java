@@ -3,6 +3,7 @@ package be.howest.ti.game.logic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -163,6 +164,43 @@ class PlayerTest {
         player.buyDevelopment(dev1, new Purse());
 
         assertEquals(List.of(dev1), player.getOwnedDevelopments());
+    }
+
+    @Test
+    public void testPlayerOrderByDescendingPrestigePoints() {
+        Player p1 = new Player("Joel");
+        Player p2 = new Player("Ellie");
+        Player p3 = new Player("Abby");
+        Player p4 = new Player("Tommy");
+
+        List<Player> players = new ArrayList<>();
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+        players.add(p4);
+
+        p1.buyDevelopment(new Development("test", 1, 5, Token.EMERALD, new Purse()), new Purse());
+        p1.buyDevelopment(new Development("test", 1, 5, Token.EMERALD, new Purse()), new Purse());
+
+        p2.buyDevelopment(new Development("test", 1, 2, Token.EMERALD, new Purse()), new Purse());
+        p2.buyDevelopment(new Development("test", 1, 2, Token.EMERALD, new Purse()), new Purse());
+        p2.buyDevelopment(new Development("test", 1, 2, Token.EMERALD, new Purse()), new Purse());
+
+        p3.buyDevelopment(new Development("test", 1, 6, Token.EMERALD, new Purse()), new Purse());
+        p3.buyDevelopment(new Development("test", 1, 3, Token.EMERALD, new Purse()), new Purse());
+        p3.buyDevelopment(new Development("test", 1, 1, Token.EMERALD, new Purse()), new Purse());
+        p3.buyDevelopment(new Development("test", 1, 2, Token.EMERALD, new Purse()), new Purse());
+
+        p4.buyDevelopment(new Development("test", 1, 6, Token.EMERALD, new Purse()), new Purse());
+        p4.buyDevelopment(new Development("test", 1, 6, Token.EMERALD, new Purse()), new Purse());
+
+        players.sort(new PlayerPrestigePointsOrder());
+
+        assertEquals(p4, players.getFirst());
+        assertEquals(p3, players.get(1));
+        assertEquals(p1, players.get(2));
+        assertEquals(p2, players.getLast());
+
     }
 
 }
