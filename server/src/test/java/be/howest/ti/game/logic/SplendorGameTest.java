@@ -495,4 +495,15 @@ class SplendorGameTest {
         assertEquals("Gert", startedGame.getHistory().getLogs().getLast().getPlayerName());
         assertEquals("took 1 Emerald | 1 Onyx | 1 Sapphire", startedGame.getHistory().getLogs().getLast().getAction());
     }
+
+    @Test
+    public void buyDevelopmentGetsLogged() {
+        Development developmentToBuy = startedGame.getMarket().getVisibleDevelopments(1).getFirst();
+        startedGame.getCurrentPlayer().getTokens().addTokens(developmentToBuy.cost());
+
+        startedGame.buyDevelopment(developmentToBuy.cost(), developmentToBuy.name(), alice);
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
+        assertEquals("bought development '" + developmentToBuy.name() + "' for " + developmentToBuy.cost(), startedGame.getHistory().getLogs().getFirst().getAction());
+    }
 }

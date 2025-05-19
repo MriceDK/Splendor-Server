@@ -117,6 +117,8 @@ public class SplendorGame extends GameSuperclass {
             player.buyDevelopment(market.removeVisibleDevelopment(development), payment);
             market.refillMarket(development.level());
             tokenBank.addTokens(payment);
+
+            history.log(new ActionReport(currentPlayer.getName(), "bought development '" + developmentName + "' for " + payment));
             endPhaseOfTurn(true);
         }
     }
