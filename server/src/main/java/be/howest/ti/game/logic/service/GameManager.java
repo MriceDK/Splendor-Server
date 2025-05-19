@@ -3,7 +3,6 @@ package be.howest.ti.game.logic.service;
 import be.howest.ti.game.logic.*;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.util.reader.DevelopmentReader;
-import be.howest.ti.game.util.reader.NobleReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -207,11 +206,6 @@ public class GameManager implements SplendorService {
         game.chooseNoble(player, noble);
 
         return noble;
-    }
-
-    public List<Noble> getAllNobles() {
-        NobleReader reader = new NobleReader();
-        return reader.getAllNobles();
     }
 
 }
