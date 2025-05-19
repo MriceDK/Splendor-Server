@@ -185,9 +185,8 @@ public class SplendorGame extends GameSuperclass {
     public void acquireTokens(Player player, Purse tokens){
         if (playerTurnChecker(player)){
             int sizeOfTokensToAcquire = tokens.getAvailableTokens().size();
-            ruleCheckToAcquireTokens(tokens, sizeOfTokensToAcquire);
-
-            player.acquireTokens(tokens);
+            tokenBankRuleCheck(tokens);
+            player.acquireTokens(tokens, sizeOfTokensToAcquire);
             tokenBank.removeTokens(tokens);
             endTurn();
         }
@@ -197,26 +196,6 @@ public class SplendorGame extends GameSuperclass {
         for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()) {
             if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && tokenBank.getTokenValue(tokenToAdd.getKey()) < MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS) {
                 throw new IllegalArgumentException("You can only take two of the same token type if the bank has more than four available tokens");
-            }
-        }
-    }
-
-    private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire) {
-        if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
-            throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
-        }
-
-        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()){
-            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
-                throw new IllegalArgumentException("You cannot acquire more than two tokens of the same type");
-            }
-
-            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != 1) {
-                throw new IllegalArgumentException("You can only take two of the same token type if you're taking only that type");
-            }
-
-            if (tokenToAdd.getKey() == Token.GOLD){
-                throw new SplendorGameRuleException("You cannot take a gold token");
             }
         }
     }
