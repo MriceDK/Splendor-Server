@@ -2,9 +2,11 @@ package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+import be.howest.ti.game.util.logger.ActionReport;
 import be.howest.ti.game.util.logger.Logger;
 import be.howest.ti.game.util.reader.NobleReader;
 
+import javax.swing.*;
 import java.util.*;
 
 public class SplendorGame extends GameSuperclass {
@@ -245,6 +247,7 @@ public class SplendorGame extends GameSuperclass {
             player.acquireTokens(tokens);
             tokenBank.removeTokens(tokens);
 
+            history.log(new ActionReport(currentPlayer.getName(), "took " + tokens));
             endPhaseOfTurn(true);
 
         }

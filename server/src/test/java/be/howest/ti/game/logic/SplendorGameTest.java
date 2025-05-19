@@ -483,4 +483,16 @@ class SplendorGameTest {
         assertEquals(gameStateErrorMessage ,ex6.getMessage());
 
     }
+
+    @Test
+    public void acquireTokensGetsLogged() {
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 1, Token.EMERALD, 1, Token.ONYX, 1)));
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
+        assertEquals("took 2 Sapphire", startedGame.getHistory().getLogs().getFirst().getAction());
+
+        assertEquals("Gert", startedGame.getHistory().getLogs().getLast().getPlayerName());
+        assertEquals("took 1 Emerald | 1 Onyx | 1 Sapphire", startedGame.getHistory().getLogs().getLast().getAction());
+    }
 }
