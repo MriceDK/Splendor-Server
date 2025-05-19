@@ -126,6 +126,7 @@ public class SplendorGame extends GameSuperclass {
     private void endPhaseOfTurn(boolean tokenOverflowShouldBeChecked) {
 
         if (currentPlayer.hasTooManyTokens() && tokenOverflowShouldBeChecked) {
+            history.log(new ActionReport(currentPlayer.getName(), "has too many tokens. Waiting for player to return tokens..."));
             setGameState(GameState.RETURN_GEMS);
             return;
         }
@@ -293,6 +294,7 @@ public class SplendorGame extends GameSuperclass {
             player.returnTokens(tokensToReturn);
             tokenBank.addTokens(tokensToReturn);
 
+            history.log(new ActionReport(currentPlayer.getName(), "returned " + tokensToReturn + " to the token bank"));
             endPhaseOfTurn(false);
         }
 

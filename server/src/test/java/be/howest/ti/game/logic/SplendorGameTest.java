@@ -557,4 +557,29 @@ class SplendorGameTest {
         assertEquals("Gert", startedGame.getHistory().getLogs().get(3).getPlayerName());
         assertEquals("bought reserved development '" + secondDevelopmentToReserve.name() + "' for " + secondDevelopmentToReserve.cost(), startedGame.getHistory().getLogs().get(3).getAction());
     }
+
+    @Test
+    public void returnTokensGetsLogged() {
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
+
+        startedGame.reserveDevelopmentFromLevel(1, alice);
+        startedGame.reserveDevelopmentFromLevel(1, gert);
+        startedGame.reserveDevelopmentFromLevel(1, alice);
+        startedGame.reserveDevelopmentFromLevel(1, gert);
+        startedGame.reserveDevelopmentFromLevel(1, alice);
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().get(11).getPlayerName());
+        assertEquals("has too many tokens. Waiting for player to return tokens...", startedGame.getHistory().getLogs().get(11).getAction());
+
+        startedGame.returnTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1)));
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().get(12).getPlayerName());
+        assertEquals("returned 1 Sapphire to the token bank", startedGame.getHistory().getLogs().get(12).getAction());
+    }
+
 }
