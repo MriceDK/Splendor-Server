@@ -593,4 +593,18 @@ class SplendorGameTest {
         assertEquals("got visited by noble '" + nobleToAcquire.name() + "'", startedGame.getHistory().getLogs().get(1).getAction());
     }
 
+    @Test
+    public void playerHavingToChooseNobleGetsLogged() {
+        Noble firstNobleToAcquire = new ArrayList<>(startedGame.getUnclaimedNobles()).getFirst();
+        Noble secondNobleToAcquire = new ArrayList<>(startedGame.getUnclaimedNobles()).get(1);
+
+        alice.getBonuses().addTokens(firstNobleToAcquire.neededBonuses());
+        alice.getBonuses().addTokens(secondNobleToAcquire.neededBonuses());
+
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1)));
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().get(1).getPlayerName());
+        assertEquals("needs to choose a noble...", startedGame.getHistory().getLogs().get(1).getAction());
+    }
+
 }

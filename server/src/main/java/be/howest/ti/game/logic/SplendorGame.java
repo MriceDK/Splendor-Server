@@ -211,6 +211,7 @@ public class SplendorGame extends GameSuperclass {
     private boolean chooseNobleNecessaryCheck(List<Noble> possibleNobles) {
         if (possibleNobles.size() > ONE_NOBLE) {
             setGameState(GameState.CHOOSE_NOBLE);
+            history.log(new ActionReport(currentPlayer.getName(), "needs to choose a noble..."));
             return false;
         } else {
             acquireNoble(possibleNobles.getFirst());
