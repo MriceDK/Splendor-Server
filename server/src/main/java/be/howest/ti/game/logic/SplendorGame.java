@@ -192,7 +192,7 @@ public class SplendorGame extends GameSuperclass {
     private void tokenBankRuleCheck(Purse tokensToAcquire){
         for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()) {
             if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && tokenBank.getTokenValue(tokenToAdd.getKey()) < MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS) {
-                throw new IllegalArgumentException("You can only take two of the same token type if the bank has more than four available tokens");
+                throw new SplendorGameRuleException("You can only take two of the same token type if the bank has more than four available tokens");
             }
         }
     }
