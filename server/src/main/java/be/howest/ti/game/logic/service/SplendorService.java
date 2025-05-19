@@ -32,5 +32,5 @@ public interface SplendorService {
 
     Player buyReservedDevelopment(int gameId, String playerName, String DevelopmentName, Purse payment);
 
-    void updateTokens(boolean takeOrReturn, SplendorGame game, Player player, Purse purse);
+    Player updateTokens(boolean takeOrReturn, int game, String playerName, Purse purse);
 }

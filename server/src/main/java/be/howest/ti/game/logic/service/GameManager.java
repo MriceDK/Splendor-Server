@@ -160,12 +160,17 @@ public class GameManager implements SplendorService {
         return player;
     }
 
-    public void updateTokens(boolean takeOrReturn, SplendorGame game, Player player, Purse tokensToChange) {
+    public Player updateTokens(boolean takeOrReturn, int gameId, String playerName, Purse tokensToChange) {
+        SplendorGame game = findStartedGame(gameId);
+        Player player = game.findPlayer(playerName);
+
         if (takeOrReturn) {
             game.acquireTokens(player, tokensToChange);
         } else {
             game.returnTokens(player, tokensToChange);
         }
+
+        return player;
 
     }
 

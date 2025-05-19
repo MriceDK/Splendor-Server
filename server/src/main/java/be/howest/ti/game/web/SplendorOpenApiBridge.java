@@ -179,14 +179,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
         }
 
-        String playername = request.getPlayerName();
+        String playerName = request.getPlayerName();
         int gameId = request.getGameId();
         boolean takeOrReturn = request.addOrReturnCheck();
         Map<Token, Integer> tokensToChange = request.getTokensToAdd();
-
-        SplendorGame game = service.findStartedGame(gameId);
-        Player player = game.findPlayer(playername);
-        service.updateTokens(takeOrReturn, game, player, new Purse(tokensToChange));
+        Player player = service.updateTokens(takeOrReturn, gameId, playerName, new Purse(tokensToChange));
 
         return new UpdateTokensResponse(player.getTokens());
 
