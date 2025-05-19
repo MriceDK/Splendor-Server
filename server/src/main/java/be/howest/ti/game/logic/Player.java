@@ -62,7 +62,7 @@ public class Player {
         int goldNeeded = getNeededGold(development.cost(), payment);
 
         if (goldNeeded != 0 && !hasEnoughGoldTokens(goldNeeded, payment)) {
-            throw new IllegalArgumentException("The payment is not sufficient");
+            throw new SplendorGameRuleException("The payment is not sufficient");
         }
     }
 
@@ -82,7 +82,7 @@ public class Player {
             int totalTokenWorth = bonusValue + tokenValue;
 
             if (bonusValue >= tokenValueNeeded && tokenValue > 0) {
-                throw new IllegalArgumentException("The payment is not sufficient");
+                throw new SplendorGameRuleException("The payment is not sufficient");
             }
 
             if (bonusValue < tokenValueNeeded && totalTokenWorth != tokenValueNeeded) {
@@ -96,7 +96,7 @@ public class Player {
 
     public void checkIfPlayerIsAllowedToReserve() {
         if (reservedDevelopments.size() == 3) {
-            throw new IllegalStateException("You can only have 3 reserved cards at a time");
+            throw new SplendorGameRuleException("You can only have 3 reserved cards at a time");
         }
     }
 
@@ -115,7 +115,7 @@ public class Player {
 
     public void claimNoble(Noble noble) {
         if (!meetsRequirementsToClaimNoble(noble)) {
-            throw new IllegalArgumentException("Player does not meet requirements for this noble");
+            throw new SplendorGameRuleException("Player does not meet requirements for this noble");
         }
         acquiredNobles.add(noble);
         prestigePoints += noble.prestigePoints();

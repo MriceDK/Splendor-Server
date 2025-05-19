@@ -85,7 +85,7 @@ class SplendorGameTest {
         Development developmentToBuy = game.getMarket().getVisibleDevelopments(1).getFirst();
 
 
-        assertThrows(IllegalArgumentException.class, () -> game.buyDevelopment(player.getTokens(), developmentToBuy.name(), player));
+        assertThrows(SplendorGameRuleException.class, () -> game.buyDevelopment(player.getTokens(), developmentToBuy.name(), player));
 
     }
 
