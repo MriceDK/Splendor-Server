@@ -4,8 +4,6 @@ import be.howest.ti.game.logic.*;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.util.reader.DevelopmentReader;
 import be.howest.ti.game.util.reader.NobleReader;
-import be.howest.ti.game.web.views.request.BaseSplendorRequest;
-import be.howest.ti.game.web.views.request.BuyReservedDevelopmentRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,6 +158,15 @@ public class GameManager implements SplendorService {
         game.buyReservedDevelopment(payment, developmentName, player);
 
         return player;
+    }
+
+    public void updateTokens(boolean takeOrReturn, SplendorGame game, Player player, Purse tokensToChange) {
+        if (takeOrReturn) {
+            game.acquireTokens(player, tokensToChange);
+        } else {
+            game.returnTokens(player, tokensToChange);
+        }
+
     }
 
     public List<Noble> getAllNobles() {

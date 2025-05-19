@@ -186,12 +186,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
         SplendorGame game = service.findStartedGame(gameId);
         Player player = game.findPlayer(playername);
+        service.updateTokens(takeOrReturn, game, player, new Purse(tokensToChange));
 
-        if (takeOrReturn) {
-            game.acquireTokens(player, new Purse(tokensToChange));
-        } else {
-            game.returnTokens(player, new Purse(tokensToChange));
-        }
         return new UpdateTokensResponse(player.getTokens());
 
     }
