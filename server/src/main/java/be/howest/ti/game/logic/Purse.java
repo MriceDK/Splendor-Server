@@ -136,7 +136,7 @@ public class Purse {
     }
 
     @Override
-    public String toString() { // TODO Sorteren volgens volgorde (van groot naar klein)
+    public String toString() {
         List<Token> availableTokens = getAvailableTokensList();
         availableTokens.sort(new TokenAlphabeticalOrder());
 
