@@ -193,6 +193,14 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
+    private void tokenBankRuleCheck(Purse tokensToAcquire){
+        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()) {
+            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && tokenBank.getTokenValue(tokenToAdd.getKey()) < MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS) {
+                throw new IllegalArgumentException("You can only take two of the same token type if the bank has more than four available tokens");
+            }
+        }
+    }
+
     private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire) {
         if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
             throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
@@ -205,10 +213,6 @@ public class SplendorGame extends GameSuperclass {
 
             if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != 1) {
                 throw new IllegalArgumentException("You can only take two of the same token type if you're taking only that type");
-            }
-
-            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && tokenBank.getTokenValue(tokenToAdd.getKey()) < MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS){
-                throw new IllegalArgumentException("You can only take two of the same token type if the bank has more than four available tokens");
             }
 
             if (tokenToAdd.getKey() == Token.GOLD){
