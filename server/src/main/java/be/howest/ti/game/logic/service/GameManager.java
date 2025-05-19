@@ -199,6 +199,15 @@ public class GameManager implements SplendorService {
         return player;
     }
 
+    @Override
+    public Noble chooseNoble(int gameId, String playerName, Noble noble) {
+        SplendorGame game = findStartedGame(gameId);
+        Player player = game.findPlayer(playerName);
+        game.chooseNoble(player, noble);
+
+        return noble;
+    }
+
     public List<Noble> getAllNobles() {
         NobleReader reader = new NobleReader();
         return reader.getAllNobles();

@@ -39,4 +39,6 @@ public interface SplendorService {
     Player reserveDevelopment(int gameId, String playerName, String name);
 
     Player reserveDevelopmentFromLevel(int gameId, String playerName, int level);
+
+    Noble chooseNoble(int gameId, String playerName, Noble noble);
 }
