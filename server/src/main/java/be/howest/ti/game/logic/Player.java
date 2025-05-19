@@ -18,6 +18,8 @@ public class Player {
     private static final int TOO_MANY_TOTAL_TOKENS_PER_PLAYER = 11;
     private static final int MAX_TOTAL_TOKENS_PER_PLAYER = 10;
 
+    private static final int MIN_POINTS_NEEDED_TO_WIN = 15;
+
     public Player(String name) {
         this.name = name;
         this.acquiredNobles = new HashSet<>();
@@ -112,7 +114,22 @@ public class Player {
     }
 
     public void claimNoble(Noble noble) {
+        if (!meetsRequirementsToClaimNoble(noble)) {
+            throw new IllegalArgumentException("Player does not meet requirements for this noble");
+        }
         acquiredNobles.add(noble);
+        prestigePoints += noble.prestigePoints();
+    }
+
+    public boolean meetsRequirementsToClaimNoble(Noble noble) {
+        for (Token bonus : Token.values()) {
+            int required = noble.neededBonuses().getTokens().get(bonus);
+            int actual = getBonuses().getTokens().get(bonus);
+            if (actual < required) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void acquireTokens(Purse tokensToAcquire){
@@ -136,6 +153,10 @@ public class Player {
         }
 
         tokens.removeTokens(totalReturnTokens);
+    }
+
+    public boolean isWinnerWorthy() {
+        return prestigePoints >= MIN_POINTS_NEEDED_TO_WIN;
     }
 
 
@@ -163,5 +184,13 @@ public class Player {
 
     public void removeReservedDevelopment(Development development) {
         reservedDevelopments.remove(development);
+    }
+
+    public boolean hasTooManyTokens() {
+        return tokens.getTotal() > MAX_TOTAL_TOKENS_PER_PLAYER;
+    }
+
+    public String toString() {
+        return name;
     }
 }
