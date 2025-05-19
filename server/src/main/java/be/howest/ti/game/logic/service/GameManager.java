@@ -81,6 +81,11 @@ public class GameManager implements SplendorService {
         }
     }
 
+    @Override
+    public void spectateLobby(GameSuperclass game, String spectatorName) {
+        game.addSpectator(spectatorName);
+    }
+
     public List<GameSuperclass> getGames() {
         return games;
     }
