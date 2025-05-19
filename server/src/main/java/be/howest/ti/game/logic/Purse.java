@@ -122,9 +122,14 @@ public class Purse {
     }
 
     @Override
-    public String toString() {
-        return tokens.toString();
+    public String toString() { // TODO Sorteren volgens volgorde (van groot naar klein)
+        List<String> allTokens = new ArrayList<>();
 
+        for (Map.Entry<Token, Integer> entry : getAvailableTokens().entrySet()) {
+            allTokens.add(entry.getValue() + " " + entry.getKey().toDisplayName());
+        }
+
+        return String.join(" | ", allTokens);
     }
 
     public static Map<String, Integer> toMapStringInteger(Map<Token, Integer> tokens) {
