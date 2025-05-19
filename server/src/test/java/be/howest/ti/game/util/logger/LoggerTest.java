@@ -12,9 +12,10 @@ class LoggerTest {
     public void logShouldAddALog() {
         Logger logger = new Logger();
 
-        logger.log("Alice took 2 gems");
+        ActionReport actionReport = new ActionReport("Alice", "took 2 gems");
+        logger.log(actionReport);
 
-        assertEquals(List.of("Alice took 2 gems"), logger.getLogs());
+        assertEquals(List.of(actionReport), logger.getLogs());
     }
 
 }

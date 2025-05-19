@@ -5,17 +5,17 @@ import java.util.List;
 
 public class Logger {
 
-    private final List<String> logs;
+    private final List<ActionReport> logs;
 
     public Logger() {
         logs = new ArrayList<>();
     }
 
-    public void log(String message) {
-        logs.add(message);
+    public void log(ActionReport actionReport) {
+        logs.add(actionReport);
     }
 
-    public List<String> getLogs() {
+    public List<ActionReport> getLogs() {
         return logs;
     }
 
