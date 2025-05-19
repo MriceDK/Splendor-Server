@@ -28,6 +28,10 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         return res;
     }
 
+    public List<String> getSpectators() {
+        return startedGame.getSpectators();
+    }
+
     public List<DeckInListView> getMarket() {
         List<DeckInListView> res = new ArrayList<>();
 
