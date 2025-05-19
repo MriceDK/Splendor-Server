@@ -12,6 +12,9 @@ public class SplendorGame extends GameSuperclass {
     private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_TWO_PLAYERS = 4;
 
     private final static int INITIAL_GOLD_AMOUNT = 5;
+
+    private static final int ZERO_TOKENS = 0;
+    private static final int MAX_DIFFERENT_TOKENS = 3;
     private static final int MAX_OF_SAME_TOKEN = 2;
     private static final int MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS = 4;
 
@@ -31,19 +34,36 @@ public class SplendorGame extends GameSuperclass {
         this.currentPlayer = getPlayers().getFirst();
         this.tokenBank = generateTokenBank();
         this.unclaimedNobles = setUnclaimedNobles();
+        this.gameState = GameState.TURN_ACTION;
+        this.winner = null;
     }
 
     public Player getWinner() {
         return winner;
     }
 
-    public void endTurn() {
-        if (currentPlayer.getPrestigePoints() >= 15) {
-            winner = currentPlayer;
-        } else {
-            checkForNoble();
-            currentPlayer = getNextPlayer();
+    private void checkIfActionCanBeCarriedOut(GameState wantedGameState) {
+        if (!gameState.equals(wantedGameState)) {
+            throw new SplendorGameRuleException("You can't do this at this point in the game");
         }
+    }
+
+    public void endTurn() {
+        setGameState(GameState.TURN_ACTION);
+        currentPlayer = getNextPlayer();
+
+        if (currentPlayer.isWinnerWorthy()) {
+            setGameState(GameState.WINNER_FOUND);
+            winner = calculateWinner();
+        }
+    }
+
+    private Player calculateWinner() {
+        List<Player> rankListOfPlayers = getPlayers();
+
+        rankListOfPlayers.sort(new PlayerPrestigePointsOrder());
+
+        return rankListOfPlayers.getFirst();
     }
 
     private Player getNextPlayer() {
@@ -53,11 +73,11 @@ public class SplendorGame extends GameSuperclass {
         return players.get(nextPlayerIndex);
     }
 
-    public void setGameState(GameState gameState) {
+    private void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
+    private void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
@@ -83,33 +103,56 @@ public class SplendorGame extends GameSuperclass {
         return requestPlayer;
     }
 
-    public void buyDevelopment(Purse payment, String developmentName, Player player) {
-        if (playerTurnChecker(player)) {
+    public void buyDevelopment(Purse payment, String developmentName, Player player){
+        checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
+
+        if (playerTurnChecker(player)){
             Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
             player.buyDevelopment(market.removeVisibleDevelopment(development), payment);
             market.refillMarket(development.level());
             tokenBank.addTokens(payment);
-            endTurn();
+            endPhaseOfTurn(true);
         }
     }
 
-    public void reserveDevelopment(String developmentName, Player player) {
+    private void endPhaseOfTurn(boolean tokenOverflowShouldBeChecked) {
+
+        if (currentPlayer.hasTooManyTokens() && tokenOverflowShouldBeChecked) {
+            setGameState(GameState.RETURN_GEMS);
+            return;
+        }
+
+        if (!executeNobleClaimChecker()) {
+            return;
+        }
+
+        endTurn();
+    }
+
+    public void reserveDevelopment(String developmentName, Player player){
+        checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
+
         if (playerTurnChecker(player)) {
             Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
             player.reserveDevelopment(market.removeVisibleDevelopment(development));
             market.refillMarket(development.level());
             givePlayerGoldTokenIfPossible(player);
-            endTurn();
+
+            endPhaseOfTurn(true);
+
         }
     }
 
     public void buyReservedDevelopment(Purse payment, String developmentName, Player player){
+        checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
+
         if (playerTurnChecker(player)){
             Development development = player.findDevelopmentInReservedDevelopments(developmentName);
             player.buyDevelopment(development, payment);
             player.removeReservedDevelopment(development);
             tokenBank.addTokens(payment);
-            endTurn();
+
+            endPhaseOfTurn(false);
         }
     }
 
@@ -121,44 +164,63 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void reserveDevelopmentFromLevel(int level, Player player){
+        checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
+
         if (playerTurnChecker(player)) {
             player.reserveDevelopment(market.takeTopDevelopment(level));
             givePlayerGoldTokenIfPossible(player);
-            endTurn();
+
+            endPhaseOfTurn(true);
+
         }
     }
 
-    public void checkForNoble() {
+    public boolean executeNobleClaimChecker() {
+        List<Noble> possibleNobles = getClaimableNobles();
+
+        if (possibleNobles.isEmpty()) {
+            return true;
+        }
+
+        return chooseNobleNecessaryCheck(possibleNobles);
+    }
+
+    private List<Noble> getClaimableNobles() {
         List<Noble> possibleNobles = new ArrayList<>();
         for (Noble noble : unclaimedNobles) {
-            if (playerMeetsRequirements(currentPlayer, noble)) {
+            if (currentPlayer.meetsRequirementsToClaimNoble(noble)) {
                 possibleNobles.add(noble);
 
             }
 
         }
-        if (possibleNobles.isEmpty()) {
-            return;
-        }
-        chooseNobleNecessaryCheck(possibleNobles);
+        return possibleNobles;
     }
 
-    private void chooseNobleNecessaryCheck(List<Noble> possibleNobles) {
+    private boolean chooseNobleNecessaryCheck(List<Noble> possibleNobles) {
         if (possibleNobles.size() > ONE_NOBLE) {
             setGameState(GameState.CHOOSE_NOBLE);
+            return false;
         } else {
-            acquireNoble(possibleNobles);
+            acquireNoble(possibleNobles.getFirst());
+            return true;
         }
     }
 
-    public Noble chooseNoble(Noble noble) {
+    public Noble chooseNoble(Player player, Noble noble) {
+        checkIfActionCanBeCarriedOut(GameState.CHOOSE_NOBLE);
+
+        playerTurnChecker(player);
         if (!unclaimedNobles.contains(noble)) {
             throw new IllegalArgumentException("Noble not available");
         }
-        if (!playerMeetsRequirements(currentPlayer, noble)) {
-            throw new IllegalArgumentException("Player does not meet requirements for this noble");
-        }
 
+        acquireNoble(noble);
+        endTurn();
+        return noble;
+    }
+
+    public Noble acquireNoble(Noble noble) {
         currentPlayer.claimNoble(noble);
         unclaimedNobles.remove(noble);
         return noble;
@@ -180,12 +242,18 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void acquireTokens(Player player, Purse tokens){
-        if (playerTurnChecker(player)){
+        checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
+
+        if(playerTurnChecker(player)){
+
             int sizeOfTokensToAcquire = tokens.getAvailableTokens().size();
             tokenBankRuleCheck(tokens);
+
             player.acquireTokens(tokens, sizeOfTokensToAcquire);
             tokenBank.removeTokens(tokens);
-            endTurn();
+
+            endPhaseOfTurn(true);
+
         }
     }
 
@@ -206,9 +274,13 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void returnTokens(Player player, Purse tokensToReturn) {
+        checkIfActionCanBeCarriedOut(GameState.RETURN_GEMS);
+
         if (playerTurnChecker(player)) {
             player.returnTokens(tokensToReturn);
             tokenBank.addTokens(tokensToReturn);
+
+            endPhaseOfTurn(false);
         }
 
     }
