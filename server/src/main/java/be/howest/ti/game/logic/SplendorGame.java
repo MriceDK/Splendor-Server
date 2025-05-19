@@ -209,6 +209,10 @@ public class SplendorGame extends GameSuperclass {
             if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && tokenBank.getTokenValue(tokenToAdd.getKey()) < MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS){
                 throw new IllegalArgumentException("You can only take two of the same token type if the bank has more than four available tokens");
             }
+
+            if (tokenToAdd.getKey() == Token.GOLD){
+                throw new IllegalArgumentException("You cannot take a gold token");
+            }
         }
     }
 
