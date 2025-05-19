@@ -10,6 +10,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
 
     private final int gameId; // TODO Find another way to generate gameId
     private final List<Player> players;
+    private final List<String> spectators;
     private final String gameName;
     private final int maxPlayers;
 
@@ -18,6 +19,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         this.gameName = gameName;
         this.maxPlayers = maxPlayers;
         players = new ArrayList<>();
+        spectators = new ArrayList<>();
     }
 
     public GameSuperclass(GameSuperclass game) {
@@ -25,6 +27,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         this.gameName = game.getGameName();
         this.players = game.getPlayers();
         this.maxPlayers = game.getMaxPlayers();
+        this.spectators = game.getSpectators();
     }
 
     public int getGameId() {
@@ -47,6 +50,14 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         return maxPlayers;
     }
 
+    public List<String> getSpectators() {
+        return spectators;
+    }
+
+    public int getTotalSpectators() {
+        return spectators.size();
+    }
+
     public void addPlayer(String name) {
         Player newPlayer = new Player(name);
 
@@ -65,6 +76,20 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         if (players.contains(newPlayer)) {
             throw new SplendorGameRuleException("There already exists a player with the same name in this game.");
         }
+    }
+
+    public void addSpectator(String name) {
+        if (players.contains(new Player(name))) {
+            throw new SplendorGameRuleException("There already exists a player with this name in this game.");
+        }
+        spectators.add(name);
+    }
+
+    public void removeSpectator(String spectatorName) {
+        if (!spectators.contains(spectatorName)) {
+            throw new SplendorGameRuleException("The spectator is not in the game.");
+        }
+        spectators.remove(spectatorName);
     }
 
     public boolean hasStarted() {
