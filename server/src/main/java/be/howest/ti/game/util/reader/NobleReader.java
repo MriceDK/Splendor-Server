@@ -6,6 +6,7 @@ import be.howest.ti.game.logic.Token;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.*;
 
 public class NobleReader {
@@ -17,33 +18,30 @@ public class NobleReader {
         List<Noble> allNobles = new ArrayList<>();
 
 
-        try {
-            File nobleData = new File("src/main/resources/data/nobles.txt");
-            Scanner reader = new Scanner(nobleData);
-            reader.nextLine(); //Skip first line because of headers
+        //File nobleData = new File("src/main/resources/data/nobles.txt");
+        InputStream in = this.getClass().getResourceAsStream("/data/nobles.txt");
 
-            while (reader.hasNextLine()) {
-                String data = reader.nextLine();
-                String[] nobleInfo = data.split("\\t");
+        Scanner reader = new Scanner(in);
+        reader.nextLine(); //Skip first line because of headers
 
-                String name = nobleInfo[0];
-                char[] costChars = nobleInfo[1].toCharArray();
-                int prestigePoints = Integer.parseInt(nobleInfo[2]);
+        while (reader.hasNextLine()) {
+            String data = reader.nextLine();
+            String[] nobleInfo = data.split("\\t");
 
-                Purse costs = new Purse();
-                for (char c : costChars) {
-                    costs.addToken(Token.getTokenType(c), 1);
-                }
+            String name = nobleInfo[0];
+            char[] costChars = nobleInfo[1].toCharArray();
+            int prestigePoints = Integer.parseInt(nobleInfo[2]);
 
-                allNobles.add(new Noble(name, prestigePoints, costs));
+            Purse costs = new Purse();
+            for (char c : costChars) {
+                costs.addToken(Token.getTokenType(c), 1);
             }
 
-            nobles = allNobles;
-
-        } catch (
-                FileNotFoundException e) {
-            throw new IllegalStateException("File not found.");
+            allNobles.add(new Noble(name, prestigePoints, costs));
         }
+
+        nobles = allNobles;
+
     }
 
     public Set<Noble> getRandomNobles(int playerCount) {
