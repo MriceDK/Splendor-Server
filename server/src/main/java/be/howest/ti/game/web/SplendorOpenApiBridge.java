@@ -164,10 +164,6 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     //endregion
 
     //region Player Resources operations
-    @Operation("get-player-details")
-    public NotYetImplementedResponse getPlayerDetails(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-player-details");
-    }
 
     //endregion
 
