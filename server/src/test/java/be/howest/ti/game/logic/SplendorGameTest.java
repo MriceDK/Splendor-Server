@@ -506,4 +506,19 @@ class SplendorGameTest {
         assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
         assertEquals("bought development '" + developmentToBuy.name() + "' for " + developmentToBuy.cost(), startedGame.getHistory().getLogs().getFirst().getAction());
     }
+
+    @Test
+    public void reserveDevelopmentGetsLogged() {
+        Development firstDevelopmentToReserve = startedGame.getMarket().getVisibleDevelopments(1).getFirst();
+        Development secondDevelopmentToReserve = startedGame.getMarket().getVisibleDevelopments(2).getFirst();
+
+        startedGame.reserveDevelopment(firstDevelopmentToReserve.name(), alice);
+        startedGame.reserveDevelopment(secondDevelopmentToReserve.name(), gert);
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
+        assertEquals("reserved development '" + firstDevelopmentToReserve.name() + "'", startedGame.getHistory().getLogs().getFirst().getAction());
+
+        assertEquals("Gert", startedGame.getHistory().getLogs().getLast().getPlayerName());
+        assertEquals("reserved development '" + secondDevelopmentToReserve.name() + "'", startedGame.getHistory().getLogs().getLast().getAction());
+    }
 }
