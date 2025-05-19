@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import be.howest.ti.game.util.reader.NobleReader;
 
 import java.util.*;
@@ -211,7 +212,7 @@ public class SplendorGame extends GameSuperclass {
             }
 
             if (tokenToAdd.getKey() == Token.GOLD){
-                throw new IllegalArgumentException("You cannot take a gold token");
+                throw new SplendorGameRuleException("You cannot take a gold token");
             }
         }
     }
