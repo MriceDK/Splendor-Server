@@ -12,7 +12,7 @@ public class GetGemsResponse extends AbstractResponseWithHiddenStatus {
         String[] gems = new String[Token.values().length];
 
         for (int i = 0; i < gems.length; i++) {
-            gems[i] = Token.values()[i].toString();
+            gems[i] = Token.values()[i].toDisplayName();
         }
 
         return gems;

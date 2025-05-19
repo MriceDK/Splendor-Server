@@ -191,6 +191,7 @@ public class SplendorGame extends GameSuperclass {
         for (Noble noble : unclaimedNobles) {
             if (currentPlayer.meetsRequirementsToClaimNoble(noble)) {
                 possibleNobles.add(noble);
+
             }
 
         }
@@ -220,9 +221,25 @@ public class SplendorGame extends GameSuperclass {
         return noble;
     }
 
-    public void acquireNoble(Noble noble) {
+    public Noble acquireNoble(Noble noble) {
         currentPlayer.claimNoble(noble);
         unclaimedNobles.remove(noble);
+        return noble;
+    }
+
+    private boolean playerMeetsRequirements(Player player, Noble noble) {
+        for (Token bonus : Token.values()) {
+            int required = noble.neededBonuses().getTokens().get(bonus);
+            int actual = player.getBonuses().getTokens().get(bonus);
+            if (actual < required) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void acquireNoble(List<Noble> possibleNobles) {
+        currentPlayer.claimNoble(possibleNobles.getFirst());
     }
 
     public void acquireTokens(Player player, Purse tokens){
@@ -230,16 +247,10 @@ public class SplendorGame extends GameSuperclass {
 
         if(playerTurnChecker(player)){
 
-            int sizeOfTokensToAcquire = 0;
-            for (Map.Entry<Token, Integer> tokenToAcquire : tokens.getTokens().entrySet()){
-                if (tokenToAcquire.getValue() > ZERO_TOKENS){
-                    sizeOfTokensToAcquire++;
-                }
-            }
+            int sizeOfTokensToAcquire = tokens.getAvailableTokens().size();
+            tokenBankRuleCheck(tokens);
 
-            ruleCheckToAcquireTokens(tokens, sizeOfTokensToAcquire);
-
-            player.acquireTokens(tokens);
+            player.acquireTokens(tokens, sizeOfTokensToAcquire);
             tokenBank.removeTokens(tokens);
 
             endPhaseOfTurn(true);
@@ -247,21 +258,9 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire) {
-        if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
-            throw new SplendorGameRuleException("You cannot acquire more than three different types of tokens at the same time");
-        }
-
-        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()){
-            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
-                throw new SplendorGameRuleException("You cannot acquire more than two tokens of the same type");
-            }
-
-            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != 1) {
-                throw new SplendorGameRuleException("You can only take two of the same token type if you're taking only that type");
-            }
-
-            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && tokenBank.getTokenValue(tokenToAdd.getKey()) < MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS){
+    private void tokenBankRuleCheck(Purse tokensToAcquire){
+        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()) {
+            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && tokenBank.getTokenValue(tokenToAdd.getKey()) < MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS) {
                 throw new SplendorGameRuleException("You can only take two of the same token type if the bank has more than four available tokens");
             }
         }
