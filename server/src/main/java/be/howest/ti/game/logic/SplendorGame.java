@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import be.howest.ti.game.util.reader.NobleReader;
 
@@ -98,7 +99,7 @@ public class SplendorGame extends GameSuperclass {
             }
         }
         if (requestPlayer == null) {
-            throw new IllegalArgumentException("Player not found");
+            throw new SplendorGameResourceNotFoundException("Player not found");
         }
         return requestPlayer;
     }
@@ -211,7 +212,7 @@ public class SplendorGame extends GameSuperclass {
 
         playerTurnChecker(player);
         if (!unclaimedNobles.contains(noble)) {
-            throw new IllegalArgumentException("Noble not available");
+            throw new SplendorGameResourceNotFoundException("Noble not available");
         }
 
         acquireNoble(noble);
@@ -248,27 +249,27 @@ public class SplendorGame extends GameSuperclass {
 
     private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire) {
         if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
-            throw new IllegalArgumentException("You cannot acquire more than three different types of tokens at the same time");
+            throw new SplendorGameRuleException("You cannot acquire more than three different types of tokens at the same time");
         }
 
         for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()){
             if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
-                throw new IllegalArgumentException("You cannot acquire more than two tokens of the same type");
+                throw new SplendorGameRuleException("You cannot acquire more than two tokens of the same type");
             }
 
             if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != 1) {
-                throw new IllegalArgumentException("You can only take two of the same token type if you're taking only that type");
+                throw new SplendorGameRuleException("You can only take two of the same token type if you're taking only that type");
             }
 
             if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && tokenBank.getTokenValue(tokenToAdd.getKey()) < MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS){
-                throw new IllegalArgumentException("You can only take two of the same token type if the bank has more than four available tokens");
+                throw new SplendorGameRuleException("You can only take two of the same token type if the bank has more than four available tokens");
             }
         }
     }
 
     public boolean playerTurnChecker(Player player) {
         if (!player.equals(currentPlayer)) {
-            throw new IllegalStateException("It's not this player's turn");
+            throw new SplendorGameRuleException("It's not this player's turn");
         } else {
             return true;
         }

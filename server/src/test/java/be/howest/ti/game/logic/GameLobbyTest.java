@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +38,7 @@ class GameLobbyTest {
         lobby.addPlayer("John");
         lobby.addPlayer("Alice");
 
-        assertThrows(IllegalStateException.class, () -> lobby.addPlayer("John"));
+        assertThrows(SplendorGameRuleException.class, () -> lobby.addPlayer("John"));
         assertEquals(2, lobby.getTotalPlayers());
     }
 
@@ -50,7 +51,7 @@ class GameLobbyTest {
 
 
 
-        assertThrows(IllegalStateException.class, () -> lobby.addPlayer("Alice"));
+        assertThrows(SplendorGameRuleException.class, () -> lobby.addPlayer("Alice"));
         assertEquals(2, lobby.getTotalPlayers());
 
     }

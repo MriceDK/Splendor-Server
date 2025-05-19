@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.GameManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ class SplendorGameTest {
     private Player alice;
     private Player gert;
 
-    private String gameStateErrorMessage = "You can't do this at this point in the game";
+    private final String gameStateErrorMessage = "You can't do this at this point in the game";
 
     @BeforeEach
     public void init() {
@@ -84,7 +85,7 @@ class SplendorGameTest {
         Development developmentToBuy = game.getMarket().getVisibleDevelopments(1).getFirst();
 
 
-        assertThrows(IllegalArgumentException.class, () -> game.buyDevelopment(player.getTokens(), developmentToBuy.name(), player));
+        assertThrows(SplendorGameRuleException.class, () -> game.buyDevelopment(player.getTokens(), developmentToBuy.name(), player));
 
     }
 
@@ -161,7 +162,7 @@ class SplendorGameTest {
 
         requested.addTokens(new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1)));
 
-        assertThrows(IllegalStateException.class, () -> game.acquireTokens(game.getPlayers().get(1), requested));
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getPlayers().get(1), requested));
     }
 
     @Test
@@ -172,7 +173,7 @@ class SplendorGameTest {
 
         requested.addTokens(new Purse(Map.of(Token.DIAMOND, 2, Token.SAPPHIRE, 1)));
 
-        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
     }
 
     @Test
@@ -188,7 +189,7 @@ class SplendorGameTest {
                 Token.RUBY, 1
         )));
 
-        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
     }
 
     @Test
@@ -368,7 +369,7 @@ class SplendorGameTest {
         requested.addTokens(new Purse(Map.of(Token.DIAMOND, 2)));
         game.acquireTokens(game.getCurrentPlayer(), requested);
 
-        assertThrows(IllegalArgumentException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
     }
 
 
@@ -402,7 +403,8 @@ class SplendorGameTest {
         Purse payment = notReservedDevelopment.cost();
         player.getTokens().addTokens(payment);
 
-        assertThrows(IllegalStateException.class, () -> game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player));
+        assertThrows(SplendorGameResourceNotFoundException.class, () -> game.buyReservedDevelopment(payment, notReservedDevelopment.name(), player));
+
     }
 
     @Test

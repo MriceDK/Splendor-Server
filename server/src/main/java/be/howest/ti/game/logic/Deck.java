@@ -1,5 +1,7 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
+
 import java.util.*;
 
 public class Deck {
@@ -42,7 +44,7 @@ public class Deck {
         if (visibleDevelopments.contains(development)) {
             visibleDevelopments.remove(development);
             return development;
-        } else throw new IllegalArgumentException("Development not found in visible developments");
+        } else throw new SplendorGameResourceNotFoundException("Development not found in visible developments");
     }
 
     public void refillVisibleDevelopments() {
@@ -64,7 +66,7 @@ public class Deck {
 
     public Development takeTopDevelopment() {
         if (invisibleDevelopments.isEmpty()) {
-            throw new IllegalStateException("No developments left in this level");
+            throw new SplendorGameResourceNotFoundException("No developments left in this level");
         }
         return invisibleDevelopments.poll();
     }
