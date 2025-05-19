@@ -2,7 +2,9 @@ package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Purse {
 
@@ -44,7 +46,7 @@ public class Purse {
 
     public int getTotal() {
         int total = 0;
-        for (int value : this.tokens.values()) {
+        for (Integer value : this.tokens.values()) {
             total += value;
         }
         return total;

@@ -131,11 +131,11 @@ public class GameManager implements SplendorService {
     }
 
     @Override
-    public List<GameSuperclass> removeGames() {
+    public ArrayList<GameSuperclass> removeGames() {
         if (getGames().isEmpty()) {
             throw new SplendorGameResourceNotFoundException("No games to delete");
         }
-        List<GameSuperclass> gamesThatWereDeleted = new ArrayList<>(games);
+        ArrayList<GameSuperclass> gamesThatWereDeleted = new ArrayList<>(games);
         games.clear();
         return gamesThatWereDeleted;
     }
