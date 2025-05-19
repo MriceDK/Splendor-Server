@@ -20,7 +20,7 @@ class SplendorGameTest {
     private Player alice;
     private Player gert;
 
-    private String gameStateErrorMessage = "You can't do this at this point in the game";
+    private final String gameStateErrorMessage = "You can't do this at this point in the game";
 
     @BeforeEach
     public void init() {
