@@ -161,6 +161,7 @@ public class SplendorGame extends GameSuperclass {
             player.removeReservedDevelopment(development);
             tokenBank.addTokens(payment);
 
+            history.log(new ActionReport(currentPlayer.getName(), "bought reserved development '" + developmentName + "' for " + payment));
             endPhaseOfTurn(false);
         }
     }
