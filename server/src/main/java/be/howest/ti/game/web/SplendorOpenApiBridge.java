@@ -148,17 +148,21 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("join-game")
-    public JoinGameResponse joinGame(JoinGameRequest request) {
+    public JoinSpectateGameResponse joinGame(JoinGameRequest request) {
 
         SplendorService service = getService(request);
+
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
-        service.joinLobby(service.findLobby(gameId), playerName);
-        GameSuperclass game = service.findGame(gameId);
-        String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
+        String token = createToken(new SplendorHTTPPlayer(service.findGame(gameId).getGameId(), request.getPlayerName()));
 
-
-        return new JoinGameResponse(gameId, playerName, token);
+        if (request.getIsSpectator()) {
+            service.spectateLobby(service.findGame(gameId), playerName);
+            return new SpectateGameResponse(gameId, playerName, token);
+        } else {
+            service.joinLobby(service.findLobby(gameId), playerName);
+            return new JoinGameResponse(gameId, playerName, token);
+        }
     }
 
     //endregion
