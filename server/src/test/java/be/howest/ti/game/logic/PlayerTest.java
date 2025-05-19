@@ -194,10 +194,7 @@ class PlayerTest {
         p4.buyDevelopment(new Development("test", 1, 6, Token.EMERALD, new Purse()), new Purse());
         p4.buyDevelopment(new Development("test", 1, 6, Token.EMERALD, new Purse()), new Purse());
 
-
-        System.out.println(players);
         players.sort(new PlayerPrestigePointsOrder());
-        System.out.println(players);
 
         assertEquals(p4, players.getFirst());
         assertEquals(p3, players.get(1));
