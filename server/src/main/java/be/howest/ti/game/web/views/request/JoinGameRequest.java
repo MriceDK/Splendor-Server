@@ -14,4 +14,10 @@ public class JoinGameRequest extends BaseSplendorRequest {
     public String getPlayerName() {
         return params.pathParameter("playerName").getString();
     }
+
+    public boolean getIsSpectator() {
+        // ctx is used here because it ignores the spec
+        // this is a bonus functionality
+        return ctx.body().asJsonObject().getBoolean("isSpectator", false);
+    }
 }
