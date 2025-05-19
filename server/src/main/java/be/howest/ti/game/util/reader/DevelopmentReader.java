@@ -20,7 +20,6 @@ public class DevelopmentReader {
         List<Development> developmentLevel2 = new ArrayList<>();
         List<Development> developmentLevel3 = new ArrayList<>();
 
-        //File developmentCards = new File("src/main/resources/data/developments.txt");
         InputStream in = this.getClass().getResourceAsStream("/data/developments.txt");
         Scanner reader = new Scanner(in);
         reader.nextLine(); //Skip first line because of headers

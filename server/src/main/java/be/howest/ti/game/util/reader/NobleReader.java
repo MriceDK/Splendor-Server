@@ -18,7 +18,6 @@ public class NobleReader {
         List<Noble> allNobles = new ArrayList<>();
 
 
-        //File nobleData = new File("src/main/resources/data/nobles.txt");
         InputStream in = this.getClass().getResourceAsStream("/data/nobles.txt");
 
         Scanner reader = new Scanner(in);
