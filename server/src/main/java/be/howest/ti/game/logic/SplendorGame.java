@@ -234,6 +234,7 @@ public class SplendorGame extends GameSuperclass {
     public void acquireNoble(Noble noble) {
         currentPlayer.claimNoble(noble);
         unclaimedNobles.remove(noble);
+        history.log(new ActionReport(currentPlayer.getName(), "got visited by noble '" + noble.name() + "'"));
     }
 
     public void acquireTokens(Player player, Purse tokens){

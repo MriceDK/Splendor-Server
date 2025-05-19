@@ -582,4 +582,15 @@ class SplendorGameTest {
         assertEquals("returned 1 Sapphire to the token bank", startedGame.getHistory().getLogs().get(12).getAction());
     }
 
+    @Test
+    public void acquireNobleGetsLogged() {
+        Noble nobleToAcquire = new ArrayList<>(startedGame.getUnclaimedNobles()).getFirst();
+        alice.getBonuses().addTokens(nobleToAcquire.neededBonuses());
+
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1)));
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().get(1).getPlayerName());
+        assertEquals("got visited by noble '" + nobleToAcquire.name() + "'", startedGame.getHistory().getLogs().get(1).getAction());
+    }
+
 }
