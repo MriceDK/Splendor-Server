@@ -607,4 +607,12 @@ class SplendorGameTest {
         assertEquals("needs to choose a noble...", startedGame.getHistory().getLogs().get(1).getAction());
     }
 
+    @Test
+    public void winnerHasBeenFoundGetsLogged() {
+        calculateWinner();
+
+        assertEquals("Gert", startedGame.getHistory().getLogs().getLast().getPlayerName());
+        assertEquals("has won the game!", startedGame.getHistory().getLogs().getLast().getAction());
+    }
+
 }

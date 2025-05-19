@@ -61,6 +61,7 @@ public class SplendorGame extends GameSuperclass {
         if (currentPlayer.isWinnerWorthy()) {
             setGameState(GameState.WINNER_FOUND);
             winner = calculateWinner();
+            history.log(new ActionReport(winner.getName(), "has won the game!"));
         }
     }
 
