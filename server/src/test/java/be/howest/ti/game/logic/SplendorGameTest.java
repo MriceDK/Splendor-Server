@@ -523,6 +523,21 @@ class SplendorGameTest {
     }
 
     @Test
+    public void reserveDevelopmentFromLevelGetsLogged() {
+        startedGame.reserveDevelopmentFromLevel(1, alice);
+        startedGame.reserveDevelopmentFromLevel(1, gert);
+
+        Development firstReservedDevelopment = alice.getReservedDevelopments().getFirst();
+        Development secondReservedDevelopment = gert.getReservedDevelopments().getFirst();
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
+        assertEquals("reserved a development from level " + firstReservedDevelopment.level(), startedGame.getHistory().getLogs().getFirst().getAction());
+
+        assertEquals("Gert", startedGame.getHistory().getLogs().getLast().getPlayerName());
+        assertEquals("reserved a development from level " + secondReservedDevelopment.level(), startedGame.getHistory().getLogs().getLast().getAction());
+    }
+
+    @Test
     public void buyReservedDevelopmentGetsLogged() {
         Development firstDevelopmentToReserve = startedGame.getMarket().getVisibleDevelopments(1).getFirst();
         Development secondDevelopmentToReserve = startedGame.getMarket().getVisibleDevelopments(2).getFirst();
