@@ -2,6 +2,7 @@ package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+import be.howest.ti.game.util.logger.Logger;
 import be.howest.ti.game.util.reader.NobleReader;
 
 import java.util.*;
@@ -25,6 +26,7 @@ public class SplendorGame extends GameSuperclass {
     private Player currentPlayer;
     private GameState gameState;
     private Player winner;
+    private final Logger history;
 
     private static final int ONE_NOBLE = 1;
 
@@ -37,6 +39,7 @@ public class SplendorGame extends GameSuperclass {
         this.unclaimedNobles = setUnclaimedNobles();
         this.gameState = GameState.TURN_ACTION;
         this.winner = null;
+        history = new Logger();
     }
 
     public Player getWinner() {
@@ -302,6 +305,10 @@ public class SplendorGame extends GameSuperclass {
 
     public Purse getTokenBank() {
         return tokenBank;
+    }
+
+    public Logger getHistory() {
+        return history;
     }
 
     private Purse generateTokenBank() {
