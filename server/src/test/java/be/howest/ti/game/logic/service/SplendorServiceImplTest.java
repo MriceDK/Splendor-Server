@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic.service;
 
 import be.howest.ti.game.logic.GameLobby;
+import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -62,7 +63,7 @@ class SplendorServiceImplTest {
         service.removeGame(0);
 
 
-        assertThrows(IllegalArgumentException.class, () -> service.findGame(0));
+        assertThrows(SplendorGameResourceNotFoundException.class, () -> service.findGame(0));
     }
 
     @Test
@@ -72,7 +73,7 @@ class SplendorServiceImplTest {
 
         service.removeGames();
 
-        assertThrows(IllegalArgumentException.class, () -> service.findGame(0));
+        assertThrows(SplendorGameResourceNotFoundException.class, () -> service.findGame(0));
     }
 
     @Test

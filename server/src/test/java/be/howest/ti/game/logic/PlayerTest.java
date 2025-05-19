@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -57,7 +58,7 @@ class PlayerTest {
         Purse tokensToReturn = new Purse(Map.of(Token.ONYX, 1, Token.RUBY, 1));
 
         // This should throw because player only has 6 tokens (less than 10)
-        assertThrows(IllegalStateException.class, () -> player.returnTokens(tokensToReturn));
+        assertThrows(SplendorGameRuleException.class, () -> player.returnTokens(tokensToReturn));
     }
 
     @Test
@@ -75,7 +76,7 @@ class PlayerTest {
 
         Purse  tokensToReturn = new Purse(Map.of(Token.ONYX, 2));
 
-        assertThrows(IllegalArgumentException.class, () -> player.returnTokens(tokensToReturn));
+        assertThrows(SplendorGameRuleException.class, () -> player.returnTokens(tokensToReturn));
     }
 
     @Test
@@ -92,7 +93,7 @@ class PlayerTest {
 
         Purse tokensToReturn = new Purse(Map.of(Token.RUBY, 4));
 
-        assertThrows(IllegalArgumentException.class, () -> player.returnTokens(tokensToReturn));
+        assertThrows(SplendorGameRuleException.class, () -> player.returnTokens(tokensToReturn));
     }
 
     @Test
@@ -109,7 +110,7 @@ class PlayerTest {
 
         Purse tokensToReturn = new Purse(Map.of(Token.RUBY, 1, Token.EMERALD, 3));
 
-        assertThrows(IllegalArgumentException.class, () -> player.returnTokens(tokensToReturn));
+        assertThrows(SplendorGameRuleException.class, () -> player.returnTokens(tokensToReturn));
 
     }
 
@@ -147,7 +148,7 @@ class PlayerTest {
                 Token.ONYX, 1
         )));
 
-        assertThrows(IllegalArgumentException.class, () -> player.buyDevelopment(development, new Purse(Map.of(
+        assertThrows(SplendorGameRuleException.class, () -> player.buyDevelopment(development, new Purse(Map.of(
                 Token.GOLD, 3
         ))));
         assertTrue(player.getOwnedDevelopments().isEmpty());

@@ -1,5 +1,8 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
+import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,12 +58,12 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
 
     private void validateNewPlayer(Player newPlayer) {
         if (getTotalPlayers() >= maxPlayers) {
-            throw new IllegalStateException("There are already " + maxPlayers + " in the game!");
+            throw new SplendorGameRuleException("There are already " + maxPlayers + " in the game!");
 
         }
 
         if (players.contains(newPlayer)) {
-            throw new IllegalStateException("There already exists a player with the same name in this game.");
+            throw new SplendorGameRuleException("There already exists a player with the same name in this game.");
         }
     }
 

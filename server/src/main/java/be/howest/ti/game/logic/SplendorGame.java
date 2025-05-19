@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import be.howest.ti.game.util.reader.NobleReader;
 
@@ -98,7 +99,7 @@ public class SplendorGame extends GameSuperclass {
             }
         }
         if (requestPlayer == null) {
-            throw new IllegalArgumentException("Player not found");
+            throw new SplendorGameResourceNotFoundException("Player not found");
         }
         return requestPlayer;
     }
@@ -212,7 +213,7 @@ public class SplendorGame extends GameSuperclass {
 
         playerTurnChecker(player);
         if (!unclaimedNobles.contains(noble)) {
-            throw new IllegalArgumentException("Noble not available");
+            throw new SplendorGameResourceNotFoundException("Noble not available");
         }
 
         acquireNoble(noble);
@@ -267,7 +268,7 @@ public class SplendorGame extends GameSuperclass {
 
     public boolean playerTurnChecker(Player player) {
         if (!player.equals(currentPlayer)) {
-            throw new IllegalStateException("It's not this player's turn");
+            throw new SplendorGameRuleException("It's not this player's turn");
         } else {
             return true;
         }
