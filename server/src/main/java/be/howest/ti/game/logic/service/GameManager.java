@@ -153,44 +153,57 @@ public class GameManager implements SplendorService {
     @Override
     public Player buyReservedDevelopment(int gameId, String playerName, String developmentName, Purse payment) {
         SplendorGame game = findStartedGame(gameId);
-        return game.buyReservedDevelopment(payment, developmentName, playerName);
+        Player player = game.findPlayer(playerName);
+        game.buyReservedDevelopment(payment, developmentName, player);
+
+        return player;
     }
 
     @Override
     public Player updateTokens(boolean takeOrReturn, int gameId, String playerName, Purse tokensToChange) {
         SplendorGame game = findStartedGame(gameId);
+        Player player = game.findPlayer(playerName);
 
         if (takeOrReturn) {
-            return game.acquireTokens(playerName, tokensToChange);
+            game.acquireTokens(player, tokensToChange);
         }
-        return game.returnTokens(playerName, tokensToChange);
+        game.returnTokens(player, tokensToChange);
 
-
+        return player;
 
     }
 
     @Override
     public Player buyDevelopment(int gameId, String playerName, String developmentName, Purse payment) {
         SplendorGame game = findStartedGame(gameId);
-        return game.buyDevelopment(payment, developmentName, playerName);
+        Player player = game.findPlayer(playerName);
+        game.buyDevelopment(payment, developmentName, player);
+
+        return player;
     }
 
     @Override
     public Player reserveDevelopment(int gameId, String playerName, String name) {
         SplendorGame game = findStartedGame(gameId);
-        return game.reserveDevelopment(name, playerName);
+        Player player = game.findPlayer(playerName);
+        game.reserveDevelopment(name, player);
+        return player;
     }
 
     @Override
     public Player reserveDevelopmentFromLevel(int gameId, String playerName, int level) {
         SplendorGame game = findStartedGame(gameId);
-        return game.reserveDevelopmentFromLevel(level, playerName);
+        Player player = game.findPlayer(playerName);
+        game.reserveDevelopmentFromLevel(level, player);
+        return player;
     }
 
     @Override
     public Noble chooseNoble(int gameId, String playerName, Noble noble) {
         SplendorGame game = findStartedGame(gameId);
-        return game.chooseNoble(playerName, noble);
+        Player player = game.findPlayer(playerName);
+
+        return game.chooseNoble(player, noble);
     }
 
 }
