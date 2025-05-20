@@ -171,8 +171,7 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public Player reserveDevelopmentFromLevel(int level, String playerName){
-        Player player = findPlayer(playerName);
+    public void reserveDevelopmentFromLevel(int level, Player player){
         checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
         playerTurnChecker(player);
 
@@ -180,7 +179,6 @@ public class SplendorGame extends GameSuperclass {
         givePlayerGoldTokenIfPossible(player);
 
         endPhaseOfTurn(true);
-        return player;
 
     }
 
