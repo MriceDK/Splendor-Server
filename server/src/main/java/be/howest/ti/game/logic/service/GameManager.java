@@ -84,7 +84,6 @@ public class GameManager implements SplendorService {
 
     @Override
     public void leaveGame(GameSuperclass game, String playerName) {
-        // TODO: ask if method throws is allowed
         if (game instanceof GameLobby) {
             game.removePlayer(playerName);
         } else {
