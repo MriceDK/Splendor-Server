@@ -166,9 +166,8 @@ public class GameManager implements SplendorService {
 
         if (takeOrReturn) {
             game.acquireTokens(player, tokensToChange);
-        } else {
-            game.returnTokens(player, tokensToChange);
         }
+        game.returnTokens(player, tokensToChange);
 
         return player;
 
