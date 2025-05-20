@@ -147,7 +147,7 @@ public class SplendorGame extends GameSuperclass {
             market.refillMarket(development.level());
             givePlayerGoldTokenIfPossible(player);
 
-            history.log(new ActionReport(currentPlayer.getName(), "reserved development '" + developmentName + "'"));
+            history.log(new ActionReport(currentPlayer.getName(), "reserved development " + development));
             endPhaseOfTurn(true);
 
         }

@@ -546,10 +546,10 @@ class SplendorGameTest {
         startedGame.reserveDevelopment(secondDevelopmentToReserve.name(), gert);
 
         assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
-        assertEquals("reserved development '" + firstDevelopmentToReserve.name() + "'", startedGame.getHistory().getLogs().getFirst().getAction());
+        assertEquals("reserved development " + firstDevelopmentToReserve, startedGame.getHistory().getLogs().getFirst().getAction());
 
         assertEquals("Gert", startedGame.getHistory().getLogs().getLast().getPlayerName());
-        assertEquals("reserved development '" + secondDevelopmentToReserve.name() + "'", startedGame.getHistory().getLogs().getLast().getAction());
+        assertEquals("reserved development " + secondDevelopmentToReserve, startedGame.getHistory().getLogs().getLast().getAction());
     }
 
     @Test
