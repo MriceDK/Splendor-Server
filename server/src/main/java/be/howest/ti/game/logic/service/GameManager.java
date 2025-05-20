@@ -153,7 +153,10 @@ public class GameManager implements SplendorService {
     @Override
     public Player buyReservedDevelopment(int gameId, String playerName, String developmentName, Purse payment) {
         SplendorGame game = findStartedGame(gameId);
-        return game.buyReservedDevelopment(payment, developmentName, playerName);
+        Player player = game.findPlayer(playerName);
+        game.buyReservedDevelopment(payment, developmentName, player);
+
+        return player;
     }
 
     @Override
@@ -174,14 +177,17 @@ public class GameManager implements SplendorService {
     @Override
     public Player buyDevelopment(int gameId, String playerName, String developmentName, Purse payment) {
         SplendorGame game = findStartedGame(gameId);
-        return game.buyDevelopment(payment, developmentName, playerName);
+        Player player = game.findPlayer(playerName);
+        game.buyDevelopment(payment, developmentName, player);
+
+        return player;
     }
 
     @Override
     public Player reserveDevelopment(int gameId, String playerName, String name) {
         SplendorGame game = findStartedGame(gameId);
         Player player = game.findPlayer(playerName);
-        game.reserveDevelopment(name, playerName);
+        game.reserveDevelopment(name, player);
         return player;
     }
 
@@ -189,7 +195,7 @@ public class GameManager implements SplendorService {
     public Player reserveDevelopmentFromLevel(int gameId, String playerName, int level) {
         SplendorGame game = findStartedGame(gameId);
         Player player = game.findPlayer(playerName);
-        game.reserveDevelopmentFromLevel(level, playerName);
+        game.reserveDevelopmentFromLevel(level, player);
         return player;
     }
 
@@ -198,7 +204,7 @@ public class GameManager implements SplendorService {
         SplendorGame game = findStartedGame(gameId);
         Player player = game.findPlayer(playerName);
 
-        return game.chooseNoble(playerName, noble);
+        return game.chooseNoble(player, noble);
     }
 
 }
