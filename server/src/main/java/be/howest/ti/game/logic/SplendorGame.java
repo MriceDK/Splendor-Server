@@ -2,6 +2,8 @@ package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+import be.howest.ti.game.util.logger.ActionReport;
+import be.howest.ti.game.util.logger.Logger;
 import be.howest.ti.game.util.reader.NobleReader;
 
 import java.util.*;
@@ -25,6 +27,7 @@ public class SplendorGame extends GameSuperclass {
     private Player currentPlayer;
     private GameState gameState;
     private Player winner;
+    private final Logger history;
 
     private static final int ONE_NOBLE = 1;
 
@@ -37,6 +40,7 @@ public class SplendorGame extends GameSuperclass {
         this.unclaimedNobles = setUnclaimedNobles();
         this.gameState = GameState.TURN_ACTION;
         this.winner = null;
+        history = new Logger();
     }
 
     public Player getWinner() {
@@ -56,6 +60,7 @@ public class SplendorGame extends GameSuperclass {
         if (currentPlayer.isWinnerWorthy()) {
             setGameState(GameState.WINNER_FOUND);
             winner = calculateWinner();
+            history.log(new ActionReport(winner.getName(), "has won the game!"));
         }
     }
 
@@ -112,6 +117,8 @@ public class SplendorGame extends GameSuperclass {
             player.buyDevelopment(market.removeVisibleDevelopment(development), payment);
             market.refillMarket(development.level());
             tokenBank.addTokens(payment);
+
+            history.log(new ActionReport(currentPlayer.getName(), "bought development " + development + " for " + payment));
             endPhaseOfTurn(true);
         }
     }
@@ -119,6 +126,7 @@ public class SplendorGame extends GameSuperclass {
     private void endPhaseOfTurn(boolean tokenOverflowShouldBeChecked) {
 
         if (currentPlayer.hasTooManyTokens() && tokenOverflowShouldBeChecked) {
+            history.log(new ActionReport(currentPlayer.getName(), "has too many tokens. Waiting for player to return tokens..."));
             setGameState(GameState.RETURN_GEMS);
             return;
         }
@@ -139,6 +147,7 @@ public class SplendorGame extends GameSuperclass {
             market.refillMarket(development.level());
             givePlayerGoldTokenIfPossible(player);
 
+            history.log(new ActionReport(currentPlayer.getName(), "reserved development " + development));
             endPhaseOfTurn(true);
 
         }
@@ -153,6 +162,7 @@ public class SplendorGame extends GameSuperclass {
             player.removeReservedDevelopment(development);
             tokenBank.addTokens(payment);
 
+            history.log(new ActionReport(currentPlayer.getName(), "bought reserved development " + development + " for " + payment));
             endPhaseOfTurn(false);
         }
     }
@@ -171,6 +181,7 @@ public class SplendorGame extends GameSuperclass {
             player.reserveDevelopment(market.takeTopDevelopment(level));
             givePlayerGoldTokenIfPossible(player);
 
+            history.log(new ActionReport(currentPlayer.getName(), "reserved the top development from level " + level + " stack"));
             endPhaseOfTurn(true);
 
         }
@@ -191,7 +202,6 @@ public class SplendorGame extends GameSuperclass {
         for (Noble noble : unclaimedNobles) {
             if (currentPlayer.meetsRequirementsToClaimNoble(noble)) {
                 possibleNobles.add(noble);
-
             }
 
         }
@@ -201,6 +211,7 @@ public class SplendorGame extends GameSuperclass {
     private boolean chooseNobleNecessaryCheck(List<Noble> possibleNobles) {
         if (possibleNobles.size() > ONE_NOBLE) {
             setGameState(GameState.CHOOSE_NOBLE);
+            history.log(new ActionReport(currentPlayer.getName(), "needs to choose a noble..."));
             return false;
         } else {
             acquireNoble(possibleNobles.getFirst());
@@ -224,22 +235,8 @@ public class SplendorGame extends GameSuperclass {
     public Noble acquireNoble(Noble noble) {
         currentPlayer.claimNoble(noble);
         unclaimedNobles.remove(noble);
+        history.log(new ActionReport(currentPlayer.getName(), "got visited by noble '" + noble.name() + "'"));
         return noble;
-    }
-
-    private boolean playerMeetsRequirements(Player player, Noble noble) {
-        for (Token bonus : Token.values()) {
-            int required = noble.neededBonuses().getTokens().get(bonus);
-            int actual = player.getBonuses().getTokens().get(bonus);
-            if (actual < required) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void acquireNoble(List<Noble> possibleNobles) {
-        currentPlayer.claimNoble(possibleNobles.getFirst());
     }
 
     public void acquireTokens(Player player, Purse tokens){
@@ -253,6 +250,7 @@ public class SplendorGame extends GameSuperclass {
             player.acquireTokens(tokens, sizeOfTokensToAcquire);
             tokenBank.removeTokens(tokens);
 
+            history.log(new ActionReport(currentPlayer.getName(), "took " + tokens));
             endPhaseOfTurn(true);
 
         }
@@ -281,6 +279,7 @@ public class SplendorGame extends GameSuperclass {
             player.returnTokens(tokensToReturn);
             tokenBank.addTokens(tokensToReturn);
 
+            history.log(new ActionReport(currentPlayer.getName(), "returned " + tokensToReturn + " to the token bank"));
             endPhaseOfTurn(false);
         }
 
@@ -301,6 +300,10 @@ public class SplendorGame extends GameSuperclass {
 
     public Purse getTokenBank() {
         return tokenBank;
+    }
+
+    public Logger getHistory() {
+        return history;
     }
 
     private Purse generateTokenBank() {

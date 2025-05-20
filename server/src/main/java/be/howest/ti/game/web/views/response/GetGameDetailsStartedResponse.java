@@ -1,6 +1,8 @@
 package be.howest.ti.game.web.views.response;
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.util.logger.ActionReport;
+import be.howest.ti.game.web.views.ActionReportInListView;
 import be.howest.ti.game.web.views.DeckInListView;
 import be.howest.ti.game.web.views.NobleInSetView;
 import be.howest.ti.game.web.views.PlayerInListView;
@@ -69,6 +71,16 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         } else {
             return winner.getName();
         }
+    }
+
+    public List<ActionReportInListView> getHistory() {
+        List<ActionReportInListView> res = new ArrayList<>();
+
+        for (ActionReport actionReport : startedGame.getHistory().getLogs()) {
+            res.add(new ActionReportInListView(actionReport));
+        }
+
+        return res;
     }
 
 
