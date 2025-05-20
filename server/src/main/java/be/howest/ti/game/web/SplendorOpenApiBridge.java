@@ -21,6 +21,7 @@ import java.util.function.Supplier;
 public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is not a monster class, it is a bridge :-)
 
     private final Supplier<SplendorService> serviceFactory;
+    private final TokenManager tokenManager;
 
     public SplendorOpenApiBridge() {
         this(GameManager::new, new JsonWebToken());
@@ -29,6 +30,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     // Factory needed to differentiate between group-tokens, can be simplified with a single service in the student version.
     SplendorOpenApiBridge(Supplier<SplendorService> serviceFactory, TokenManager tokenManager) {
         installPlayerTokenManager(tokenManager);
+        // HiJacking the  token manager to use it to parse the token since i can't access the parseToken method
+        // This is only needed for manipulating the endpoints that we have since we can't add or change the endpoints
+        this.tokenManager = tokenManager;
         this.serviceFactory = serviceFactory;
     }
 
@@ -155,16 +159,40 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
         SplendorService service = getService(request);
 
+
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
-        String token = createToken(new SplendorHTTPPlayer(service.findGame(gameId).getGameId(), request.getPlayerName()));
+        int verifiedGameId = service.findGame(gameId).getGameId();
+        String token = createToken(new SplendorHTTPPlayer(verifiedGameId, request.getPlayerName()));
 
-        if (request.getIsSpectator()) {
-            service.spectateLobby(service.findGame(gameId), playerName);
-            return new SpectateGameResponse(gameId, playerName, token);
+        if (request.getWantsToLeave()) {
+            if (request.getIsSpectator()) {
+                // delete spectator from game
+                service.leaveSpectate(service.findGame(gameId), playerName);
+                return new LeaveGameResponse(gameId, playerName);
+            } else {
+                // check if token is valid using the hijacked token manager
+                SplendorHTTPPlayer parsedToken = tokenManager.parseToken(request.getToken().substring(7));
+                if (parsedToken.getGameId() != request.getGameId()) {
+                    throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+                }
+                if (!parsedToken.getPlayerName().equals(request.getPlayerName())) {
+                    throw new ForbiddenAccessException("The player name in the path does not match the player name in the token");
+                }
+                // delete player from game
+                service.leaveGame(service.findGame(gameId), playerName);
+                return new LeaveGameResponse(gameId, playerName);
+            }
         } else {
-            service.joinLobby(service.findLobby(gameId), playerName);
-            return new JoinGameResponse(gameId, playerName, token);
+            if (request.getIsSpectator()) {
+                // add spectator to game
+                service.spectateLobby(service.findGame(gameId), playerName);
+                return new SpectateGameResponse(gameId, playerName, token);
+            } else {
+                // add player to game
+                service.joinLobby(service.findLobby(gameId), playerName);
+                return new JoinGameResponse(gameId, playerName, token);
+            }
         }
     }
 
