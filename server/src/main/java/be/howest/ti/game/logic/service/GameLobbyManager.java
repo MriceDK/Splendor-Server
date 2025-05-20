@@ -7,13 +7,13 @@ import be.howest.ti.game.util.reader.DevelopmentReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameManager implements SplendorService {
+public class GameLobbyManager {
 
     private int incrementalIdentifier = 0;
 
     private final List<GameSuperclass> games;
 
-    public GameManager() {
+    public GameLobbyManager() {
         games = new ArrayList<>();
     }
 
@@ -69,7 +69,7 @@ public class GameManager implements SplendorService {
         throw new SplendorGameResourceNotFoundException("Game not found");
     }
 
-    @Override
+
     public void joinLobby(GameLobby lobby, String playerName) {
         lobby.addPlayer(playerName);
 
@@ -127,7 +127,7 @@ public class GameManager implements SplendorService {
         games.remove(game);
     }
 
-    @Override
+
     public List<GameSuperclass> removeGames() {
         if (getGames().isEmpty()) {
             throw new SplendorGameResourceNotFoundException("No games to delete");
@@ -144,66 +144,4 @@ public class GameManager implements SplendorService {
 
         return gameId;
     }
-
-    public List<Development> getAllDevelopments() {
-        DevelopmentReader reader = new DevelopmentReader();
-        return reader.getAllDevelopments();
-    }
-
-    @Override
-    public Player buyReservedDevelopment(int gameId, String playerName, String developmentName, Purse payment) {
-        SplendorGame game = findStartedGame(gameId);
-        Player player = game.findPlayer(playerName);
-        game.buyReservedDevelopment(payment, developmentName, player);
-
-        return player;
-    }
-
-    @Override
-    public Player updateTokens(boolean takeOrReturn, int gameId, String playerName, Purse tokensToChange) {
-        SplendorGame game = findStartedGame(gameId);
-        Player player = game.findPlayer(playerName);
-
-        if (takeOrReturn) {
-            game.acquireTokens(player, tokensToChange);
-        }
-        game.returnTokens(player, tokensToChange);
-
-        return player;
-
-    }
-
-    @Override
-    public Player buyDevelopment(int gameId, String playerName, String developmentName, Purse payment) {
-        SplendorGame game = findStartedGame(gameId);
-        Player player = game.findPlayer(playerName);
-        game.buyDevelopment(payment, developmentName, player);
-
-        return player;
-    }
-
-    @Override
-    public Player reserveDevelopment(int gameId, String playerName, String name) {
-        SplendorGame game = findStartedGame(gameId);
-        Player player = game.findPlayer(playerName);
-        game.reserveDevelopment(name, player);
-        return player;
-    }
-
-    @Override
-    public Player reserveDevelopmentFromLevel(int gameId, String playerName, int level) {
-        SplendorGame game = findStartedGame(gameId);
-        Player player = game.findPlayer(playerName);
-        game.reserveDevelopmentFromLevel(level, player);
-        return player;
-    }
-
-    @Override
-    public Noble chooseNoble(int gameId, String playerName, Noble noble) {
-        SplendorGame game = findStartedGame(gameId);
-        Player player = game.findPlayer(playerName);
-
-        return game.chooseNoble(player, noble);
-    }
-
 }

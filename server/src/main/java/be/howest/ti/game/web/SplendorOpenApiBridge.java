@@ -1,9 +1,10 @@
 package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.*;
-import be.howest.ti.game.logic.service.GameManager;
+import be.howest.ti.game.logic.service.GameLobbyManager;
 import be.howest.ti.game.logic.service.GameOperations;
 import be.howest.ti.game.logic.service.SplendorService;
+import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.JsonWebToken;
 //import be.howest.ti.game.web.tokens.PlainTextTokens;
 // Import only to be used when working with PlainTextTokens instead of JsonWebToken
@@ -25,7 +26,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     private final Supplier<SplendorService> serviceFactory;
 
     public SplendorOpenApiBridge() {
-        this(GameManager::new, new JsonWebToken());
+        this(SplendorServiceImpl::new, new JsonWebToken());
     }
 
     // Factory needed to differentiate between group-tokens, can be simplified with a single service in the student version.

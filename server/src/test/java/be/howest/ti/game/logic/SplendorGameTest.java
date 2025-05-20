@@ -3,7 +3,7 @@ package be.howest.ti.game.logic;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.service.SplendorService;
-import be.howest.ti.game.logic.service.GameManager;
+import be.howest.ti.game.logic.service.GameLobbyManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ class SplendorGameTest {
     }
 
     public void setupStartedGame() {
-        SplendorService service = new GameManager();
+        GameLobbyManager service = new GameLobbyManager();
         GameLobby unstartedGame = service.createLobby(2, "Alice");
         service.joinLobby(unstartedGame, "Gert");
         startedGame = service.findStartedGame(0);

@@ -9,11 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SplendorServiceImplTest {
 
-    private GameManager service;
+    private GameLobbyManager service;
 
     @BeforeEach
     public void init() {
-        service = new GameManager();
+        service = new GameLobbyManager();
     }
 
     @Test
