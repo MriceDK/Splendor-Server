@@ -9,6 +9,7 @@ import be.howest.ti.game.web.views.request.BuyReservedDevelopmentRequest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class GameManager implements SplendorService {
 
@@ -84,6 +85,27 @@ public class GameManager implements SplendorService {
     @Override
     public void spectateLobby(GameSuperclass game, String spectatorName) {
         game.addSpectator(spectatorName);
+    }
+
+    @Override
+    public void leaveSpectate(GameSuperclass game, String spectatorName) {
+        game.removeSpectator(spectatorName);
+    }
+
+    @Override
+    public void leaveGame(GameSuperclass game, String playerName) {
+        // TODO: ask if method throws is allowed
+        if (game instanceof GameLobby) {
+            game.removePlayer(playerName);
+        } else {
+            game.removePlayer(playerName);
+            try {
+                TimeUnit.MINUTES.sleep(1); // Sleeps for 1 minute
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            removeGame(game.getGameId());
+        }
     }
 
     public List<GameSuperclass> getGames() {

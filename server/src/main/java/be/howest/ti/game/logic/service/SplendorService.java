@@ -15,6 +15,9 @@ public interface SplendorService {
     void joinLobby(GameLobby lobby, String playerName);
     void spectateLobby(GameSuperclass game, String spectatorName);
 
+    void leaveSpectate(GameSuperclass game, String spectatorName);
+    void leaveGame(GameSuperclass game, String playerName);
+
     GameLobby createLobby(int maxPlayers, String creatorName);
 
     GameLobby createLobby(int maxPlayers, String creatorName, String gameName);
