@@ -51,7 +51,7 @@ class SplendorGameTest {
     public void reserveDevelopment() {
         lobby.addPlayer("Bobby");
         SplendorGame startedGame = new SplendorGame(lobby);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.findPlayer("Bobby"));
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), "Bobby");
         assertEquals(1,startedGame.getCurrentPlayer().getReservedDevelopments().size());
     }
 
@@ -211,9 +211,9 @@ class SplendorGameTest {
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
         startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice.getName());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert.getName());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice.getName());
 
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
         assertEquals(alice, startedGame.getCurrentPlayer());
@@ -223,8 +223,8 @@ class SplendorGameTest {
 
     @Test
     void reservingDevelopmentIsAllowedWhenGameStateIsTurnAction() {
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), new Player("Alice"));
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), new Player("Gert"));
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), new Player("Alice").getName());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), new Player("Gert").getName());
 
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
     }
@@ -240,13 +240,13 @@ class SplendorGameTest {
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
         startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice.getName());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert.getName());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice.getName());
 
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
         assertEquals(alice, startedGame.getCurrentPlayer());
-        Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert));
+        Exception ex = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert.getName()));
         assertEquals(gameStateErrorMessage ,ex.getMessage());
     }
 
@@ -276,9 +276,9 @@ class SplendorGameTest {
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
         startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice.getName());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert.getName());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice.getName());
 
         startedGame.getCurrentPlayer().getTokens().addTokens(startedGame.getMarket().getVisibleDevelopments(1).getFirst().cost());
 
@@ -297,8 +297,8 @@ class SplendorGameTest {
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
         startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice.getName());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert.getName());
 
         startedGame.getCurrentPlayer().getTokens().addTokens(startedGame.getCurrentPlayer().getReservedDevelopments().getFirst().cost());
         startedGame.buyReservedDevelopment(startedGame.getCurrentPlayer().getReservedDevelopments().getFirst().cost(), startedGame.getCurrentPlayer().getReservedDevelopments().getFirst().name(), alice.getName());
@@ -315,9 +315,9 @@ class SplendorGameTest {
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
         startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice);
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice.getName());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert.getName());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), alice.getName());
 
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
 
@@ -416,7 +416,7 @@ class SplendorGameTest {
         Purse requiredBonuses = new Purse(Map.of(Token.DIAMOND, 5, Token.EMERALD, 5, Token.SAPPHIRE, 5, Token.ONYX, 5, Token.RUBY, 5));
         player.getBonuses().addTokens(requiredBonuses);
 
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.getCurrentPlayer());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.getCurrentPlayer().getName());
 
         assertEquals(GameState.CHOOSE_NOBLE, startedGame.getGameState());
         startedGame.chooseNoble(player, possibleNobleToChoose2);
@@ -473,7 +473,7 @@ class SplendorGameTest {
         assertEquals(gameStateErrorMessage ,ex1.getMessage());
         Exception ex2 = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopmentFromLevel(1, gert));
         assertEquals(gameStateErrorMessage ,ex2.getMessage());
-        Exception ex3 = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert));
+        Exception ex3 = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert.getName()));
         assertEquals(gameStateErrorMessage ,ex3.getMessage());
         Exception ex4 = assertThrows(SplendorGameRuleException.class, () -> startedGame.buyDevelopment(new Purse(), startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert.getName()));
         assertEquals(gameStateErrorMessage ,ex4.getMessage());
