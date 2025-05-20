@@ -1,4 +1,4 @@
-package be.howest.ti.game.web.views.request;
+package be.howest.ti.game.web.views.request.operations;
 
 import io.vertx.ext.web.RoutingContext;
 

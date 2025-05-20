@@ -1,7 +1,8 @@
-package be.howest.ti.game.web.views.response;
+package be.howest.ti.game.web.views.response.manager;
 
 import be.howest.ti.game.logic.GameSuperclass;
 import be.howest.ti.game.web.views.GameInListView;
+import be.howest.ti.game.web.views.response.AbstractResponseWithHiddenStatus;
 
 import java.util.ArrayList;
 import java.util.Collections;

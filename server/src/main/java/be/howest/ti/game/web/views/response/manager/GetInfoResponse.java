@@ -1,4 +1,6 @@
-package be.howest.ti.game.web.views.response;
+package be.howest.ti.game.web.views.response.manager;
+
+import be.howest.ti.game.web.views.response.AbstractResponseWithHiddenStatus;
 
 public class GetInfoResponse extends AbstractResponseWithHiddenStatus {
     public GetInfoResponse() {

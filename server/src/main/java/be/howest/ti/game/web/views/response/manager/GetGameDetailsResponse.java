@@ -1,8 +1,9 @@
-package be.howest.ti.game.web.views.response;
+package be.howest.ti.game.web.views.response.manager;
 
 import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.GameSuperclass;
 import be.howest.ti.game.logic.SplendorGame;
+import be.howest.ti.game.web.views.response.AbstractResponseWithHiddenStatus;
 
 public class GetGameDetailsResponse extends AbstractResponseWithHiddenStatus {
 

@@ -1,8 +1,9 @@
-package be.howest.ti.game.web.views.response;
+package be.howest.ti.game.web.views.response.operations;
 
 import be.howest.ti.game.logic.Development;
 import be.howest.ti.game.logic.Purse;
 import be.howest.ti.game.web.views.DevelopmentInListView;
+import be.howest.ti.game.web.views.response.AbstractResponseWithHiddenStatus;
 
 import java.util.ArrayList;
 import java.util.List;

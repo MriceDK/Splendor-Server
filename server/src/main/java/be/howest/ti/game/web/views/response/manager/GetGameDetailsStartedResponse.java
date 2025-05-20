@@ -1,4 +1,4 @@
-package be.howest.ti.game.web.views.response;
+package be.howest.ti.game.web.views.response.manager;
 
 import be.howest.ti.game.logic.*;
 import be.howest.ti.game.web.views.DeckInListView;

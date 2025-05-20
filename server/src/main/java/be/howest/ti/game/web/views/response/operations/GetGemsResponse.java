@@ -1,6 +1,7 @@
-package be.howest.ti.game.web.views.response;
+package be.howest.ti.game.web.views.response.operations;
 
 import be.howest.ti.game.logic.Token;
+import be.howest.ti.game.web.views.response.AbstractResponseWithHiddenStatus;
 
 public class GetGemsResponse extends AbstractResponseWithHiddenStatus {
 

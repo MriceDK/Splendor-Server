@@ -9,11 +9,13 @@ import be.howest.ti.game.web.tokens.JsonWebToken;
 // Import only to be used when working with PlainTextTokens instead of JsonWebToken
 import be.howest.ti.game.web.tokens.SplendorHTTPPlayer;
 import be.howest.ti.game.util.Config;
-import be.howest.ti.game.web.tokens.PlainTextTokens;
 import be.howest.ti.game.web.tokens.TokenManager;
 import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
-import be.howest.ti.game.web.views.response.*;
+import be.howest.ti.game.web.views.request.manager.*;
+import be.howest.ti.game.web.views.request.operations.*;
+import be.howest.ti.game.web.views.response.manager.*;
+import be.howest.ti.game.web.views.response.operations.*;
 
 import java.util.*;
 import java.util.function.Supplier;

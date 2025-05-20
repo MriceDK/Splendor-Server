@@ -1,8 +1,7 @@
-package be.howest.ti.game.web.views.response;
+package be.howest.ti.game.web.views.response.operations;
 
-import be.howest.ti.game.logic.Purse;
-import be.howest.ti.game.logic.Token;
 import be.howest.ti.game.web.views.DevelopmentInListView;
+import be.howest.ti.game.web.views.response.AbstractResponseWithHiddenStatus;
 
 import java.util.List;
 import java.util.Map;
