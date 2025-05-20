@@ -78,10 +78,6 @@ public class SplendorGame extends GameSuperclass {
         this.gameState = gameState;
     }
 
-    private void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
     public Market getMarket() {
         return market;
     }
