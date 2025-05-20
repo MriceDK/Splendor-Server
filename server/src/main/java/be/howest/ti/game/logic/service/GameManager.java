@@ -93,6 +93,7 @@ public class GameManager implements SplendorService {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+            // TODO: discuss what we should do after a player leaves a game
             removeGame(game.getGameId());
         }
     }
