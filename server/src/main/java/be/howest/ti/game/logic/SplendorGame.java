@@ -215,8 +215,7 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public Noble chooseNoble(String playerName, Noble noble) {
-        Player player = findPlayer(playerName);
+    public Noble chooseNoble(Player player, Noble noble) {
         checkIfActionCanBeCarriedOut(GameState.CHOOSE_NOBLE);
 
         playerTurnChecker(player);
@@ -234,8 +233,7 @@ public class SplendorGame extends GameSuperclass {
         unclaimedNobles.remove(noble);
     }
 
-    public Player acquireTokens(String playerName, Purse tokens){
-        Player player = findPlayer(playerName);
+    public void acquireTokens(Player player, Purse tokens){
         checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
         playerTurnChecker(player);
 
@@ -245,8 +243,6 @@ public class SplendorGame extends GameSuperclass {
         tokenBank.removeTokens(tokens);
 
         endPhaseOfTurn(true);
-
-        return player;
 
     }
 
@@ -277,8 +273,7 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public Player returnTokens(String playerName, Purse tokensToReturn) {
-        Player player = findPlayer(playerName);
+    public void returnTokens(Player player, Purse tokensToReturn) {
         checkIfActionCanBeCarriedOut(GameState.RETURN_GEMS);
         playerTurnChecker(player);
 
@@ -286,8 +281,6 @@ public class SplendorGame extends GameSuperclass {
         tokenBank.addTokens(tokensToReturn);
 
         endPhaseOfTurn(false);
-
-        return player;
     }
 
     public Set<Noble> setUnclaimedNobles() {
