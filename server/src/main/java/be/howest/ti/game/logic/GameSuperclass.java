@@ -70,7 +70,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         Player playerToRemove = new Player(playerName);
 
         if (!players.contains(playerToRemove)) {
-            throw new SplendorGameRuleException("The player is not in the game.");
+            throw new IllegalArgumentException("The player is not in the game.");
         }
         players.remove(playerToRemove);
     }
@@ -82,7 +82,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         }
 
         if (players.contains(newPlayer)) {
-            throw new SplendorGameRuleException("There already exists a player with the same name in this game.");
+            throw new IllegalStateException("There already exists a player with the same name in this game.");
         }
     }
 
@@ -95,7 +95,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
 
     public void removeSpectator(String spectatorName) {
         if (!spectators.contains(spectatorName)) {
-            throw new SplendorGameRuleException("The spectator is not in the game.");
+            throw new IllegalArgumentException("The spectator is not in the game.");
         }
         spectators.remove(spectatorName);
     }
