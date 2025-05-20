@@ -64,7 +64,15 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         validateNewPlayer(newPlayer);
 
         players.add(newPlayer);
+    }
 
+    public void removePlayer(String playerName) {
+        Player playerToRemove = new Player(playerName);
+
+        if (!players.contains(playerToRemove)) {
+            throw new SplendorGameRuleException("The player is not in the game.");
+        }
+        players.remove(playerToRemove);
     }
 
     private void validateNewPlayer(Player newPlayer) {
