@@ -455,6 +455,7 @@ class SplendorGameTest {
 
         // The second player almost has enough prestige point to win the game!
 
+
         startedGame.acquireTokens(gert.getName(), new Purse(Map.of(Token.ONYX, 2)));
 
         // The second player claimed a noble, and is now a possible winner
