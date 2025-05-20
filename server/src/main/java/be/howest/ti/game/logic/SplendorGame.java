@@ -6,7 +6,6 @@ import be.howest.ti.game.util.logger.ActionReport;
 import be.howest.ti.game.util.logger.Logger;
 import be.howest.ti.game.util.reader.NobleReader;
 
-import javax.swing.*;
 import java.util.*;
 
 public class SplendorGame extends GameSuperclass {
@@ -119,7 +118,7 @@ public class SplendorGame extends GameSuperclass {
             market.refillMarket(development.level());
             tokenBank.addTokens(payment);
 
-            history.log(new ActionReport(currentPlayer.getName(), "bought development '" + developmentName + "' for " + payment));
+            history.log(new ActionReport(currentPlayer.getName(), "bought development " + development + " for " + payment));
             endPhaseOfTurn(true);
         }
     }

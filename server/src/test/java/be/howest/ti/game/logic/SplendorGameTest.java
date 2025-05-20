@@ -534,7 +534,7 @@ class SplendorGameTest {
         startedGame.buyDevelopment(developmentToBuy.cost(), developmentToBuy.name(), alice);
 
         assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
-        assertEquals("bought development '" + developmentToBuy.name() + "' for " + developmentToBuy.cost(), startedGame.getHistory().getLogs().getFirst().getAction());
+        assertEquals("bought development " + developmentToBuy + " for " + developmentToBuy.cost(), startedGame.getHistory().getLogs().getFirst().getAction());
     }
 
     @Test
