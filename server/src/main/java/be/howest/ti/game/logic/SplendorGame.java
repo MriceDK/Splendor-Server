@@ -100,7 +100,8 @@ public class SplendorGame extends GameSuperclass {
         return requestPlayer;
     }
 
-    public void buyDevelopment(Purse payment, String developmentName, Player player){
+    public Player buyDevelopment(Purse payment, String developmentName, String playerName){
+        Player player = findPlayer(playerName);
         checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
         playerTurnChecker(player);
 
@@ -111,6 +112,8 @@ public class SplendorGame extends GameSuperclass {
         tokenBank.addTokens(payment);
 
         endPhaseOfTurn(true);
+
+        return player;
 
     }
 
@@ -143,7 +146,8 @@ public class SplendorGame extends GameSuperclass {
 
     }
 
-    public void buyReservedDevelopment(Purse payment, String developmentName, Player player){
+    public Player buyReservedDevelopment(Purse payment, String developmentName, String playerName){
+        Player player = findPlayer(playerName);
         checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
         playerTurnChecker(player);
 
@@ -154,6 +158,7 @@ public class SplendorGame extends GameSuperclass {
         tokenBank.addTokens(payment);
 
         endPhaseOfTurn(false);
+        return player;
     }
 
     private void givePlayerGoldTokenIfPossible(Player player) {
