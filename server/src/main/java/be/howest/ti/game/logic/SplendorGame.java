@@ -181,7 +181,7 @@ public class SplendorGame extends GameSuperclass {
             player.reserveDevelopment(market.takeTopDevelopment(level));
             givePlayerGoldTokenIfPossible(player);
 
-            history.log(new ActionReport(currentPlayer.getName(), "reserved a development from level " + level));
+            history.log(new ActionReport(currentPlayer.getName(), "reserved the top development from level " + level + " stack"));
             endPhaseOfTurn(true);
 
         }

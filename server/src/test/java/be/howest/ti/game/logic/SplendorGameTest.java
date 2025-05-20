@@ -561,10 +561,10 @@ class SplendorGameTest {
         Development secondReservedDevelopment = gert.getReservedDevelopments().getFirst();
 
         assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
-        assertEquals("reserved a development from level " + firstReservedDevelopment.level(), startedGame.getHistory().getLogs().getFirst().getAction());
+        assertEquals("reserved the top development from level " + firstReservedDevelopment.level() + " stack", startedGame.getHistory().getLogs().getFirst().getAction());
 
         assertEquals("Gert", startedGame.getHistory().getLogs().getLast().getPlayerName());
-        assertEquals("reserved a development from level " + secondReservedDevelopment.level(), startedGame.getHistory().getLogs().getLast().getAction());
+        assertEquals("reserved the top development from level " + secondReservedDevelopment.level() + " stack", startedGame.getHistory().getLogs().getLast().getAction());
     }
 
     @Test
