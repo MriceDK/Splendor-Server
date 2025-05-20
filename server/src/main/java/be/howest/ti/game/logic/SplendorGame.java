@@ -227,16 +227,13 @@ public class SplendorGame extends GameSuperclass {
         checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
         playerTurnChecker(player);
 
-        for (Map.Entry<Token, Integer> tokenToAcquire : tokens.getTokens().entrySet()){
+        ruleCheckToAcquireTokens(tokens);
+        player.acquireTokens(tokens);
 
-            ruleCheckToAcquireTokens(tokens);
+        tokenBank.removeTokens(tokens);
 
-            player.acquireTokens(tokens);
-            tokenBank.removeTokens(tokens);
+        endPhaseOfTurn(true);
 
-            endPhaseOfTurn(true);
-
-        }
     }
 
     private void ruleCheckToAcquireTokens(Purse tokensToAcquire) {
