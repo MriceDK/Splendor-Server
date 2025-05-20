@@ -18,7 +18,7 @@ public class JoinGameRequest extends BaseSplendorRequest {
     }
 
     public boolean getIsSpectator() {
-        // ctx is used here because it ignores the spec
+        // ctx is used because it allows arguments to be passed on which are not in the spec
         // this is a bonus functionality
         if (ctx.body().asJsonObject().containsKey("isSpectator")) {
             return ctx.body().asJsonObject().getBoolean("isSpectator");
@@ -27,7 +27,7 @@ public class JoinGameRequest extends BaseSplendorRequest {
     }
 
     public boolean getWantsToLeave() {
-        // ctx is used here because it ignores the spec
+        // ctx is used because it allows arguments to be passed on which are not in the spec
         // this is a bonus functionality
         if (ctx.body().asJsonObject().containsKey("wantsToLeave")) {
             return ctx.body().asJsonObject().getBoolean("wantsToLeave");
