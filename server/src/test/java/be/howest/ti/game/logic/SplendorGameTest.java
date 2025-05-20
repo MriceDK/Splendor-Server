@@ -59,7 +59,7 @@ class SplendorGameTest {
     public void reserveDevelopmentFromLevel() {
         lobby.addPlayer("Bobby");
         SplendorGame startedGame = new SplendorGame(lobby);
-        startedGame.reserveDevelopmentFromLevel(1, startedGame.findPlayer("Bobby"));
+        startedGame.reserveDevelopmentFromLevel(1, "Bobby");
         assertEquals(1,startedGame.getCurrentPlayer().getReservedDevelopments().size());
     }
 
@@ -343,9 +343,9 @@ class SplendorGameTest {
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
         startedGame.acquireTokens(gert, new Purse(Map.of(Token.EMERALD, 1, Token.DIAMOND, 1, Token.ONYX, 1)));
 
-        startedGame.reserveDevelopmentFromLevel(1, alice);
-        startedGame.reserveDevelopmentFromLevel(1, gert);
-        startedGame.reserveDevelopmentFromLevel(1, alice);
+        startedGame.reserveDevelopmentFromLevel(1, alice.getName());
+        startedGame.reserveDevelopmentFromLevel(1, gert.getName());
+        startedGame.reserveDevelopmentFromLevel(1, alice.getName());
 
         assertEquals(GameState.RETURN_GEMS, startedGame.getGameState());
         startedGame.returnTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1)));
@@ -471,7 +471,7 @@ class SplendorGameTest {
         // No single action can be carried out anymore
         Exception ex1 = assertThrows(SplendorGameRuleException.class, () -> startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 2))));
         assertEquals(gameStateErrorMessage ,ex1.getMessage());
-        Exception ex2 = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopmentFromLevel(1, gert));
+        Exception ex2 = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopmentFromLevel(1, gert.getName()));
         assertEquals(gameStateErrorMessage ,ex2.getMessage());
         Exception ex3 = assertThrows(SplendorGameRuleException.class, () -> startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), gert.getName()));
         assertEquals(gameStateErrorMessage ,ex3.getMessage());
