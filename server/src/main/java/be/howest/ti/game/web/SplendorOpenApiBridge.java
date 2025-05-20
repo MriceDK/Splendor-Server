@@ -30,7 +30,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     // Factory needed to differentiate between group-tokens, can be simplified with a single service in the student version.
     SplendorOpenApiBridge(Supplier<SplendorService> serviceFactory, TokenManager tokenManager) {
         installPlayerTokenManager(tokenManager);
-        // HiJacking the  token manager to use it to parse the token since i can't access the parseToken method
+        // HiJacking the  token manager to use it to parse the token since there's no way to access it otherwise
         // This is only needed for manipulating the endpoints that we have since we can't add or change the endpoints
         this.tokenManager = tokenManager;
         this.serviceFactory = serviceFactory;
