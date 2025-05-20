@@ -89,8 +89,9 @@ public class GameManager implements SplendorService {
         } else {
             game.removePlayer(playerName);
             try {
-                TimeUnit.MINUTES.sleep(1); // Sleeps for 1 minute
+                TimeUnit.MINUTES.sleep(1);
             } catch (InterruptedException e) {
+                // The code ensures that if the thread is interrupted while sleeping, the interrupted status is restored
                 Thread.currentThread().interrupt();
             }
             // TODO: discuss what we should do after a player leaves a game
