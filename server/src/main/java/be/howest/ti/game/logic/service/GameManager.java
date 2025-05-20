@@ -83,16 +83,6 @@ public class GameManager implements SplendorService {
     }
 
     @Override
-    public void spectateLobby(GameSuperclass game, String spectatorName) {
-        game.addSpectator(spectatorName);
-    }
-
-    @Override
-    public void leaveSpectate(GameSuperclass game, String spectatorName) {
-        game.removeSpectator(spectatorName);
-    }
-
-    @Override
     public void leaveGame(GameSuperclass game, String playerName) {
         // TODO: ask if method throws is allowed
         if (game instanceof GameLobby) {
@@ -106,6 +96,16 @@ public class GameManager implements SplendorService {
             }
             removeGame(game.getGameId());
         }
+    }
+
+    @Override
+    public void spectateLobby(GameSuperclass game, String spectatorName) {
+        game.addSpectator(spectatorName);
+    }
+
+    @Override
+    public void leaveSpectate(GameSuperclass game, String spectatorName) {
+        game.removeSpectator(spectatorName);
     }
 
     public List<GameSuperclass> getGames() {
@@ -173,11 +173,6 @@ public class GameManager implements SplendorService {
         incrementalIdentifier++;
 
         return gameId;
-    }
-
-    public List<Development> getAllDevelopments() {
-        DevelopmentReader reader = new DevelopmentReader();
-        return reader.getAllDevelopments();
     }
 
     @Override
