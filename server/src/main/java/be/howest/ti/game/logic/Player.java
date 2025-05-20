@@ -7,6 +7,8 @@ import java.util.*;
 
 public class Player {
 
+    private static final int MAX_DIFFERENT_TOKENS = 3;
+    private static final int MAX_OF_SAME_TOKEN = 2;
     private final String name;
     private Purse tokens;
     private Purse bonuses;
@@ -132,8 +134,29 @@ public class Player {
         return true;
     }
 
-    public void acquireTokens(Purse tokensToAcquire){
+    public void acquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire){
+        ruleCheckToAcquireTokens(tokensToAcquire, sizeOfTokensToAcquire);
         tokens.addTokens(tokensToAcquire);
+    }
+
+    private void ruleCheckToAcquireTokens(Purse tokensToAcquire, int sizeOfTokensToAcquire) {
+        if (sizeOfTokensToAcquire > MAX_DIFFERENT_TOKENS){
+            throw new SplendorGameRuleException("You cannot acquire more than three different types of tokens at the same time");
+        }
+
+        for (Map.Entry<Token, Integer> tokenToAdd : tokensToAcquire.getTokens().entrySet()){
+            if (tokenToAdd.getValue() > MAX_OF_SAME_TOKEN){
+                throw new SplendorGameRuleException("You cannot acquire more than two tokens of the same type");
+            }
+
+            if (tokenToAdd.getValue() == MAX_OF_SAME_TOKEN && sizeOfTokensToAcquire != 1) {
+                throw new SplendorGameRuleException("You can only take two of the same token type if you're taking only that type");
+            }
+
+            if (tokenToAdd.getKey().equals(Token.GOLD) && tokenToAdd.getValue() != 0){
+                throw new SplendorGameRuleException("You cannot take a gold token");
+            }
+        }
     }
 
     public void returnTokens(Purse totalReturnTokens) {

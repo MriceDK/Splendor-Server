@@ -109,6 +109,20 @@ public class Purse {
         return res;
     }
 
+    public List<Token> getAvailableTokensList() {
+        List<Token> res = new ArrayList<>();
+
+        tokens.forEach((token, value) -> {
+
+            if (value > 0) {
+                res.add(token);
+            }
+
+        });
+
+        return res;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -123,8 +137,16 @@ public class Purse {
 
     @Override
     public String toString() {
-        return tokens.toString();
+        List<Token> availableTokens = getAvailableTokensList();
+        availableTokens.sort(new TokenAlphabeticalOrder());
 
+        List<String> allTokens = new ArrayList<>();
+
+        for (Token token : availableTokens) {
+            allTokens.add(getTokenValue(token) + " " + token.toDisplayName());
+        }
+
+        return String.join(" | ", allTokens);
     }
 
     public static Map<String, Integer> toMapStringInteger(Map<Token, Integer> tokens) {

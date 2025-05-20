@@ -372,6 +372,36 @@ class SplendorGameTest {
         assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
     }
 
+    @Test
+    void errorWhenTryingToTakeOnlyGold(){
+        lobby.addPlayer("Alice");
+        lobby.addPlayer("Bob");
+
+        SplendorGame game = new SplendorGame(lobby);
+        Purse requested = new Purse();
+
+        requested.addTokens(new Purse(Map.of(Token.GOLD, 2)));
+
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+        assertEquals(5, game.getTokenBank().getTokenValue(Token.GOLD));
+
+    }
+
+    @Test
+    void errorWhenTryingToTakeGoldAndOthers(){
+        lobby.addPlayer("Alice");
+        lobby.addPlayer("Bob");
+
+        SplendorGame game = new SplendorGame(lobby);
+        Purse requested = new Purse();
+
+        requested.addTokens(new Purse(Map.of(Token.GOLD, 1, Token.DIAMOND, 1, Token.EMERALD, 1)));
+
+        assertThrows(SplendorGameRuleException.class, () -> game.acquireTokens(game.getCurrentPlayer(), requested));
+        assertEquals(5, game.getTokenBank().getTokenValue(Token.GOLD));
+
+    }
+
 
     @Test
     void buyReservedDevelopmentGood() {
@@ -483,4 +513,136 @@ class SplendorGameTest {
         assertEquals(gameStateErrorMessage ,ex6.getMessage());
 
     }
+
+    @Test
+    public void acquireTokensGetsLogged() {
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.SAPPHIRE, 1, Token.EMERALD, 1, Token.ONYX, 1)));
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
+        assertEquals("took 2 Sapphire", startedGame.getHistory().getLogs().getFirst().getAction());
+
+        assertEquals("Gert", startedGame.getHistory().getLogs().getLast().getPlayerName());
+        assertEquals("took 1 Emerald | 1 Onyx | 1 Sapphire", startedGame.getHistory().getLogs().getLast().getAction());
+    }
+
+    @Test
+    public void buyDevelopmentGetsLogged() {
+        Development developmentToBuy = startedGame.getMarket().getVisibleDevelopments(1).getFirst();
+        startedGame.getCurrentPlayer().getTokens().addTokens(developmentToBuy.cost());
+
+        startedGame.buyDevelopment(developmentToBuy.cost(), developmentToBuy.name(), alice);
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
+        assertEquals("bought development " + developmentToBuy + " for " + developmentToBuy.cost(), startedGame.getHistory().getLogs().getFirst().getAction());
+    }
+
+    @Test
+    public void reserveDevelopmentGetsLogged() {
+        Development firstDevelopmentToReserve = startedGame.getMarket().getVisibleDevelopments(1).getFirst();
+        Development secondDevelopmentToReserve = startedGame.getMarket().getVisibleDevelopments(2).getFirst();
+
+        startedGame.reserveDevelopment(firstDevelopmentToReserve.name(), alice);
+        startedGame.reserveDevelopment(secondDevelopmentToReserve.name(), gert);
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
+        assertEquals("reserved development " + firstDevelopmentToReserve, startedGame.getHistory().getLogs().getFirst().getAction());
+
+        assertEquals("Gert", startedGame.getHistory().getLogs().getLast().getPlayerName());
+        assertEquals("reserved development " + secondDevelopmentToReserve, startedGame.getHistory().getLogs().getLast().getAction());
+    }
+
+    @Test
+    public void reserveDevelopmentFromLevelGetsLogged() {
+        startedGame.reserveDevelopmentFromLevel(1, alice);
+        startedGame.reserveDevelopmentFromLevel(1, gert);
+
+        Development firstReservedDevelopment = alice.getReservedDevelopments().getFirst();
+        Development secondReservedDevelopment = gert.getReservedDevelopments().getFirst();
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().getFirst().getPlayerName());
+        assertEquals("reserved the top development from level " + firstReservedDevelopment.level() + " stack", startedGame.getHistory().getLogs().getFirst().getAction());
+
+        assertEquals("Gert", startedGame.getHistory().getLogs().getLast().getPlayerName());
+        assertEquals("reserved the top development from level " + secondReservedDevelopment.level() + " stack", startedGame.getHistory().getLogs().getLast().getAction());
+    }
+
+    @Test
+    public void buyReservedDevelopmentGetsLogged() {
+        Development firstDevelopmentToReserve = startedGame.getMarket().getVisibleDevelopments(1).getFirst();
+        Development secondDevelopmentToReserve = startedGame.getMarket().getVisibleDevelopments(2).getFirst();
+
+        startedGame.reserveDevelopment(firstDevelopmentToReserve.name(), alice);
+        startedGame.reserveDevelopment(secondDevelopmentToReserve.name(), gert);
+
+        alice.getTokens().addTokens(firstDevelopmentToReserve.cost());
+        gert.getTokens().addTokens(secondDevelopmentToReserve.cost());
+
+        startedGame.buyReservedDevelopment(firstDevelopmentToReserve.cost(), firstDevelopmentToReserve.name(), alice);
+        startedGame.buyReservedDevelopment(secondDevelopmentToReserve.cost(), secondDevelopmentToReserve.name(), gert);
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().get(2).getPlayerName());
+        assertEquals("bought reserved development " + firstDevelopmentToReserve + " for " + firstDevelopmentToReserve.cost(), startedGame.getHistory().getLogs().get(2).getAction());
+
+        assertEquals("Gert", startedGame.getHistory().getLogs().get(3).getPlayerName());
+        assertEquals("bought reserved development " + secondDevelopmentToReserve + " for " + secondDevelopmentToReserve.cost(), startedGame.getHistory().getLogs().get(3).getAction());
+    }
+
+    @Test
+    public void returnTokensGetsLogged() {
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1)));
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.ONYX, 2)));
+        startedGame.acquireTokens(gert, new Purse(Map.of(Token.RUBY, 2)));
+
+        startedGame.reserveDevelopmentFromLevel(1, alice);
+        startedGame.reserveDevelopmentFromLevel(1, gert);
+        startedGame.reserveDevelopmentFromLevel(1, alice);
+        startedGame.reserveDevelopmentFromLevel(1, gert);
+        startedGame.reserveDevelopmentFromLevel(1, alice);
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().get(11).getPlayerName());
+        assertEquals("has too many tokens. Waiting for player to return tokens...", startedGame.getHistory().getLogs().get(11).getAction());
+
+        startedGame.returnTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1)));
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().get(12).getPlayerName());
+        assertEquals("returned 1 Sapphire to the token bank", startedGame.getHistory().getLogs().get(12).getAction());
+    }
+
+    @Test
+    public void acquireNobleGetsLogged() {
+        Noble nobleToAcquire = new ArrayList<>(startedGame.getUnclaimedNobles()).getFirst();
+        alice.getBonuses().addTokens(nobleToAcquire.neededBonuses());
+
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1)));
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().get(1).getPlayerName());
+        assertEquals("got visited by noble '" + nobleToAcquire.name() + "'", startedGame.getHistory().getLogs().get(1).getAction());
+    }
+
+    @Test
+    public void playerHavingToChooseNobleGetsLogged() {
+        Noble firstNobleToAcquire = new ArrayList<>(startedGame.getUnclaimedNobles()).getFirst();
+        Noble secondNobleToAcquire = new ArrayList<>(startedGame.getUnclaimedNobles()).get(1);
+
+        alice.getBonuses().addTokens(firstNobleToAcquire.neededBonuses());
+        alice.getBonuses().addTokens(secondNobleToAcquire.neededBonuses());
+
+        startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1)));
+
+        assertEquals("Alice", startedGame.getHistory().getLogs().get(1).getPlayerName());
+        assertEquals("needs to choose a noble...", startedGame.getHistory().getLogs().get(1).getAction());
+    }
+
+    @Test
+    public void winnerHasBeenFoundGetsLogged() {
+        calculateWinner();
+
+        assertEquals("Gert", startedGame.getHistory().getLogs().getLast().getPlayerName());
+        assertEquals("has won the game!", startedGame.getHistory().getLogs().getLast().getAction());
+    }
+
 }
