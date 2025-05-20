@@ -159,15 +159,13 @@ public class GameManager implements SplendorService {
     @Override
     public Player updateTokens(boolean takeOrReturn, int gameId, String playerName, Purse tokensToChange) {
         SplendorGame game = findStartedGame(gameId);
-        Player player = game.findPlayer(playerName);
 
         if (takeOrReturn) {
-            game.acquireTokens(player, tokensToChange);
-        } else {
-            game.returnTokens(player, tokensToChange);
+            return game.acquireTokens(playerName, tokensToChange);
         }
+        return game.returnTokens(playerName, tokensToChange);
 
-        return player;
+
 
     }
 
@@ -192,8 +190,6 @@ public class GameManager implements SplendorService {
     @Override
     public Noble chooseNoble(int gameId, String playerName, Noble noble) {
         SplendorGame game = findStartedGame(gameId);
-        Player player = game.findPlayer(playerName);
-
         return game.chooseNoble(playerName, noble);
     }
 
