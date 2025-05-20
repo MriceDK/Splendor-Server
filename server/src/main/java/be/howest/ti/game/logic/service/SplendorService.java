@@ -28,8 +28,6 @@ public interface SplendorService {
 
     SplendorGame findStartedGame(int gameId);
 
-    List<Development> getAllDevelopments();
-
     Player buyReservedDevelopment(int gameId, String playerName, String DevelopmentName, Purse payment);
 
     Player updateTokens(boolean takeOrReturn, int game, String playerName, Purse purse);
