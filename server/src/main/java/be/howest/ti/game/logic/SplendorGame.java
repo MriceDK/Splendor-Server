@@ -71,6 +71,7 @@ public class SplendorGame extends GameSuperclass {
         currentPlayer = getNextPlayer();
         startTurn();
     }
+
     public boolean getIsLastRound() {
         return isLastRound;
     }
