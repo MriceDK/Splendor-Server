@@ -100,4 +100,11 @@ class PurseTest {
         assertEquals(2, filledPurse.getTokens().get(Token.RUBY));
         assertEquals(2, filledPurse.getTokens().get(Token.SAPPHIRE));
     }
+
+    @Test
+    public void testToString() {
+        Purse tokens = new Purse(Map.of(Token.ONYX, 2, Token.EMERALD, 3));
+
+        assertEquals("3 Emerald | 2 Onyx", tokens.toString());
+    }
 }
