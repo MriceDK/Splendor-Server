@@ -10,7 +10,6 @@ public class Player {
     private static final int MAX_DIFFERENT_TOKENS = 3;
     private static final int MAX_OF_SAME_TOKEN = 2;
     private final String name;
-    public Object getPrestigePoints;
     private Purse tokens;
     private Purse bonuses;
     private Set<Noble> acquiredNobles; // TODO make final
