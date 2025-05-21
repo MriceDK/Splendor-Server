@@ -15,6 +15,9 @@ import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
 import be.howest.ti.game.web.views.request.manager.*;
 import be.howest.ti.game.web.views.request.operations.*;
+import be.howest.ti.game.web.views.response.JoinSpectateGameResponse;
+import be.howest.ti.game.web.views.response.LeaveGameResponse;
+import be.howest.ti.game.web.views.response.SpectateGameResponse;
 import be.howest.ti.game.web.views.response.manager.*;
 import be.howest.ti.game.web.views.response.operations.*;
 
