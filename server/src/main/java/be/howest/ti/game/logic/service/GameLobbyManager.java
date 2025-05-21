@@ -78,27 +78,18 @@ public class GameLobbyManager {
         }
     }
 
-    @Override
     public void leaveGame(GameSuperclass game, String playerName) {
         game.removePlayer(playerName);
         if (game.hasStarted()) {
-//            try {
-//                TimeUnit.MINUTES.sleep(1);
-//            } catch (InterruptedException e) {
-//                // The code ensures that if the thread is interrupted while sleeping, the interrupted status is restored
-//                Thread.currentThread().interrupt();
-//            }
 //            TODO: discuss what we should do after a player leaves a game
             removeGame(game.getGameId());
         }
     }
 
-    @Override
     public void spectateLobby(GameSuperclass game, String spectatorName) {
         game.addSpectator(spectatorName);
     }
 
-    @Override
     public void leaveSpectate(GameSuperclass game, String spectatorName) {
         game.removeSpectator(spectatorName);
     }
