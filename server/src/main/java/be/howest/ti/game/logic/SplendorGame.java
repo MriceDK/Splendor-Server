@@ -26,6 +26,7 @@ public class SplendorGame extends GameSuperclass {
     private final Market market;
     private Player currentPlayer;
     private GameState gameState;
+    private boolean isLastRound;
     private Player winner;
     private final Logger history;
 
@@ -39,6 +40,7 @@ public class SplendorGame extends GameSuperclass {
         this.tokenBank = generateTokenBank();
         this.unclaimedNobles = setUnclaimedNobles();
         this.gameState = GameState.TURN_ACTION;
+        this.isLastRound = false;
         this.winner = null;
         history = new Logger();
     }
@@ -53,15 +55,24 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public void endTurn() {
-        setGameState(GameState.TURN_ACTION);
-        currentPlayer = getNextPlayer();
-
-        if (currentPlayer.isWinnerWorthy()) {
+    public void startTurn(){
+        if (currentPlayer.isWinnerWorthy() && isLastRound) {
             setGameState(GameState.WINNER_FOUND);
             winner = calculateWinner();
             history.log(new ActionReport(winner.getName(), "has won the game!"));
         }
+    }
+
+    public void endTurn() {
+        if (currentPlayer.isWinnerWorthy()) {
+            isLastRound = true;
+        }
+        setGameState(GameState.TURN_ACTION);
+        currentPlayer = getNextPlayer();
+        startTurn();
+    }
+    public boolean getIsLastRound() {
+        return isLastRound;
     }
 
     private Player calculateWinner() {

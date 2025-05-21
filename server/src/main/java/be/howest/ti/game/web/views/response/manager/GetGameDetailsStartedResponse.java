@@ -82,6 +82,9 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
 
         return res;
     }
+    public boolean isLastRound() {
+        return startedGame.getIsLastRound();
+    }
 
 
 }
