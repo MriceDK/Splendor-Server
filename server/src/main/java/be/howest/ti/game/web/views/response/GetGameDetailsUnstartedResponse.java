@@ -23,9 +23,4 @@ public class GetGameDetailsUnstartedResponse extends GetGameDetailsResponse {
 
         return res;
     }
-
-    public List<String> getSpectators() {
-        return unstartedGame().getSpectators();
-    }
-
 }
