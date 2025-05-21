@@ -183,8 +183,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             if (!parsedToken.getPlayerName().equals(request.getPlayerName())) {
                 throw new ForbiddenAccessException("Unauthorized");
             }
+
+            boolean hasStarted = service.findGame(gameId).hasStarted();
             service.leaveGame(service.findGame(gameId), playerName);
-            return new LeaveGameResponse(gameId, playerName, service.findGame(gameId).hasStarted());
+            return new LeaveGameResponse(gameId, playerName, hasStarted);
         }
 
         if (!request.getWantsToLeave() && request.getIsSpectator()) {
