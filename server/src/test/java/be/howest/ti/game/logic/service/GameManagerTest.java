@@ -173,7 +173,7 @@ class GameManagerTest {
         service.spectateLobby(service.findLobby(0), "Spectator1");
         service.leaveSpectate(service.findLobby(0), "Spectator1");
 
-        assertThrows(IllegalArgumentException.class, () -> service.leaveSpectate(service.findLobby(0), "Spectator1"));
+        assertThrows(IllegalStateException.class, () -> service.leaveSpectate(service.findLobby(0), "Spectator1"));
     }
 
     @Test
@@ -195,7 +195,7 @@ class GameManagerTest {
         service.joinLobby(service.findLobby(0), "AliceInChains");
         service.leaveGame(service.findLobby(0), "AliceInChains");
 
-        assertThrows(IllegalArgumentException.class, () -> service.leaveGame(service.findLobby(0), "AliceInChains"));
+        assertThrows(IllegalStateException.class, () -> service.leaveGame(service.findLobby(0), "AliceInChains"));
     }
 
     @Test
