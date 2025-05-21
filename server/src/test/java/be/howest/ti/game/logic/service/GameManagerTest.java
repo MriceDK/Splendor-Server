@@ -155,7 +155,7 @@ class GameManagerTest {
     }
 
     @Test
-    public void RemoveSpectator() {
+    public void removeSpectator() {
         service.createLobby(4, "John", "game-01");
         service.createLobby(4, "John", "game-02");
 
@@ -166,7 +166,7 @@ class GameManagerTest {
     }
 
     @Test
-    public void RemoveSpectatorNotFound() {
+    public void removeSpectatorNotFound() {
         service.createLobby(4, "John", "game-01");
         service.createLobby(4, "John", "game-02");
 
