@@ -68,9 +68,8 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
 
     public void removePlayer(String playerName) {
         Player playerToRemove = new Player(playerName);
-
         if (!players.contains(playerToRemove)) {
-            throw new IllegalArgumentException("The player is not in the game.");
+            throw new IllegalStateException("The player is not in the game.");
         }
         players.remove(playerToRemove);
     }
@@ -95,7 +94,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
 
     public void removeSpectator(String spectatorName) {
         if (!spectators.contains(spectatorName)) {
-            throw new IllegalArgumentException("The spectator is not in the game.");
+            throw new IllegalStateException("The spectator is not in the game.");
         }
         spectators.remove(spectatorName);
     }
