@@ -1,19 +1,22 @@
 package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.*;
-import be.howest.ti.game.logic.service.GameManager;
+import be.howest.ti.game.logic.service.GameLobbyManager;
 import be.howest.ti.game.logic.service.GameOperations;
 import be.howest.ti.game.logic.service.SplendorService;
+import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.JsonWebToken;
 //import be.howest.ti.game.web.tokens.PlainTextTokens;
 // Import only to be used when working with PlainTextTokens instead of JsonWebToken
 import be.howest.ti.game.web.tokens.SplendorHTTPPlayer;
 import be.howest.ti.game.util.Config;
-import be.howest.ti.game.web.tokens.PlainTextTokens;
 import be.howest.ti.game.web.tokens.TokenManager;
 import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
-import be.howest.ti.game.web.views.response.*;
+import be.howest.ti.game.web.views.request.manager.*;
+import be.howest.ti.game.web.views.request.operations.*;
+import be.howest.ti.game.web.views.response.manager.*;
+import be.howest.ti.game.web.views.response.operations.*;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -23,7 +26,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     private final Supplier<SplendorService> serviceFactory;
 
     public SplendorOpenApiBridge() {
-        this(GameManager::new, new JsonWebToken());
+        this(SplendorServiceImpl::new, new JsonWebToken());
     }
 
     // Factory needed to differentiate between group-tokens, can be simplified with a single service in the student version.
@@ -164,10 +167,6 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     //endregion
 
     //region Player Resources operations
-    @Operation("get-player-details")
-    public NotYetImplementedResponse getPlayerDetails(BaseSplendorRequest request) {
-        return new NotYetImplementedResponse("get-player-details");
-    }
 
     //endregion
 
@@ -183,19 +182,12 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
         }
 
-        String playername = request.getPlayerName();
+        String playerName = request.getPlayerName();
         int gameId = request.getGameId();
         boolean takeOrReturn = request.addOrReturnCheck();
         Map<Token, Integer> tokensToChange = request.getTokensToAdd();
+        Player player = service.updateTokens(takeOrReturn, gameId, playerName, new Purse(tokensToChange));
 
-        SplendorGame game = service.findStartedGame(gameId);
-        Player player = game.findPlayer(playername);
-
-        if (takeOrReturn) {
-            game.acquireTokens(player, new Purse(tokensToChange));
-        } else {
-            game.returnTokens(player, new Purse(tokensToChange));
-        }
         return new UpdateTokensResponse(player.getTokens());
 
     }
@@ -212,9 +204,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
         }
 
-        SplendorGame game = service.findStartedGame(request.getGameId());
-        Player player = game.findPlayer(request.getPlayerName());
-        game.buyDevelopment(request.getPayment(), request.getDevelopmentName() , player);
+        Player player = service.buyDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPayment());
         PlayerInListView activePlayerView = new PlayerInListView(player);
         return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayerView.getTokens());
 
@@ -243,14 +233,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
         }
 
-        SplendorGame game = service.findStartedGame(request.getGameId());
-        Player player = game.findPlayer(request.getPlayerName());
-
         if (name != null) {
-            game.reserveDevelopment(name, player);
+            Player player = service.reserveDevelopment(request.getGameId(), request.getPlayerName(), name);
             return new ReserveDevelopmentResponse(player.getReservedDevelopments(), player.getTokens());
         } else if (0 < level && level <= 3) {
-            game.reserveDevelopmentFromLevel(level, player);
+            Player player = service.reserveDevelopmentFromLevel(request.getGameId(), request.getPlayerName(), level);
             return new ReserveDevelopmentResponse(player.getReservedDevelopments(), player.getTokens());
         } else throw new IllegalArgumentException("Please provide a valid level (1-3) or a development name");
     }
@@ -269,16 +256,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public ChooseNobleResponse chooseNoble(ChooseNobleRequest request) {
         SplendorService service = getService(request);
 
-        int gameId = request.getGameId();
-
-        SplendorGame game = service.findStartedGame(gameId);
-
-        Player player = game.findPlayer(request.getPlayerName());
-
-        Purse bonusPurse = request.getNeededBonuses();
-        Noble noble = new Noble(request.getNobleName(), request.getPrestigePoints(), bonusPurse);
-
-        Noble chosenNoble = game.chooseNoble(player, noble);
+        Noble chosenNoble = service.chooseNoble(request.getGameId(), request.getPlayerName(), new Noble(request.getNobleName(), request.getPrestigePoints(), request.getNeededBonuses()));
 
         return new ChooseNobleResponse(chosenNoble);
     }

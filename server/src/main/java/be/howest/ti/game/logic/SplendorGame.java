@@ -83,10 +83,6 @@ public class SplendorGame extends GameSuperclass {
         this.gameState = gameState;
     }
 
-    private void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
     public Market getMarket() {
         return market;
     }
@@ -111,16 +107,16 @@ public class SplendorGame extends GameSuperclass {
 
     public void buyDevelopment(Purse payment, String developmentName, Player player){
         checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
+        playerTurnChecker(player);
 
-        if (playerTurnChecker(player)){
-            Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
-            player.buyDevelopment(market.removeVisibleDevelopment(development), payment);
-            market.refillMarket(development.level());
-            tokenBank.addTokens(payment);
+        Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
+        player.buyDevelopment(market.removeVisibleDevelopment(development), payment);
 
-            history.log(new ActionReport(currentPlayer.getName(), "bought development " + development + " for " + payment));
-            endPhaseOfTurn(true);
-        }
+        market.refillMarket(development.level());
+        tokenBank.addTokens(payment);
+
+        history.log(new ActionReport(currentPlayer.getName(), "bought development " + development + " for " + payment));
+        endPhaseOfTurn(true);
     }
 
     private void endPhaseOfTurn(boolean tokenOverflowShouldBeChecked) {
@@ -140,31 +136,33 @@ public class SplendorGame extends GameSuperclass {
 
     public void reserveDevelopment(String developmentName, Player player){
         checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
+        playerTurnChecker(player);
 
-        if (playerTurnChecker(player)) {
-            Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
-            player.reserveDevelopment(market.removeVisibleDevelopment(development));
-            market.refillMarket(development.level());
-            givePlayerGoldTokenIfPossible(player);
+        Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
+        player.reserveDevelopment(market.removeVisibleDevelopment(development));
 
-            history.log(new ActionReport(currentPlayer.getName(), "reserved development " + development));
-            endPhaseOfTurn(true);
+        market.refillMarket(development.level());
 
-        }
+        givePlayerGoldTokenIfPossible(player);
+
+        history.log(new ActionReport(currentPlayer.getName(), "reserved development " + development));
+        endPhaseOfTurn(true);
+
     }
 
     public void buyReservedDevelopment(Purse payment, String developmentName, Player player){
         checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
+        playerTurnChecker(player);
 
-        if (playerTurnChecker(player)){
-            Development development = player.findDevelopmentInReservedDevelopments(developmentName);
-            player.buyDevelopment(development, payment);
-            player.removeReservedDevelopment(development);
-            tokenBank.addTokens(payment);
+        Development development = player.findDevelopmentInReservedDevelopments(developmentName);
+        player.buyDevelopment(development, payment);
+        player.removeReservedDevelopment(development);
 
-            history.log(new ActionReport(currentPlayer.getName(), "bought reserved development " + development + " for " + payment));
-            endPhaseOfTurn(false);
-        }
+        tokenBank.addTokens(payment);
+
+        history.log(new ActionReport(currentPlayer.getName(), "bought reserved development " + development + " for " + payment));
+        endPhaseOfTurn(false);
+
     }
 
     private void givePlayerGoldTokenIfPossible(Player player) {
@@ -176,15 +174,14 @@ public class SplendorGame extends GameSuperclass {
 
     public void reserveDevelopmentFromLevel(int level, Player player){
         checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
+        playerTurnChecker(player);
 
-        if (playerTurnChecker(player)) {
-            player.reserveDevelopment(market.takeTopDevelopment(level));
-            givePlayerGoldTokenIfPossible(player);
+        player.reserveDevelopment(market.takeTopDevelopment(level));
+        givePlayerGoldTokenIfPossible(player);
 
-            history.log(new ActionReport(currentPlayer.getName(), "reserved the top development from level " + level + " stack"));
-            endPhaseOfTurn(true);
+        history.log(new ActionReport(currentPlayer.getName(), "reserved the top development from level " + level + " stack"));
+        endPhaseOfTurn(true);
 
-        }
     }
 
     public boolean executeNobleClaimChecker() {
@@ -232,28 +229,25 @@ public class SplendorGame extends GameSuperclass {
         return noble;
     }
 
-    public Noble acquireNoble(Noble noble) {
+    public void acquireNoble(Noble noble) {
         currentPlayer.claimNoble(noble);
         unclaimedNobles.remove(noble);
         history.log(new ActionReport(currentPlayer.getName(), "got visited by noble '" + noble.name() + "'"));
-        return noble;
     }
 
     public void acquireTokens(Player player, Purse tokens){
         checkIfActionCanBeCarriedOut(GameState.TURN_ACTION);
+        playerTurnChecker(player);
 
-        if(playerTurnChecker(player)){
+        int sizeOfTokensToAcquire = tokens.getAvailableTokens().size();
+        tokenBankRuleCheck(tokens);
 
-            int sizeOfTokensToAcquire = tokens.getAvailableTokens().size();
-            tokenBankRuleCheck(tokens);
+        player.acquireTokens(tokens, sizeOfTokensToAcquire);
+        tokenBank.removeTokens(tokens);
 
-            player.acquireTokens(tokens, sizeOfTokensToAcquire);
-            tokenBank.removeTokens(tokens);
+        history.log(new ActionReport(currentPlayer.getName(), "took " + tokens));
+        endPhaseOfTurn(true);
 
-            history.log(new ActionReport(currentPlayer.getName(), "took " + tokens));
-            endPhaseOfTurn(true);
-
-        }
     }
 
     private void tokenBankRuleCheck(Purse tokensToAcquire){
@@ -264,25 +258,21 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public boolean playerTurnChecker(Player player) {
+    public void playerTurnChecker(Player player) {
         if (!player.equals(currentPlayer)) {
             throw new SplendorGameRuleException("It's not this player's turn");
-        } else {
-            return true;
         }
     }
 
     public void returnTokens(Player player, Purse tokensToReturn) {
         checkIfActionCanBeCarriedOut(GameState.RETURN_GEMS);
+        playerTurnChecker(player);
 
-        if (playerTurnChecker(player)) {
-            player.returnTokens(tokensToReturn);
-            tokenBank.addTokens(tokensToReturn);
+        player.returnTokens(tokensToReturn);
+        tokenBank.addTokens(tokensToReturn);
 
-            history.log(new ActionReport(currentPlayer.getName(), "returned " + tokensToReturn + " to the token bank"));
-            endPhaseOfTurn(false);
-        }
-
+        history.log(new ActionReport(currentPlayer.getName(), "returned " + tokensToReturn + " to the token bank"));
+        endPhaseOfTurn(false);
     }
 
     public Set<Noble> setUnclaimedNobles() {
