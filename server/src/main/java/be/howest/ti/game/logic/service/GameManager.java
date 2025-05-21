@@ -84,17 +84,15 @@ public class GameManager implements SplendorService {
 
     @Override
     public void leaveGame(GameSuperclass game, String playerName) {
-        if (game instanceof GameLobby) {
-            game.removePlayer(playerName);
-        } else {
-            game.removePlayer(playerName);
+        game.removePlayer(playerName);
+        if (game.hasStarted()) {
 //            try {
 //                TimeUnit.MINUTES.sleep(1);
 //            } catch (InterruptedException e) {
 //                // The code ensures that if the thread is interrupted while sleeping, the interrupted status is restored
 //                Thread.currentThread().interrupt();
 //            }
-//            // TODO: discuss what we should do after a player leaves a game
+//            TODO: discuss what we should do after a player leaves a game
             removeGame(game.getGameId());
         }
     }
