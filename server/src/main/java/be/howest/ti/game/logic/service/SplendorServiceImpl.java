@@ -30,6 +30,21 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
+    public void spectateLobby(GameSuperclass game, String spectatorName) {
+        lobbyManager.spectateLobby(game, spectatorName);
+    }
+
+    @Override
+    public void leaveSpectate(GameSuperclass game, String spectatorName) {
+        lobbyManager.leaveSpectate(game, spectatorName);
+    }
+
+    @Override
+    public void leaveGame(GameSuperclass game, String playerName) {
+        lobbyManager.leaveGame(game, playerName);
+    }
+
+    @Override
     public GameLobby createLobby(int maxPlayers, String creatorName) {
         return lobbyManager.createLobby(maxPlayers, creatorName);
     }
