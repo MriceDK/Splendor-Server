@@ -22,7 +22,7 @@ class PlayerTest {
     }
 
     @Test
-    void returnTokensWhenPossible() {
+    public void returnTokensWhenPossible() {
         Player player = new Player("Zelensky");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.DIAMOND, 5);
@@ -44,7 +44,7 @@ class PlayerTest {
     }
 
     @Test
-    void returnTokensWhenLessThan10Tokens() {
+    public void returnTokensWhenLessThan10Tokens() {
         Player player = new Player("Trump");
 
         Map<Token, Integer> initialTokens = new HashMap<>();
@@ -62,7 +62,7 @@ class PlayerTest {
     }
 
     @Test
-    void returnTokensWhenStillMoreThan10Tokens() {
+    public void returnTokensWhenStillMoreThan10Tokens() {
         Player player = new Player("Bart De Wever");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.ONYX, 4);
@@ -80,7 +80,7 @@ class PlayerTest {
     }
 
     @Test
-    void returnTokensWhenResultIsLessThen0() {
+    public void returnTokensWhenResultIsLessThen0() {
         Player player = new Player("Macron");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.DIAMOND, 3);
@@ -97,7 +97,7 @@ class PlayerTest {
     }
 
     @Test
-    void returnTokensUntilMaxTenTokens() {
+    public void returnTokensUntilMaxTenTokens() {
         Player player = new Player("Mark Rutte");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.DIAMOND, 3);
