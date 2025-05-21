@@ -489,6 +489,15 @@ class SplendorGameTest {
 
         // The second player claimed a noble, and is now a possible winner
         // Last round activated
+        if (startedGame.getGameState().equals(GameState.CHOOSE_NOBLE)) {
+            List<Noble> nobles = new ArrayList<>(startedGame.getUnclaimedNobles());
+            try {
+                startedGame.chooseNoble(gert, nobles.getFirst());
+            } catch (SplendorGameRuleException e) {
+                startedGame.chooseNoble(gert, nobles.getLast());
+            }
+
+        }
 
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 2)));
 
