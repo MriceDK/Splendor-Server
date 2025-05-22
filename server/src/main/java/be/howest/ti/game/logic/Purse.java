@@ -7,17 +7,17 @@ import java.util.*;
 
 public class Purse {
 
-    private final Map<Token, Integer> tokens;
+    private final EnumMap<Token, Integer> tokens;
 
     public Purse() {
-        this.tokens = new HashMap<>();
+        this.tokens = new EnumMap<>(Token.class);
         for (Token token : Token.values()) {
             this.tokens.put(token, 0);
         }
     }
 
     public Purse(Map<Token, Integer> tokens) {
-        this.tokens = new HashMap<>(tokens);
+        this.tokens = new EnumMap<>(tokens);
         for (Token token : Token.values()) {
             this.tokens.putIfAbsent(token, 0);
         }
@@ -32,7 +32,7 @@ public class Purse {
     }
 
     public Map<Token, Integer> getNormalTokens() {
-        Map<Token, Integer> res = new HashMap<>();
+        Map<Token, Integer> res = new EnumMap<>(Token.class);
 
         tokens.forEach((token, value) -> {
             if (!token.equals(Token.GOLD)) {
@@ -97,7 +97,7 @@ public class Purse {
     }
 
     public Map<Token, Integer> getAvailableTokens() {
-        Map<Token, Integer> res = new HashMap<>();
+        Map<Token, Integer> res = new EnumMap<>(Token.class);
 
         tokens.forEach((token, value) -> {
 

@@ -5,10 +5,7 @@ import be.howest.ti.game.logic.order.implementations.PlayerPrestigePointsOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,18 +22,17 @@ class PlayerTest {
     @Test
     void returnTokensWhenPossible() {
         Player player = new Player("Zelensky");
-        Map<Token, Integer> initialTokens = new HashMap<>();
-        initialTokens.put(Token.DIAMOND, 5);
-        initialTokens.put(Token.RUBY, 4);
-        initialTokens.put(Token.EMERALD, 3);
-        player.getTokens().addTokens(new Purse(initialTokens));
+        Purse initialTokens = new Purse();
+        initialTokens.addToken(Token.DIAMOND, 5);
+        initialTokens.addToken(Token.RUBY, 4);
+        initialTokens.addToken(Token.EMERALD, 3);
+        player.getTokens().addTokens(initialTokens);
 
         assertEquals(12, player.getTokens().getTotal());
 
-        Map<Token, Integer> tokensToReturn = new HashMap<>();
-        tokensToReturn.put(Token.DIAMOND, 1);
-        tokensToReturn.put(Token.RUBY, 1);
-        Purse returnPurse = new Purse(tokensToReturn);
+        Purse returnPurse = new Purse();
+        returnPurse.addToken(Token.DIAMOND, 1);
+        returnPurse.addToken(Token.RUBY, 1);
 
         player.returnTokens(returnPurse);
 
@@ -48,11 +44,11 @@ class PlayerTest {
     void returnTokensWhenLessThan10Tokens() {
         Player player = new Player("Trump");
 
-        Map<Token, Integer> initialTokens = new HashMap<>();
-        initialTokens.put(Token.ONYX, 1);
-        initialTokens.put(Token.SAPPHIRE, 2);
-        initialTokens.put(Token.RUBY, 3);
-        player.getTokens().addTokens(new Purse(initialTokens));
+        Purse initialTokens = new Purse();
+        initialTokens.addToken(Token.ONYX, 1);
+        initialTokens.addToken(Token.SAPPHIRE, 2);
+        initialTokens.addToken(Token.RUBY, 3);
+        player.getTokens().addTokens(initialTokens);
 
         assertEquals(6, player.getTokens().getTotal());
 
@@ -65,13 +61,13 @@ class PlayerTest {
     @Test
     void returnTokensWhenStillMoreThan10Tokens() {
         Player player = new Player("Bart De Wever");
-        Map<Token, Integer> initialTokens = new HashMap<>();
-        initialTokens.put(Token.ONYX, 4);
-        initialTokens.put(Token.SAPPHIRE, 2);
-        initialTokens.put(Token.DIAMOND, 2);
-        initialTokens.put(Token.EMERALD, 3);
-        initialTokens.put(Token.RUBY, 3);
-        player.getTokens().addTokens(new Purse(initialTokens));
+        Purse initialTokens = new Purse();
+        initialTokens.addToken(Token.ONYX, 4);
+        initialTokens.addToken(Token.SAPPHIRE, 2);
+        initialTokens.addToken(Token.DIAMOND, 2);
+        initialTokens.addToken(Token.EMERALD, 3);
+        initialTokens.addToken(Token.RUBY, 3);
+        player.getTokens().addTokens(initialTokens);
 
         assertEquals(14, player.getTokens().getTotal());
 
@@ -83,12 +79,12 @@ class PlayerTest {
     @Test
     void returnTokensWhenResultIsLessThen0() {
         Player player = new Player("Macron");
-        Map<Token, Integer> initialTokens = new HashMap<>();
-        initialTokens.put(Token.DIAMOND, 3);
-        initialTokens.put(Token.RUBY, 2);
-        initialTokens.put(Token.EMERALD, 4);
-        initialTokens.put(Token.ONYX, 3);
-        player.getTokens().addTokens(new Purse(initialTokens));
+        Purse initialTokens = new Purse();
+        initialTokens.addToken(Token.DIAMOND, 3);
+        initialTokens.addToken(Token.RUBY, 2);
+        initialTokens.addToken(Token.EMERALD, 4);
+        initialTokens.addToken(Token.ONYX, 3);
+        player.getTokens().addTokens(initialTokens);
 
         assertEquals(12, player.getTokens().getTotal());
 
@@ -100,12 +96,12 @@ class PlayerTest {
     @Test
     void returnTokensUntilMaxTenTokens() {
         Player player = new Player("Mark Rutte");
-        Map<Token, Integer> initialTokens = new HashMap<>();
-        initialTokens.put(Token.DIAMOND, 3);
-        initialTokens.put(Token.RUBY, 2);
-        initialTokens.put(Token.EMERALD, 4);
-        initialTokens.put(Token.ONYX, 3);
-        player.getTokens().addTokens(new Purse(initialTokens));
+        Purse initialTokens = new Purse();
+        initialTokens.addToken(Token.DIAMOND, 3);
+        initialTokens.addToken(Token.RUBY, 2);
+        initialTokens.addToken(Token.EMERALD, 4);
+        initialTokens.addToken(Token.ONYX, 3);
+        player.getTokens().addTokens(initialTokens);
 
         assertEquals(12, player.getTokens().getTotal());
 

@@ -31,12 +31,12 @@ public class ChooseNobleRequest extends PaymentReceiver {
     }
 
     public Purse getNeededBonuses(){
-        Map<Token, Integer> mapToAdd = new HashMap<>();
+        Purse purse = new Purse();
         JsonObject jsonObjectToIterate = params.body().getJsonObject().getJsonObject("neededBonuses");
 
         getPayment(jsonObjectToIterate);
 
-        return new Purse(mapToAdd);
+        return purse;
     }
 
 }

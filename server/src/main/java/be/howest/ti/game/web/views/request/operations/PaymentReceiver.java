@@ -17,17 +17,17 @@ public class PaymentReceiver extends BaseSplendorRequest {
     }
 
     public Purse getPayment(JsonObject jsonObjectToIterate){
-        Map<Token, Integer> mapToAdd = new HashMap<>();
+        Purse purse = new Purse();
 
         for (Map.Entry<String, Object> paymentToken : jsonObjectToIterate){
 
             Token tokenToAdd = tokenTranslator(paymentToken);
             int valueToAdd = (Integer) paymentToken.getValue();
 
-            mapToAdd.put(tokenToAdd, valueToAdd);
+            purse.addToken(tokenToAdd, valueToAdd);
 
         }
-        return new Purse(mapToAdd);
+        return purse;
     }
 
     private static Token tokenTranslator(Map.Entry<String, Object> paymentToken) {

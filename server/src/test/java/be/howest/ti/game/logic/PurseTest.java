@@ -11,41 +11,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PurseTest {
 
-    private Map<Token, Integer> emptyTokenMap;
-    private Map<Token, Integer> startTokens;
     private Purse filledPurse;
     private Purse emptyPurse;
 
 
     @BeforeEach
     void setUp() {
-
-        emptyTokenMap = new HashMap<>();
-        emptyTokenMap.put(Token.DIAMOND, 0);
-        emptyTokenMap.put(Token.GOLD, 0);
-        emptyTokenMap.put(Token.EMERALD, 0);
-        emptyTokenMap.put(Token.ONYX, 0);
-        emptyTokenMap.put(Token.RUBY, 0);
-        emptyTokenMap.put(Token.SAPPHIRE, 0);
-
-
-        startTokens = new HashMap<>();
-        startTokens.put(Token.DIAMOND, 1);
-        startTokens.put(Token.GOLD, 2);
-        startTokens.put(Token.EMERALD, 3);
-        startTokens.put(Token.ONYX, 4);
-        startTokens.put(Token.RUBY, 5);
-        startTokens.put(Token.SAPPHIRE, 6);
-
+        filledPurse = new Purse();
+        filledPurse.addToken(Token.DIAMOND, 1);
+        filledPurse.addToken(Token.GOLD, 2);
+        filledPurse.addToken(Token.EMERALD, 3);
+        filledPurse.addToken(Token.ONYX, 4);
+        filledPurse.addToken(Token.RUBY, 5);
+        filledPurse.addToken(Token.SAPPHIRE, 6);
 
         emptyPurse = new Purse();
-        filledPurse = new Purse(startTokens);
-    }
-
-    @Test
-    void getTokens() {
-        assertEquals(emptyTokenMap, emptyPurse.getTokens());
-        assertEquals(startTokens, filledPurse.getTokens());
     }
 
     @Test
@@ -64,11 +44,11 @@ class PurseTest {
 
     @Test
     void addTokens() {
-        Map<Token, Integer> tokensToAdd = new HashMap<>();
-        tokensToAdd.put(Token.DIAMOND, 3);
-        tokensToAdd.put(Token.GOLD, 4);
+        Purse tokensToAdd = new Purse();
+        tokensToAdd.addToken(Token.DIAMOND, 3);
+        tokensToAdd.addToken(Token.GOLD, 4);
 
-        emptyPurse.addTokens(new Purse(tokensToAdd));
+        emptyPurse.addTokens(tokensToAdd);
         assertEquals(3, emptyPurse.getTokens().get(Token.DIAMOND));
         assertEquals(4, emptyPurse.getTokens().get(Token.GOLD));
         assertEquals(0, emptyPurse.getTokens().get(Token.EMERALD));
@@ -90,13 +70,13 @@ class PurseTest {
 
     @Test
     void removeTokens() {
-        Map<Token, Integer> tokensToRemove = new HashMap<>();
-        tokensToRemove.put(Token.RUBY, 3);
-        tokensToRemove.put(Token.SAPPHIRE, 4);
+        Purse tokensToRemove = new Purse();
+        tokensToRemove.addToken(Token.RUBY, 3);
+        tokensToRemove.addToken(Token.SAPPHIRE, 4);
 
-        assertThrows(SplendorGameRuleException.class, () -> emptyPurse.removeTokens(new Purse(tokensToRemove)));
+        assertThrows(SplendorGameRuleException.class, () -> emptyPurse.removeTokens(tokensToRemove));
 
-        filledPurse.removeTokens(new Purse(tokensToRemove));
+        filledPurse.removeTokens(tokensToRemove);
         assertEquals(2, filledPurse.getTokens().get(Token.RUBY));
         assertEquals(2, filledPurse.getTokens().get(Token.SAPPHIRE));
     }
