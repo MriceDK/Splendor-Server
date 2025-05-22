@@ -3,12 +3,12 @@ package be.howest.ti.game.logic;
 
 public class GameLobby extends GameSuperclass {
 
-    public GameLobby(int gameId, String gameName, int maxPlayers) {
-        super(gameId, gameName, maxPlayers);
+    public GameLobby(int gameId, String gameName, int maxPlayers, boolean privateGame) {
+        super(gameId, gameName, maxPlayers, privateGame);
     }
 
-    public GameLobby(int gameId, int maxPlayers) {
-        this(gameId, null, maxPlayers);
+    public GameLobby(int gameId, int maxPlayers, boolean privateGame) {
+        this(gameId, null, maxPlayers, privateGame);
     }
 
     public SplendorGame startGame() {
