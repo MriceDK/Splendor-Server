@@ -654,4 +654,26 @@ class SplendorGameTest {
         assertEquals("has won the game!", startedGame.getHistory().getLogs().getLast().getAction());
     }
 
+    @Test
+    public void lastRoundHasBeenStarted(){
+        startedGame.getCurrentPlayer().buyDevelopment(new Development("test", 3, 5, Token.ONYX, new Purse()), new Purse());
+        startedGame.getCurrentPlayer().buyDevelopment(new Development("test", 3, 5, Token.DIAMOND, new Purse()), new Purse());
+        startedGame.getCurrentPlayer().buyDevelopment(new Development("test", 3, 5, Token.DIAMOND, new Purse()), new Purse());
+
+        startedGame.endTurn();
+
+        assertTrue(startedGame.getIsLastRound());
+    }
+
+    @Test
+    public void IsNotLastRound(){
+        startedGame.getCurrentPlayer().buyDevelopment(new Development("test", 2, 2, Token.ONYX, new Purse()), new Purse());
+        startedGame.getCurrentPlayer().buyDevelopment(new Development("test", 1, 1, Token.DIAMOND, new Purse()), new Purse());
+        startedGame.getCurrentPlayer().buyDevelopment(new Development("test", 2, 3, Token.DIAMOND, new Purse()), new Purse());
+
+        startedGame.endTurn();
+        assertFalse(startedGame.getIsLastRound());
+
+    }
+
 }
