@@ -29,7 +29,7 @@ public class JsonWebToken implements TokenManager{
     // "jti" is a unique identifier for the token
     // "iat" is the time the token was issued
     public String createToken(SplendorHTTPPlayer user) {
-        String playerToken = JWT.create()
+        return JWT.create()
                 .withIssuer("TI-SplendorGameServer-Group-11")
                 .withClaim("jti", UUID.randomUUID().toString())
                 .withIssuedAt(Date.from(Instant.now()))
@@ -38,7 +38,6 @@ public class JsonWebToken implements TokenManager{
                 .withClaim("gameId", user.getGameId())
                 .withClaim("playerName", user.getPlayerName())
                 .sign(algorithm);
-        return playerToken;
     }
 
     // Generates a random secret token
