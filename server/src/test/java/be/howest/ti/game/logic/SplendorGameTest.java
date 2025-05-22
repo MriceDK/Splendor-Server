@@ -48,31 +48,25 @@ class SplendorGameTest {
 
     @Test
     void reserveDevelopment() {
-        lobby.addPlayer("Bobby");
-        SplendorGame startedGame = new SplendorGame(lobby);
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.findPlayer("Bobby"));
-        assertEquals(1,startedGame.getCurrentPlayer().getReservedDevelopments().size());
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.findPlayer("Alice"));
+        assertEquals(1,startedGame.findPlayer("Alice").getReservedDevelopments().size());
     }
 
     @Test
     void reserveDevelopmentFromLevel() {
-        lobby.addPlayer("Bobby");
-        SplendorGame startedGame = new SplendorGame(lobby);
-        startedGame.reserveDevelopmentFromLevel(1, startedGame.findPlayer("Bobby"));
-        assertEquals(1,startedGame.getCurrentPlayer().getReservedDevelopments().size());
+        startedGame.reserveDevelopmentFromLevel(1, startedGame.findPlayer("Alice"));
+        assertEquals(1,startedGame.findPlayer("Alice").getReservedDevelopments().size());
     }
 
     @Test
     void buyDevelopment() {
-        lobby.addPlayer("Bobby");
-        SplendorGame startedGame = new SplendorGame(lobby);
         Development firstDevelopment = startedGame.getMarket().getVisibleDevelopments(1).getFirst();
-        startedGame.getCurrentPlayer().getTokens().addTokens(firstDevelopment.cost());
+        startedGame.findPlayer("Alice").getTokens().addTokens(firstDevelopment.cost());
 
 
         Purse payment = firstDevelopment.cost();
-        startedGame.buyDevelopment(payment, startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.getCurrentPlayer());
-        assertEquals(1,startedGame.getCurrentPlayer().getBonuses().getTokens().get(firstDevelopment.bonus()));
+        startedGame.buyDevelopment(payment, startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), startedGame.findPlayer("Alice"));
+        assertEquals(1,startedGame.findPlayer("Alice").getBonuses().getTokens().get(firstDevelopment.bonus()));
     }
 
     @Test
