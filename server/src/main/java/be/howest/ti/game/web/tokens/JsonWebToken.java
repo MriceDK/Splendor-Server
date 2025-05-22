@@ -1,6 +1,7 @@
 package be.howest.ti.game.web.tokens;
 
 
+import be.howest.ti.game.web.ForbiddenAccessException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -75,10 +76,10 @@ public class JsonWebToken implements TokenManager{
                     .withIssuer("TI-SplendorGameServer-Group-11")
                     .build()
                     .verify(token).getClaims();
-        } catch (JWTVerificationException exception) {
-            //Invalid signature/claims
-            throw new InvalidTokenException();
+        } catch (JWTVerificationException e) {
+            throw new ForbiddenAccessException("Unauthorized : The token is invalid or expired");
         }
+
     }
 
     @Override

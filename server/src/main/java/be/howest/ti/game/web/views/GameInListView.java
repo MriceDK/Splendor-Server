@@ -42,6 +42,10 @@ public class GameInListView implements Comparable<GameInListView> {
         return game.getMaxPlayers();
     }
 
+    public List<String> getSpectators() {
+        return game.getSpectators();
+    }
+
     @Override
     public int compareTo(GameInListView o) {
         return this.game.getGameId() - o.game.getGameId();

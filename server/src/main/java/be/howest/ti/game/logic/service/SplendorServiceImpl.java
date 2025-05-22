@@ -6,62 +6,77 @@ import java.util.List;
 
 public class SplendorServiceImpl implements SplendorService {
 
-    private final GameLobbyManager lobbyManager;
+    private final GameLobbyManager gameLobbyManager;
     private final GameActionManager gameActionManager;
 
     public SplendorServiceImpl() {
-        this.lobbyManager = new GameLobbyManager();
-        this.gameActionManager = new GameActionManager(lobbyManager);
+        this.gameLobbyManager = new GameLobbyManager();
+        this.gameActionManager = new GameActionManager(gameLobbyManager);
     }
 
     @Override
     public GameLobby findLobby(int gameId) {
-        return lobbyManager.findLobby(gameId);
+        return gameLobbyManager.findLobby(gameId);
     }
 
     @Override
     public GameSuperclass findGame(int gameId) {
-        return lobbyManager.findGame(gameId);
+        return gameLobbyManager.findGame(gameId);
     }
 
     @Override
-    public void joinLobby(GameLobby lobby, String playerName) {
-        lobbyManager.joinLobby(lobby, playerName);
+    public void joinLobby(int gameId, String playerName) {
+        gameLobbyManager.joinLobby(findLobby(gameId), playerName);
+    }
+
+    @Override
+    public void spectateGame(int gameId, String spectatorName) {
+        gameLobbyManager.spectateLobby(findGame(gameId), spectatorName);
+    }
+
+    @Override
+    public void removeSpectator(int gameId, String spectatorName) {
+        gameLobbyManager.removeSpectator(findGame(gameId), spectatorName);
+    }
+
+    @Override
+    public void removePlayer(int gameId, String playerName) {
+        gameLobbyManager.removePlayer(findGame(gameId), playerName);
     }
 
     @Override
     public GameLobby createLobby(int maxPlayers, String creatorName) {
-        return lobbyManager.createLobby(maxPlayers, creatorName);
+        return gameLobbyManager.createLobby(maxPlayers, creatorName);
     }
 
     @Override
     public GameLobby createLobby(int maxPlayers, String creatorName, String gameName) {
-        return lobbyManager.createLobby(maxPlayers, creatorName, gameName);
+        return gameLobbyManager.createLobby(maxPlayers, creatorName, gameName);
     }
 
     @Override
     public List<GameSuperclass> getGames() {
-        return lobbyManager.getGames();
+        return gameLobbyManager.getGames();
     }
 
     @Override
     public List<GameSuperclass> getGames(boolean hasStarted) {
-        return lobbyManager.getGames(hasStarted);
+        return gameLobbyManager.getGames(hasStarted);
     }
 
     @Override
     public void removeGame(int gameId) {
-        lobbyManager.removeGame(gameId);
+        gameLobbyManager.removeGame(gameId);
     }
 
     @Override
     public List<GameSuperclass> removeGames() {
-        return lobbyManager.removeGames();
+        return gameLobbyManager.removeGames();
     }
 
     @Override
     public SplendorGame findStartedGame(int gameId) {
-        return lobbyManager.findStartedGame(gameId);
+        return gameLobbyManager.findStartedGame(gameId);
     }
 
     @Override

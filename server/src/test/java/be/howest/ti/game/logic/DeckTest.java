@@ -14,7 +14,7 @@ class DeckTest {
     private List<Development> developments;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         List<Development> developments = List.of(
                 new Development("Developement 1", 1, 1, null, null),
                 new Development("Developement 2", 1, 2, null, null),
@@ -29,7 +29,7 @@ class DeckTest {
     }
 
     @Test
-    void removeVisibleDevelopment() {
+    public void removeVisibleDevelopment() {
         Development firstVisible = l1.getVisibleDevelopments().getFirst();
         l1.removeVisibleDevelopment(firstVisible);
         assertFalse(l1.getVisibleDevelopments().contains(firstVisible));
@@ -37,14 +37,14 @@ class DeckTest {
     }
 
     @Test
-    void getTotalInvisible() {
+    public void getTotalInvisible() {
         assertEquals(2, l1.getTotalInvisible());
         Deck l2 = new Deck(List.of(), 1);
         assertThrows(SplendorGameResourceNotFoundException.class, l2::takeTopDevelopment);
     }
 
     @Test
-    void testRemoveVisibleDevelopmentString() {
+    public void testRemoveVisibleDevelopmentString() {
         Development firstVisible = l1.getVisibleDevelopments().getFirst();
         l1.removeVisibleDevelopment(firstVisible);
         assertFalse(l1.getVisibleDevelopments().contains(firstVisible));

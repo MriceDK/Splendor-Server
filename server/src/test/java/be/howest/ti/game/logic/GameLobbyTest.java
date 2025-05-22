@@ -38,7 +38,7 @@ class GameLobbyTest {
         lobby.addPlayer("John");
         lobby.addPlayer("Alice");
 
-        assertThrows(SplendorGameRuleException.class, () -> lobby.addPlayer("John"));
+        assertThrows(IllegalStateException.class, () -> lobby.addPlayer("John"));
         assertEquals(2, lobby.getTotalPlayers());
     }
 

@@ -5,6 +5,8 @@ import be.howest.ti.game.logic.GameSuperclass;
 import be.howest.ti.game.logic.SplendorGame;
 import be.howest.ti.game.web.views.response.AbstractResponseWithHiddenStatus;
 
+import java.util.List;
+
 public class GetGameDetailsResponse extends AbstractResponseWithHiddenStatus {
 
     private final GameSuperclass game;
@@ -36,6 +38,10 @@ public class GetGameDetailsResponse extends AbstractResponseWithHiddenStatus {
 
     public int getNumberOfPlayers() {
         return game.getMaxPlayers();
+    }
+
+    public List<String> getSpectators() {
+        return game.getSpectators();
     }
 
 }

@@ -106,7 +106,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void checkForNobleGood() {
+    public void checkForNobleGood() {
 
         lobby.addPlayer("Alice");
         lobby.addPlayer("John");
@@ -124,7 +124,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void checkForNobleBad() {
+    public void checkForNobleBad() {
         lobby.addPlayer("Alice");
         lobby.addPlayer("John");
         SplendorGame game = new SplendorGame(lobby);
@@ -140,7 +140,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void testAcquireValidTokens() {
+    public void testAcquireValidTokens() {
         lobby.addPlayer("Rutte");
         lobby.addPlayer("Francken");
         SplendorGame game = new SplendorGame(lobby);
@@ -154,7 +154,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void testAcquireTokensWrongPlayer() {
+    public void testAcquireTokensWrongPlayer() {
         lobby.addPlayer("Musk");
         lobby.addPlayer("Macron");
         SplendorGame game = new SplendorGame(lobby);
@@ -166,7 +166,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void testAcquireInvalidTokenCount() {
+    public void testAcquireInvalidTokenCount() {
         lobby.addPlayer("Vance");
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse();
@@ -177,7 +177,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void testAcquireTooManyTypes() {
+    public void testAcquireTooManyTypes() {
         lobby.addPlayer("PM Greenland");
         Purse requested = new Purse();
         SplendorGame game = new SplendorGame(lobby);
@@ -193,7 +193,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void acquiringTokensIsAllowedWhenGameStateIsTurnAction() {
+    public void acquiringTokensIsAllowedWhenGameStateIsTurnAction() {
         startedGame.acquireTokens(new Player("Alice"), new Purse(Map.of(Token.SAPPHIRE, 2)));
         startedGame.acquireTokens(new Player("Gert"), new Purse(Map.of(Token.RUBY, 2)));
 
@@ -201,7 +201,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void acquiringTokensIsNotAllowedWhenGameStateIsNotTurnAction() {
+    public void acquiringTokensIsNotAllowedWhenGameStateIsNotTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
@@ -222,7 +222,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void reservingDevelopmentIsAllowedWhenGameStateIsTurnAction() {
+    public void reservingDevelopmentIsAllowedWhenGameStateIsTurnAction() {
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), new Player("Alice"));
         startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), new Player("Gert"));
 
@@ -230,7 +230,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void reservingDevelopmentIsNotAllowedWhenGameStateIsNotTurnAction() {
+    public void reservingDevelopmentIsNotAllowedWhenGameStateIsNotTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
@@ -251,7 +251,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void buyingADevelopmentIsAllowedWhenGameStateIsTurnAction() {
+    public void buyingADevelopmentIsAllowedWhenGameStateIsTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
@@ -266,7 +266,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void buyingADevelopmentIsNotAllowedWhenGameStateIsNotTurnAction() {
+    public void buyingADevelopmentIsNotAllowedWhenGameStateIsNotTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
@@ -287,7 +287,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void buyingAReservedDevelopmentIsAllowedWhenGameStateIsTurnAction() {
+    public void buyingAReservedDevelopmentIsAllowedWhenGameStateIsTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
@@ -305,7 +305,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void buyingAReservedDevelopmentIsNotAllowedWhenGameStateIsNotTurnAction() {
+    public void buyingAReservedDevelopmentIsNotAllowedWhenGameStateIsNotTurnAction() {
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
 
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.SAPPHIRE, 1, Token.ONYX, 1, Token.RUBY, 1)));
@@ -359,7 +359,7 @@ class SplendorGameTest {
         assertEquals(gameStateErrorMessage ,ex.getMessage());
     }
     @Test
-    void testAcquireTwoTokensWhenBankIsBelowOrAboveFour() {
+    public void testAcquireTwoTokensWhenBankIsBelowOrAboveFour() {
         lobby.addPlayer("Alice");
         lobby.addPlayer("Bob");
 
@@ -404,7 +404,7 @@ class SplendorGameTest {
 
 
     @Test
-    void buyReservedDevelopmentGood() {
+    public void buyReservedDevelopmentGood() {
         lobby.addPlayer("Kentavious Cadwell-Pope");
         SplendorGame game = new SplendorGame(lobby);
         Player player = game.getCurrentPlayer();
@@ -423,7 +423,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void buyReservedDevelopmentDevelopmentNotReserved(){
+    public void buyReservedDevelopmentDevelopmentNotReserved(){
         lobby.addPlayer("Mitchel Robinson");
         SplendorGame game = new SplendorGame(lobby);
         Player player = game.getCurrentPlayer();
@@ -438,7 +438,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void chooseNobleGoodAndGameStateShouldBeChooseNoble() {
+    public void chooseNobleGoodAndGameStateShouldBeChooseNoble() {
         List<Noble> nobles = new ArrayList<>(startedGame.getUnclaimedNobles());
         Noble possibleNobleToChoose2 = nobles.getLast();
         Player player = startedGame.getCurrentPlayer();
@@ -454,7 +454,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void chooseNobleBad() {
+    public void chooseNobleBad() {
         lobby.addPlayer("Taiwan");
         lobby.addPlayer("Japan");
         SplendorGame game = new SplendorGame(lobby);
@@ -467,7 +467,7 @@ class SplendorGameTest {
     }
 
     @Test
-    void calculateWinner() {
+    public void calculateWinner() {
         // start game
         // No winner has been found yet
         assertNull(startedGame.getWinner());
@@ -489,6 +489,15 @@ class SplendorGameTest {
 
         // The second player claimed a noble, and is now a possible winner
         // Last round activated
+        if (startedGame.getGameState().equals(GameState.CHOOSE_NOBLE)) {
+            List<Noble> nobles = new ArrayList<>(startedGame.getUnclaimedNobles());
+            try {
+                startedGame.chooseNoble(gert, nobles.getFirst());
+            } catch (SplendorGameRuleException e) {
+                startedGame.chooseNoble(gert, nobles.getLast());
+            }
+
+        }
 
         startedGame.acquireTokens(alice, new Purse(Map.of(Token.DIAMOND, 2)));
 

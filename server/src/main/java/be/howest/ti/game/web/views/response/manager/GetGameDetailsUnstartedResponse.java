@@ -23,5 +23,4 @@ public class GetGameDetailsUnstartedResponse extends GetGameDetailsResponse {
 
         return res;
     }
-
 }

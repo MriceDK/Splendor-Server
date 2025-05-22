@@ -1,21 +1,16 @@
 package be.howest.ti.game.web.views.response.manager;
 
-import be.howest.ti.game.web.views.response.AbstractResponseWithHiddenStatus;
+import be.howest.ti.game.web.views.response.JoinSpectateGameResponse;
 
-public class JoinGameResponse extends AbstractResponseWithHiddenStatus {
-    private final int gameId;
-    private final String playerName;
+public class JoinGameResponse extends JoinSpectateGameResponse {
+
     private final String token;
+    private final String playerName;
 
     public JoinGameResponse(int gameId, String playerName, String token) {
-        super(200);
-        this.gameId = gameId;
+        super(gameId);
         this.playerName = playerName;
         this.token = token;
-    }
-
-    public int getGameId() {
-        return gameId;
     }
 
     public String getPlayerName() {

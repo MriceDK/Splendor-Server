@@ -15,6 +15,9 @@ import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
 import be.howest.ti.game.web.views.request.manager.*;
 import be.howest.ti.game.web.views.request.operations.*;
+import be.howest.ti.game.web.views.response.JoinSpectateGameResponse;
+import be.howest.ti.game.web.views.response.LeaveGameResponse;
+import be.howest.ti.game.web.views.response.SpectateGameResponse;
 import be.howest.ti.game.web.views.response.manager.*;
 import be.howest.ti.game.web.views.response.operations.*;
 
@@ -24,6 +27,7 @@ import java.util.function.Supplier;
 public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is not a monster class, it is a bridge :-)
 
     private final Supplier<SplendorService> serviceFactory;
+    private final TokenManager tokenManager;
 
     public SplendorOpenApiBridge() {
         this(SplendorServiceImpl::new, new JsonWebToken());
@@ -32,13 +36,19 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     // Factory needed to differentiate between group-tokens, can be simplified with a single service in the student version.
     SplendorOpenApiBridge(Supplier<SplendorService> serviceFactory, TokenManager tokenManager) {
         installPlayerTokenManager(tokenManager);
+        // HiJacking the  token manager to use it to parse the token since there's no way to access it otherwise
+        // This is only needed for manipulating the endpoints that we have since we can't add or change the endpoints
+        this.tokenManager = tokenManager;
         this.serviceFactory = serviceFactory;
     }
 
     private final Map<String, SplendorService> services = new HashMap<>();
 
     private SplendorService getService(ContextBasedRequestView request) {
-        if (!request.getGroupSecret().toString().equals(Config.getString("group.secret"))) {
+
+        String groupSecret = "Group11-6470-184";
+//        String groupSecret = Config.getString("groupSecret");
+        if (!request.getGroupSecret().toString().equals(groupSecret)) {
             throw new ForbiddenAccessException("You are not allowed to access this group");
         }
         return services.computeIfAbsent(request.getGroupSecret().toString(),
@@ -133,13 +143,14 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+            throw new ForbiddenAccessException("Unauthorized");
         }
 
         GameSuperclass game = service.findGame(
                 request.getGameId()
         );
-        if (!game.getPlayers().contains(new Player(request.getAuthorizedPlayerName()))) {
+
+        if (!game.getPlayers().contains(new Player(request.getAuthorizedPlayerName())) && !game.getSpectators().contains(request.getAuthorizedPlayerName())) {
             throw new ForbiddenAccessException("Unauthorized");
         }
 
@@ -151,17 +162,50 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("join-game")
-    public JoinGameResponse joinGame(JoinGameRequest request) {
+    public JoinSpectateGameResponse joinGame(JoinGameRequest request) {
 
         SplendorService service = getService(request);
+
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
-        service.joinLobby(service.findLobby(gameId), playerName);
-        GameSuperclass game = service.findGame(gameId);
-        String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
+        String token = createToken(new SplendorHTTPPlayer(gameId, request.getPlayerName()));
 
+        if (request.getWantsToLeave() && request.getIsSpectator()) {
+            // delete spectator from game
+            service.removeSpectator(gameId, playerName);
+            return new LeaveGameResponse(gameId, playerName, service.findGame(gameId).hasStarted());
+        }
 
-        return new JoinGameResponse(gameId, playerName, token);
+        if (request.getWantsToLeave() && !request.getIsSpectator()) {
+            // delete player from game
+            // substring is used to remove "Bearer " from the token
+            int BEARER_STRING_LENGTH = 7;
+            // validate token using token manager
+            SplendorHTTPPlayer parsedToken = tokenManager.parseToken(request.getToken().substring(BEARER_STRING_LENGTH));
+            if (parsedToken.getGameId() != request.getGameId()) {
+                throw new ForbiddenAccessException("Unauthorized");
+            }
+            if (!parsedToken.getPlayerName().equals(request.getPlayerName())) {
+                throw new ForbiddenAccessException("Unauthorized");
+            }
+
+            boolean hasStarted = service.findGame(gameId).hasStarted();
+            service.removePlayer(gameId, playerName);
+            return new LeaveGameResponse(gameId, playerName, hasStarted);
+        }
+
+        if (!request.getWantsToLeave() && request.getIsSpectator()) {
+            // add spectator to game
+            service.spectateGame(gameId, playerName);
+            return new SpectateGameResponse(gameId, playerName, token);
+        }
+
+        if (!request.getWantsToLeave() && !request.getIsSpectator()) {
+            // add player to game
+            service.joinLobby(gameId, playerName);
+            return new JoinGameResponse(gameId, playerName, token);
+        }
+        throw new IllegalArgumentException("Please provide a valid request");
     }
 
     //endregion
@@ -176,10 +220,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+            throw new ForbiddenAccessException("Unauthorized");
         }
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
-            throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
+            throw new ForbiddenAccessException("Unauthorized");
         }
 
         String playerName = request.getPlayerName();
@@ -198,10 +242,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+            throw new ForbiddenAccessException("Unauthorized");
         }
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
-            throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
+            throw new ForbiddenAccessException("Unauthorized");
         }
 
         Player player = service.buyDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPayment());
@@ -227,10 +271,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         }
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("The gameId in the path does not match the gameId in the token");
+            throw new ForbiddenAccessException("Unauthorized");
         }
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
-            throw new ForbiddenAccessException("The playername in the path does not match the playerName in the token");
+            throw new ForbiddenAccessException("Unauthorized");
         }
 
         if (name != null) {
