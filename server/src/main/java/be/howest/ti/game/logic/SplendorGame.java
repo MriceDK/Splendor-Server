@@ -10,11 +10,11 @@ import java.util.*;
 
 public class SplendorGame extends GameSuperclass {
 
-    private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS = 7;
-    private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS = 5;
-    private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_TWO_PLAYERS = 4;
+    private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS = 7;
+    private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS = 5;
+    private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_TWO_PLAYERS = 4;
 
-    private final static int INITIAL_GOLD_AMOUNT = 5;
+    private static final int INITIAL_GOLD_AMOUNT = 5;
 
     private static final int MAX_OF_SAME_TOKEN = 2;
     private static final int MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS = 4;
