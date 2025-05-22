@@ -149,6 +149,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         GameSuperclass game = service.findGame(
                 request.getGameId()
         );
+
         if (!game.getPlayers().contains(new Player(request.getAuthorizedPlayerName())) && !game.getSpectators().contains(request.getAuthorizedPlayerName())) {
             throw new ForbiddenAccessException("Unauthorized");
         }
@@ -164,7 +165,6 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public JoinSpectateGameResponse joinGame(JoinGameRequest request) {
 
         SplendorService service = getService(request);
-
 
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
