@@ -135,7 +135,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("get-game-details")
-    public GetGameDetailsResponse getGameDetails(GetGameDetailsRequest request) { // TODO find a way to sort the response properties
+    public GetGameDetailsResponse getGameDetails(GetGameDetailsRequest request) {
         SplendorService service = getService(request);
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
