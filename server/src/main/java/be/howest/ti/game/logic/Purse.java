@@ -152,9 +152,7 @@ public class Purse {
     public static Map<String, Integer> toMapStringInteger(Map<Token, Integer> tokens) {
         Map<String, Integer> res = new HashMap<>();
 
-        tokens.forEach((token, value) -> {
-            res.put(token.toDisplayName(), value);
-        });
+        tokens.forEach((token, value) -> res.put(token.toDisplayName(), value));
 
         return res;
     }
