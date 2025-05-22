@@ -59,21 +59,21 @@ public class Purse {
         }
     }
 
-    private void checkIfAddIsAllowed(Token tokenName, int amount) {
+    private void checkIfAddIsAllowed(int amount) {
         if (amount < 0) {
             throw new SplendorGameRuleException("You can only add a positive amount of a token");
         }
     }
 
     public void addToken(Token tokenToAdd, Integer amount) {
-        checkIfAddIsAllowed(tokenToAdd, amount);
+        checkIfAddIsAllowed(amount);
         this.tokens.put(tokenToAdd, this.tokens.get(tokenToAdd) + amount);
     }
 
     public void addTokens(Purse tokensToAdd) {
         // Double for loop to first check if all tokens can be added
         for (Token token : tokensToAdd.getTokens().keySet()) {
-            checkIfAddIsAllowed(token, tokensToAdd.getTokens().get(token));
+            checkIfAddIsAllowed(tokensToAdd.getTokens().get(token));
         }
         for (Token token : tokensToAdd.getTokens().keySet()) {
             addToken(token, tokensToAdd.getTokens().get(token));
