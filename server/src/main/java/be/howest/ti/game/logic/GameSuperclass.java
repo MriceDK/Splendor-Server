@@ -14,7 +14,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
     private final String gameName;
     private final int maxPlayers;
 
-    public GameSuperclass(int gameId, String gameName, int maxPlayers) {
+    protected GameSuperclass(int gameId, String gameName, int maxPlayers) {
         this.gameId = gameId;
         this.gameName = gameName;
         this.maxPlayers = maxPlayers;
@@ -22,7 +22,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         this.spectators = new ArrayList<>();
     }
 
-    public GameSuperclass(GameSuperclass game) {
+    protected GameSuperclass(GameSuperclass game) {
         this.gameId = game.getGameId();
         this.gameName = game.getGameName();
         this.players = game.getPlayers();
