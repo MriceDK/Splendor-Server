@@ -179,9 +179,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         if (request.getWantsToLeave() && !request.getIsSpectator()) {
             // delete player from game
             // substring is used to remove "Bearer " from the token
-            int removeBearerString = 7;
+            int BEARER_STRING_LENGTH = 7;
             // validate token using token manager
-            SplendorHTTPPlayer parsedToken = tokenManager.parseToken(request.getToken().substring(removeBearerString));
+            SplendorHTTPPlayer parsedToken = tokenManager.parseToken(request.getToken().substring(BEARER_STRING_LENGTH));
             if (parsedToken.getGameId() != request.getGameId()) {
                 throw new ForbiddenAccessException("Unauthorized");
             }
