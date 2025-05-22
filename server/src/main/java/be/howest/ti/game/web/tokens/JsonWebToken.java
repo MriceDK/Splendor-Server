@@ -58,7 +58,8 @@ public class JsonWebToken implements TokenManager{
     @Override
     public <T> String createToken(T user) {
         if (user instanceof SplendorHTTPPlayer) {
-            return createToken(user);
+            // Sonar Complains but it doesnt work if i dont cast to SplendorHTTPPlayer
+            return createToken((SplendorHTTPPlayer) user);
         } else {
             throw new IllegalArgumentException("Unsupported user type");
         }
