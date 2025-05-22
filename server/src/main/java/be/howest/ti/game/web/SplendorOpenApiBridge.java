@@ -28,6 +28,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     private final Supplier<SplendorService> serviceFactory;
     private final TokenManager tokenManager;
+    private static final String FORBIDDEN_ACCESS_RESPONSE = "Unauthorized";
 
     public SplendorOpenApiBridge() {
         this(SplendorServiceImpl::new, new JsonWebToken());
@@ -143,7 +144,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
         GameSuperclass game = service.findGame(
@@ -151,7 +152,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         );
 
         if (!game.getPlayers().contains(new Player(request.getAuthorizedPlayerName())) && !game.getSpectators().contains(request.getAuthorizedPlayerName())) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
         if (game.hasStarted()) {
@@ -183,10 +184,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             // validate token using token manager
             SplendorHTTPPlayer parsedToken = tokenManager.parseToken(request.getToken().substring(BEARER_STRING_LENGTH));
             if (parsedToken.getGameId() != request.getGameId()) {
-                throw new ForbiddenAccessException("Unauthorized");
+                throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
             }
             if (!parsedToken.getPlayerName().equals(request.getPlayerName())) {
-                throw new ForbiddenAccessException("Unauthorized");
+                throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
             }
 
             boolean hasStarted = service.findGame(gameId).hasStarted();
@@ -220,10 +221,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
         String playerName = request.getPlayerName();
@@ -242,10 +243,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
         Player player = service.buyDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPayment());
@@ -271,10 +272,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         }
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
         if (name != null) {
