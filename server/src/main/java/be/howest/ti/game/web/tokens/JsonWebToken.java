@@ -71,7 +71,6 @@ public class JsonWebToken implements TokenManager{
     // This returns the claims of the token already decoded (Base64)
     public Map<String, Claim> verifyToken(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secretToken);
             return JWT.require(algorithm)
                     .withIssuer("TI-SplendorGameServer-Group-11")
                     .build()
