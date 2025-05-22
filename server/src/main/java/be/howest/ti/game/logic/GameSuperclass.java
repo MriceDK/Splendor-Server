@@ -4,6 +4,7 @@ import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class GameSuperclass implements Comparable<GameSuperclass> {
 
@@ -112,7 +113,20 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         } else return getClass() == SplendorGame.class;
     }
 
+    @Override
     public int compareTo(GameSuperclass o) {
         return this.gameId - o.gameId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        GameSuperclass that = (GameSuperclass) o;
+        return gameId == that.gameId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(gameId);
     }
 }
