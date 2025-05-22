@@ -41,14 +41,16 @@ public class DevelopmentReader {
 
             Development card = new Development(name, level, prestigePoints, bonus, costs);
 
-            if (level == 1) {
-                developmentLevel1.add(card);
-            } else if (level == 2) {
-                developmentLevel2.add(card);
-            } else if (level == 3) {
-                developmentLevel3.add(card);
-            } else {
-                throw new IllegalStateException("Unknown level: " + level);
+            switch (level) {
+                case 1 -> {
+                    developmentLevel1.add(card);
+                }
+                case 2 -> {
+                    developmentLevel2.add(card);
+                }
+                case 3 -> {
+                    developmentLevel3.add(card);
+                }
             }
         }
         reader.close();
