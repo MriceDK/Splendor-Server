@@ -78,7 +78,7 @@ public class GameLobbyManager {
         }
     }
 
-    public void leaveGame(GameSuperclass game, String playerName) {
+    public void removePlayer(GameSuperclass game, String playerName) {
         game.removePlayer(playerName);
         if (game.hasStarted()) {
 //            TODO: discuss what we should do after a player leaves a game
@@ -90,7 +90,7 @@ public class GameLobbyManager {
         game.addSpectator(spectatorName);
     }
 
-    public void leaveSpectate(GameSuperclass game, String spectatorName) {
+    public void removeSpectator(GameSuperclass game, String spectatorName) {
         game.removeSpectator(spectatorName);
     }
 

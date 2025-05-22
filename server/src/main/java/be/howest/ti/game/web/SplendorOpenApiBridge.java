@@ -172,7 +172,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
         if (request.getWantsToLeave() && request.getIsSpectator()) {
             // delete spectator from game
-            service.leaveSpectate(gameId, playerName);
+            service.removeSpectator(gameId, playerName);
             return new LeaveGameResponse(gameId, playerName, service.findGame(gameId).hasStarted());
         }
 
@@ -190,7 +190,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             }
 
             boolean hasStarted = service.findGame(gameId).hasStarted();
-            service.leaveGame(gameId, playerName);
+            service.removePlayer(gameId, playerName);
             return new LeaveGameResponse(gameId, playerName, hasStarted);
         }
 

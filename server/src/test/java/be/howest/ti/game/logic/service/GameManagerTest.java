@@ -160,7 +160,7 @@ class GameManagerTest {
         service.createLobby(4, "John", "game-02");
 
         service.spectateLobby(service.findLobby(0), "Spectator1");
-        service.leaveSpectate(service.findLobby(0), "Spectator1");
+        service.removeSpectator(service.findLobby(0), "Spectator1");
 
         assertTrue(service.findGame(0).getSpectators().isEmpty());
     }
@@ -171,9 +171,9 @@ class GameManagerTest {
         service.createLobby(4, "John", "game-02");
 
         service.spectateLobby(service.findLobby(0), "Spectator1");
-        service.leaveSpectate(service.findLobby(0), "Spectator1");
+        service.removeSpectator(service.findLobby(0), "Spectator1");
 
-        assertThrows(IllegalStateException.class, () -> service.leaveSpectate(service.findLobby(0), "Spectator1"));
+        assertThrows(IllegalStateException.class, () -> service.removeSpectator(service.findLobby(0), "Spectator1"));
     }
 
     @Test
@@ -182,7 +182,7 @@ class GameManagerTest {
         service.createLobby(4, "John", "game-02");
 
         service.joinLobby(service.findLobby(0), "AliceInChains");
-        service.leaveGame(service.findLobby(0), "AliceInChains");
+        service.removePlayer(service.findLobby(0), "AliceInChains");
 
         assertEquals(1, service.findGame(0).getPlayers().size());
     }
@@ -193,9 +193,9 @@ class GameManagerTest {
         service.createLobby(4, "John", "game-02");
 
         service.joinLobby(service.findLobby(0), "AliceInChains");
-        service.leaveGame(service.findLobby(0), "AliceInChains");
+        service.removePlayer(service.findLobby(0), "AliceInChains");
 
-        assertThrows(IllegalStateException.class, () -> service.leaveGame(service.findLobby(0), "AliceInChains"));
+        assertThrows(IllegalStateException.class, () -> service.removePlayer(service.findLobby(0), "AliceInChains"));
     }
 
     @Test

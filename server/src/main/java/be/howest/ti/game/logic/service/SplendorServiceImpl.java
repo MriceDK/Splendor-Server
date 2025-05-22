@@ -35,13 +35,13 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
-    public void leaveSpectate(int gameId, String spectatorName) {
-        gameLobbyManager.leaveSpectate(findGame(gameId), spectatorName);
+    public void removeSpectator(int gameId, String spectatorName) {
+        gameLobbyManager.removeSpectator(findGame(gameId), spectatorName);
     }
 
     @Override
-    public void leaveGame(int gameId, String playerName) {
-        gameLobbyManager.leaveGame(findGame(gameId), playerName);
+    public void removePlayer(int gameId, String playerName) {
+        gameLobbyManager.removePlayer(findGame(gameId), playerName);
     }
 
     @Override

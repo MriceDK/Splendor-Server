@@ -15,8 +15,8 @@ public interface SplendorService {
     void joinLobby(int gameId, String playerName);
     void spectateGame(int gameId, String spectatorName);
 
-    void leaveSpectate(int gameId, String spectatorName);
-    void leaveGame(int gameId, String playerName);
+    void removeSpectator(int gameId, String spectatorName);
+    void removePlayer(int gameId, String playerName);
 
     GameLobby createLobby(int maxPlayers, String creatorName);
 
