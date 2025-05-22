@@ -18,7 +18,7 @@ class PurseTest {
 
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
 
         emptyTokenMap = new HashMap<>();
         emptyTokenMap.put(Token.DIAMOND, 0);
@@ -43,19 +43,19 @@ class PurseTest {
     }
 
     @Test
-    public void getTokens() {
+    void getTokens() {
         assertEquals(emptyTokenMap, emptyPurse.getTokens());
         assertEquals(startTokens, filledPurse.getTokens());
     }
 
     @Test
-    public void getTotal() {
+    void getTotal() {
         assertEquals(0, emptyPurse.getTotal());
         assertEquals(21, filledPurse.getTotal());
     }
 
     @Test
-    public void addToken() {
+    void addToken() {
         emptyPurse.addToken(Token.DIAMOND,1);
         assertEquals(1, emptyPurse.getTokens().get(Token.DIAMOND));
         emptyPurse.addToken(Token.GOLD,2);
@@ -63,7 +63,7 @@ class PurseTest {
     }
 
     @Test
-    public void addTokens() {
+    void addTokens() {
         Map<Token, Integer> tokensToAdd = new HashMap<>();
         tokensToAdd.put(Token.DIAMOND, 3);
         tokensToAdd.put(Token.GOLD, 4);
@@ -78,7 +78,7 @@ class PurseTest {
     }
 
     @Test
-    public void removeToken() {
+    void removeToken() {
         filledPurse.removeToken(Token.DIAMOND, 1);
         assertEquals(0, filledPurse.getTokens().get(Token.DIAMOND));
 
@@ -89,7 +89,7 @@ class PurseTest {
     }
 
     @Test
-    public void removeTokens() {
+    void removeTokens() {
         Map<Token, Integer> tokensToRemove = new HashMap<>();
         tokensToRemove.put(Token.RUBY, 3);
         tokensToRemove.put(Token.SAPPHIRE, 4);
@@ -102,7 +102,7 @@ class PurseTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Purse tokens = new Purse(Map.of(Token.ONYX, 2, Token.EMERALD, 3));
 
         assertEquals("3 Emerald | 2 Onyx", tokens.toString());

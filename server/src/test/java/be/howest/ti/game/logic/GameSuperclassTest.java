@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameSuperclassTest {
 
     @Test
-    public void testNaturalOrderByGameIdAscending() {
+    void testNaturalOrderByGameIdAscending() {
         List<GameSuperclass> games = new ArrayList<>();
 
         GameLobby gameLobby = new GameLobby(2, 2);

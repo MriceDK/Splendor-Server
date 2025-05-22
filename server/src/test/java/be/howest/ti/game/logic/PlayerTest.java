@@ -16,13 +16,13 @@ class PlayerTest {
     private Development dev1;
 
     @BeforeEach
-    public void init() {
+    void init() {
         Purse dev1Cost = new Purse(Map.of(Token.SAPPHIRE, 3, Token.ONYX, 2));
         dev1 = new Development("dev-1", 1, 0, Token.DIAMOND, dev1Cost);
     }
 
     @Test
-    public void returnTokensWhenPossible() {
+    void returnTokensWhenPossible() {
         Player player = new Player("Zelensky");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.DIAMOND, 5);
@@ -44,7 +44,7 @@ class PlayerTest {
     }
 
     @Test
-    public void returnTokensWhenLessThan10Tokens() {
+    void returnTokensWhenLessThan10Tokens() {
         Player player = new Player("Trump");
 
         Map<Token, Integer> initialTokens = new HashMap<>();
@@ -62,7 +62,7 @@ class PlayerTest {
     }
 
     @Test
-    public void returnTokensWhenStillMoreThan10Tokens() {
+    void returnTokensWhenStillMoreThan10Tokens() {
         Player player = new Player("Bart De Wever");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.ONYX, 4);
@@ -80,7 +80,7 @@ class PlayerTest {
     }
 
     @Test
-    public void returnTokensWhenResultIsLessThen0() {
+    void returnTokensWhenResultIsLessThen0() {
         Player player = new Player("Macron");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.DIAMOND, 3);
@@ -97,7 +97,7 @@ class PlayerTest {
     }
 
     @Test
-    public void returnTokensUntilMaxTenTokens() {
+    void returnTokensUntilMaxTenTokens() {
         Player player = new Player("Mark Rutte");
         Map<Token, Integer> initialTokens = new HashMap<>();
         initialTokens.put(Token.DIAMOND, 3);
@@ -115,7 +115,7 @@ class PlayerTest {
     }
 
     @Test
-    public void buyDevelopmentCardWithGoldToken() {
+    void buyDevelopmentCardWithGoldToken() {
         Player player = new Player("Alice");
         player.getTokens().addTokens(new Purse(Map.of(
                 Token.GOLD, 4
@@ -137,7 +137,7 @@ class PlayerTest {
     }
 
     @Test
-    public void buyDevelopmentCardWithTooLessGoldToken() {
+    void buyDevelopmentCardWithTooLessGoldToken() {
         Player player = new Player("Alice");
         player.getTokens().addTokens(new Purse(Map.of(
                 Token.GOLD, 1
@@ -158,7 +158,7 @@ class PlayerTest {
     }
 
     @Test
-    public void buyingDevelopmentIsPossibleWhenYouHaveMoreBonusesThanCostOfDevelopment() {
+    void buyingDevelopmentIsPossibleWhenYouHaveMoreBonusesThanCostOfDevelopment() {
         Player player = new Player("Alice");
         player.getBonuses().addTokens( new Purse(Map.of(Token.SAPPHIRE, 4, Token.ONYX, 5)) );
 
@@ -168,7 +168,7 @@ class PlayerTest {
     }
 
     @Test
-    public void testPlayerOrderByDescendingPrestigePoints() {
+    void testPlayerOrderByDescendingPrestigePoints() {
         Player p1 = new Player("Joel");
         Player p2 = new Player("Ellie");
         Player p3 = new Player("Abby");
