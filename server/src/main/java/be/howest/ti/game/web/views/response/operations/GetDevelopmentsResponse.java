@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class getDevelopmentsResponse extends AbstractResponseWithHiddenStatus {
+public class GetDevelopmentsResponse extends AbstractResponseWithHiddenStatus {
     private final List<DevelopmentInListView> developmentsInListView;
 
-    public getDevelopmentsResponse(List<Development> developments) {
+    public GetDevelopmentsResponse(List<Development> developments) {
         super(200);
         developmentsInListView = convertDevelopmentToDevelopmentListView(developments);
     }

@@ -73,13 +73,13 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("get-nobles")
-    public getNoblesResponse getNobles(getNoblesRequest request) {
-        return new getNoblesResponse(GameOperations.getAllNobles());
+    public GetNoblesResponse getNobles(GetNoblesRequest request) {
+        return new GetNoblesResponse(GameOperations.getAllNobles());
     }
 
     @Operation("get-developments")
-    public getDevelopmentsResponse getDevelopments(GetDevelopmentsRequest request) {
-        return new getDevelopmentsResponse(GameOperations.getAllDevelopments());
+    public GetDevelopmentsResponse getDevelopments(GetDevelopmentsRequest request) {
+        return new GetDevelopmentsResponse(GameOperations.getAllDevelopments());
     }
 
     //endregion
