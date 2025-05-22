@@ -1,15 +1,11 @@
 package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.*;
-import be.howest.ti.game.logic.service.GameLobbyManager;
 import be.howest.ti.game.logic.service.GameOperations;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.JsonWebToken;
-//import be.howest.ti.game.web.tokens.PlainTextTokens;
-// Import only to be used when working with PlainTextTokens instead of JsonWebToken
 import be.howest.ti.game.web.tokens.SplendorHTTPPlayer;
-import be.howest.ti.game.util.Config;
 import be.howest.ti.game.web.tokens.TokenManager;
 import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
@@ -48,7 +44,6 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     private SplendorService getService(ContextBasedRequestView request) {
 
         String groupSecret = "Group11-6470-184";
-//        String groupSecret = Config.getString("groupSecret");
         if (!request.getGroupSecret().toString().equals(groupSecret)) {
             throw new ForbiddenAccessException("You are not allowed to access this group");
         }
