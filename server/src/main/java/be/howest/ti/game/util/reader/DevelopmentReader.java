@@ -31,7 +31,7 @@ public class DevelopmentReader {
             String name = developmentInfo[0];
             int level = Integer.parseInt(developmentInfo[1]);
             Token bonus = Token.getTokenType(developmentInfo[2].toCharArray()[0]);
-            int prestigePoints = Integer.parseInt(developmentInfo[3]);
+            int prestigePoints = Integer.parseInt(developmentInfo[4]);
             char[] costChars = developmentInfo[5].toCharArray();
 
             Purse costs = new Purse();
