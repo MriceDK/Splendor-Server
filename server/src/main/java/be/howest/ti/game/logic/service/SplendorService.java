@@ -2,7 +2,6 @@ package be.howest.ti.game.logic.service;
 
 
 import be.howest.ti.game.logic.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface SplendorService {
