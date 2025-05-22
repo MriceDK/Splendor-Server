@@ -9,7 +9,7 @@ import io.vertx.ext.web.RoutingContext;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChooseNobleRequest extends BaseSplendorRequest {
+public class ChooseNobleRequest extends PaymentReceiver {
     public ChooseNobleRequest(RoutingContext ctx) {
         super(ctx);
     }
@@ -32,16 +32,10 @@ public class ChooseNobleRequest extends BaseSplendorRequest {
 
     public Purse getNeededBonuses(){
         Map<Token, Integer> mapToAdd = new HashMap<>();
-        JsonObject JsonObjectToIterate = params.body().getJsonObject().getJsonObject("neededBonuses");
+        JsonObject jsonObjectToIterate = params.body().getJsonObject().getJsonObject("neededBonuses");
 
-        for (Map.Entry<String, Object> developmentBonus : JsonObjectToIterate){
-            Token tokenToAdd = Token.valueOf(developmentBonus.getKey().toUpperCase());
-            int valueToAdd = (Integer) developmentBonus.getValue();
+        getPayment(jsonObjectToIterate);
 
-            mapToAdd.put(tokenToAdd, valueToAdd);
-
-
-        }
         return new Purse(mapToAdd);
     }
 
