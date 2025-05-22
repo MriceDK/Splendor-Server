@@ -58,7 +58,7 @@ public class JsonWebToken implements TokenManager{
     @Override
     public <T> String createToken(T user) {
         if (user instanceof SplendorHTTPPlayer) {
-            return createToken((SplendorHTTPPlayer) user);
+            return createToken(user);
         } else {
             throw new IllegalArgumentException("Unsupported user type");
         }
