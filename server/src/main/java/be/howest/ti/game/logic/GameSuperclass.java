@@ -1,6 +1,5 @@
 package be.howest.ti.game.logic;
 
-import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 
 import java.util.ArrayList;
