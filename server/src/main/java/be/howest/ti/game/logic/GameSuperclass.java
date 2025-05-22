@@ -86,10 +86,17 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
     }
 
     public void addSpectator(String name) {
+        validateNewSpectator(name);
+        spectators.add(name);
+    }
+
+    private void validateNewSpectator(String name) {
         if (players.contains(new Player(name))) {
             throw new SplendorGameRuleException("There already exists a player with this name in this game.");
         }
-        spectators.add(name);
+        if (spectators.contains(name)) {
+            throw new IllegalStateException("The spectator is already in the game.");
+        }
     }
 
     public void removeSpectator(String spectatorName) {
