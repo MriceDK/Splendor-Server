@@ -18,8 +18,8 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         this.gameId = gameId;
         this.gameName = gameName;
         this.maxPlayers = maxPlayers;
-        players = new ArrayList<>();
-        spectators = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.spectators = new ArrayList<>();
     }
 
     public GameSuperclass(GameSuperclass game) {
