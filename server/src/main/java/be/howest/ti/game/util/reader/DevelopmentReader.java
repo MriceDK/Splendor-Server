@@ -4,8 +4,6 @@ import be.howest.ti.game.logic.Development;
 import be.howest.ti.game.logic.Purse;
 import be.howest.ti.game.logic.Token;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
