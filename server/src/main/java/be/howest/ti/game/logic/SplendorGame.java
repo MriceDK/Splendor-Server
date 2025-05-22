@@ -2,6 +2,7 @@ package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+import be.howest.ti.game.logic.order.implementations.PlayerPrestigePointsOrder;
 import be.howest.ti.game.util.logger.ActionReport;
 import be.howest.ti.game.util.logger.Logger;
 import be.howest.ti.game.util.reader.NobleReader;

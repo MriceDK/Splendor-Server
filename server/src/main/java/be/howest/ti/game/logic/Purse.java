@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+import be.howest.ti.game.logic.order.implementations.TokenAlphabeticalOrder;
 
 import java.util.*;
 
