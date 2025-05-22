@@ -95,7 +95,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
             throw new SplendorGameRuleException("There already exists a player with this name in this game.");
         }
         if (spectators.contains(name)) {
-            throw new IllegalStateException("The spectator is already in the game.");
+            throw new IllegalStateException("There already exists a spectator with this name in this game.");
         }
     }
 
