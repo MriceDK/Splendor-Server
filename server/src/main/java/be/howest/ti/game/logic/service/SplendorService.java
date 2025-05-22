@@ -12,11 +12,11 @@ public interface SplendorService {
 
     GameSuperclass findGame(int gameId);
 
-    void joinLobby(GameLobby lobby, String playerName);
-    void spectateLobby(GameSuperclass game, String spectatorName);
+    void joinLobby(int gameId, String playerName);
+    void spectateGame(int gameId, String spectatorName);
 
-    void leaveSpectate(GameSuperclass game, String spectatorName);
-    void leaveGame(GameSuperclass game, String playerName);
+    void leaveSpectate(int gameId, String spectatorName);
+    void leaveGame(int gameId, String playerName);
 
     GameLobby createLobby(int maxPlayers, String creatorName);
 

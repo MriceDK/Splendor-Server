@@ -168,20 +168,19 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
-        int verifiedGameId = service.findGame(gameId).getGameId();
-        String token = createToken(new SplendorHTTPPlayer(verifiedGameId, request.getPlayerName()));
+        String token = createToken(new SplendorHTTPPlayer(gameId, request.getPlayerName()));
 
         if (request.getWantsToLeave() && request.getIsSpectator()) {
             // delete spectator from game
-            service.leaveSpectate(service.findGame(gameId), playerName);
+            service.leaveSpectate(gameId, playerName);
             return new LeaveGameResponse(gameId, playerName, service.findGame(gameId).hasStarted());
         }
 
         if (request.getWantsToLeave() && !request.getIsSpectator()) {
             // delete player from game
-            // validate token using token manager
-            int removeBearerString = 7;
             // substring is used to remove "Bearer " from the token
+            int removeBearerString = 7;
+            // validate token using token manager
             SplendorHTTPPlayer parsedToken = tokenManager.parseToken(request.getToken().substring(removeBearerString));
             if (parsedToken.getGameId() != request.getGameId()) {
                 throw new ForbiddenAccessException("Unauthorized");
@@ -191,19 +190,19 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             }
 
             boolean hasStarted = service.findGame(gameId).hasStarted();
-            service.leaveGame(service.findGame(gameId), playerName);
+            service.leaveGame(gameId, playerName);
             return new LeaveGameResponse(gameId, playerName, hasStarted);
         }
 
         if (!request.getWantsToLeave() && request.getIsSpectator()) {
             // add spectator to game
-            service.spectateLobby(service.findGame(gameId), playerName);
+            service.spectateGame(gameId, playerName);
             return new SpectateGameResponse(gameId, playerName, token);
         }
 
         if (!request.getWantsToLeave() && !request.getIsSpectator()) {
             // add player to game
-            service.joinLobby(service.findLobby(gameId), playerName);
+            service.joinLobby(gameId, playerName);
             return new JoinGameResponse(gameId, playerName, token);
         }
         throw new IllegalArgumentException("Please provide a valid request");
