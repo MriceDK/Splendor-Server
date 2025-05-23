@@ -8,11 +8,12 @@ import be.howest.ti.game.util.logger.Logger;
 import be.howest.ti.game.util.reader.NobleReader;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 public class SplendorGame extends GameSuperclass {
 
-    private static final int MAX_MINUTES_PER_TURN = 300;
+    private static final int MAX_MINUTES_PER_TURN = 2;
 
     private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS = 7;
     private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS = 5;
@@ -46,7 +47,7 @@ public class SplendorGame extends GameSuperclass {
         this.isLastRound = false;
         this.winner = null;
         history = new Logger();
-        this.timeWhenCurrentTurnGetsSkipped = LocalDateTime.now();
+        setTimeCapOfTurn();
     }
 
     public Player getWinner() {
@@ -59,8 +60,16 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
+    public LocalDateTime getTimeWhenCurrentTurnGetsSkipped() {
+        return timeWhenCurrentTurnGetsSkipped;
+    }
+
+    private void setTimeCapOfTurn() {
+        timeWhenCurrentTurnGetsSkipped = LocalDateTime.now().plusMinutes(MAX_MINUTES_PER_TURN);
+    }
+
     public void startTurn(){
-        timeWhenCurrentTurnGetsSkipped = LocalDateTime.now();
+        setTimeCapOfTurn();
         if (currentPlayer.isWinnerWorthy() && isLastRound) {
             setGameState(GameState.WINNER_FOUND);
             winner = calculateWinner();
@@ -75,6 +84,14 @@ public class SplendorGame extends GameSuperclass {
         setGameState(GameState.TURN_ACTION);
         currentPlayer = getNextPlayer();
         startTurn();
+    }
+
+    public boolean enoughTimeLeft() {
+        return calculateSecondsLeftToMakeMove() > 0;
+    }
+
+    private int calculateSecondsLeftToMakeMove() {
+        return timeWhenCurrentTurnGetsSkipped.toLocalTime().toSecondOfDay() - LocalTime.now().toSecondOfDay();
     }
 
     public boolean getIsLastRound() {
