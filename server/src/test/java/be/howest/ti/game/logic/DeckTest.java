@@ -29,9 +29,9 @@ class DeckTest {
     @Test
     void removeVisibleDevelopment() {
         Development firstVisible = l1.getVisibleDevelopments().getFirst();
-        l1.removeVisibleDevelopment(firstVisible);
+        l1.replaceVisibleDevelopment(firstVisible);
         assertFalse(l1.getVisibleDevelopments().contains(firstVisible));
-        assertThrows(SplendorGameResourceNotFoundException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
+        assertThrows(SplendorGameResourceNotFoundException.class, () -> l1.replaceVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
     }
 
     @Test

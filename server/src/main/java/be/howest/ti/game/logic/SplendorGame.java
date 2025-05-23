@@ -122,8 +122,7 @@ public class SplendorGame extends GameSuperclass {
 
         Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
         player.buyDevelopment(development, payment);
-        market.removeVisibleDevelopment(development);
-        market.refillMarket(development.level());
+        market.replaceVisibleDevelopment(development);
         tokenBank.addTokens(payment);
 
         history.log(new ActionReport(currentPlayer.getName(), "bought development " + development + " for " + payment));
@@ -151,8 +150,7 @@ public class SplendorGame extends GameSuperclass {
 
         Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
         player.reserveDevelopment(development);
-        market.removeVisibleDevelopment(development);
-        market.refillMarket(development.level());
+        market.replaceVisibleDevelopment(development);
 
         givePlayerGoldTokenIfPossible(player);
 
