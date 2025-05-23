@@ -7,9 +7,12 @@ import be.howest.ti.game.util.logger.ActionReport;
 import be.howest.ti.game.util.logger.Logger;
 import be.howest.ti.game.util.reader.NobleReader;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class SplendorGame extends GameSuperclass {
+
+    private static final int MAX_MINUTES_PER_TURN = 300;
 
     private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS = 7;
     private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS = 5;
@@ -28,6 +31,7 @@ public class SplendorGame extends GameSuperclass {
     private boolean isLastRound;
     private Player winner;
     private final Logger history;
+    private LocalDateTime timeWhenCurrentTurnGetsSkipped;
 
     private static final int ONE_NOBLE = 1;
 
@@ -42,6 +46,7 @@ public class SplendorGame extends GameSuperclass {
         this.isLastRound = false;
         this.winner = null;
         history = new Logger();
+        this.timeWhenCurrentTurnGetsSkipped = LocalDateTime.now();
     }
 
     public Player getWinner() {
@@ -55,6 +60,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public void startTurn(){
+        timeWhenCurrentTurnGetsSkipped = LocalDateTime.now();
         if (currentPlayer.isWinnerWorthy() && isLastRound) {
             setGameState(GameState.WINNER_FOUND);
             winner = calculateWinner();
