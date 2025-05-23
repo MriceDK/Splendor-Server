@@ -35,19 +35,21 @@ public class Deck {
         return Collections.unmodifiableList(visibleDevelopments);
     }
 
+    private void makeVisible(int index, Development development) {
+        this.visibleDevelopments.add(index, development);
+    }
+
     private void makeVisible(Development development) {
         this.visibleDevelopments.add(development);
     }
 
 
-    public void removeVisibleDevelopment(Development development) {
+    public void replaceVisibleDevelopment(Development development) {
         if (visibleDevelopments.contains(development)) {
+            int index = visibleDevelopments.indexOf(development);
             visibleDevelopments.remove(development);
+            makeVisible(index, takeTopDevelopment());
         } else throw new SplendorGameResourceNotFoundException("Development not found in visible developments");
-    }
-
-    public void refillVisibleDevelopments() {
-        makeVisible(takeTopDevelopment());
     }
 
     public Development findMatchingDevelopment(String developmentName) {
