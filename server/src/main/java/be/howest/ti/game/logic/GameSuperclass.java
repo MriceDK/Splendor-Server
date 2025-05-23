@@ -8,21 +8,18 @@ import java.util.Objects;
 
 public abstract class GameSuperclass implements Comparable<GameSuperclass> {
 
-    private final int gameId; // TODO Find another way to generate gameId
+    private final int gameId;
     private final List<Player> players;
     private final List<String> spectators;
     private final String gameName;
     private final int maxPlayers;
-    private final boolean isPrivate;
 
-    protected GameSuperclass(int gameId, String gameName, int maxPlayers, boolean isPrivate) {
+    protected GameSuperclass(int gameId, String gameName, int maxPlayers) {
         this.gameId = gameId;
         this.gameName = gameName;
         this.maxPlayers = maxPlayers;
         this.players = new ArrayList<>();
         this.spectators = new ArrayList<>();
-        this.isPrivate = isPrivate;
-
     }
 
     protected GameSuperclass(GameSuperclass game) {
@@ -31,7 +28,6 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         this.players = game.getPlayers();
         this.maxPlayers = game.getMaxPlayers();
         this.spectators = game.getSpectators();
-        this.isPrivate = game.getPrivacy();
     }
 
     public int getGameId() {
@@ -56,10 +52,6 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
 
     public List<String> getSpectators() {
         return spectators;
-    }
-
-    public boolean getPrivacy() {
-        return isPrivate;
     }
 
     public int getTotalSpectators() {
