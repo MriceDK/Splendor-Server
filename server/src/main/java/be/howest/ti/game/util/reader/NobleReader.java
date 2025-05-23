@@ -49,7 +49,7 @@ public class NobleReader {
 
         Collections.shuffle(allNobles);
 
-        for (int i = 0; i < totalAmountUnclaimedNobles + 1; i++) {
+        for (int i = 0; i < totalAmountUnclaimedNobles; i++) {
             selectedNobles.add(allNobles.get(i));
         }
         return selectedNobles;
