@@ -108,4 +108,9 @@ public class SplendorServiceImpl implements SplendorService {
     public Noble chooseNoble(int gameId, String playerName, Noble noble) {
         return gameActionManager.chooseNoble(gameId, playerName, noble);
     }
+
+    @Override
+    public boolean checkIfPlayerHasEnoughTimeLeft(int gameId, String playerName) {
+        return gameActionManager.checkIfPlayerHasEnoughTimeLeft(gameId, playerName);
+    }
 }
