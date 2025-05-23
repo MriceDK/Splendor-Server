@@ -5,6 +5,7 @@ import be.howest.ti.game.logic.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GameInListView implements Comparable<GameInListView> {
 
@@ -49,5 +50,17 @@ public class GameInListView implements Comparable<GameInListView> {
     @Override
     public int compareTo(GameInListView o) {
         return this.game.getGameId() - o.game.getGameId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        GameInListView that = (GameInListView) o;
+        return Objects.equals(game, that.game);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(game);
     }
 }

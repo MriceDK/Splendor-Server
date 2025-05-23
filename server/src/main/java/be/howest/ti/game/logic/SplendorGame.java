@@ -2,6 +2,7 @@ package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+import be.howest.ti.game.logic.order.implementations.PlayerPrestigePointsOrder;
 import be.howest.ti.game.util.logger.ActionReport;
 import be.howest.ti.game.util.logger.Logger;
 import be.howest.ti.game.util.reader.NobleReader;
@@ -10,19 +11,17 @@ import java.util.*;
 
 public class SplendorGame extends GameSuperclass {
 
-    private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS = 7;
-    private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS = 5;
-    private final static int TOKEN_AMOUNT_IN_TOKENBANK_FOR_TWO_PLAYERS = 4;
+    private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS = 7;
+    private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS = 5;
+    private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_TWO_PLAYERS = 4;
 
-    private final static int INITIAL_GOLD_AMOUNT = 5;
+    private static final int INITIAL_GOLD_AMOUNT = 5;
 
-    private static final int ZERO_TOKENS = 0;
-    private static final int MAX_DIFFERENT_TOKENS = 3;
     private static final int MAX_OF_SAME_TOKEN = 2;
     private static final int MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS = 4;
 
     private final Purse tokenBank;
-    private final Set<Noble> unclaimedNobles;
+    private final List<Noble> unclaimedNobles;
     private final Market market;
     private Player currentPlayer;
     private GameState gameState;
@@ -122,9 +121,8 @@ public class SplendorGame extends GameSuperclass {
         playerTurnChecker(player);
 
         Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
-        player.buyDevelopment(market.removeVisibleDevelopment(development), payment);
-
-        market.refillMarket(development.level());
+        player.buyDevelopment(development, payment);
+        market.replaceVisibleDevelopment(development);
         tokenBank.addTokens(payment);
 
         history.log(new ActionReport(currentPlayer.getName(), "bought development " + development + " for " + payment));
@@ -151,9 +149,8 @@ public class SplendorGame extends GameSuperclass {
         playerTurnChecker(player);
 
         Development development = market.findMatchingDevelopmentOverAllLevels(developmentName);
-        player.reserveDevelopment(market.removeVisibleDevelopment(development));
-
-        market.refillMarket(development.level());
+        player.reserveDevelopment(development);
+        market.replaceVisibleDevelopment(development);
 
         givePlayerGoldTokenIfPossible(player);
 
@@ -287,7 +284,7 @@ public class SplendorGame extends GameSuperclass {
         endPhaseOfTurn(false);
     }
 
-    public Set<Noble> setUnclaimedNobles() {
+    public List<Noble> setUnclaimedNobles() {
         NobleReader nobleReader = new NobleReader();
         return nobleReader.getRandomNobles(getTotalPlayers());
     }
@@ -296,7 +293,7 @@ public class SplendorGame extends GameSuperclass {
         return gameState;
     }
 
-    public Set<Noble> getUnclaimedNobles() {
+    public List<Noble> getUnclaimedNobles() {
         return unclaimedNobles;
     }
 

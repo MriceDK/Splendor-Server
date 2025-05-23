@@ -1,13 +1,11 @@
 package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+import be.howest.ti.game.logic.order.implementations.PlayerPrestigePointsOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,26 +14,25 @@ class PlayerTest {
     private Development dev1;
 
     @BeforeEach
-    public void init() {
+    void init() {
         Purse dev1Cost = new Purse(Map.of(Token.SAPPHIRE, 3, Token.ONYX, 2));
         dev1 = new Development("dev-1", 1, 0, Token.DIAMOND, dev1Cost);
     }
 
     @Test
-    public void returnTokensWhenPossible() {
+    void returnTokensWhenPossible() {
         Player player = new Player("Zelensky");
-        Map<Token, Integer> initialTokens = new HashMap<>();
-        initialTokens.put(Token.DIAMOND, 5);
-        initialTokens.put(Token.RUBY, 4);
-        initialTokens.put(Token.EMERALD, 3);
-        player.getTokens().addTokens(new Purse(initialTokens));
+        Purse initialTokens = new Purse();
+        initialTokens.addToken(Token.DIAMOND, 5);
+        initialTokens.addToken(Token.RUBY, 4);
+        initialTokens.addToken(Token.EMERALD, 3);
+        player.getTokens().addTokens(initialTokens);
 
         assertEquals(12, player.getTokens().getTotal());
 
-        Map<Token, Integer> tokensToReturn = new HashMap<>();
-        tokensToReturn.put(Token.DIAMOND, 1);
-        tokensToReturn.put(Token.RUBY, 1);
-        Purse returnPurse = new Purse(tokensToReturn);
+        Purse returnPurse = new Purse();
+        returnPurse.addToken(Token.DIAMOND, 1);
+        returnPurse.addToken(Token.RUBY, 1);
 
         player.returnTokens(returnPurse);
 
@@ -44,14 +41,14 @@ class PlayerTest {
     }
 
     @Test
-    public void returnTokensWhenLessThan10Tokens() {
+    void returnTokensWhenLessThan10Tokens() {
         Player player = new Player("Trump");
 
-        Map<Token, Integer> initialTokens = new HashMap<>();
-        initialTokens.put(Token.ONYX, 1);
-        initialTokens.put(Token.SAPPHIRE, 2);
-        initialTokens.put(Token.RUBY, 3);
-        player.getTokens().addTokens(new Purse(initialTokens));
+        Purse initialTokens = new Purse();
+        initialTokens.addToken(Token.ONYX, 1);
+        initialTokens.addToken(Token.SAPPHIRE, 2);
+        initialTokens.addToken(Token.RUBY, 3);
+        player.getTokens().addTokens(initialTokens);
 
         assertEquals(6, player.getTokens().getTotal());
 
@@ -62,15 +59,15 @@ class PlayerTest {
     }
 
     @Test
-    public void returnTokensWhenStillMoreThan10Tokens() {
+    void returnTokensWhenStillMoreThan10Tokens() {
         Player player = new Player("Bart De Wever");
-        Map<Token, Integer> initialTokens = new HashMap<>();
-        initialTokens.put(Token.ONYX, 4);
-        initialTokens.put(Token.SAPPHIRE, 2);
-        initialTokens.put(Token.DIAMOND, 2);
-        initialTokens.put(Token.EMERALD, 3);
-        initialTokens.put(Token.RUBY, 3);
-        player.getTokens().addTokens(new Purse(initialTokens));
+        Purse initialTokens = new Purse();
+        initialTokens.addToken(Token.ONYX, 4);
+        initialTokens.addToken(Token.SAPPHIRE, 2);
+        initialTokens.addToken(Token.DIAMOND, 2);
+        initialTokens.addToken(Token.EMERALD, 3);
+        initialTokens.addToken(Token.RUBY, 3);
+        player.getTokens().addTokens(initialTokens);
 
         assertEquals(14, player.getTokens().getTotal());
 
@@ -80,14 +77,14 @@ class PlayerTest {
     }
 
     @Test
-    public void returnTokensWhenResultIsLessThen0() {
+    void returnTokensWhenResultIsLessThen0() {
         Player player = new Player("Macron");
-        Map<Token, Integer> initialTokens = new HashMap<>();
-        initialTokens.put(Token.DIAMOND, 3);
-        initialTokens.put(Token.RUBY, 2);
-        initialTokens.put(Token.EMERALD, 4);
-        initialTokens.put(Token.ONYX, 3);
-        player.getTokens().addTokens(new Purse(initialTokens));
+        Purse initialTokens = new Purse();
+        initialTokens.addToken(Token.DIAMOND, 3);
+        initialTokens.addToken(Token.RUBY, 2);
+        initialTokens.addToken(Token.EMERALD, 4);
+        initialTokens.addToken(Token.ONYX, 3);
+        player.getTokens().addTokens(initialTokens);
 
         assertEquals(12, player.getTokens().getTotal());
 
@@ -97,14 +94,14 @@ class PlayerTest {
     }
 
     @Test
-    public void returnTokensUntilMaxTenTokens() {
+    void returnTokensUntilMaxTenTokens() {
         Player player = new Player("Mark Rutte");
-        Map<Token, Integer> initialTokens = new HashMap<>();
-        initialTokens.put(Token.DIAMOND, 3);
-        initialTokens.put(Token.RUBY, 2);
-        initialTokens.put(Token.EMERALD, 4);
-        initialTokens.put(Token.ONYX, 3);
-        player.getTokens().addTokens(new Purse(initialTokens));
+        Purse initialTokens = new Purse();
+        initialTokens.addToken(Token.DIAMOND, 3);
+        initialTokens.addToken(Token.RUBY, 2);
+        initialTokens.addToken(Token.EMERALD, 4);
+        initialTokens.addToken(Token.ONYX, 3);
+        player.getTokens().addTokens(initialTokens);
 
         assertEquals(12, player.getTokens().getTotal());
 
@@ -115,7 +112,7 @@ class PlayerTest {
     }
 
     @Test
-    public void buyDevelopmentCardWithGoldToken() {
+    void buyDevelopmentCardWithGoldToken() {
         Player player = new Player("Alice");
         player.getTokens().addTokens(new Purse(Map.of(
                 Token.GOLD, 4
@@ -137,7 +134,7 @@ class PlayerTest {
     }
 
     @Test
-    public void buyDevelopmentCardWithTooLessGoldToken() {
+    void buyDevelopmentCardWithTooLessGoldToken() {
         Player player = new Player("Alice");
         player.getTokens().addTokens(new Purse(Map.of(
                 Token.GOLD, 1
@@ -158,7 +155,7 @@ class PlayerTest {
     }
 
     @Test
-    public void buyingDevelopmentIsPossibleWhenYouHaveMoreBonusesThanCostOfDevelopment() {
+    void buyingDevelopmentIsPossibleWhenYouHaveMoreBonusesThanCostOfDevelopment() {
         Player player = new Player("Alice");
         player.getBonuses().addTokens( new Purse(Map.of(Token.SAPPHIRE, 4, Token.ONYX, 5)) );
 
@@ -168,7 +165,7 @@ class PlayerTest {
     }
 
     @Test
-    public void testPlayerOrderByDescendingPrestigePoints() {
+    void testPlayerOrderByDescendingPrestigePoints() {
         Player p1 = new Player("Joel");
         Player p2 = new Player("Ellie");
         Player p3 = new Player("Abby");

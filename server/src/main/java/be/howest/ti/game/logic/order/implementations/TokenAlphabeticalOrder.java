@@ -1,4 +1,6 @@
-package be.howest.ti.game.logic;
+package be.howest.ti.game.logic.order.implementations;
+
+import be.howest.ti.game.logic.Token;
 
 import java.util.Comparator;
 

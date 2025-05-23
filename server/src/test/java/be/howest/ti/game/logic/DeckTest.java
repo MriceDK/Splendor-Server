@@ -11,10 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class DeckTest {
 
     private Deck l1;
-    private List<Development> developments;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         List<Development> developments = List.of(
                 new Development("Developement 1", 1, 1, null, null),
                 new Development("Developement 2", 1, 2, null, null),
@@ -24,31 +23,21 @@ class DeckTest {
                 new Development("Developement 6", 1, 6, null, null)
         );
 
-        this.developments = developments;
         this.l1 = new Deck(developments, 1);
     }
 
     @Test
-    public void removeVisibleDevelopment() {
+    void removeVisibleDevelopment() {
         Development firstVisible = l1.getVisibleDevelopments().getFirst();
-        l1.removeVisibleDevelopment(firstVisible);
+        l1.replaceVisibleDevelopment(firstVisible);
         assertFalse(l1.getVisibleDevelopments().contains(firstVisible));
-        assertThrows(SplendorGameResourceNotFoundException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
+        assertThrows(SplendorGameResourceNotFoundException.class, () -> l1.replaceVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
     }
 
     @Test
-    public void getTotalInvisible() {
+    void getTotalInvisible() {
         assertEquals(2, l1.getTotalInvisible());
         Deck l2 = new Deck(List.of(), 1);
         assertThrows(SplendorGameResourceNotFoundException.class, l2::takeTopDevelopment);
-    }
-
-    @Test
-    public void testRemoveVisibleDevelopmentString() {
-        Development firstVisible = l1.getVisibleDevelopments().getFirst();
-        l1.removeVisibleDevelopment(firstVisible);
-        assertFalse(l1.getVisibleDevelopments().contains(firstVisible));
-        assertThrows(SplendorGameResourceNotFoundException.class, () -> l1.removeVisibleDevelopment(new Development("Developement 7", 1, 6, null, null)));
-
     }
 }

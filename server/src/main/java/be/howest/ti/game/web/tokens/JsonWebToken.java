@@ -29,7 +29,7 @@ public class JsonWebToken implements TokenManager{
     // "jti" is a unique identifier for the token
     // "iat" is the time the token was issued
     public String createToken(SplendorHTTPPlayer user) {
-        String playerToken = JWT.create()
+        return JWT.create()
                 .withIssuer("TI-SplendorGameServer-Group-11")
                 .withClaim("jti", UUID.randomUUID().toString())
                 .withIssuedAt(Date.from(Instant.now()))
@@ -38,7 +38,6 @@ public class JsonWebToken implements TokenManager{
                 .withClaim("gameId", user.getGameId())
                 .withClaim("playerName", user.getPlayerName())
                 .sign(algorithm);
-        return playerToken;
     }
 
     // Generates a random secret token
@@ -59,6 +58,7 @@ public class JsonWebToken implements TokenManager{
     @Override
     public <T> String createToken(T user) {
         if (user instanceof SplendorHTTPPlayer) {
+            // Sonar Complains but it doesnt work if i dont cast to SplendorHTTPPlayer
             return createToken((SplendorHTTPPlayer) user);
         } else {
             throw new IllegalArgumentException("Unsupported user type");
@@ -71,7 +71,6 @@ public class JsonWebToken implements TokenManager{
     // This returns the claims of the token already decoded (Base64)
     public Map<String, Claim> verifyToken(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secretToken);
             return JWT.require(algorithm)
                     .withIssuer("TI-SplendorGameServer-Group-11")
                     .build()

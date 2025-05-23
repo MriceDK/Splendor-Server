@@ -7,10 +7,10 @@ import be.howest.ti.game.web.views.response.AbstractResponseWithHiddenStatus;
 import java.util.ArrayList;
 import java.util.List;
 
-public class getNoblesResponse extends AbstractResponseWithHiddenStatus {
+public class GetNoblesResponse extends AbstractResponseWithHiddenStatus {
     private final List<NobleInSetView> noblesInListView;
 
-    public getNoblesResponse(List<Noble> nobles) {
+    public GetNoblesResponse(List<Noble> nobles) {
         super(200);
         noblesInListView = convertDevelopmentToDevelopmentListView(nobles);
     }

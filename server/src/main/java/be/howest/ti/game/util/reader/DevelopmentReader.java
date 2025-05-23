@@ -4,8 +4,6 @@ import be.howest.ti.game.logic.Development;
 import be.howest.ti.game.logic.Purse;
 import be.howest.ti.game.logic.Token;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,7 @@ public class DevelopmentReader {
             String name = developmentInfo[0];
             int level = Integer.parseInt(developmentInfo[1]);
             Token bonus = Token.getTokenType(developmentInfo[2].toCharArray()[0]);
-            int prestigePoints = Integer.parseInt(developmentInfo[3]);
+            int prestigePoints = Integer.parseInt(developmentInfo[4]);
             char[] costChars = developmentInfo[5].toCharArray();
 
             Purse costs = new Purse();
@@ -41,14 +39,16 @@ public class DevelopmentReader {
 
             Development card = new Development(name, level, prestigePoints, bonus, costs);
 
-            if (level == 1) {
-                developmentLevel1.add(card);
-            } else if (level == 2) {
-                developmentLevel2.add(card);
-            } else if (level == 3) {
-                developmentLevel3.add(card);
-            } else {
-                throw new IllegalStateException("Unknown level: " + level);
+            switch (level) {
+                case 1 -> {
+                    developmentLevel1.add(card);
+                }
+                case 2 -> {
+                    developmentLevel2.add(card);
+                }
+                case 3 -> {
+                    developmentLevel3.add(card);
+                }
             }
         }
         reader.close();

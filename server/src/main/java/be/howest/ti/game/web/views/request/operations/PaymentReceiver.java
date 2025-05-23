@@ -5,8 +5,6 @@ import be.howest.ti.game.logic.Token;
 import be.howest.ti.game.web.views.request.BaseSplendorRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-
-import java.util.HashMap;
 import java.util.Map;
 
 public class PaymentReceiver extends BaseSplendorRequest {
@@ -15,19 +13,18 @@ public class PaymentReceiver extends BaseSplendorRequest {
         super(ctx);
     }
 
-    public Purse getPayment(){
-        Map<Token, Integer> mapToAdd = new HashMap<>();
-        JsonObject jsonObjectToIterate = params.body().getJsonObject().getJsonObject("payment");
+    public Purse getPayment(JsonObject jsonObjectToIterate){
+        Purse purse = new Purse();
 
         for (Map.Entry<String, Object> paymentToken : jsonObjectToIterate){
 
             Token tokenToAdd = tokenTranslator(paymentToken);
             int valueToAdd = (Integer) paymentToken.getValue();
 
-            mapToAdd.put(tokenToAdd, valueToAdd);
+            purse.addToken(tokenToAdd, valueToAdd);
 
         }
-        return new Purse(mapToAdd);
+        return purse;
     }
 
     private static Token tokenTranslator(Map.Entry<String, Object> paymentToken) {

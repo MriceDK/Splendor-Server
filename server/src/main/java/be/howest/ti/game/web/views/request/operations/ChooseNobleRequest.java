@@ -1,15 +1,9 @@
 package be.howest.ti.game.web.views.request.operations;
 
 import be.howest.ti.game.logic.Purse;
-import be.howest.ti.game.logic.Token;
-import be.howest.ti.game.web.views.request.BaseSplendorRequest;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class ChooseNobleRequest extends BaseSplendorRequest {
+public class ChooseNobleRequest extends PaymentReceiver {
     public ChooseNobleRequest(RoutingContext ctx) {
         super(ctx);
     }
@@ -23,26 +17,15 @@ public class ChooseNobleRequest extends BaseSplendorRequest {
     }
 
     public String getNobleName(){
-        return params.body().getJsonObject().getJsonObject("noble").getString("name");
+        return params.body().getJsonObject().getString("name");
     }
 
     public int getPrestigePoints(){
-        return params.body().getJsonObject().getJsonObject("noble").getInteger("prestigePoints");
+        return params.body().getJsonObject().getInteger("prestigePoints");
     }
 
     public Purse getNeededBonuses(){
-        Map<Token, Integer> mapToAdd = new HashMap<>();
-        JsonObject JsonObjectToIterate = params.body().getJsonObject().getJsonObject("neededBonuses");
-
-        for (Map.Entry<String, Object> developmentBonus : JsonObjectToIterate){
-            Token tokenToAdd = Token.valueOf(developmentBonus.getKey().toUpperCase());
-            int valueToAdd = (Integer) developmentBonus.getValue();
-
-            mapToAdd.put(tokenToAdd, valueToAdd);
-
-
-        }
-        return new Purse(mapToAdd);
+        return getPayment(params.body().getJsonObject().getJsonObject("neededBonuses"));
     }
 
 }

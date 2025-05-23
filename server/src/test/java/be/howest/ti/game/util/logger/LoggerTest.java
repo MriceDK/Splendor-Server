@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LoggerTest {
 
     @Test
-    public void logShouldAddALog() {
+    void logShouldAddALog() {
         Logger logger = new Logger();
 
         ActionReport actionReport = new ActionReport("Alice", "took 2 gems");
