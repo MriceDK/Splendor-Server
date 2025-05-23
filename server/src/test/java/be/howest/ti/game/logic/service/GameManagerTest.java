@@ -18,7 +18,7 @@ class GameManagerTest {
 
     @Test
     void createLobbyWithTwoParameters() {
-        service.createLobby(2, "Yoni");
+        service.createPublicLobby(2, "Yoni");
 
         assertNull(service.getGames().getFirst().getGameName());
         assertEquals(2, service.getGames().getFirst().getMaxPlayers());
@@ -27,7 +27,7 @@ class GameManagerTest {
 
     @Test
     void createLobbyWithThreeParameters() {
-        service.createLobby(4, "John", "Epic Splendor Game");
+        service.createPublicLobby(4, "John", "Epic Splendor Game");
 
         assertEquals("Epic Splendor Game", service.getGames().getFirst().getGameName());
         assertEquals(4, service.getGames().getFirst().getMaxPlayers());
@@ -36,7 +36,7 @@ class GameManagerTest {
 
     @Test
     void startGameWhenLobbyIsFull() {
-        GameLobby lobby = service.createLobby(4, "John");
+        GameLobby lobby = service.createPublicLobby(4, "John");
 
         service.joinLobby(lobby, "Eric");
         service.joinLobby(lobby, "Steve");
@@ -47,7 +47,7 @@ class GameManagerTest {
 
     @Test
     void gameDoesNotStartWhenNotFull() {
-        GameLobby lobby = service.createLobby(4, "John");
+        GameLobby lobby = service.createPublicLobby(4, "John");
 
         service.joinLobby(lobby, "Eric");
         service.joinLobby(lobby, "Steve");
@@ -57,8 +57,8 @@ class GameManagerTest {
 
     @Test
     void removeGame() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.removeGame(0);
 
@@ -68,8 +68,8 @@ class GameManagerTest {
 
     @Test
     void removeGames() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.removeGames();
 
@@ -78,20 +78,20 @@ class GameManagerTest {
 
     @Test
     void gameIdGeneratesCorrectly() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.removeGame(1);
 
-        service.createLobby(4, "John", "game-03");
+        service.createPublicLobby(4, "John", "game-03");
 
         assertEquals("game-03", service.findGame(2).getGameName());
     }
 
     @Test
     void findLobby() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         assertEquals("game-01", service.findLobby(0).getGameName());
         assertEquals("game-02", service.findLobby(1).getGameName());
@@ -99,8 +99,8 @@ class GameManagerTest {
 
     @Test
     void findStartedGame() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.startGame(service.findLobby(0));
 
@@ -110,8 +110,8 @@ class GameManagerTest {
 
     @Test
     void findGame() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.startGame(service.findLobby(0));
 
@@ -121,32 +121,32 @@ class GameManagerTest {
 
     @Test
     void findGameNotFound() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         assertThrows(SplendorGameResourceNotFoundException.class, () -> service.findGame(2));
     }
 
     @Test
     void findLobbyNotFound() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         assertThrows(SplendorGameResourceNotFoundException.class, () -> service.findLobby(2));
     }
 
     @Test
     void findStartedGameNotFound() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         assertThrows(SplendorGameResourceNotFoundException.class, () -> service.findStartedGame(2));
     }
 
     @Test
     void addSpectator() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.spectateLobby(service.findLobby(0), "Spectator1");
 
@@ -156,8 +156,8 @@ class GameManagerTest {
 
     @Test
     void removeSpectator() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.spectateLobby(service.findLobby(0), "Spectator1");
         service.removeSpectator(service.findLobby(0), "Spectator1");
@@ -167,8 +167,8 @@ class GameManagerTest {
 
     @Test
     void removeSpectatorNotFound() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.spectateLobby(service.findLobby(0), "Spectator1");
         service.removeSpectator(service.findLobby(0), "Spectator1");
@@ -178,8 +178,8 @@ class GameManagerTest {
 
     @Test
     void leaveGame() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.joinLobby(service.findLobby(0), "AliceInChains");
         service.removePlayer(service.findLobby(0), "AliceInChains");
@@ -189,8 +189,8 @@ class GameManagerTest {
 
     @Test
     void leaveGameNotFound() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.joinLobby(service.findLobby(0), "AliceInChains");
         service.removePlayer(service.findLobby(0), "AliceInChains");
@@ -200,8 +200,8 @@ class GameManagerTest {
 
     @Test
     void joinLobby() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.joinLobby(service.findLobby(0), "AliceInChains");
 

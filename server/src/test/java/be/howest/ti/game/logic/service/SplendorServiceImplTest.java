@@ -18,7 +18,7 @@ class SplendorServiceImplTest {
 
     @Test
     void createLobbyWithTwoParameters() {
-        service.createLobby(2, "Yoni");
+        service.createPublicLobby(2, "Yoni");
 
         assertNull(service.getGames().getFirst().getGameName());
         assertEquals(2, service.getGames().getFirst().getMaxPlayers());
@@ -27,7 +27,7 @@ class SplendorServiceImplTest {
 
     @Test
     void createLobbyWithThreeParameters() {
-        service.createLobby(4, "John", "Epic Splendor Game");
+        service.createPublicLobby(4, "John", "Epic Splendor Game");
 
         assertEquals("Epic Splendor Game", service.getGames().getFirst().getGameName());
         assertEquals(4, service.getGames().getFirst().getMaxPlayers());
@@ -36,7 +36,7 @@ class SplendorServiceImplTest {
 
     @Test
     void startGameWhenLobbyIsFull() {
-        GameLobby lobby = service.createLobby(4, "John");
+        GameLobby lobby = service.createPublicLobby(4, "John");
 
         service.joinLobby(lobby, "Eric");
         service.joinLobby(lobby, "Steve");
@@ -47,7 +47,7 @@ class SplendorServiceImplTest {
 
     @Test
     void gameDoesNotStartWhenNotFull() {
-        GameLobby lobby = service.createLobby(4, "John");
+        GameLobby lobby = service.createPublicLobby(4, "John");
 
         service.joinLobby(lobby, "Eric");
         service.joinLobby(lobby, "Steve");
@@ -57,8 +57,8 @@ class SplendorServiceImplTest {
 
     @Test
     void removeGame() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.removeGame(0);
 
@@ -68,8 +68,8 @@ class SplendorServiceImplTest {
 
     @Test
     void removeGames() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.removeGames();
 
@@ -78,12 +78,12 @@ class SplendorServiceImplTest {
 
     @Test
     void gameIdGeneratesCorrectly() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", "game-01");
+        service.createPublicLobby(4, "John", "game-02");
 
         service.removeGame(1);
 
-        service.createLobby(4, "John", "game-03");
+        service.createPublicLobby(4, "John", "game-03");
 
         assertEquals("game-03", service.findGame(2).getGameName());
     }

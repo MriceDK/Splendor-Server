@@ -16,7 +16,7 @@ public class GameLobbyManager {
         games = new ArrayList<>();
     }
 
-    public GameLobby createLobby(int maxPlayers, String creatorName) {
+    public GameLobby createPublicLobby(int maxPlayers, String creatorName) {
         int gameId = generateGameId();
         GameLobby newLobby = new GameLobby(gameId, maxPlayers);
         newLobby.addPlayer(creatorName);
@@ -25,7 +25,7 @@ public class GameLobbyManager {
         return newLobby;
     }
 
-    public GameLobby createLobby(int maxPlayers, String creatorName, String gameName) {
+    public GameLobby createPublicLobby(int maxPlayers, String creatorName, String gameName) {
         int gameId = generateGameId();
         GameLobby newLobby = new GameLobby(gameId, gameName, maxPlayers);
         newLobby.addPlayer(creatorName);

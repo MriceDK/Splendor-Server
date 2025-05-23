@@ -111,12 +111,12 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
         GameLobby game;
         if (request.getGameName() == null) {
-            game = service.createLobby(
+            game = service.createPublicLobby(
                     request.getNumberOfPlayers(),
                     request.getPlayerName()
             );
         } else {
-            game = service.createLobby(
+            game = service.createPublicLobby(
                     request.getNumberOfPlayers(),
                     request.getPlayerName(),
                     request.getGameName()

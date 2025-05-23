@@ -45,13 +45,13 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
-    public GameLobby createLobby(int maxPlayers, String creatorName) {
-        return gameLobbyManager.createLobby(maxPlayers, creatorName);
+    public GameLobby createPublicLobby(int maxPlayers, String creatorName) {
+        return gameLobbyManager.createPublicLobby(maxPlayers, creatorName);
     }
 
     @Override
-    public GameLobby createLobby(int maxPlayers, String creatorName, String gameName) {
-        return gameLobbyManager.createLobby(maxPlayers, creatorName, gameName);
+    public GameLobby createPublicLobby(int maxPlayers, String creatorName, String gameName) {
+        return gameLobbyManager.createPublicLobby(maxPlayers, creatorName, gameName);
     }
 
     @Override

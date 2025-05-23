@@ -17,9 +17,9 @@ public interface SplendorService {
     void removeSpectator(int gameId, String spectatorName);
     void removePlayer(int gameId, String playerName);
 
-    GameLobby createLobby(int maxPlayers, String creatorName);
+    GameLobby createPublicLobby(int maxPlayers, String creatorName);
 
-    GameLobby createLobby(int maxPlayers, String creatorName, String gameName);
+    GameLobby createPublicLobby(int maxPlayers, String creatorName, String gameName);
 
     GameLobby createPrivateLobby(int maxPlayers, String creatorName, String password);
 
