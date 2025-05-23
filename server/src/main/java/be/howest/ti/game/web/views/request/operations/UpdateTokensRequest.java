@@ -36,4 +36,14 @@ public class UpdateTokensRequest extends PaymentReceiver {
             throw new IllegalStateException("A bad JSON Object was provided");
         }
     }
+
+    public boolean getCheckCanMakeMove() {
+
+        try {
+            return ctx.body().asJsonObject().getBoolean("checkCanMakeMove");
+        } catch(NullPointerException ex) {
+            return false;
+        }
+
+    }
 }
