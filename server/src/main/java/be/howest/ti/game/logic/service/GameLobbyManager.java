@@ -34,6 +34,24 @@ public class GameLobbyManager {
         return newLobby;
     }
 
+    public GameLobby createPrivateLobby(int maxPlayers, String creatorName, String password) {
+        int gameId = generateGameId();
+        PrivateGameLobby newLobby = new PrivateGameLobby(gameId, maxPlayers, password);
+        newLobby.addPlayer(creatorName);
+        games.add(newLobby);
+
+        return newLobby;
+    }
+
+    public GameLobby createPrivateLobby(int maxPlayers, String creatorName, String gameName, String password) {
+        int gameId = generateGameId();
+        PrivateGameLobby newLobby = new PrivateGameLobby(gameId, gameName, maxPlayers, password);
+        newLobby.addPlayer(creatorName);
+        games.add(newLobby);
+
+        return newLobby;
+    }
+
     public void startGame(GameLobby lobby) {
         SplendorGame game = lobby.startGame();
 

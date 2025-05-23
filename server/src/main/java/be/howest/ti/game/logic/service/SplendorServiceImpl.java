@@ -55,6 +55,16 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
+    public GameLobby createPrivateLobby(int maxPlayers, String creatorName, String password) {
+        return gameLobbyManager.createPrivateLobby(maxPlayers, creatorName, password);
+    }
+
+    @Override
+    public GameLobby createPrivateLobby(int maxPlayers, String creatorName, String gameName, String password) {
+        return gameLobbyManager.createPrivateLobby(maxPlayers, creatorName, gameName, password);
+    }
+
+    @Override
     public List<GameSuperclass> getGames() {
         return gameLobbyManager.getGames();
     }

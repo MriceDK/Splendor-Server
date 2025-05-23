@@ -21,6 +21,10 @@ public interface SplendorService {
 
     GameLobby createLobby(int maxPlayers, String creatorName, String gameName);
 
+    GameLobby createPrivateLobby(int maxPlayers, String creatorName, String password);
+
+    GameLobby createPrivateLobby(int maxPlayers, String creatorName, String gameName, String password);
+
     List<GameSuperclass> getGames();
 
     List<GameSuperclass> getGames(boolean hasStarted);
