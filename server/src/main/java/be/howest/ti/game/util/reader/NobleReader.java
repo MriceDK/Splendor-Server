@@ -41,11 +41,11 @@ public class NobleReader {
 
     }
 
-    public Set<Noble> getRandomNobles(int playerCount) {
+    public List<Noble> getRandomNobles(int playerCount) {
         int totalAmountUnclaimedNobles = playerCount + 1;
 
         List<Noble> allNobles = new ArrayList<>(nobles);
-        Set<Noble> selectedNobles = new HashSet<>();
+        List<Noble> selectedNobles = new ArrayList<>();
 
         Collections.shuffle(allNobles);
 

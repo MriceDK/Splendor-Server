@@ -106,7 +106,7 @@ class SplendorGameTest {
         SplendorGame game = new SplendorGame(lobby);
         Player player = game.getCurrentPlayer();
 
-        Set<Noble> nobles = game.getUnclaimedNobles();
+        List<Noble> nobles = game.getUnclaimedNobles();
         List<Noble> nobleList = new ArrayList<>(nobles);
         Noble wantedNoble = nobleList.getFirst();
 
@@ -124,7 +124,7 @@ class SplendorGameTest {
 
         Player player = game.getCurrentPlayer();
 
-        Set<Noble> nobles = game.getUnclaimedNobles();
+        List<Noble> nobles = game.getUnclaimedNobles();
         List<Noble> nobleList = new ArrayList<>(nobles);
         Noble wantedNoble = nobleList.getFirst();
 
