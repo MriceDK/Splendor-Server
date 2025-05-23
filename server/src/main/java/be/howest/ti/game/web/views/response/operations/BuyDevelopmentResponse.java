@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class BuyDevelopmentResponse extends AbstractResponseWithHiddenStatus {
 
-    private static final int NO_VALUE_IN_TOKEN = 0;
     private final List<DevelopmentInListView> developments;
     private final Map<String, Integer> tokens;
 

@@ -12,12 +12,12 @@ class SplendorServiceImplTest {
     private GameLobbyManager service;
 
     @BeforeEach
-    public void init() {
+    void init() {
         service = new GameLobbyManager();
     }
 
     @Test
-    public void createLobbyWithTwoParameters() {
+    void createLobbyWithTwoParameters() {
         service.createLobby(2, "Yoni");
 
         assertNull(service.getGames().getFirst().getGameName());
@@ -26,7 +26,7 @@ class SplendorServiceImplTest {
     }
 
     @Test
-    public void createLobbyWithThreeParameters() {
+    void createLobbyWithThreeParameters() {
         service.createLobby(4, "John", "Epic Splendor Game");
 
         assertEquals("Epic Splendor Game", service.getGames().getFirst().getGameName());
@@ -35,7 +35,7 @@ class SplendorServiceImplTest {
     }
 
     @Test
-    public void startGameWhenLobbyIsFull() {
+    void startGameWhenLobbyIsFull() {
         GameLobby lobby = service.createLobby(4, "John");
 
         service.joinLobby(lobby, "Eric");
@@ -46,7 +46,7 @@ class SplendorServiceImplTest {
     }
 
     @Test
-    public void gameDoesNotStartWhenNotFull() {
+    void gameDoesNotStartWhenNotFull() {
         GameLobby lobby = service.createLobby(4, "John");
 
         service.joinLobby(lobby, "Eric");
@@ -56,7 +56,7 @@ class SplendorServiceImplTest {
     }
 
     @Test
-    public void removeGame() {
+    void removeGame() {
         service.createLobby(4, "John", "game-01");
         service.createLobby(4, "John", "game-02");
 
@@ -67,7 +67,7 @@ class SplendorServiceImplTest {
     }
 
     @Test
-    public void removeGames() {
+    void removeGames() {
         service.createLobby(4, "John", "game-01");
         service.createLobby(4, "John", "game-02");
 
@@ -77,7 +77,7 @@ class SplendorServiceImplTest {
     }
 
     @Test
-    public void gameIdGeneratesCorrectly() {
+    void gameIdGeneratesCorrectly() {
         service.createLobby(4, "John", "game-01");
         service.createLobby(4, "John", "game-02");
 

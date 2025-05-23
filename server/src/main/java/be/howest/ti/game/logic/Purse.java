@@ -1,22 +1,23 @@
 package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+import be.howest.ti.game.logic.order.implementations.TokenAlphabeticalOrder;
 
 import java.util.*;
 
 public class Purse {
 
-    private final Map<Token, Integer> tokens;
+    private final EnumMap<Token, Integer> tokens;
 
     public Purse() {
-        this.tokens = new HashMap<>();
+        this.tokens = new EnumMap<>(Token.class);
         for (Token token : Token.values()) {
             this.tokens.put(token, 0);
         }
     }
 
     public Purse(Map<Token, Integer> tokens) {
-        this.tokens = new HashMap<>(tokens);
+        this.tokens = new EnumMap<>(tokens);
         for (Token token : Token.values()) {
             this.tokens.putIfAbsent(token, 0);
         }
@@ -31,7 +32,7 @@ public class Purse {
     }
 
     public Map<Token, Integer> getNormalTokens() {
-        Map<Token, Integer> res = new HashMap<>();
+        Map<Token, Integer> res = new EnumMap<>(Token.class);
 
         tokens.forEach((token, value) -> {
             if (!token.equals(Token.GOLD)) {
@@ -59,21 +60,21 @@ public class Purse {
         }
     }
 
-    private void checkIfAddIsAllowed(Token tokenName, int amount) {
+    private void checkIfAddIsAllowed(int amount) {
         if (amount < 0) {
             throw new SplendorGameRuleException("You can only add a positive amount of a token");
         }
     }
 
     public void addToken(Token tokenToAdd, Integer amount) {
-        checkIfAddIsAllowed(tokenToAdd, amount);
+        checkIfAddIsAllowed(amount);
         this.tokens.put(tokenToAdd, this.tokens.get(tokenToAdd) + amount);
     }
 
     public void addTokens(Purse tokensToAdd) {
         // Double for loop to first check if all tokens can be added
         for (Token token : tokensToAdd.getTokens().keySet()) {
-            checkIfAddIsAllowed(token, tokensToAdd.getTokens().get(token));
+            checkIfAddIsAllowed(tokensToAdd.getTokens().get(token));
         }
         for (Token token : tokensToAdd.getTokens().keySet()) {
             addToken(token, tokensToAdd.getTokens().get(token));
@@ -96,7 +97,7 @@ public class Purse {
     }
 
     public Map<Token, Integer> getAvailableTokens() {
-        Map<Token, Integer> res = new HashMap<>();
+        Map<Token, Integer> res = new EnumMap<>(Token.class);
 
         tokens.forEach((token, value) -> {
 
@@ -152,9 +153,7 @@ public class Purse {
     public static Map<String, Integer> toMapStringInteger(Map<Token, Integer> tokens) {
         Map<String, Integer> res = new HashMap<>();
 
-        tokens.forEach((token, value) -> {
-            res.put(token.toDisplayName(), value);
-        });
+        tokens.forEach((token, value) -> res.put(token.toDisplayName(), value));
 
         return res;
     }

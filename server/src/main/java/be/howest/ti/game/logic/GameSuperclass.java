@@ -1,10 +1,10 @@
 package be.howest.ti.game.logic;
 
-import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class GameSuperclass implements Comparable<GameSuperclass> {
 
@@ -14,15 +14,15 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
     private final String gameName;
     private final int maxPlayers;
 
-    public GameSuperclass(int gameId, String gameName, int maxPlayers) {
+    protected GameSuperclass(int gameId, String gameName, int maxPlayers) {
         this.gameId = gameId;
         this.gameName = gameName;
         this.maxPlayers = maxPlayers;
-        players = new ArrayList<>();
-        spectators = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.spectators = new ArrayList<>();
     }
 
-    public GameSuperclass(GameSuperclass game) {
+    protected GameSuperclass(GameSuperclass game) {
         this.gameId = game.getGameId();
         this.gameName = game.getGameName();
         this.players = game.getPlayers();
@@ -113,7 +113,20 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         } else return getClass() == SplendorGame.class;
     }
 
+    @Override
     public int compareTo(GameSuperclass o) {
         return this.gameId - o.gameId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        GameSuperclass that = (GameSuperclass) o;
+        return gameId == that.gameId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(gameId);
     }
 }

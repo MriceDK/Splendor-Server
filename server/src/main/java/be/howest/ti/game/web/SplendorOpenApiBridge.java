@@ -1,15 +1,11 @@
 package be.howest.ti.game.web;
 
 import be.howest.ti.game.logic.*;
-import be.howest.ti.game.logic.service.GameLobbyManager;
 import be.howest.ti.game.logic.service.GameOperations;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
 import be.howest.ti.game.web.tokens.JsonWebToken;
-//import be.howest.ti.game.web.tokens.PlainTextTokens;
-// Import only to be used when working with PlainTextTokens instead of JsonWebToken
 import be.howest.ti.game.web.tokens.SplendorHTTPPlayer;
-import be.howest.ti.game.util.Config;
 import be.howest.ti.game.web.tokens.TokenManager;
 import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
@@ -28,6 +24,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
     private final Supplier<SplendorService> serviceFactory;
     private final TokenManager tokenManager;
+    private static final String FORBIDDEN_ACCESS_RESPONSE = "Unauthorized";
 
     public SplendorOpenApiBridge() {
         this(SplendorServiceImpl::new, new JsonWebToken());
@@ -47,7 +44,6 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     private SplendorService getService(ContextBasedRequestView request) {
 
         String groupSecret = "Group11-6470-184";
-//        String groupSecret = Config.getString("groupSecret");
         if (!request.getGroupSecret().toString().equals(groupSecret)) {
             throw new ForbiddenAccessException("You are not allowed to access this group");
         }
@@ -77,13 +73,13 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("get-nobles")
-    public getNoblesResponse getNobles(getNoblesRequest request) {
-        return new getNoblesResponse(GameOperations.getAllNobles());
+    public GetNoblesResponse getNobles(GetNoblesRequest request) {
+        return new GetNoblesResponse(GameOperations.getAllNobles());
     }
 
     @Operation("get-developments")
-    public getDevelopmentsResponse getDevelopments(GetDevelopmentsRequest request) {
-        return new getDevelopmentsResponse(GameOperations.getAllDevelopments());
+    public GetDevelopmentsResponse getDevelopments(GetDevelopmentsRequest request) {
+        return new GetDevelopmentsResponse(GameOperations.getAllDevelopments());
     }
 
     //endregion
@@ -139,11 +135,11 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     }
 
     @Operation("get-game-details")
-    public GetGameDetailsResponse getGameDetails(GetGameDetailsRequest request) { // TODO find a way to sort the response properties
+    public GetGameDetailsResponse getGameDetails(GetGameDetailsRequest request) {
         SplendorService service = getService(request);
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
         GameSuperclass game = service.findGame(
@@ -151,7 +147,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         );
 
         if (!game.getPlayers().contains(new Player(request.getAuthorizedPlayerName())) && !game.getSpectators().contains(request.getAuthorizedPlayerName())) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
         if (game.hasStarted()) {
@@ -179,14 +175,14 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         if (request.getWantsToLeave() && !request.getIsSpectator()) {
             // delete player from game
             // substring is used to remove "Bearer " from the token
-            int BEARER_STRING_LENGTH = 7;
+            int bearerStringLength = 7;
             // validate token using token manager
-            SplendorHTTPPlayer parsedToken = tokenManager.parseToken(request.getToken().substring(BEARER_STRING_LENGTH));
+            SplendorHTTPPlayer parsedToken = tokenManager.parseToken(request.getToken().substring(bearerStringLength));
             if (parsedToken.getGameId() != request.getGameId()) {
-                throw new ForbiddenAccessException("Unauthorized");
+                throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
             }
             if (!parsedToken.getPlayerName().equals(request.getPlayerName())) {
-                throw new ForbiddenAccessException("Unauthorized");
+                throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
             }
 
             boolean hasStarted = service.findGame(gameId).hasStarted();
@@ -220,17 +216,17 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
         boolean takeOrReturn = request.addOrReturnCheck();
-        Map<Token, Integer> tokensToChange = request.getTokensToAdd();
-        Player player = service.updateTokens(takeOrReturn, gameId, playerName, new Purse(tokensToChange));
+        Purse tokensToChange = request.getTokensToAdd();
+        Player player = service.updateTokens(takeOrReturn, gameId, playerName, tokensToChange);
 
         return new UpdateTokensResponse(player.getTokens());
 
@@ -242,13 +238,13 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
-        Player player = service.buyDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPayment());
+        Player player = service.buyDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPaymentPurse());
         PlayerInListView activePlayerView = new PlayerInListView(player);
         return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayerView.getTokens());
 
@@ -271,10 +267,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         }
 
         if (request.getAuthorizedGameId() != request.getGameId()) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
-            throw new ForbiddenAccessException("Unauthorized");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
         if (name != null) {
@@ -290,7 +286,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public BuyDevelopmentResponse buyReserveDevelopment(BuyReservedDevelopmentRequest request) {
         SplendorService service = getService(request);
 
-        PlayerInListView playerView = new PlayerInListView(service.buyReservedDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPayment()));
+        PlayerInListView playerView = new PlayerInListView(service.buyReservedDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPaymentPurse()));
         return new BuyDevelopmentResponse(playerView.getBuilt(), playerView.getTokens());
 
 

@@ -11,51 +11,31 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PurseTest {
 
-    private Map<Token, Integer> emptyTokenMap;
-    private Map<Token, Integer> startTokens;
     private Purse filledPurse;
     private Purse emptyPurse;
 
 
     @BeforeEach
-    public void setUp() {
-
-        emptyTokenMap = new HashMap<>();
-        emptyTokenMap.put(Token.DIAMOND, 0);
-        emptyTokenMap.put(Token.GOLD, 0);
-        emptyTokenMap.put(Token.EMERALD, 0);
-        emptyTokenMap.put(Token.ONYX, 0);
-        emptyTokenMap.put(Token.RUBY, 0);
-        emptyTokenMap.put(Token.SAPPHIRE, 0);
-
-
-        startTokens = new HashMap<>();
-        startTokens.put(Token.DIAMOND, 1);
-        startTokens.put(Token.GOLD, 2);
-        startTokens.put(Token.EMERALD, 3);
-        startTokens.put(Token.ONYX, 4);
-        startTokens.put(Token.RUBY, 5);
-        startTokens.put(Token.SAPPHIRE, 6);
-
+    void setUp() {
+        filledPurse = new Purse();
+        filledPurse.addToken(Token.DIAMOND, 1);
+        filledPurse.addToken(Token.GOLD, 2);
+        filledPurse.addToken(Token.EMERALD, 3);
+        filledPurse.addToken(Token.ONYX, 4);
+        filledPurse.addToken(Token.RUBY, 5);
+        filledPurse.addToken(Token.SAPPHIRE, 6);
 
         emptyPurse = new Purse();
-        filledPurse = new Purse(startTokens);
     }
 
     @Test
-    public void getTokens() {
-        assertEquals(emptyTokenMap, emptyPurse.getTokens());
-        assertEquals(startTokens, filledPurse.getTokens());
-    }
-
-    @Test
-    public void getTotal() {
+    void getTotal() {
         assertEquals(0, emptyPurse.getTotal());
         assertEquals(21, filledPurse.getTotal());
     }
 
     @Test
-    public void addToken() {
+    void addToken() {
         emptyPurse.addToken(Token.DIAMOND,1);
         assertEquals(1, emptyPurse.getTokens().get(Token.DIAMOND));
         emptyPurse.addToken(Token.GOLD,2);
@@ -63,12 +43,12 @@ class PurseTest {
     }
 
     @Test
-    public void addTokens() {
-        Map<Token, Integer> tokensToAdd = new HashMap<>();
-        tokensToAdd.put(Token.DIAMOND, 3);
-        tokensToAdd.put(Token.GOLD, 4);
+    void addTokens() {
+        Purse tokensToAdd = new Purse();
+        tokensToAdd.addToken(Token.DIAMOND, 3);
+        tokensToAdd.addToken(Token.GOLD, 4);
 
-        emptyPurse.addTokens(new Purse(tokensToAdd));
+        emptyPurse.addTokens(tokensToAdd);
         assertEquals(3, emptyPurse.getTokens().get(Token.DIAMOND));
         assertEquals(4, emptyPurse.getTokens().get(Token.GOLD));
         assertEquals(0, emptyPurse.getTokens().get(Token.EMERALD));
@@ -78,7 +58,7 @@ class PurseTest {
     }
 
     @Test
-    public void removeToken() {
+    void removeToken() {
         filledPurse.removeToken(Token.DIAMOND, 1);
         assertEquals(0, filledPurse.getTokens().get(Token.DIAMOND));
 
@@ -89,20 +69,20 @@ class PurseTest {
     }
 
     @Test
-    public void removeTokens() {
-        Map<Token, Integer> tokensToRemove = new HashMap<>();
-        tokensToRemove.put(Token.RUBY, 3);
-        tokensToRemove.put(Token.SAPPHIRE, 4);
+    void removeTokens() {
+        Purse tokensToRemove = new Purse();
+        tokensToRemove.addToken(Token.RUBY, 3);
+        tokensToRemove.addToken(Token.SAPPHIRE, 4);
 
-        assertThrows(SplendorGameRuleException.class, () -> emptyPurse.removeTokens(new Purse(tokensToRemove)));
+        assertThrows(SplendorGameRuleException.class, () -> emptyPurse.removeTokens(tokensToRemove));
 
-        filledPurse.removeTokens(new Purse(tokensToRemove));
+        filledPurse.removeTokens(tokensToRemove);
         assertEquals(2, filledPurse.getTokens().get(Token.RUBY));
         assertEquals(2, filledPurse.getTokens().get(Token.SAPPHIRE));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Purse tokens = new Purse(Map.of(Token.ONYX, 2, Token.EMERALD, 3));
 
         assertEquals("3 Emerald | 2 Onyx", tokens.toString());

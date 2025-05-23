@@ -8,6 +8,11 @@ import be.howest.ti.game.util.reader.NobleReader;
 import java.util.List;
 
 public abstract class GameOperations {
+
+    private GameOperations() {
+        // Prevent instantiation
+    }
+
     public static List<Development> getAllDevelopments() {
         DevelopmentReader reader = new DevelopmentReader();
         return reader.getAllDevelopments();
