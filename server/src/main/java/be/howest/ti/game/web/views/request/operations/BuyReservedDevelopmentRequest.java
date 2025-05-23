@@ -1,6 +1,6 @@
 package be.howest.ti.game.web.views.request.operations;
 
-import io.vertx.core.json.JsonObject;
+import be.howest.ti.game.logic.Purse;
 import io.vertx.ext.web.RoutingContext;
 
 public class BuyReservedDevelopmentRequest extends PaymentReceiver {
@@ -20,8 +20,8 @@ public class BuyReservedDevelopmentRequest extends PaymentReceiver {
         return params.pathParameter("developmentName").getString();
     }
 
-    public JsonObject getPaymentObject() {
-        return params.body().getJsonObject().getJsonObject("payment");
+    public Purse getPaymentPurse() {
+        return getPayment(params.body().getJsonObject().getJsonObject("payment"));
     }
 
 }
