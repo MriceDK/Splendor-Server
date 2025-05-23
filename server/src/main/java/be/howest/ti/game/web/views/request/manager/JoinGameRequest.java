@@ -19,19 +19,22 @@ public class JoinGameRequest extends BaseSplendorRequest {
     public boolean getIsSpectator() {
         // ctx is used because it allows arguments to be passed on which are not in the spec
         // this is a bonus functionality
-        if (ctx.body().asJsonObject().containsKey("isSpectator")) {
+
+        try {
             return ctx.body().asJsonObject().getBoolean("isSpectator");
+        } catch (NullPointerException ex) {
+            return false;
         }
-        throw new IllegalArgumentException("isSpectator is missing");
     }
 
     public boolean getWantsToLeave() {
         // ctx is used because it allows arguments to be passed on which are not in the spec
         // this is a bonus functionality
-        if (ctx.body().asJsonObject().containsKey("wantsToLeave")) {
+        try {
             return ctx.body().asJsonObject().getBoolean("wantsToLeave");
+        } catch (NullPointerException ex) {
+            return false;
         }
-        throw new IllegalArgumentException("wantsToLeave is missing");
     }
 
     public String getToken() {
