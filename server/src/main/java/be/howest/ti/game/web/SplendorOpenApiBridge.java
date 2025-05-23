@@ -11,6 +11,7 @@ import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
 import be.howest.ti.game.web.views.request.manager.*;
 import be.howest.ti.game.web.views.request.operations.*;
+import be.howest.ti.game.web.views.response.getCheckTurnIsOverResponse;
 import be.howest.ti.game.web.views.response.JoinSpectateGameResponse;
 import be.howest.ti.game.web.views.response.LeaveGameResponse;
 import be.howest.ti.game.web.views.response.SpectateGameResponse;
@@ -221,6 +222,14 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
+
+        // Begin region
+        // TODO Geef uitleg
+        if (request.getCheckCanMakeMove()) {
+            boolean canMakeMove = service.checkIfPlayerHasEnoughTimeLeft(request.getGameId(), request.getAuthorizedPlayerName());
+            return new getCheckTurnIsOverResponse(canMakeMove);
+        }
+        // End region
 
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
