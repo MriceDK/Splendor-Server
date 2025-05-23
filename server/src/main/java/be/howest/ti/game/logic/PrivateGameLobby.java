@@ -9,8 +9,7 @@ public class PrivateGameLobby extends GameLobby{
     }
 
     public PrivateGameLobby(int gameId, int maxPlayers, String password) {
-        this(gameId, null, maxPlayers);
-        this.password = password;
+        this(gameId, null, maxPlayers, password);
     }
 
     public String getPassword() {
