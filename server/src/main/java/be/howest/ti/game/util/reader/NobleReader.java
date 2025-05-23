@@ -4,8 +4,6 @@ import be.howest.ti.game.logic.Noble;
 import be.howest.ti.game.logic.Purse;
 import be.howest.ti.game.logic.Token;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
 
@@ -43,11 +41,11 @@ public class NobleReader {
 
     }
 
-    public Set<Noble> getRandomNobles(int playerCount) {
+    public List<Noble> getRandomNobles(int playerCount) {
         int TOTAL_AMOUNT_UNCLAIMED_NOBLES = playerCount + 1;
 
         List<Noble> allNobles = new ArrayList<>(nobles);
-        Set<Noble> selectedNobles = new HashSet<>();
+        List<Noble> selectedNobles = new ArrayList<>();
 
         Collections.shuffle((List<?>) allNobles);
 

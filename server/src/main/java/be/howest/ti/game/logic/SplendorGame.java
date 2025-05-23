@@ -22,7 +22,7 @@ public class SplendorGame extends GameSuperclass {
     private static final int MIN_BANK_VALUE_FOR_TWO_OF_SAME_TOKENS = 4;
 
     private final Purse tokenBank;
-    private final Set<Noble> unclaimedNobles;
+    private final List<Noble> unclaimedNobles;
     private final Market market;
     private Player currentPlayer;
     private GameState gameState;
@@ -287,7 +287,7 @@ public class SplendorGame extends GameSuperclass {
         endPhaseOfTurn(false);
     }
 
-    public Set<Noble> setUnclaimedNobles() {
+    public List<Noble> setUnclaimedNobles() {
         NobleReader nobleReader = new NobleReader();
         return nobleReader.getRandomNobles(getTotalPlayers());
     }
@@ -296,7 +296,7 @@ public class SplendorGame extends GameSuperclass {
         return gameState;
     }
 
-    public Set<Noble> getUnclaimedNobles() {
+    public List<Noble> getUnclaimedNobles() {
         return unclaimedNobles;
     }
 

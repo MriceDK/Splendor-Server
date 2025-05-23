@@ -2,7 +2,6 @@ package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
-import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.GameLobbyManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -113,7 +112,7 @@ class SplendorGameTest {
         SplendorGame game = new SplendorGame(lobby);
         Player player = game.getCurrentPlayer();
 
-        Set<Noble> nobles = game.getUnclaimedNobles();
+        List<Noble> nobles = game.getUnclaimedNobles();
         List<Noble> nobleList = new ArrayList<>(nobles);
         Noble wantedNoble = nobleList.getFirst();
 
@@ -131,7 +130,7 @@ class SplendorGameTest {
 
         Player player = game.getCurrentPlayer();
 
-        Set<Noble> nobles = game.getUnclaimedNobles();
+        List<Noble> nobles = game.getUnclaimedNobles();
         List<Noble> nobleList = new ArrayList<>(nobles);
         Noble wantedNoble = nobleList.getFirst();
 
