@@ -71,10 +71,9 @@ public class GameActionManager {
         return game.chooseNoble(player, noble);
     }
 
-    public boolean checkIfPlayerHasEnoughTimeLeft(int gameId, String playerName) {
+    public boolean checkIfPlayerHasEnoughTimeLeft(int gameId) {
         SplendorGame game = lobbyManager.findStartedGame(gameId);
-        Player player = game.findPlayer(playerName);
 
-        return game.enoughTimeLeft(player);
+        return game.enoughTimeLeft();
     }
 }

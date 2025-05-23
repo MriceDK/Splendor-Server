@@ -86,8 +86,7 @@ public class SplendorGame extends GameSuperclass {
         startTurn();
     }
 
-    public boolean enoughTimeLeft(Player player) {
-        playerTurnChecker(player);
+    public boolean enoughTimeLeft() {
         boolean enoughTimeLeft = calculateSecondsLeftToMakeMove() > 0;
 
         if (!enoughTimeLeft) {

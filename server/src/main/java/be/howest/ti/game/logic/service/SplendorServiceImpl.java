@@ -110,7 +110,7 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
-    public boolean checkIfPlayerHasEnoughTimeLeft(int gameId, String playerName) {
-        return gameActionManager.checkIfPlayerHasEnoughTimeLeft(gameId, playerName);
+    public boolean checkIfPlayerHasEnoughTimeLeft(int gameId) {
+        return gameActionManager.checkIfPlayerHasEnoughTimeLeft(gameId);
     }
 }

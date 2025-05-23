@@ -226,7 +226,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         // Begin region
         // TODO Geef uitleg
         if (request.getCheckCanMakeMove()) {
-            boolean canMakeMove = service.checkIfPlayerHasEnoughTimeLeft(request.getGameId(), request.getAuthorizedPlayerName());
+            boolean canMakeMove = service.checkIfPlayerHasEnoughTimeLeft(request.getGameId());
             return new getCheckCanMakeMoveResponse(canMakeMove);
         }
         // End region
