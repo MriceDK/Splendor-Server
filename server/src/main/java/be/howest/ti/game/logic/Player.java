@@ -44,7 +44,7 @@ public class Player {
         return bonuses;
     }
 
-    public Set<Noble> getAcquiredNobles() {
+    public List<Noble> getAcquiredNobles() {
         return acquiredNobles;
     }
 
