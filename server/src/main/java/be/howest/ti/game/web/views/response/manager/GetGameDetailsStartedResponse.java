@@ -45,8 +45,8 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         return Purse.toMapStringInteger(tokens);
     }
 
-    public Set<NobleInSetView> getUnclaimedNobles() {
-        Set<NobleInSetView> res = new HashSet<>();
+    public List<NobleInSetView> getUnclaimedNobles() {
+        List<NobleInSetView> res = new ArrayList<>();
 
         for (Noble unclaimedNoble : startedGame.getUnclaimedNobles()) {
             res.add(new NobleInSetView(unclaimedNoble));
