@@ -17,11 +17,11 @@ public class ChooseNobleRequest extends PaymentReceiver {
     }
 
     public String getNobleName(){
-        return params.body().getJsonObject().getJsonObject("noble").getString("name");
+        return params.body().getJsonObject().getString("name");
     }
 
     public int getPrestigePoints(){
-        return params.body().getJsonObject().getJsonObject("noble").getInteger("prestigePoints");
+        return params.body().getJsonObject().getInteger("prestigePoints");
     }
 
     public Purse getNeededBonuses(){
