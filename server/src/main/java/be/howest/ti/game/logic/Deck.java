@@ -40,10 +40,9 @@ public class Deck {
     }
 
 
-    public Development removeVisibleDevelopment(Development development) {
+    public void removeVisibleDevelopment(Development development) {
         if (visibleDevelopments.contains(development)) {
             visibleDevelopments.remove(development);
-            return development;
         } else throw new SplendorGameResourceNotFoundException("Development not found in visible developments");
     }
 

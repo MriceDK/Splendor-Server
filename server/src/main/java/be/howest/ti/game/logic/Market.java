@@ -31,8 +31,8 @@ public class Market {
         return levels[level - 1].takeTopDevelopment();
     }
 
-    public Development removeVisibleDevelopment(Development matchingDevelopment) {
-        return levels[matchingDevelopment.level() - 1].removeVisibleDevelopment(matchingDevelopment);
+    public void removeVisibleDevelopment(Development matchingDevelopment) {
+        levels[matchingDevelopment.level() - 1].removeVisibleDevelopment(matchingDevelopment);
     }
 
     public void refillMarket(int level){
