@@ -12,7 +12,7 @@ public class Player {
     private final String name;
     private Purse tokens;
     private Purse bonuses;
-    private Set<Noble> acquiredNobles; // TODO make final
+    private final List<Noble> acquiredNobles;
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
     private final List<Development> ownedDevelopments;
@@ -24,7 +24,7 @@ public class Player {
 
     public Player(String name) {
         this.name = name;
-        this.acquiredNobles = new HashSet<>();
+        this.acquiredNobles = new ArrayList<>();
         this.reservedDevelopments = new ArrayList<>();
         this.tokens = new Purse();
         this.bonuses = new Purse();
