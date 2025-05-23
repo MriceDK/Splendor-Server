@@ -244,7 +244,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
-        Player player = service.buyDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPayment(request.getPaymentObject()));
+        Player player = service.buyDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPaymentPurse());
         PlayerInListView activePlayerView = new PlayerInListView(player);
         return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayerView.getTokens());
 
@@ -286,7 +286,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public BuyDevelopmentResponse buyReserveDevelopment(BuyReservedDevelopmentRequest request) {
         SplendorService service = getService(request);
 
-        PlayerInListView playerView = new PlayerInListView(service.buyReservedDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPayment(request.getPaymentObject())));
+        PlayerInListView playerView = new PlayerInListView(service.buyReservedDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPaymentPurse()));
         return new BuyDevelopmentResponse(playerView.getBuilt(), playerView.getTokens());
 
 

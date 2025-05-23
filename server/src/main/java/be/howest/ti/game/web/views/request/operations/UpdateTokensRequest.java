@@ -1,14 +1,10 @@
 package be.howest.ti.game.web.views.request.operations;
 
 import be.howest.ti.game.logic.Purse;
-import be.howest.ti.game.logic.Token;
-import be.howest.ti.game.web.views.request.BaseSplendorRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
-import java.util.Map;
-
-public class UpdateTokensRequest extends BaseSplendorRequest {
+public class UpdateTokensRequest extends PaymentReceiver {
     public UpdateTokensRequest(RoutingContext ctx) {
         super(ctx);
     }
@@ -22,19 +18,7 @@ public class UpdateTokensRequest extends BaseSplendorRequest {
     }
 
     public Purse getTokensToAdd() {
-
-        Purse mapTokensToAdd = new Purse();
-        JsonObject jsonObj = getAddOrReturn();
-        for (Map.Entry<String, Object> tokenToTake : jsonObj) {
-
-            Token tokenToAdd = Token.valueOf(tokenToTake.getKey().toUpperCase());
-            int valueToAdd = (Integer) tokenToTake.getValue();
-
-            mapTokensToAdd.addToken(tokenToAdd, valueToAdd);
-
-        }
-
-        return mapTokensToAdd;
+        return getPayment(getAddOrReturn());
     }
 
     private JsonObject getAddOrReturn() {
