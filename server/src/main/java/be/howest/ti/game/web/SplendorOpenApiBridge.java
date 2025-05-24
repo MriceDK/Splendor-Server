@@ -11,7 +11,6 @@ import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
 import be.howest.ti.game.web.views.request.manager.*;
 import be.howest.ti.game.web.views.request.operations.*;
-import be.howest.ti.game.web.views.response.getCheckCanMakeMoveResponse;
 import be.howest.ti.game.web.views.response.JoinSpectateGameResponse;
 import be.howest.ti.game.web.views.response.LeaveGameResponse;
 import be.howest.ti.game.web.views.response.SpectateGameResponse;
@@ -221,32 +220,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
-
-        /* Begin region */
-        // getCurrentPlayer "extra" endpoint
-
-        // This piece of code is used to bypass the original response of this endpoint
-        // when a parameter named "getCurrentPlayer" is true in the response.
-        // There will also be an empty purse in the body of the response that won't be used when the endpoint
-        // is used this way.
-//        if (request.getCurrentPlayer()) {
-//            GameSuperclass game = service.findGame(request.getGameId());
-//            if (!game.getPlayers().contains(new Player(request.getAuthorizedPlayerName())) && !game.getSpectators().contains(request.getAuthorizedPlayerName())) {
-//                throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
-//            }
-//
-//            Player currentPlayer = service.getCurrentPlayer(request.getGameId());
-//            return new getCheckCanMakeMoveResponse(currentPlayer);
-//        }
-
-        /* End region */
-
-
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
-
-
 
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
