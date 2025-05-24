@@ -55,8 +55,8 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         return res;
     }
 
-    public GameState getGameState() {
-        return startedGame.getGameState();
+    public String getGameState() {
+        return startedGame.getGameState().toDisplayName();
     }
 
     public String getCurrentPlayer() {
