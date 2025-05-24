@@ -88,4 +88,7 @@ class SplendorServiceImplTest {
         assertEquals("game-03", service.findGame(2).getGameName());
     }
 
+    @Test
+    void removePlayer() {
+    }
 }
