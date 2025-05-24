@@ -1,19 +1,20 @@
 package be.howest.ti.game.web.views.response;
 
+import be.howest.ti.game.logic.Player;
 import be.howest.ti.game.logic.Purse;
 import be.howest.ti.game.web.views.response.operations.UpdateTokensResponse;
 
 public class getCheckCanMakeMoveResponse extends UpdateTokensResponse {
 
-    private final boolean canMakeMove;
+    private final Player currentPlayer;
 
-    public getCheckCanMakeMoveResponse(boolean allowedToMakeMove) {
+    public getCheckCanMakeMoveResponse(Player currentPlayer) {
         super(new Purse());
-        this.canMakeMove = allowedToMakeMove;
+        this.currentPlayer = currentPlayer;
     }
 
-    public boolean getCanMakeMove() {
-        return canMakeMove;
+    public String getCurrentPlayer() {
+        return currentPlayer.getName();
     }
 
 }

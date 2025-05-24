@@ -43,5 +43,5 @@ public interface SplendorService {
 
     Noble chooseNoble(int gameId, String playerName, Noble noble);
 
-    boolean checkIfPlayerHasEnoughTimeLeft(int gameId);
+    Player getCurrentPlayer(int gameId);
 }

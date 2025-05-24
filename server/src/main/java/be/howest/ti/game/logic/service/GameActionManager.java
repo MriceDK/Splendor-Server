@@ -71,9 +71,9 @@ public class GameActionManager {
         return game.chooseNoble(player, noble);
     }
 
-    public boolean checkIfPlayerHasEnoughTimeLeft(int gameId) {
+    public Player getCurrentPlayer(int gameId) {
         SplendorGame game = lobbyManager.findStartedGame(gameId);
 
-        return game.enoughTimeLeft();
+        return game.getCurrentPlayer();
     }
 }

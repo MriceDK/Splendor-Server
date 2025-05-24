@@ -37,10 +37,10 @@ public class UpdateTokensRequest extends PaymentReceiver {
         }
     }
 
-    public boolean getCheckCanMakeMove() {
+    public boolean getCurrentPlayer() {
 
         try {
-            return ctx.body().asJsonObject().getBoolean("checkCanMakeMove");
+            return ctx.body().asJsonObject().getBoolean("getCurrentPlayer");
         } catch(NullPointerException ex) {
             return false;
         }

@@ -223,13 +223,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
 
-        // Begin region
-        // TODO Geef uitleg
-        if (request.getCheckCanMakeMove()) {
-            boolean canMakeMove = service.checkIfPlayerHasEnoughTimeLeft(request.getGameId());
-            return new getCheckCanMakeMoveResponse(canMakeMove);
-        }
-        // End region
+
 
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
