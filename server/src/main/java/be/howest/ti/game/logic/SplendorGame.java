@@ -60,10 +60,6 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public LocalDateTime getTimeEndTurn() {
-        return timeEndTurn;
-    }
-
     public String getTimeEndTurnFormated() {
         return timeEndTurn.toString();
     }
@@ -97,7 +93,6 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public boolean enoughTimeLeft() {
-        System.out.println("Time left!!!!: " + calculateSecondsLeftToMakeMove());
         return calculateSecondsLeftToMakeMove() > 0;
     }
 
