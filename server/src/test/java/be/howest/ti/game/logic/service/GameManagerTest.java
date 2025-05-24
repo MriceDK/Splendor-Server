@@ -38,9 +38,9 @@ class GameManagerTest {
     void startGameWhenLobbyIsFull() {
         GameLobby lobby = service.createPublicLobby(4, "John");
 
-        service.joinPublicLobby(lobby, "Eric");
-        service.joinPublicLobby(lobby, "Steve");
-        service.joinPublicLobby(lobby, "Alice");
+        service.joinLobby(lobby, "Eric");
+        service.joinLobby(lobby, "Steve");
+        service.joinLobby(lobby, "Alice");
 
         assertTrue(service.findGame(lobby.getGameId()).hasStarted());
     }
@@ -49,8 +49,8 @@ class GameManagerTest {
     void gameDoesNotStartWhenNotFull() {
         GameLobby lobby = service.createPublicLobby(4, "John");
 
-        service.joinPublicLobby(lobby, "Eric");
-        service.joinPublicLobby(lobby, "Steve");
+        service.joinLobby(lobby, "Eric");
+        service.joinLobby(lobby, "Steve");
 
         assertFalse(service.findGame(lobby.getGameId()).hasStarted());
     }
@@ -181,7 +181,7 @@ class GameManagerTest {
         service.createPublicLobby(4, "John", "game-01");
         service.createPublicLobby(4, "John", "game-02");
 
-        service.joinPublicLobby(service.findLobby(0), "AliceInChains");
+        service.joinLobby(service.findLobby(0), "AliceInChains");
         service.removePlayer(service.findLobby(0), "AliceInChains");
 
         assertEquals(1, service.findGame(0).getPlayers().size());
@@ -192,7 +192,7 @@ class GameManagerTest {
         service.createPublicLobby(4, "John", "game-01");
         service.createPublicLobby(4, "John", "game-02");
 
-        service.joinPublicLobby(service.findLobby(0), "AliceInChains");
+        service.joinLobby(service.findLobby(0), "AliceInChains");
         service.removePlayer(service.findLobby(0), "AliceInChains");
 
         assertThrows(IllegalStateException.class, () -> service.removePlayer(service.findLobby(0), "AliceInChains"));
@@ -203,7 +203,7 @@ class GameManagerTest {
         service.createPublicLobby(4, "John", "game-01");
         service.createPublicLobby(4, "John", "game-02");
 
-        service.joinPublicLobby(service.findLobby(0), "AliceInChains");
+        service.joinLobby(service.findLobby(0), "AliceInChains");
 
         assertEquals(2, service.findGame(0).getPlayers().size());
         assertEquals(1, service.findGame(1).getPlayers().size());
