@@ -87,5 +87,9 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         return startedGame.getIsLastRound();
     }
 
+    public String getTimeEndTurn() {
+        return startedGame.getTimeEndTurnFormated();
+    }
+
 
 }
