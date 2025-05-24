@@ -183,10 +183,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public JoinSpectateGameResponse joinGame(JoinGameRequest request) {
 
         SplendorService service = getService(request);
-
-        String playerName = request.getPlayerName();
         String password = request.getPassword();
+        String playerName = request.getPlayerName();
         int gameId = request.getGameId();
+
         String token = createToken(new SplendorHTTPPlayer(gameId, request.getPlayerName()));
 
         if (request.getWantsToLeave() && request.getIsSpectator()) {
@@ -213,26 +213,26 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             return new LeaveGameResponse(gameId, playerName, hasStarted);
         }
 
-        if (!request.getWantsToLeave() && request.getIsSpectator() && (request.getPassword() == null || request.getPassword().isEmpty())) {
-            // add spectator to game
+        if (!request.getWantsToLeave() && request.getIsSpectator() && !service.findGame(gameId).isPrivate()) {
+            // add spectator to public kgame
             service.spectateGame(gameId, playerName);
             return new SpectateGameResponse(gameId, playerName, token);
         }
 
-        if (!request.getWantsToLeave() && request.getIsSpectator() && (request.getPassword() != null || !request.getPassword().isEmpty())) {
-            // add spectator to game
-            service.spectateGame(gameId, playerName, password);
-            return new SpectateGameResponse(gameId, playerName, token);
-        }
-
-        if (!request.getWantsToLeave() && !request.getIsSpectator()  && (request.getPassword() == null || request.getPassword().isEmpty())) {
-            // add player to game
+        if (!request.getWantsToLeave() && !request.getIsSpectator() && !service.findGame(gameId).isPrivate()) {
+            // add player to public game
             service.joinLobby(gameId, playerName);
             return new JoinGameResponse(gameId, playerName, token);
         }
 
-        if (!request.getWantsToLeave() && !request.getIsSpectator()  && (request.getPassword() != null || !request.getPassword().isEmpty())) {
-            // add player to game
+        if (!request.getWantsToLeave() && request.getIsSpectator() && service.findGame(gameId).isPrivate()) {
+            // add spectator to private game
+            service.spectateGame(gameId, playerName, password);
+            return new SpectateGameResponse(gameId, playerName, token);
+        }
+
+        if (!request.getWantsToLeave() && !request.getIsSpectator() && service.findGame(gameId).isPrivate()) {
+            // add player to private game
             service.joinLobby(gameId, playerName, password);
             return new JoinGameResponse(gameId, playerName, token);
         }
