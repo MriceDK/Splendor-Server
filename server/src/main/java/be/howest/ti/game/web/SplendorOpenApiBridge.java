@@ -185,6 +185,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         SplendorService service = getService(request);
 
         String playerName = request.getPlayerName();
+        String password = request.getPassword();
         int gameId = request.getGameId();
         String token = createToken(new SplendorHTTPPlayer(gameId, request.getPlayerName()));
 
@@ -212,15 +213,27 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             return new LeaveGameResponse(gameId, playerName, hasStarted);
         }
 
-        if (!request.getWantsToLeave() && request.getIsSpectator()) {
+        if (!request.getWantsToLeave() && request.getIsSpectator() && (request.getPassword() == null || request.getPassword().isEmpty())) {
             // add spectator to game
             service.spectateGame(gameId, playerName);
             return new SpectateGameResponse(gameId, playerName, token);
         }
 
-        if (!request.getWantsToLeave() && !request.getIsSpectator()) {
+        if (!request.getWantsToLeave() && request.getIsSpectator() && (request.getPassword() != null || !request.getPassword().isEmpty())) {
+            // add spectator to game
+            service.spectateGame(gameId, playerName, password);
+            return new SpectateGameResponse(gameId, playerName, token);
+        }
+
+        if (!request.getWantsToLeave() && !request.getIsSpectator()  && (request.getPassword() == null || request.getPassword().isEmpty())) {
             // add player to game
             service.joinLobby(gameId, playerName);
+            return new JoinGameResponse(gameId, playerName, token);
+        }
+
+        if (!request.getWantsToLeave() && !request.getIsSpectator()  && (request.getPassword() != null || !request.getPassword().isEmpty())) {
+            // add player to game
+            service.joinLobby(gameId, playerName, password);
             return new JoinGameResponse(gameId, playerName, token);
         }
         throw new IllegalArgumentException("Please provide a valid request");
