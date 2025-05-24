@@ -113,7 +113,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         } else return getClass() == SplendorGame.class;
     }
 
-    public boolean isEmptyCheck(){
+    public boolean isEmpty(){
         return players.isEmpty();
     }
 
