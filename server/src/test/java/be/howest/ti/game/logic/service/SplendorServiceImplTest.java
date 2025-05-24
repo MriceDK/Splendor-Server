@@ -89,7 +89,7 @@ class SplendorServiceImplTest {
     }
 
     @Test
-    void removePlayerRemovedLobbyGood() {
+    void removePlayerRemovedLobbyStillUp() {
         GameLobby lobby = service.createLobby(4, "Johnny", "DoesGame");
         service.joinLobby(lobby, "Erikson");
         service.joinLobby(lobby, "Melinoe");
