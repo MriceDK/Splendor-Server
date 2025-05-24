@@ -1,6 +1,6 @@
 package be.howest.ti.game.util.customization;
 
-public enum CountryFlags {
+public enum CountryFlag {
     BE,
     GB,
     DE,
