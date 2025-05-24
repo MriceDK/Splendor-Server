@@ -89,6 +89,28 @@ class SplendorServiceImplTest {
     }
 
     @Test
-    void removePlayer() {
+    void removePlayerRemovedLobbyGood() {
+        GameLobby lobby = service.createLobby(4, "Johnny", "DoesGame");
+        service.joinLobby(lobby, "Erikson");
+        service.joinLobby(lobby, "Melinoe");
+
+        service.removePlayer(lobby, "Erikson");
+
+        assertEquals(2, service.findLobby(lobby.getGameId()).getTotalPlayers());
+    }
+
+    @Test
+    void removePlayerLobbyRemains(){
+        GameLobby lobby = service.createLobby(4, "Johnny", "DoesGame");
+        service.joinLobby(lobby, "Erikson");
+        service.joinLobby(lobby, "Melinoe");
+
+        service.removePlayer(lobby,"Erikson");
+        service.removePlayer(lobby, "Melinoe");
+        service.removePlayer(lobby, "Johnny");
+
+        assertThrows(SplendorGameResourceNotFoundException.class, () -> service.findLobby(lobby.getGameId()));
+
+
     }
 }
