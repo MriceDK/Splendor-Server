@@ -26,12 +26,22 @@ public class SplendorServiceImpl implements SplendorService {
 
     @Override
     public void joinLobby(int gameId, String playerName) {
-        gameLobbyManager.joinLobby(findLobby(gameId), playerName);
+        gameLobbyManager.joinPublicLobby(findLobby(gameId), playerName);
+    }
+
+    @Override
+    public void joinLobby(int gameId, String playerName, String password) {
+        gameLobbyManager.joinPrivateLobby((PrivateGameLobby) findLobby(gameId), playerName, password);
     }
 
     @Override
     public void spectateGame(int gameId, String spectatorName) {
         gameLobbyManager.spectateLobby(findGame(gameId), spectatorName);
+    }
+
+    @Override
+    public void spectateGame(int gameId, String spectatorName, String password) {
+        gameLobbyManager.spectateLobby(findGame(gameId), spectatorName, password);
     }
 
     @Override

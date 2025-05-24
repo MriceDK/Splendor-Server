@@ -87,11 +87,19 @@ public class GameLobbyManager {
     }
 
 
-    public void joinLobby(GameLobby lobby, String playerName) {
+    public void joinPublicLobby(GameLobby lobby, String playerName) {
         lobby.addPlayer(playerName);
 
         if (lobby.isFull()) {
             startGame(lobby);
+        }
+    }
+
+    public void joinPrivateLobby(PrivateGameLobby lobby, String playerName, String password) {
+        if (lobby.getPassword().equals(password)) {
+            lobby.addPlayer(playerName);
+        } else {
+            throw new IllegalArgumentException("Wrong password");
         }
     }
 
@@ -101,6 +109,26 @@ public class GameLobbyManager {
 //            TODO: discuss what we should do after a player leaves a game
             removeGame(game.getGameId());
         }
+    }
+
+    public void spectateLobby(GameSuperclass game, String spectatorName, String password) {
+        if (game.isPrivate()) {
+            if (game.hasStarted()) {
+                PrivateSplendorGame privateGame = (PrivateSplendorGame) game;
+                if (privateGame.getPassword().equals(password)) {
+                    game.addSpectator(spectatorName);
+                } else {
+                    throw new IllegalArgumentException("Wrong password");
+                }
+            } else {
+                PrivateGameLobby privateLobby = (PrivateGameLobby) game;
+                if (privateLobby.getPassword().equals(password)) {
+                    game.addSpectator(spectatorName);
+                } else {
+                    throw new IllegalArgumentException("Wrong password");
+                }
+            }
+        } else throw new IllegalArgumentException("Game isn't private");
     }
 
     public void spectateLobby(GameSuperclass game, String spectatorName) {
@@ -154,6 +182,30 @@ public class GameLobbyManager {
 
         return startedGames;
     }
+
+//    public List<PrivateGameLobby> getPrivateLobbies() {
+//        List<PrivateGameLobby> privateLobbies = new ArrayList<>();
+//
+//        for (GameSuperclass game : games) {
+//            if (!game.isPrivate()) {
+//                privateLobbies.add((PrivateGameLobby) game);
+//            }
+//        }
+//
+//        return privateLobbies;
+//    }
+//
+//    public List<PrivateSplendorGame> getPrivateGames() {
+//        List<PrivateSplendorGame> privateGames = new ArrayList<>();
+//
+//        for (GameSuperclass game : games) {
+//            if (game.isPrivate()) {
+//                privateGames.add((PrivateSplendorGame) game);
+//            }
+//        }
+//
+//        return privateGames;
+//    }
 
     public void removeGame(int gameId) {
         GameSuperclass game = findGame(gameId);

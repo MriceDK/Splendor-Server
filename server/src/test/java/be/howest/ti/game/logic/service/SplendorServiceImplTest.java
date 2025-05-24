@@ -38,9 +38,9 @@ class SplendorServiceImplTest {
     void startGameWhenLobbyIsFull() {
         GameLobby lobby = service.createPublicLobby(4, "John");
 
-        service.joinLobby(lobby, "Eric");
-        service.joinLobby(lobby, "Steve");
-        service.joinLobby(lobby, "Alice");
+        service.joinPublicLobby(lobby, "Eric");
+        service.joinPublicLobby(lobby, "Steve");
+        service.joinPublicLobby(lobby, "Alice");
 
         assertTrue(service.findGame(lobby.getGameId()).hasStarted());
     }
@@ -49,8 +49,8 @@ class SplendorServiceImplTest {
     void gameDoesNotStartWhenNotFull() {
         GameLobby lobby = service.createPublicLobby(4, "John");
 
-        service.joinLobby(lobby, "Eric");
-        service.joinLobby(lobby, "Steve");
+        service.joinPublicLobby(lobby, "Eric");
+        service.joinPublicLobby(lobby, "Steve");
 
         assertFalse(service.findGame(lobby.getGameId()).hasStarted());
     }

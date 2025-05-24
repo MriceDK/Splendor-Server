@@ -107,10 +107,13 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
     }
 
     public boolean hasStarted() {
-
-        if (getClass() == GameLobby.class) {
+        if (getClass() == GameLobby.class || getClass() == PrivateGameLobby.class) {
             return false;
-        } else return getClass() == SplendorGame.class;
+        } else return getClass() == SplendorGame.class || getClass() == PrivateSplendorGame.class;
+    }
+
+    public boolean isPrivate() {
+        return getClass() == PrivateSplendorGame.class || getClass() == PrivateGameLobby.class;
     }
 
     @Override

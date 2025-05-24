@@ -30,7 +30,7 @@ class SplendorGameTest {
     void setupStartedGame() {
         GameLobbyManager service = new GameLobbyManager();
         GameLobby unstartedGame = service.createPublicLobby(2, "Alice");
-        service.joinLobby(unstartedGame, "Gert");
+        service.joinPublicLobby(unstartedGame, "Gert");
         startedGame = service.findStartedGame(0);
 
         alice = startedGame.getPlayers().getFirst();
