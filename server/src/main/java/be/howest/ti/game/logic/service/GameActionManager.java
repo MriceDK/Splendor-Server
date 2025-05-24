@@ -70,10 +70,4 @@ public class GameActionManager {
 
         return game.chooseNoble(player, noble);
     }
-
-    public Player getCurrentPlayer(int gameId) {
-        SplendorGame game = lobbyManager.findStartedGame(gameId);
-
-        return game.getCurrentPlayer();
-    }
 }
