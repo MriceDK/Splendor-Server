@@ -152,6 +152,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         }
 
         if (game.hasStarted()) {
+            ((SplendorGame) game).checkTimeEndTurn(); // Makes sure the amount of time left gets updates every time someone sends a request to this endpoint
             return new GetGameDetailsStartedResponse(game);
         } else {
             return new GetGameDetailsUnstartedResponse(game);
