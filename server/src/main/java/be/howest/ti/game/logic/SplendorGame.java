@@ -88,6 +88,7 @@ public class SplendorGame extends GameSuperclass {
 
     public void checkTimeEndTurn() {
         if (!enoughTimeLeft()) {
+            history.log(new ActionReport(currentPlayer.getName(), "did not make a move within the time limit. Skipping turn..."));
             endTurn();
         }
     }
