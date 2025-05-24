@@ -32,7 +32,7 @@ public class SplendorGame extends GameSuperclass {
     private boolean isLastRound;
     private Player winner;
     private final Logger history;
-    private LocalDateTime timeWhenCurrentTurnGetsSkipped;
+    private LocalDateTime timeEndTurn;
 
     private static final int ONE_NOBLE = 1;
 
@@ -60,12 +60,12 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
-    public LocalDateTime getTimeWhenCurrentTurnGetsSkipped() {
-        return timeWhenCurrentTurnGetsSkipped;
+    public LocalDateTime getTimeEndTurn() {
+        return timeEndTurn;
     }
 
     private void setTimeCapOfTurn() {
-        timeWhenCurrentTurnGetsSkipped = LocalDateTime.now().plusMinutes(MAX_MINUTES_PER_TURN);
+        timeEndTurn = LocalDateTime.now().plusMinutes(MAX_MINUTES_PER_TURN);
     }
 
     public void startTurn(){
@@ -86,18 +86,18 @@ public class SplendorGame extends GameSuperclass {
         startTurn();
     }
 
-    public boolean enoughTimeLeft() {
-        boolean enoughTimeLeft = calculateSecondsLeftToMakeMove() > 0;
-
-        if (!enoughTimeLeft) {
+    public void checkTimeEndTurn() {
+        if (!enoughTimeLeft()) {
             endTurn();
         }
+    }
 
-        return enoughTimeLeft;
+    public boolean enoughTimeLeft() {
+        return calculateSecondsLeftToMakeMove() > 0;
     }
 
     private int calculateSecondsLeftToMakeMove() {
-        return timeWhenCurrentTurnGetsSkipped.toLocalTime().toSecondOfDay() - LocalTime.now().toSecondOfDay();
+        return timeEndTurn.toLocalTime().toSecondOfDay() - LocalTime.now().toSecondOfDay();
     }
 
     public boolean getIsLastRound() {
