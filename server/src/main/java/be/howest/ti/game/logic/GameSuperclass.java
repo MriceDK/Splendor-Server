@@ -113,20 +113,10 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         } else return getClass() == SplendorGame.class;
     }
 
-    public void removeGameIfEmpty(){
-        isEmptyCheck();
-        removeOwn();
+    public boolean isEmptyCheck(){
+        return players.isEmpty();
     }
 
-    private void isEmptyCheck(){
-        if (!players.isEmpty()){
-            throw new IllegalStateException("Game can't be removed");
-        }
-    }
-
-    private void removeOwn(){
-
-    }
 
     @Override
     public int compareTo(GameSuperclass o) {

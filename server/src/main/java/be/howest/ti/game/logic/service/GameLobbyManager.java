@@ -83,6 +83,10 @@ public class GameLobbyManager {
 //            TODO: discuss what we should do after a player leaves a game
             removeGame(game.getGameId());
         }
+        if (game.isEmptyCheck()){
+            removeGame(game.getGameId());
+
+        }
     }
 
     public void spectateLobby(GameSuperclass game, String spectatorName) {
