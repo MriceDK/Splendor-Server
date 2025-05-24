@@ -64,6 +64,10 @@ public class SplendorGame extends GameSuperclass {
         return timeEndTurn;
     }
 
+    public String getTimeEndTurnFormated() {
+        return timeEndTurn.toString();
+    }
+
     private void setTimeCapOfTurn() {
         timeEndTurn = LocalDateTime.now().plusMinutes(MAX_MINUTES_PER_TURN);
     }
@@ -93,6 +97,7 @@ public class SplendorGame extends GameSuperclass {
     }
 
     public boolean enoughTimeLeft() {
+        System.out.println("Time left!!!!: " + calculateSecondsLeftToMakeMove());
         return calculateSecondsLeftToMakeMove() > 0;
     }
 
