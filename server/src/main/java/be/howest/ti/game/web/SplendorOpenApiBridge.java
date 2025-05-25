@@ -128,7 +128,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
 
         String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
 
-        return new CreateGameResponse(game, request.getPlayerName(), request.getAvatar(), token);
+        return new CreateGameResponse(game, request.getPlayerName(), token, request.getAvatar());
     }
 
     @Operation("delete-games")
