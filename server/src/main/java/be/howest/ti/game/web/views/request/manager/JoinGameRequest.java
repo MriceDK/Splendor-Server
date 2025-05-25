@@ -1,6 +1,8 @@
 package be.howest.ti.game.web.views.request.manager;
 
+import be.howest.ti.game.util.customization.CountryFlag;
 import be.howest.ti.game.web.views.request.BaseSplendorRequest;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 public class JoinGameRequest extends BaseSplendorRequest {
@@ -35,6 +37,17 @@ public class JoinGameRequest extends BaseSplendorRequest {
         } catch (NullPointerException ex) {
             return false;
         }
+    }
+
+    public CountryFlag getAvatar(){
+        // this is a bonus functionality
+        try {
+            String countryCode = ctx.body().asJsonObject().getString("avatar");
+            return CountryFlag.valueOf(countryCode.toUpperCase());
+        } catch (NullPointerException ex){
+            return CountryFlag.BE;
+        }
+
     }
 
     public String getToken() {
