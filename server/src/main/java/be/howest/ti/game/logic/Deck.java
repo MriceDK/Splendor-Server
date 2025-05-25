@@ -23,7 +23,7 @@ public class Deck {
 
         Collections.shuffle((List<?>) invisibleDevelopments);
         for (int i = 0; i < MAX_VISIBLE && i < developments.size(); i++) {
-            makeVisible(takeTopDevelopment());
+            makeVisible(takeTopDevelopment(false));
         }
     }
 
@@ -51,7 +51,13 @@ public class Deck {
 
         int index = visibleDevelopments.indexOf(development);
         visibleDevelopments.remove(development);
-        makeVisible(index, takeTopDevelopment());
+
+        Development topDevelopment = takeTopDevelopment(false);
+
+        if (topDevelopment != null) {
+            makeVisible(index, topDevelopment);
+        }
+
     }
 
     public Development findMatchingDevelopment(String developmentName) {
@@ -67,8 +73,9 @@ public class Deck {
         return this.invisibleDevelopments.size();
     }
 
-    public Development takeTopDevelopment() {
-        if (invisibleDevelopments.isEmpty()) {
+    public Development takeTopDevelopment(boolean exceptionMatters) {
+        if (invisibleDevelopments.isEmpty() && exceptionMatters) {
+
             throw new SplendorGameResourceNotFoundException("No developments left in this level");
         }
         return invisibleDevelopments.poll();
