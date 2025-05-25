@@ -31,8 +31,8 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
-    public void joinLobby(int gameId, String playerName, String password) {
-        gameLobbyManager.joinLobby((PrivateGameLobby) findLobby(gameId), playerName, password);
+    public void joinLobby(int gameId, String playerName, CountryCode avatar, String password) {
+        gameLobbyManager.joinLobby((PrivateGameLobby) findLobby(gameId), playerName, avatar, password);
     }
 
     @Override
@@ -57,12 +57,12 @@ public class SplendorServiceImpl implements SplendorService {
 
     @Override
     public GameLobby createPublicLobby(int maxPlayers, String creatorName, CountryCode avatar) {
-        return gameLobbyManager.createPublicLobby(maxPlayers, creatorName, avatar);
+        return gameLobbyManager.createLobby(maxPlayers, creatorName, avatar);
     }
 
     @Override
     public GameLobby createPublicLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName) {
-        return gameLobbyManager.createPublicLobby(maxPlayers, creatorName, avatar, gameName);
+        return gameLobbyManager.createLobby(maxPlayers, creatorName, avatar, gameName);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class SplendorServiceImpl implements SplendorService {
 
     @Override
     public GameLobby createPrivateLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName, String password) {
-        return gameLobbyManager.createPrivateLobby(maxPlayers, creatorName, avatar, gameName, password);
+        return gameLobbyManager.createPrivateLobby(maxPlayers, creatorName,gameName, avatar, password);
     }
 
     @Override

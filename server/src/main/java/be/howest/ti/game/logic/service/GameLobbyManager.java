@@ -119,7 +119,7 @@ public class GameLobbyManager {
     }
 
     public void spectateLobby(GameSuperclass game, String spectatorName, String password) {
-        if (game.isPrivate()) {
+        if (!game.isPrivate()) {
             throw new IllegalArgumentException("Game isn't private");
         }
         if (game.hasStarted()) {

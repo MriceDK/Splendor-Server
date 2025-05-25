@@ -19,7 +19,7 @@ class GameManagerTest {
 
     @Test
     void createLobbyWithTwoParameters() {
-        service.createPublicLobby(2, "Yoni", CountryCode.BE);
+        service.createLobby(2, "Yoni", CountryCode.BE);
 
         assertNull(service.getGames().getFirst().getGameName());
         assertEquals(2, service.getGames().getFirst().getMaxPlayers());
@@ -28,7 +28,7 @@ class GameManagerTest {
 
     @Test
     void createLobbyWithThreeParameters() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "Epic Splendor Game");
+        service.createLobby(4, "John", CountryCode.BE, "Epic Splendor Game");
 
         assertEquals("Epic Splendor Game", service.getGames().getFirst().getGameName());
         assertEquals(4, service.getGames().getFirst().getMaxPlayers());
@@ -37,7 +37,7 @@ class GameManagerTest {
 
     @Test
     void startGameWhenLobbyIsFull() {
-        GameLobby lobby = service.createPublicLobby(4, "John", CountryCode.BE);
+        GameLobby lobby = service.createLobby(4, "John", CountryCode.BE);
 
         service.joinLobby(lobby, "Eric", CountryCode.BE);
         service.joinLobby(lobby, "Steve", CountryCode.BE);
@@ -48,7 +48,7 @@ class GameManagerTest {
 
     @Test
     void gameDoesNotStartWhenNotFull() {
-        GameLobby lobby = service.createPublicLobby(4, "John", CountryCode.BE);
+        GameLobby lobby = service.createLobby(4, "John", CountryCode.BE);
 
         service.joinLobby(lobby, "Eric", CountryCode.BE);
         service.joinLobby(lobby, "Steve", CountryCode.BE);
@@ -58,8 +58,8 @@ class GameManagerTest {
 
     @Test
     void removeGame() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.removeGame(0);
 
@@ -69,8 +69,8 @@ class GameManagerTest {
 
     @Test
     void removeGames() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.removeGames();
 
@@ -79,20 +79,20 @@ class GameManagerTest {
 
     @Test
     void gameIdGeneratesCorrectly() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.removeGame(1);
 
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-03");
+        service.createLobby(4, "John", CountryCode.BE, "game-03");
 
         assertEquals("game-03", service.findGame(2).getGameName());
     }
 
     @Test
     void findLobby() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         assertEquals("game-01", service.findLobby(0).getGameName());
         assertEquals("game-02", service.findLobby(1).getGameName());
@@ -100,8 +100,8 @@ class GameManagerTest {
 
     @Test
     void findStartedGame() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.startGame(service.findLobby(0));
 
@@ -111,8 +111,8 @@ class GameManagerTest {
 
     @Test
     void findGame() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.startGame(service.findLobby(0));
 
@@ -122,32 +122,32 @@ class GameManagerTest {
 
     @Test
     void findGameNotFound() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         assertThrows(SplendorGameResourceNotFoundException.class, () -> service.findGame(2));
     }
 
     @Test
     void findLobbyNotFound() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         assertThrows(SplendorGameResourceNotFoundException.class, () -> service.findLobby(2));
     }
 
     @Test
     void findStartedGameNotFound() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         assertThrows(SplendorGameResourceNotFoundException.class, () -> service.findStartedGame(2));
     }
 
     @Test
     void addSpectator() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.spectateLobby(service.findLobby(0), "Spectator1");
 
@@ -157,8 +157,8 @@ class GameManagerTest {
 
     @Test
     void removeSpectator() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.spectateLobby(service.findLobby(0), "Spectator1");
         service.removeSpectator(service.findLobby(0), "Spectator1");
@@ -168,8 +168,8 @@ class GameManagerTest {
 
     @Test
     void removeSpectatorNotFound() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.spectateLobby(service.findLobby(0), "Spectator1");
         service.removeSpectator(service.findLobby(0), "Spectator1");
@@ -179,8 +179,8 @@ class GameManagerTest {
 
     @Test
     void leaveGame() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.joinLobby(service.findLobby(0), "AliceInChains", CountryCode.BE);
         service.removePlayer(service.findLobby(0), "AliceInChains");
@@ -190,8 +190,8 @@ class GameManagerTest {
 
     @Test
     void leaveGameNotFound() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.joinLobby(service.findLobby(0), "AliceInChains", CountryCode.BE);
         service.removePlayer(service.findLobby(0), "AliceInChains");
@@ -201,8 +201,8 @@ class GameManagerTest {
 
     @Test
     void joinLobby() {
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
-        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.joinLobby(service.findLobby(0), "AliceInChains", CountryCode.BE);
 

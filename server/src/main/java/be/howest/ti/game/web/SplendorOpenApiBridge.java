@@ -120,7 +120,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
                     request.getPassword());
             String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
 
-            return new CreatePrivateGameResponse(game, request.getPlayerName(), token, request.getPassword());
+            return new CreatePrivateGameResponse(game, request.getPlayerName(), token, request.getPassword(), request.getAvatar());
         }
 
         if (request.getGameName() != null && request.getPassword() != null) {
@@ -133,7 +133,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             );
             String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
 
-            return new CreatePrivateGameResponse(game, request.getPlayerName(), token, request.getPassword());
+            return new CreatePrivateGameResponse(game, request.getPlayerName(), token, request.getPassword(), request.getAvatar());
         }
         if (request.getGameName() == null) {
             game = service.createPublicLobby(
@@ -143,7 +143,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             );
             String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
 
-            return new CreateGameResponse(game, request.getPlayerName(), token);
+            return new CreateGameResponse(game, request.getPlayerName(), token, request.getAvatar());
         }
 
         if (request.getGameName() != null) {
