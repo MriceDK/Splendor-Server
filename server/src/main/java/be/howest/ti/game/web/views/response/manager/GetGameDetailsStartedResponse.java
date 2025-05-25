@@ -4,7 +4,7 @@ import be.howest.ti.game.logic.*;
 import be.howest.ti.game.util.logger.ActionReport;
 import be.howest.ti.game.web.views.ActionReportInListView;
 import be.howest.ti.game.web.views.DeckInListView;
-import be.howest.ti.game.web.views.NobleInSetView;
+import be.howest.ti.game.web.views.NobleInListView;
 import be.howest.ti.game.web.views.PlayerInListView;
 
 import java.util.*;
@@ -45,11 +45,11 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         return Purse.toMapStringInteger(tokens);
     }
 
-    public List<NobleInSetView> getUnclaimedNobles() {
-        List<NobleInSetView> res = new ArrayList<>();
+    public List<NobleInListView> getUnclaimedNobles() {
+        List<NobleInListView> res = new ArrayList<>();
 
         for (Noble unclaimedNoble : startedGame.getUnclaimedNobles()) {
-            res.add(new NobleInSetView(unclaimedNoble));
+            res.add(new NobleInListView(unclaimedNoble));
         }
 
         return res;
