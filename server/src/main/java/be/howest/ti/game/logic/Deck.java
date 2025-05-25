@@ -45,11 +45,13 @@ public class Deck {
 
 
     public void replaceVisibleDevelopment(Development development) {
-        if (visibleDevelopments.contains(development)) {
-            int index = visibleDevelopments.indexOf(development);
-            visibleDevelopments.remove(development);
-            makeVisible(index, takeTopDevelopment());
-        } else throw new SplendorGameResourceNotFoundException("Development not found in visible developments");
+        if (!visibleDevelopments.contains(development)) {
+            throw new SplendorGameResourceNotFoundException("Development not found in visible developments");
+        }
+
+        int index = visibleDevelopments.indexOf(development);
+        visibleDevelopments.remove(development);
+        makeVisible(index, takeTopDevelopment());
     }
 
     public Development findMatchingDevelopment(String developmentName) {
