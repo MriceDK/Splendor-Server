@@ -31,8 +31,18 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
+    public void joinLobby(int gameId, String playerName, CountryCode avatar, String password) {
+        gameLobbyManager.joinLobby((PrivateGameLobby) findLobby(gameId), playerName, avatar, password);
+    }
+
+    @Override
     public void spectateGame(int gameId, String spectatorName) {
         gameLobbyManager.spectateLobby(findGame(gameId), spectatorName);
+    }
+
+    @Override
+    public void spectateGame(int gameId, String spectatorName, String password) {
+        gameLobbyManager.spectateLobby(findGame(gameId), spectatorName, password);
     }
 
     @Override
@@ -46,13 +56,23 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
-    public GameLobby createLobby(int maxPlayers, String creatorName, CountryCode avatar) {
+    public GameLobby createPublicLobby(int maxPlayers, String creatorName, CountryCode avatar) {
         return gameLobbyManager.createLobby(maxPlayers, creatorName, avatar);
     }
 
     @Override
-    public GameLobby createLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName) {
+    public GameLobby createPublicLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName) {
         return gameLobbyManager.createLobby(maxPlayers, creatorName, avatar, gameName);
+    }
+
+    @Override
+    public GameLobby createPrivateLobby(int maxPlayers, String creatorName, CountryCode avatar, String password) {
+        return gameLobbyManager.createPrivateLobby(maxPlayers, creatorName, avatar, password);
+    }
+
+    @Override
+    public GameLobby createPrivateLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName, String password) {
+        return gameLobbyManager.createPrivateLobby(maxPlayers, creatorName,gameName, avatar, password);
     }
 
     @Override

@@ -35,6 +35,24 @@ public class GameLobbyManager {
         return newLobby;
     }
 
+    public PrivateGameLobby createPrivateLobby(int maxPlayers, String creatorName, CountryCode avatar, String password) {
+        int gameId = generateGameId();
+        PrivateGameLobby newLobby = new PrivateGameLobby(gameId, maxPlayers, password);
+        newLobby.addPlayer(creatorName, avatar);
+        games.add(newLobby);
+
+        return newLobby;
+    }
+
+    public PrivateGameLobby createPrivateLobby(int maxPlayers, String creatorName, String gameName, CountryCode avatar, String password) {
+        int gameId = generateGameId();
+        PrivateGameLobby newLobby = new PrivateGameLobby(gameId, gameName, maxPlayers, password);
+        newLobby.addPlayer(creatorName, avatar);
+        games.add(newLobby);
+
+        return newLobby;
+    }
+
     public void startGame(GameLobby lobby) {
         SplendorGame game = lobby.startGame();
 
@@ -78,16 +96,44 @@ public class GameLobbyManager {
         }
     }
 
+    public void joinLobby(PrivateGameLobby lobby, String playerName, CountryCode avatar, String password) {
+        if (!lobby.getPassword().equals(password)) {
+            throw new IllegalArgumentException("Wrong password");
+        }
+        lobby.addPlayer(playerName, avatar);
+        if (lobby.isFull()) {
+            startGame(lobby);
+        }
+    }
+
     public void removePlayer(GameSuperclass game, String playerName) {
         game.removePlayer(playerName);
         if (game.hasStarted()) {
-//            TODO: discuss what we should do after a player leaves a game
             removeGame(game.getGameId());
             return;
         }
         if (game.isEmpty()){
             removeGame(game.getGameId());
 
+        }
+    }
+
+    public void spectateLobby(GameSuperclass game, String spectatorName, String password) {
+        if (!game.isPrivate()) {
+            throw new IllegalArgumentException("Game isn't private");
+        }
+        if (game.hasStarted()) {
+            PrivateSplendorGame privateGame = (PrivateSplendorGame) game;
+            if (!privateGame.getPassword().equals(password)) {
+                throw new IllegalArgumentException("Wrong password");
+            }
+            game.addSpectator(spectatorName);
+        } else {
+            PrivateGameLobby privateLobby = (PrivateGameLobby) game;
+            if (!privateLobby.getPassword().equals(password)) {
+                throw new IllegalArgumentException("Wrong password");
+            }
+            game.addSpectator(spectatorName);
         }
     }
 

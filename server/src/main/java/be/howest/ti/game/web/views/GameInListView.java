@@ -31,6 +31,10 @@ public class GameInListView implements Comparable<GameInListView> {
         return game.hasStarted();
     }
 
+    public boolean getPrivate() {
+        return game.isPrivate();
+    }
+
     public int getGameId() {
         return game.getGameId();
     }

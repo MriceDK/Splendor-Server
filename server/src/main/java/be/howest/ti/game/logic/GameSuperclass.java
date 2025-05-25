@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public abstract class GameSuperclass implements Comparable<GameSuperclass> {
 
-    private final int gameId; // TODO Find another way to generate gameId
+    private final int gameId;
     private final List<Player> players;
     private final List<String> spectators;
     private final String gameName;
@@ -108,10 +108,13 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
     }
 
     public boolean hasStarted() {
-
-        if (getClass() == GameLobby.class) {
+        if (getClass() == GameLobby.class || getClass() == PrivateGameLobby.class) {
             return false;
-        } else return getClass() == SplendorGame.class;
+        } else return getClass() == SplendorGame.class || getClass() == PrivateSplendorGame.class;
+    }
+
+    public boolean isPrivate() {
+        return getClass() == PrivateSplendorGame.class || getClass() == PrivateGameLobby.class;
     }
 
     public boolean isEmpty(){

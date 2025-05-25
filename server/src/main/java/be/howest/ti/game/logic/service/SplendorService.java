@@ -14,14 +14,24 @@ public interface SplendorService {
     GameSuperclass findGame(int gameId);
 
     void joinLobby(int gameId, String playerName, CountryCode avatar);
+
+    void joinLobby(int gameId, String playerName, CountryCode avatar, String password);
+
     void spectateGame(int gameId, String spectatorName);
 
+    void spectateGame(int gameId, String spectatorName, String password);
+
     void removeSpectator(int gameId, String spectatorName);
+
     void removePlayer(int gameId, String playerName);
 
-    GameLobby createLobby(int maxPlayers, String creatorName, CountryCode avatar);
+    GameLobby createPublicLobby(int maxPlayers, String creatorName, CountryCode avatar);
 
-    GameLobby createLobby(int maxPlayers, String creatorName, CountryCode avatar,  String gameName);
+    GameLobby createPublicLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName);
+
+    GameLobby createPrivateLobby(int maxPlayers, String creatorName, CountryCode avatar, String password);
+
+    GameLobby createPrivateLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName, String password);
 
     List<GameSuperclass> getGames();
 

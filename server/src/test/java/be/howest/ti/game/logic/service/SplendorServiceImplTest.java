@@ -1,6 +1,8 @@
 package be.howest.ti.game.logic.service;
 
 import be.howest.ti.game.logic.GameLobby;
+import be.howest.ti.game.logic.Player;
+import be.howest.ti.game.logic.PrivateGameLobby;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.util.customization.CountryCode;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,6 +62,7 @@ class SplendorServiceImplTest {
     void removeGame() {
         service.createLobby(4, "John", CountryCode.BE, "game-01");
         service.createLobby(4, "John", CountryCode.BE, "game-02");
+        service.createPrivateLobby(4, "John", CountryCode.BE, "game-03");
 
         service.removeGame(0);
 
@@ -71,6 +74,7 @@ class SplendorServiceImplTest {
     void removeGames() {
         service.createLobby(4, "John", CountryCode.BE, "game-01");
         service.createLobby(4, "John", CountryCode.BE, "game-02");
+        service.createPrivateLobby(4, "John", CountryCode.BE, "game-03");
 
         service.removeGames();
 
@@ -91,7 +95,7 @@ class SplendorServiceImplTest {
 
     @Test
     void removePlayerRemovedLobbyStillUp() {
-        GameLobby lobby = service.createLobby(4, "Johnny", CountryCode.BE,"DoesGame");
+        GameLobby lobby = service.createLobby(4, "Johnny", CountryCode.BE, "DoesGame");
         service.joinLobby(lobby, "Erikson", CountryCode.BE);
         service.joinLobby(lobby, "Melinoe", CountryCode.BE);
 
@@ -114,4 +118,137 @@ class SplendorServiceImplTest {
 
 
     }
+    @Test
+    void createPrivateLobbyWithTwoParameters() {
+        service.createPrivateLobby(2, "Alice", CountryCode.BE, "Password123");
+
+        assertNull(service.getGames().getFirst().getGameName());
+        assertEquals(2, service.getGames().getFirst().getMaxPlayers());
+        assertEquals("Alice", service.getGames().getFirst().getPlayers().getFirst().getName());
+    }
+
+    @Test
+    void createPrivateLobbyWithThreeParameters() {
+        service.createPrivateLobby(3, "Alice", "Splendoras", CountryCode.BE, "Password123");
+
+        assertEquals("Splendoras", service.getGames().getFirst().getGameName());
+        assertEquals(3, service.getGames().getFirst().getMaxPlayers());
+        assertEquals("Alice", service.getGames().getFirst().getPlayers().getFirst().getName());
+    }
+
+    @Test
+    void startPrivateGameWhenLobbyIsFull() {
+        PrivateGameLobby lobby = service.createPrivateLobby(3, "Jolien", CountryCode.BE, "Alohamora");
+
+        service.joinLobby(lobby, "Riesje", CountryCode.BE, "Alohamora");
+        service.joinLobby(lobby, "Leon", CountryCode.BE, "Alohamora");
+
+        assertTrue(service.findGame(lobby.getGameId()).hasStarted());
+    }
+
+    @Test
+    void privateGameDoesNotStartWhenNotFull() {
+        PrivateGameLobby lobby = service.createPrivateLobby(4, "Edward", CountryCode.BE, "Twilight");
+
+        service.joinLobby(lobby, "Bella", CountryCode.BE);
+        service.joinLobby(lobby, "Jacob", CountryCode.BE);
+
+        assertFalse(service.findGame(lobby.getGameId()).hasStarted());
+    }
+
+    @Test
+    void testSpectatePublicLobby() {
+        GameLobby lobby = service.createLobby(4, "SpectatorTest", CountryCode.BE);
+
+        service.spectateLobby(lobby, "Spectator1");
+
+        assertTrue(service.findGame(lobby.getGameId()).getSpectators().contains("Spectator1"));
+    }
+
+    @Test
+    void testSpectatePrivateLobbyWithCorrectPassword() {
+        PrivateGameLobby lobby = service.createPrivateLobby(4, "SpectatorTest", CountryCode.BE, "SecretPassword");
+
+        service.spectateLobby(lobby, "Spectator1", "SecretPassword");
+
+        assertTrue(service.findGame(lobby.getGameId()).getSpectators().contains("Spectator1"));
+    }
+
+    @Test
+    void testSpectatePrivateLobbyWithWrongPassword() {
+        PrivateGameLobby lobby = service.createPrivateLobby(4, "SpectatorTest", CountryCode.BE, "SecretPassword");
+
+        assertThrows(IllegalArgumentException.class, () ->
+            service.spectateLobby(lobby, "Spectator1", "WrongPassword")
+        );
+    }
+
+    @Test
+    void testSpectatePublicStartedGame() {
+        GameLobby lobby = service.createLobby(4, "SpectatorTest", CountryCode.BE);
+        service.joinLobby(lobby, "Player1", CountryCode.BE);
+        service.joinLobby(lobby, "Player2", CountryCode.BE);
+        service.joinLobby(lobby, "Player3", CountryCode.BE);
+
+        // Start the game by filling the lobby
+        assertTrue(service.findGame(lobby.getGameId()).hasStarted());
+
+        service.spectateLobby(lobby, "Spectator1");
+
+        assertTrue(service.findGame(lobby.getGameId()).getSpectators().contains("Spectator1"));
+    }
+
+    @Test
+    void testSpectatePrivateStartedGame() {
+        PrivateGameLobby lobby = service.createPrivateLobby(4, "SpectatorTest", CountryCode.BE, "SecretPassword");
+        service.joinLobby(lobby, "Player1", CountryCode.BE, "SecretPassword");
+        service.joinLobby(lobby, "Player2", CountryCode.BE, "SecretPassword");
+        service.joinLobby(lobby, "Player3", CountryCode.BE, "SecretPassword");
+
+        // Start the game by filling the lobby
+        assertTrue(service.findGame(lobby.getGameId()).hasStarted());
+
+        service.spectateLobby(lobby, "Spectator1", "SecretPassword");
+
+        assertTrue(service.findGame(lobby.getGameId()).getSpectators().contains("Spectator1"));
+    }
+
+    @Test
+    void testRemoveSpectator() {
+        GameLobby lobby = service.createLobby(4, "SpectatorTest", CountryCode.BE);
+
+        service.spectateLobby(lobby, "Spectator1");
+        service.removeSpectator(lobby, "Spectator1");
+
+        assertFalse(service.findGame(lobby.getGameId()).getSpectators().contains("Spectator1"));
+    }
+
+    @Test
+    void testRemoveSpectatorNotInGame() {
+        GameLobby lobby = service.createLobby(4, "SpectatorTest", CountryCode.BE);
+
+        assertThrows(IllegalStateException.class, () ->
+            service.removeSpectator(lobby, "NonExistentSpectator")
+        );
+    }
+
+    @Test
+    void testRemovePlayerFromGame() {
+        GameLobby lobby = service.createLobby(4, "PlayerTest", CountryCode.BE);
+
+        service.joinLobby(lobby, "Player1", CountryCode.BE);
+        service.removePlayer(lobby, "Player1");
+
+        assertFalse(service.findGame(lobby.getGameId()).getPlayers().contains(new Player("Player1")));
+    }
+
+    @Test
+    void testRemovePlayerNotInGame() {
+        GameLobby lobby = service.createLobby(4, "PlayerTest", CountryCode.BE);
+
+        assertThrows(IllegalStateException.class, () ->
+            service.removePlayer(lobby, "NonExistentPlayer")
+        );
+    }
+
 }

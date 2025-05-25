@@ -28,7 +28,7 @@ class GameManagerTest {
 
     @Test
     void createLobbyWithThreeParameters() {
-        service.createLobby(4, "John", CountryCode.BE,"Epic Splendor Game");
+        service.createLobby(4, "John", CountryCode.BE, "Epic Splendor Game");
 
         assertEquals("Epic Splendor Game", service.getGames().getFirst().getGameName());
         assertEquals(4, service.getGames().getFirst().getMaxPlayers());
@@ -58,8 +58,8 @@ class GameManagerTest {
 
     @Test
     void removeGame() {
-        service.createLobby(4, "John", CountryCode.BE,  "game-01");
-        service.createLobby(4, "John", CountryCode.BE,  "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.removeGame(0);
 

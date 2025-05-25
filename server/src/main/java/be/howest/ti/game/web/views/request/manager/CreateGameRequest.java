@@ -22,4 +22,12 @@ public class CreateGameRequest extends CountryCodeReceiver {
         return params.body().getJsonObject().getString("playerName");
     }
 
+    public String getPassword() {
+        try {
+            String password = params.body().getJsonObject().getString("password");
+            return (password == null || password.isEmpty()) ? null : password;
+        } catch (NullPointerException ex) {
+            return null;
+        }
+    }
 }

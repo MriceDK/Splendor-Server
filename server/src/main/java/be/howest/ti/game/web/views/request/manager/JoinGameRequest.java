@@ -44,4 +44,10 @@ public class JoinGameRequest extends CountryCodeReceiver {
         }
         throw new IllegalArgumentException("Authorization token is missing");
     }
+
+    public String getPassword() {
+        if (ctx.body().asJsonObject().containsKey("password")) {
+            return ctx.body().asJsonObject().getString("password");
+        } else return null;
+    }
 }
