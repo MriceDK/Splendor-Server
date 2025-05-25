@@ -96,13 +96,12 @@ public class GameLobbyManager {
     }
 
     public void joinLobby(PrivateGameLobby lobby, String playerName, String password) {
-        if (lobby.getPassword().equals(password)) {
-            lobby.addPlayer(playerName);
-            if (lobby.isFull()) {
-                startGame(lobby);
-            }
-        } else {
+        if (!lobby.getPassword().equals(password)) {
             throw new IllegalArgumentException("Wrong password");
+        }
+        lobby.addPlayer(playerName);
+        if (lobby.isFull()) {
+            startGame(lobby);
         }
     }
 
@@ -123,18 +122,16 @@ public class GameLobbyManager {
         if (game.isPrivate()) {
             if (game.hasStarted()) {
                 PrivateSplendorGame privateGame = (PrivateSplendorGame) game;
-                if (privateGame.getPassword().equals(password)) {
-                    game.addSpectator(spectatorName);
-                } else {
+                if (!privateGame.getPassword().equals(password)) {
                     throw new IllegalArgumentException("Wrong password");
                 }
+                game.addSpectator(spectatorName);
             } else {
                 PrivateGameLobby privateLobby = (PrivateGameLobby) game;
-                if (privateLobby.getPassword().equals(password)) {
-                    game.addSpectator(spectatorName);
-                } else {
+                if (!privateLobby.getPassword().equals(password)) {
                     throw new IllegalArgumentException("Wrong password");
                 }
+                game.addSpectator(spectatorName);
             }
         } else throw new IllegalArgumentException("Game isn't private");
     }
