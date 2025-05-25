@@ -19,7 +19,7 @@ class SplendorServiceImplTest {
 
     @Test
     void createLobbyWithTwoParameters() {
-        service.createLobby(2, "Yoni");
+        service.createLobby(2, "Yoni", CountryCode.BE);
 
         assertNull(service.getGames().getFirst().getGameName());
         assertEquals(2, service.getGames().getFirst().getMaxPlayers());
@@ -28,7 +28,7 @@ class SplendorServiceImplTest {
 
     @Test
     void createLobbyWithThreeParameters() {
-        service.createLobby(4, "John", "Epic Splendor Game");
+        service.createLobby(4, "John", CountryCode.BE, "Epic Splendor Game", );
 
         assertEquals("Epic Splendor Game", service.getGames().getFirst().getGameName());
         assertEquals(4, service.getGames().getFirst().getMaxPlayers());
@@ -37,7 +37,7 @@ class SplendorServiceImplTest {
 
     @Test
     void startGameWhenLobbyIsFull() {
-        GameLobby lobby = service.createLobby(4, "John");
+        GameLobby lobby = service.createLobby(4, "John", CountryCode.BE);
 
         service.joinLobby(lobby, "Eric", CountryCode.BE);
         service.joinLobby(lobby, "Steve", CountryCode.BE);
@@ -48,7 +48,7 @@ class SplendorServiceImplTest {
 
     @Test
     void gameDoesNotStartWhenNotFull() {
-        GameLobby lobby = service.createLobby(4, "John");
+        GameLobby lobby = service.createLobby(4, "John", CountryCode.BE);
 
         service.joinLobby(lobby, "Eric", CountryCode.BE);
         service.joinLobby(lobby, "Steve", CountryCode.BE);
@@ -58,8 +58,8 @@ class SplendorServiceImplTest {
 
     @Test
     void removeGame() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.removeGame(0);
 
@@ -69,8 +69,8 @@ class SplendorServiceImplTest {
 
     @Test
     void removeGames() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.removeGames();
 
@@ -79,12 +79,12 @@ class SplendorServiceImplTest {
 
     @Test
     void gameIdGeneratesCorrectly() {
-        service.createLobby(4, "John", "game-01");
-        service.createLobby(4, "John", "game-02");
+        service.createLobby(4, "John", CountryCode.BE, "game-01");
+        service.createLobby(4, "John", CountryCode.BE, "game-02");
 
         service.removeGame(1);
 
-        service.createLobby(4, "John", "game-03");
+        service.createLobby(4, "John", CountryCode.BE, "game-03");
 
         assertEquals("game-03", service.findGame(2).getGameName());
     }

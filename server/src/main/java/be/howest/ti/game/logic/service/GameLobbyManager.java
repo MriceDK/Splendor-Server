@@ -17,19 +17,19 @@ public class GameLobbyManager {
         games = new ArrayList<>();
     }
 
-    public GameLobby createLobby(int maxPlayers, String creatorName) {
+    public GameLobby createLobby(int maxPlayers, String creatorName, CountryCode avatar) {
         int gameId = generateGameId();
         GameLobby newLobby = new GameLobby(gameId, maxPlayers);
-        newLobby.addPlayer(creatorName);
+        newLobby.addPlayer(creatorName, avatar);
         games.add(newLobby);
 
         return newLobby;
     }
 
-    public GameLobby createLobby(int maxPlayers, String creatorName, String gameName) {
+    public GameLobby createLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName) {
         int gameId = generateGameId();
         GameLobby newLobby = new GameLobby(gameId, gameName, maxPlayers);
-        newLobby.addPlayer(creatorName);
+        newLobby.addPlayer(creatorName, avatar);
         games.add(newLobby);
 
         return newLobby;
