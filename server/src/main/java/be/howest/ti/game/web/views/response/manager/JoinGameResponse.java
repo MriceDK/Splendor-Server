@@ -1,7 +1,5 @@
 package be.howest.ti.game.web.views.response.manager;
 
-import be.howest.ti.game.web.views.response.JoinSpectateGameResponse;
-
 public class JoinGameResponse extends JoinSpectateGameResponse {
 
     private final String token;
