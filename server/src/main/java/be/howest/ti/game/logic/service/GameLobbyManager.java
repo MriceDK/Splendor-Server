@@ -108,7 +108,6 @@ public class GameLobbyManager {
     public void removePlayer(GameSuperclass game, String playerName) {
         game.removePlayer(playerName);
         if (game.hasStarted()) {
-//            TODO: discuss what we should do after a player leaves a game
             removeGame(game.getGameId());
             return;
         }
