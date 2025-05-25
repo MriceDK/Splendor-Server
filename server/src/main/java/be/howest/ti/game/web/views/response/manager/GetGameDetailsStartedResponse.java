@@ -5,7 +5,7 @@ import be.howest.ti.game.util.logger.ActionReport;
 import be.howest.ti.game.web.views.ActionReportInListView;
 import be.howest.ti.game.web.views.DeckInListView;
 import be.howest.ti.game.web.views.NobleInSetView;
-import be.howest.ti.game.web.views.PlayerInListView;
+import be.howest.ti.game.web.views.PlayerStartedInListView;
 
 import java.util.*;
 
@@ -18,12 +18,12 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         startedGame = (SplendorGame) game;
     }
 
-    public List<PlayerInListView> getPlayers() {
-        List<PlayerInListView> res = new ArrayList<>();
+    public List<PlayerStartedInListView> getPlayers() {
+        List<PlayerStartedInListView> res = new ArrayList<>();
 
         for (Player player : startedGame.getPlayers()) {
 
-            res.add(new PlayerInListView(player));
+            res.add(new PlayerStartedInListView(player));
 
         }
 

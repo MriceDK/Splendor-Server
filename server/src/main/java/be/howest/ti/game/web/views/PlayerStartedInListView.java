@@ -5,11 +5,11 @@ import be.howest.ti.game.util.customization.CountryCode;
 
 import java.util.*;
 
-public class PlayerInListView {
+public class PlayerStartedInListView {
 
     private final Player player;
 
-    public PlayerInListView(Player player) {
+    public PlayerStartedInListView(Player player) {
         this.player = player;
     }
 
