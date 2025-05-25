@@ -65,6 +65,10 @@ public class SplendorGame extends GameSuperclass {
     }
 
     private void setTimeCapOfTurn() {
+        if (gameState.equals(GameState.WINNER_FOUND)) {
+            return;
+        }
+
         timeEndTurn = LocalDateTime.now().plusMinutes(MAX_MINUTES_PER_TURN);
     }
 
@@ -88,9 +92,27 @@ public class SplendorGame extends GameSuperclass {
 
     public void checkTimeEndTurn() {
         if (!enoughTimeLeft()) {
+
+            if (!hasValidGameStateToSkipTurn()) {
+                setTimeCapOfTurn();
+                return;
+            }
+
             history.log(new ActionReport(currentPlayer.getName(), "did not make a move within the time limit. Skipping turn..."));
             endTurn();
         }
+    }
+
+    private boolean hasValidGameStateToSkipTurn() {
+
+        if (gameState.equals(GameState.CHOOSE_NOBLE)) {
+            history.log(new ActionReport(currentPlayer.getName(), "did not choose a noble in time, but needs to do this. Extending timer..."));
+            return false;
+        } else if(gameState.equals(GameState.RETURN_GEMS)) {
+            history.log(new ActionReport(currentPlayer.getName(), "did not return tokens in time, but needs to do this. Extending timer..."));
+            return false;
+        } else return !gameState.equals(GameState.WINNER_FOUND);
+
     }
 
     public boolean enoughTimeLeft() {
