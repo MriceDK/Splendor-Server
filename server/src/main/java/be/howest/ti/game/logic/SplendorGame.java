@@ -88,9 +88,29 @@ public class SplendorGame extends GameSuperclass {
 
     public void checkTimeEndTurn() {
         if (!enoughTimeLeft()) {
+
+            if (!hasValidGameStateToSkipTurn()) {
+                setTimeCapOfTurn();
+                return;
+            }
+
             history.log(new ActionReport(currentPlayer.getName(), "did not make a move within the time limit. Skipping turn..."));
             endTurn();
         }
+    }
+
+    private boolean hasValidGameStateToSkipTurn() {
+
+        if (gameState.equals(GameState.CHOOSE_NOBLE)) {
+            history.log(new ActionReport(currentPlayer.getName(), "did not choose a noble in time, but needs to do this. Extending timer..."));
+            return false;
+        } else if(gameState.equals(GameState.RETURN_GEMS)) {
+            history.log(new ActionReport(currentPlayer.getName(), "did not return gems in time, but needs to do this. Extending timer..."));
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
     public boolean enoughTimeLeft() {
