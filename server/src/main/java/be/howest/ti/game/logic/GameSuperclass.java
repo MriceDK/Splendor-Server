@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+import be.howest.ti.game.util.customization.CountryCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +59,8 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         return spectators.size();
     }
 
-    public void addPlayer(String name) {
-        Player newPlayer = new Player(name);
+    public void addPlayer(String name, CountryCode avatar){
+        Player newPlayer = new Player(name, avatar);
 
         validateNewPlayer(newPlayer);
 

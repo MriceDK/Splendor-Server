@@ -4,6 +4,7 @@ import be.howest.ti.game.logic.*;
 import be.howest.ti.game.logic.service.GameOperations;
 import be.howest.ti.game.logic.service.SplendorService;
 import be.howest.ti.game.logic.service.SplendorServiceImpl;
+import be.howest.ti.game.util.customization.CountryCode;
 import be.howest.ti.game.web.tokens.JsonWebToken;
 import be.howest.ti.game.web.tokens.SplendorHTTPPlayer;
 import be.howest.ti.game.web.tokens.TokenManager;
@@ -11,9 +12,9 @@ import be.howest.ti.game.web.views.PlayerInListView;
 import be.howest.ti.game.web.views.request.*;
 import be.howest.ti.game.web.views.request.manager.*;
 import be.howest.ti.game.web.views.request.operations.*;
-import be.howest.ti.game.web.views.response.JoinSpectateGameResponse;
-import be.howest.ti.game.web.views.response.LeaveGameResponse;
-import be.howest.ti.game.web.views.response.SpectateGameResponse;
+import be.howest.ti.game.web.views.response.manager.JoinSpectateGameResponse;
+import be.howest.ti.game.web.views.response.manager.LeaveGameResponse;
+import be.howest.ti.game.web.views.response.manager.SpectateGameResponse;
 import be.howest.ti.game.web.views.response.manager.*;
 import be.howest.ti.game.web.views.response.operations.*;
 
@@ -115,6 +116,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             game = service.createPrivateLobby(
                     request.getNumberOfPlayers(),
                     request.getPlayerName(),
+                    request.getAvatar(),
                     request.getPassword());
             String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
 
@@ -125,6 +127,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             game = service.createPrivateLobby(
                     request.getNumberOfPlayers(),
                     request.getPlayerName(),
+                    request.getAvatar(),
                     request.getGameName(),
                     request.getPassword()
             );
@@ -135,7 +138,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         if (request.getGameName() == null) {
             game = service.createPublicLobby(
                     request.getNumberOfPlayers(),
-                    request.getPlayerName()
+                    request.getPlayerName(),
+                    request.getAvatar()
             );
             String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
 
@@ -146,11 +150,12 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             game = service.createPublicLobby(
                     request.getNumberOfPlayers(),
                     request.getPlayerName(),
+                    request.getAvatar(),
                     request.getGameName()
             );
             String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
 
-            return new CreateGameResponse(game, request.getPlayerName(), token);
+            return new CreateGameResponse(game, request.getPlayerName(), token, request.getAvatar());
         }
 
         throw new IllegalArgumentException("Please provide a valid request");
@@ -201,7 +206,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         }
 
         if (!request.getWantsToLeave() && !request.getIsSpectator() && service.findGame(gameId).isPrivate()) {
-            return AddPlayerToPrivateGame(request, service, gameId, playerName, token);
+            return AddPlayerToPrivateGame(request, service, gameId, playerName, token, request.getAvatar());
         }
 
         if (!request.getWantsToLeave() && request.getIsSpectator()) {
@@ -209,7 +214,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         }
 
         if (!request.getWantsToLeave() && !request.getIsSpectator()) {
-            return addPlayerToPublicGame(service, gameId, playerName, token);
+            return addPlayerToPublicGame(service, gameId, playerName, token, request.getAvatar());
         }
 
         if (request.getWantsToLeave() && request.getIsSpectator()) {
@@ -246,9 +251,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         return new LeaveGameResponse(gameId, playerName, service.findGame(gameId).hasStarted());
     }
 
-    private static JoinGameResponse addPlayerToPublicGame(SplendorService service, int gameId, String playerName, String token) {
-        service.joinLobby(gameId, playerName);
-        return new JoinGameResponse(gameId, playerName, token);
+    private static JoinGameResponse addPlayerToPublicGame(SplendorService service, int gameId, String playerName, String token, CountryCode avatar) {
+        service.joinLobby(gameId, playerName, avatar);
+        return new JoinGameResponse(gameId, playerName, token, avatar);
     }
 
     private static SpectateGameResponse addSpectatorToPublicGame(SplendorService service, int gameId, String playerName, String token) {
@@ -256,10 +261,10 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         return new SpectateGameResponse(gameId, playerName, token);
     }
 
-    private static JoinGameResponse AddPlayerToPrivateGame(JoinGameRequest request, SplendorService service, int gameId, String playerName, String token) {
+    private static JoinGameResponse AddPlayerToPrivateGame(JoinGameRequest request, SplendorService service, int gameId, String playerName, String token, CountryCode avatar) {
         String password = request.getPassword();
-        service.joinLobby(gameId, playerName, password);
-        return new JoinGameResponse(gameId, playerName, token);
+        service.joinLobby(gameId, playerName, avatar, password);
+        return new JoinGameResponse(gameId, playerName, token, avatar);
     }
 
     private static SpectateGameResponse addSpectatorToPrivateGame(JoinGameRequest request, SplendorService service, int gameId, String playerName, String token) {

@@ -1,9 +1,10 @@
 package be.howest.ti.game.web.views.request.manager;
 
+import be.howest.ti.game.util.customization.CountryCode;
 import be.howest.ti.game.web.views.request.BaseSplendorRequest;
 import io.vertx.ext.web.RoutingContext;
 
-public class CreateGameRequest extends BaseSplendorRequest {
+public class CreateGameRequest extends CountryCodeReceiver {
 
     public CreateGameRequest(RoutingContext ctx) {
         super(ctx);

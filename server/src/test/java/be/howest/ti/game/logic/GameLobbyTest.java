@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
+import be.howest.ti.game.util.customization.CountryCode;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +26,7 @@ class GameLobbyTest {
     void addPlayer() {
         GameLobby lobby = new GameLobby(1, "Very Creative Game Name", 4);
 
-        lobby.addPlayer("John");
+        lobby.addPlayer("John", CountryCode.UN);
 
         assertEquals(1, lobby.getTotalPlayers());
         assertEquals("John", lobby.getPlayers().getFirst().getName());
@@ -35,10 +36,10 @@ class GameLobbyTest {
     void YouCannotHavePlayersWithTheSameName() {
         GameLobby lobby = new GameLobby(1, "Very Creative Game Name", 4);
 
-        lobby.addPlayer("John");
-        lobby.addPlayer("Alice");
+        lobby.addPlayer("John", CountryCode.UN);
+        lobby.addPlayer("Alice", CountryCode.UN);
 
-        assertThrows(IllegalStateException.class, () -> lobby.addPlayer("John"));
+        assertThrows(IllegalStateException.class, () -> lobby.addPlayer("John", CountryCode.UN));
         assertEquals(2, lobby.getTotalPlayers());
     }
 
@@ -46,12 +47,12 @@ class GameLobbyTest {
     void aPlayerCannotJoinWhenMaxSizeIsReached(){
         GameLobby lobby = new GameLobby(1, "Test Game", 2);
 
-        lobby.addPlayer("John");
-        lobby.addPlayer("Alice");
+        lobby.addPlayer("John",CountryCode.UN);
+        lobby.addPlayer("Alice", CountryCode.UN);
 
 
 
-        assertThrows(SplendorGameRuleException.class, () -> lobby.addPlayer("Alice"));
+        assertThrows(SplendorGameRuleException.class, () -> lobby.addPlayer("Alice", CountryCode.UN));
         assertEquals(2, lobby.getTotalPlayers());
 
     }

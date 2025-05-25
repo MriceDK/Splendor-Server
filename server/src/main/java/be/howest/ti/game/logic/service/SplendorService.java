@@ -2,6 +2,8 @@ package be.howest.ti.game.logic.service;
 
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.util.customization.CountryCode;
+
 import java.util.List;
 
 public interface SplendorService {
@@ -11,9 +13,9 @@ public interface SplendorService {
 
     GameSuperclass findGame(int gameId);
 
-    void joinLobby(int gameId, String playerName);
+    void joinLobby(int gameId, String playerName, CountryCode avatar);
 
-    void joinLobby(int gameId, String playerName, String password);
+    void joinLobby(int gameId, String playerName, CountryCode avatar, String password);
 
     void spectateGame(int gameId, String spectatorName);
 
@@ -23,13 +25,13 @@ public interface SplendorService {
 
     void removePlayer(int gameId, String playerName);
 
-    GameLobby createPublicLobby(int maxPlayers, String creatorName);
+    GameLobby createPublicLobby(int maxPlayers, String creatorName, CountryCode avatar);
 
-    GameLobby createPublicLobby(int maxPlayers, String creatorName, String gameName);
+    GameLobby createPublicLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName);
 
-    GameLobby createPrivateLobby(int maxPlayers, String creatorName, String password);
+    GameLobby createPrivateLobby(int maxPlayers, String creatorName, CountryCode avatar, String password);
 
-    GameLobby createPrivateLobby(int maxPlayers, String creatorName, String gameName, String password);
+    GameLobby createPrivateLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName, String password);
 
     List<GameSuperclass> getGames();
 

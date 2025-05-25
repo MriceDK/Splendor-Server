@@ -1,6 +1,7 @@
 package be.howest.ti.game.web.views;
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.util.customization.CountryCode;
 
 import java.util.*;
 
@@ -14,6 +15,10 @@ public class PlayerInListView {
 
     public String getName() {
         return player.getName();
+    }
+
+    public CountryCode getAvatar(){
+        return player.getAvatar();
     }
 
     public Map<String, Integer> getTokens() {

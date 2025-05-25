@@ -3,6 +3,7 @@ package be.howest.ti.game.logic;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.service.GameLobbyManager;
+import be.howest.ti.game.util.customization.CountryCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,8 +30,8 @@ class SplendorGameTest {
 
     void setupStartedGame() {
         GameLobbyManager service = new GameLobbyManager();
-        GameLobby unstartedGame = service.createPublicLobby(2, "Alice");
-        service.joinLobby(unstartedGame, "Gert");
+        GameLobby unstartedGame = service.createPublicLobby(2, "Alice", CountryCode.BE);
+        service.joinLobby(unstartedGame, "Gert", CountryCode.BE);
         startedGame = service.findStartedGame(0);
 
         alice = startedGame.getPlayers().getFirst();
@@ -39,7 +40,7 @@ class SplendorGameTest {
 
     @Test
     void copyConstructor() {
-        lobby.addPlayer("Bobby");
+        lobby.addPlayer("Bobby", CountryCode.UN);
         SplendorGame game = new SplendorGame(lobby);
         assertEquals(1, game.getGameId());
         assertNull(game.getGameName());
@@ -71,7 +72,7 @@ class SplendorGameTest {
 
     @Test
     void buyDevelopmentNotEnoughTokens(){
-        lobby.addPlayer("Watergate concierge");
+        lobby.addPlayer("Watergate concierge", CountryCode.UN);
         SplendorGame game = new SplendorGame(lobby);
         Player player = game.getCurrentPlayer();
 
@@ -85,7 +86,7 @@ class SplendorGameTest {
     @Test
     void buyDevelopmentTokenBankRefilled(){
 
-        lobby.addPlayer("Bobby");
+        lobby.addPlayer("Bobby", CountryCode.UN);
         SplendorGame startedGame = new SplendorGame(lobby);
         Purse tokenBankBefore = startedGame.getTokenBank();
         Development firstDevelopment = startedGame.getMarket().getVisibleDevelopments(1).getFirst();
@@ -101,8 +102,8 @@ class SplendorGameTest {
     @Test
     void checkForNobleGood() {
 
-        lobby.addPlayer("Alice");
-        lobby.addPlayer("John");
+        lobby.addPlayer("Alice", CountryCode.UN);
+        lobby.addPlayer("John", CountryCode.UN);
         SplendorGame game = new SplendorGame(lobby);
         Player player = game.getCurrentPlayer();
 
@@ -118,8 +119,8 @@ class SplendorGameTest {
 
     @Test
     void checkForNobleBad() {
-        lobby.addPlayer("Alice");
-        lobby.addPlayer("John");
+        lobby.addPlayer("Alice", CountryCode.UN);
+        lobby.addPlayer("John", CountryCode.UN);
         SplendorGame game = new SplendorGame(lobby);
 
         Player player = game.getCurrentPlayer();
@@ -134,8 +135,8 @@ class SplendorGameTest {
 
     @Test
     void testAcquireValidTokens() {
-        lobby.addPlayer("Rutte");
-        lobby.addPlayer("Francken");
+        lobby.addPlayer("Rutte", CountryCode.UN);
+        lobby.addPlayer("Francken", CountryCode.UN);
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse(Map.of(Token.DIAMOND, 1, Token.SAPPHIRE, 1, Token.EMERALD, 1));
         Player player = game.getCurrentPlayer();
@@ -148,8 +149,8 @@ class SplendorGameTest {
 
     @Test
     void testAcquireTokensWrongPlayer() {
-        lobby.addPlayer("Musk");
-        lobby.addPlayer("Macron");
+        lobby.addPlayer("Musk", CountryCode.UN);
+        lobby.addPlayer("Macron", CountryCode.UN);
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse();
 
@@ -160,7 +161,7 @@ class SplendorGameTest {
 
     @Test
     void testAcquireInvalidTokenCount() {
-        lobby.addPlayer("Vance");
+        lobby.addPlayer("Vance", CountryCode.UN);
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse();
 
@@ -171,7 +172,7 @@ class SplendorGameTest {
 
     @Test
     void testAcquireTooManyTypes() {
-        lobby.addPlayer("PM Greenland");
+        lobby.addPlayer("PM Greenland", CountryCode.UN);
         Purse requested = new Purse();
         SplendorGame game = new SplendorGame(lobby);
 
@@ -353,8 +354,8 @@ class SplendorGameTest {
     }
     @Test
     void testAcquireTwoTokensWhenBankIsBelowOrAboveFour() {
-        lobby.addPlayer("Alice");
-        lobby.addPlayer("Bob");
+        lobby.addPlayer("Alice", CountryCode.UN);
+        lobby.addPlayer("Bob", CountryCode.UN);
 
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse();
@@ -367,8 +368,8 @@ class SplendorGameTest {
 
     @Test
     void errorWhenTryingToTakeOnlyGold(){
-        lobby.addPlayer("Alice");
-        lobby.addPlayer("Bob");
+        lobby.addPlayer("Alice", CountryCode.UN);
+        lobby.addPlayer("Bob", CountryCode.UN);
 
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse();
@@ -382,8 +383,8 @@ class SplendorGameTest {
 
     @Test
     void errorWhenTryingToTakeGoldAndOthers(){
-        lobby.addPlayer("Alice");
-        lobby.addPlayer("Bob");
+        lobby.addPlayer("Alice", CountryCode.UN);
+        lobby.addPlayer("Bob", CountryCode.UN);
 
         SplendorGame game = new SplendorGame(lobby);
         Purse requested = new Purse();
@@ -398,7 +399,7 @@ class SplendorGameTest {
 
     @Test
     void buyReservedDevelopmentGood() {
-        lobby.addPlayer("Kentavious Cadwell-Pope");
+        lobby.addPlayer("Kentavious Cadwell-Pope", CountryCode.US);
         SplendorGame game = new SplendorGame(lobby);
         Player player = game.getCurrentPlayer();
 
@@ -417,7 +418,7 @@ class SplendorGameTest {
 
     @Test
     void buyReservedDevelopmentDevelopmentNotReserved(){
-        lobby.addPlayer("Mitchel Robinson");
+        lobby.addPlayer("Mitchel Robinson", CountryCode.US);
         SplendorGame game = new SplendorGame(lobby);
         Player player = game.getCurrentPlayer();
 
@@ -448,8 +449,8 @@ class SplendorGameTest {
 
     @Test
     void chooseNobleBad() {
-        lobby.addPlayer("Taiwan");
-        lobby.addPlayer("Japan");
+        lobby.addPlayer("Taiwan", CountryCode.TW);
+        lobby.addPlayer("Japan", CountryCode.JP);
         SplendorGame game = new SplendorGame(lobby);
         Player player = game.getCurrentPlayer();
 

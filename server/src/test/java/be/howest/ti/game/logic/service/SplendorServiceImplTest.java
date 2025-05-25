@@ -4,6 +4,7 @@ import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.Player;
 import be.howest.ti.game.logic.PrivateGameLobby;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
+import be.howest.ti.game.util.customization.CountryCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ class SplendorServiceImplTest {
 
     @Test
     void createLobbyWithTwoParameters() {
-        service.createPublicLobby(2, "Yoni");
+        service.createPublicLobby(2, "Yoni", CountryCode.BE);
 
         assertNull(service.getGames().getFirst().getGameName());
         assertEquals(2, service.getGames().getFirst().getMaxPlayers());
@@ -29,7 +30,7 @@ class SplendorServiceImplTest {
 
     @Test
     void createLobbyWithThreeParameters() {
-        service.createPublicLobby(4, "John", "Epic Splendor Game");
+        service.createPublicLobby(4, "John", CountryCode.BE, "Epic Splendor Game");
 
         assertEquals("Epic Splendor Game", service.getGames().getFirst().getGameName());
         assertEquals(4, service.getGames().getFirst().getMaxPlayers());
@@ -38,30 +39,30 @@ class SplendorServiceImplTest {
 
     @Test
     void startGameWhenLobbyIsFull() {
-        GameLobby lobby = service.createPublicLobby(4, "John");
+        GameLobby lobby = service.createPublicLobby(4, "John", CountryCode.BE);
 
-        service.joinLobby(lobby, "Eric");
-        service.joinLobby(lobby, "Steve");
-        service.joinLobby(lobby, "Alice");
+        service.joinLobby(lobby, "Eric", CountryCode.BE);
+        service.joinLobby(lobby, "Steve", CountryCode.BE);
+        service.joinLobby(lobby, "Alice", CountryCode.BE);
 
         assertTrue(service.findGame(lobby.getGameId()).hasStarted());
     }
 
     @Test
     void gameDoesNotStartWhenNotFull() {
-        GameLobby lobby = service.createPublicLobby(4, "John");
+        GameLobby lobby = service.createPublicLobby(4, "John", CountryCode.BE);
 
-        service.joinLobby(lobby, "Eric");
-        service.joinLobby(lobby, "Steve");
+        service.joinLobby(lobby, "Eric", CountryCode.BE);
+        service.joinLobby(lobby, "Steve", CountryCode.BE);
 
         assertFalse(service.findGame(lobby.getGameId()).hasStarted());
     }
 
     @Test
     void removeGame() {
-        service.createPublicLobby(4, "John", "game-01");
-        service.createPublicLobby(4, "John", "game-02");
-        service.createPrivateLobby(4, "John", "game-03");
+        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
+        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createPrivateLobby(4, "John", CountryCode.BE, "game-03");
 
         service.removeGame(0);
 
@@ -71,9 +72,9 @@ class SplendorServiceImplTest {
 
     @Test
     void removeGames() {
-        service.createPublicLobby(4, "John", "game-01");
-        service.createPublicLobby(4, "John", "game-02");
-        service.createPrivateLobby(4, "John", "game-03");
+        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
+        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
+        service.createPrivateLobby(4, "John", CountryCode.BE, "game-03");
 
         service.removeGames();
 
@@ -82,21 +83,21 @@ class SplendorServiceImplTest {
 
     @Test
     void gameIdGeneratesCorrectly() {
-        service.createPublicLobby(4, "John", "game-01");
-        service.createPublicLobby(4, "John", "game-02");
+        service.createPublicLobby(4, "John", CountryCode.BE, "game-01");
+        service.createPublicLobby(4, "John", CountryCode.BE, "game-02");
 
         service.removeGame(1);
 
-        service.createPublicLobby(4, "John", "game-03");
+        service.createPublicLobby(4, "John", CountryCode.BE, "game-03");
 
         assertEquals("game-03", service.findGame(2).getGameName());
     }
 
     @Test
     void removePlayerRemovedLobbyStillUp() {
-        GameLobby lobby = service.createPublicLobby(4, "Johnny", "DoesGame");
-        service.joinLobby(lobby, "Erikson");
-        service.joinLobby(lobby, "Melinoe");
+        GameLobby lobby = service.createPublicLobby(4, "Johnny", CountryCode.BE, "DoesGame");
+        service.joinLobby(lobby, "Erikson", CountryCode.BE);
+        service.joinLobby(lobby, "Melinoe", CountryCode.BE);
 
         service.removePlayer(lobby, "Erikson");
 
@@ -105,9 +106,9 @@ class SplendorServiceImplTest {
 
     @Test
     void removePlayerLobbyRemains(){
-        GameLobby lobby = service.createPublicLobby(4, "Johnny", "DoesGame");
-        service.joinLobby(lobby, "Erikson");
-        service.joinLobby(lobby, "Melinoe");
+        GameLobby lobby = service.createPublicLobby(4, "Johnny", CountryCode.BE, "DoesGame");
+        service.joinLobby(lobby, "Erikson", CountryCode.BE);
+        service.joinLobby(lobby, "Melinoe", CountryCode.BE);
 
         service.removePlayer(lobby,"Erikson");
         service.removePlayer(lobby, "Melinoe");

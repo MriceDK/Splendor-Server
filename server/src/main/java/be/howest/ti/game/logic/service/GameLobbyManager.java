@@ -2,6 +2,7 @@ package be.howest.ti.game.logic.service;
 
 import be.howest.ti.game.logic.*;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
+import be.howest.ti.game.util.customization.CountryCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,37 +17,37 @@ public class GameLobbyManager {
         games = new ArrayList<>();
     }
 
-    public GameLobby createPublicLobby(int maxPlayers, String creatorName) {
+    public GameLobby createLobby(int maxPlayers, String creatorName, CountryCode avatar) {
         int gameId = generateGameId();
         GameLobby newLobby = new GameLobby(gameId, maxPlayers);
-        newLobby.addPlayer(creatorName);
+        newLobby.addPlayer(creatorName, avatar);
         games.add(newLobby);
 
         return newLobby;
     }
 
-    public GameLobby createPublicLobby(int maxPlayers, String creatorName, String gameName) {
+    public GameLobby createLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName) {
         int gameId = generateGameId();
         GameLobby newLobby = new GameLobby(gameId, gameName, maxPlayers);
-        newLobby.addPlayer(creatorName);
+        newLobby.addPlayer(creatorName, avatar);
         games.add(newLobby);
 
         return newLobby;
     }
 
-    public PrivateGameLobby createPrivateLobby(int maxPlayers, String creatorName, String password) {
+    public PrivateGameLobby createPrivateLobby(int maxPlayers, String creatorName, CountryCode avatar, String password) {
         int gameId = generateGameId();
         PrivateGameLobby newLobby = new PrivateGameLobby(gameId, maxPlayers, password);
-        newLobby.addPlayer(creatorName);
+        newLobby.addPlayer(creatorName, avatar);
         games.add(newLobby);
 
         return newLobby;
     }
 
-    public PrivateGameLobby createPrivateLobby(int maxPlayers, String creatorName, String gameName, String password) {
+    public PrivateGameLobby createPrivateLobby(int maxPlayers, String creatorName, String gameName, CountryCode avatar, String password) {
         int gameId = generateGameId();
         PrivateGameLobby newLobby = new PrivateGameLobby(gameId, gameName, maxPlayers, password);
-        newLobby.addPlayer(creatorName);
+        newLobby.addPlayer(creatorName, avatar);
         games.add(newLobby);
 
         return newLobby;
@@ -87,19 +88,19 @@ public class GameLobbyManager {
     }
 
 
-    public void joinLobby(GameLobby lobby, String playerName) {
-        lobby.addPlayer(playerName);
+    public void joinLobby(GameLobby lobby, String playerName, CountryCode avatar) {
+        lobby.addPlayer(playerName, avatar);
 
         if (lobby.isFull()) {
             startGame(lobby);
         }
     }
 
-    public void joinLobby(PrivateGameLobby lobby, String playerName, String password) {
+    public void joinLobby(PrivateGameLobby lobby, String playerName, CountryCode avatar, String password) {
         if (!lobby.getPassword().equals(password)) {
             throw new IllegalArgumentException("Wrong password");
         }
-        lobby.addPlayer(playerName);
+        lobby.addPlayer(playerName, avatar);
         if (lobby.isFull()) {
             startGame(lobby);
         }

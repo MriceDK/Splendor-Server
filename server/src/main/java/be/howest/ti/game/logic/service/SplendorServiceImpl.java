@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic.service;
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.util.customization.CountryCode;
 
 import java.util.List;
 
@@ -25,8 +26,8 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
-    public void joinLobby(int gameId, String playerName) {
-        gameLobbyManager.joinLobby(findLobby(gameId), playerName);
+    public void joinLobby(int gameId, String playerName, CountryCode avatar) {
+        gameLobbyManager.joinLobby(findLobby(gameId), playerName, avatar);
     }
 
     @Override
@@ -55,23 +56,23 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
-    public GameLobby createPublicLobby(int maxPlayers, String creatorName) {
-        return gameLobbyManager.createPublicLobby(maxPlayers, creatorName);
+    public GameLobby createPublicLobby(int maxPlayers, String creatorName, CountryCode avatar) {
+        return gameLobbyManager.createPublicLobby(maxPlayers, creatorName, avatar);
     }
 
     @Override
-    public GameLobby createPublicLobby(int maxPlayers, String creatorName, String gameName) {
-        return gameLobbyManager.createPublicLobby(maxPlayers, creatorName, gameName);
+    public GameLobby createPublicLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName) {
+        return gameLobbyManager.createPublicLobby(maxPlayers, creatorName, avatar, gameName);
     }
 
     @Override
-    public GameLobby createPrivateLobby(int maxPlayers, String creatorName, String password) {
-        return gameLobbyManager.createPrivateLobby(maxPlayers, creatorName, password);
+    public GameLobby createPrivateLobby(int maxPlayers, String creatorName, CountryCode avatar, String password) {
+        return gameLobbyManager.createPrivateLobby(maxPlayers, creatorName, avatar, password);
     }
 
     @Override
-    public GameLobby createPrivateLobby(int maxPlayers, String creatorName, String gameName, String password) {
-        return gameLobbyManager.createPrivateLobby(maxPlayers, creatorName, gameName, password);
+    public GameLobby createPrivateLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName, String password) {
+        return gameLobbyManager.createPrivateLobby(maxPlayers, creatorName, avatar, gameName, password);
     }
 
     @Override
