@@ -55,8 +55,8 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         return res;
     }
 
-    public GameState getGameState() {
-        return startedGame.getGameState();
+    public String getGameState() {
+        return startedGame.getGameState().toDisplayName();
     }
 
     public String getCurrentPlayer() {
@@ -85,6 +85,10 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
 
     public boolean isLastRound() {
         return startedGame.getIsLastRound();
+    }
+
+    public String getTimeEndTurn() {
+        return startedGame.getTimeEndTurnFormated();
     }
 
 

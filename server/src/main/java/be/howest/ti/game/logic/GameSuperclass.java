@@ -116,6 +116,11 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         return getClass() == PrivateSplendorGame.class || getClass() == PrivateGameLobby.class;
     }
 
+    public boolean isEmpty(){
+        return players.isEmpty();
+    }
+
+
     @Override
     public int compareTo(GameSuperclass o) {
         return this.gameId - o.gameId;
