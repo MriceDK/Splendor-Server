@@ -8,7 +8,7 @@ import be.howest.ti.game.util.customization.CountryCode;
 import be.howest.ti.game.web.tokens.JsonWebToken;
 import be.howest.ti.game.web.tokens.SplendorHTTPPlayer;
 import be.howest.ti.game.web.tokens.TokenManager;
-import be.howest.ti.game.web.views.PlayerInListView;
+import be.howest.ti.game.web.views.PlayerStartedInListView;
 import be.howest.ti.game.web.views.request.*;
 import be.howest.ti.game.web.views.request.manager.*;
 import be.howest.ti.game.web.views.request.operations.*;
@@ -315,7 +315,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         }
 
         Player player = service.buyDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPaymentPurse());
-        PlayerInListView activePlayerView = new PlayerInListView(player);
+        PlayerStartedInListView activePlayerView = new PlayerStartedInListView(player);
         return new BuyDevelopmentResponse(activePlayerView.getBuilt(), activePlayerView.getTokens());
 
     }
@@ -356,7 +356,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public BuyDevelopmentResponse buyReserveDevelopment(BuyReservedDevelopmentRequest request) {
         SplendorService service = getService(request);
 
-        PlayerInListView playerView = new PlayerInListView(service.buyReservedDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPaymentPurse()));
+        PlayerStartedInListView playerView = new PlayerStartedInListView(service.buyReservedDevelopment(request.getGameId(), request.getPlayerName(), request.getDevelopmentName(), request.getPaymentPurse()));
         return new BuyDevelopmentResponse(playerView.getBuilt(), playerView.getTokens());
 
 
