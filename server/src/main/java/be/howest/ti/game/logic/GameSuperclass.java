@@ -59,15 +59,7 @@ public abstract class GameSuperclass implements Comparable<GameSuperclass> {
         return spectators.size();
     }
 
-    public void addPlayer(String name){
-        Player newPlayer = new Player(name);
-
-        validateNewPlayer(newPlayer);
-
-        players.add(newPlayer);
-    }
-
-    public void addPlayer(String name, CountryCode avatar) {
+    public void addPlayer(String name, CountryCode avatar){
         Player newPlayer = new Player(name, avatar);
 
         validateNewPlayer(newPlayer);

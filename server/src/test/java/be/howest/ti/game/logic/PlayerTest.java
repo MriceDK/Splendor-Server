@@ -2,6 +2,7 @@ package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import be.howest.ti.game.logic.order.implementations.PlayerPrestigePointsOrder;
+import be.howest.ti.game.util.customization.CountryCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,7 @@ class PlayerTest {
 
     @Test
     void returnTokensWhenPossible() {
-        Player player = new Player("Zelensky");
+        Player player = new Player("Zelensky", CountryCode.UA);
         Purse initialTokens = new Purse();
         initialTokens.addToken(Token.DIAMOND, 5);
         initialTokens.addToken(Token.RUBY, 4);
@@ -42,7 +43,7 @@ class PlayerTest {
 
     @Test
     void returnTokensWhenLessThan10Tokens() {
-        Player player = new Player("Trump");
+        Player player = new Player("Trump", CountryCode.US);
 
         Purse initialTokens = new Purse();
         initialTokens.addToken(Token.ONYX, 1);
@@ -60,7 +61,7 @@ class PlayerTest {
 
     @Test
     void returnTokensWhenStillMoreThan10Tokens() {
-        Player player = new Player("Bart De Wever");
+        Player player = new Player("Bart De Wever", CountryCode.BE);
         Purse initialTokens = new Purse();
         initialTokens.addToken(Token.ONYX, 4);
         initialTokens.addToken(Token.SAPPHIRE, 2);
@@ -78,7 +79,7 @@ class PlayerTest {
 
     @Test
     void returnTokensWhenResultIsLessThen0() {
-        Player player = new Player("Macron");
+        Player player = new Player("Macron", CountryCode.FR);
         Purse initialTokens = new Purse();
         initialTokens.addToken(Token.DIAMOND, 3);
         initialTokens.addToken(Token.RUBY, 2);
@@ -95,7 +96,7 @@ class PlayerTest {
 
     @Test
     void returnTokensUntilMaxTenTokens() {
-        Player player = new Player("Mark Rutte");
+        Player player = new Player("Mark Rutte", CountryCode.UN);
         Purse initialTokens = new Purse();
         initialTokens.addToken(Token.DIAMOND, 3);
         initialTokens.addToken(Token.RUBY, 2);
@@ -113,7 +114,7 @@ class PlayerTest {
 
     @Test
     void buyDevelopmentCardWithGoldToken() {
-        Player player = new Player("Alice");
+        Player player = new Player("Alice", CountryCode.UN);
         player.getTokens().addTokens(new Purse(Map.of(
                 Token.GOLD, 4
         )));
@@ -135,7 +136,7 @@ class PlayerTest {
 
     @Test
     void buyDevelopmentCardWithTooLessGoldToken() {
-        Player player = new Player("Alice");
+        Player player = new Player("Alice", CountryCode.UN);
         player.getTokens().addTokens(new Purse(Map.of(
                 Token.GOLD, 1
         )));
@@ -156,7 +157,7 @@ class PlayerTest {
 
     @Test
     void buyingDevelopmentIsPossibleWhenYouHaveMoreBonusesThanCostOfDevelopment() {
-        Player player = new Player("Alice");
+        Player player = new Player("Alice", CountryCode.UN);
         player.getBonuses().addTokens( new Purse(Map.of(Token.SAPPHIRE, 4, Token.ONYX, 5)) );
 
         player.buyDevelopment(dev1, new Purse());
@@ -166,10 +167,10 @@ class PlayerTest {
 
     @Test
     void testPlayerOrderByDescendingPrestigePoints() {
-        Player p1 = new Player("Joel");
-        Player p2 = new Player("Ellie");
-        Player p3 = new Player("Abby");
-        Player p4 = new Player("Tommy");
+        Player p1 = new Player("Joel", CountryCode.US);
+        Player p2 = new Player("Ellie", CountryCode.US);
+        Player p3 = new Player("Abby", CountryCode.US);
+        Player p4 = new Player("Tommy", CountryCode.US);
 
         List<Player> players = new ArrayList<>();
         players.add(p1);
