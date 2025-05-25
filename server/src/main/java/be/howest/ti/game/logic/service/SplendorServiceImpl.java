@@ -1,6 +1,7 @@
 package be.howest.ti.game.logic.service;
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.util.customization.CountryCode;
 
 import java.util.List;
 
@@ -25,8 +26,8 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
-    public void joinLobby(int gameId, String playerName) {
-        gameLobbyManager.joinLobby(findLobby(gameId), playerName);
+    public void joinLobby(int gameId, String playerName, CountryCode avatar) {
+        gameLobbyManager.joinLobby(findLobby(gameId), playerName, avatar);
     }
 
     @Override
@@ -45,13 +46,13 @@ public class SplendorServiceImpl implements SplendorService {
     }
 
     @Override
-    public GameLobby createLobby(int maxPlayers, String creatorName) {
-        return gameLobbyManager.createLobby(maxPlayers, creatorName);
+    public GameLobby createLobby(int maxPlayers, String creatorName, CountryCode avatar) {
+        return gameLobbyManager.createLobby(maxPlayers, creatorName, avatar);
     }
 
     @Override
-    public GameLobby createLobby(int maxPlayers, String creatorName, String gameName) {
-        return gameLobbyManager.createLobby(maxPlayers, creatorName, gameName);
+    public GameLobby createLobby(int maxPlayers, String creatorName, CountryCode avatar, String gameName) {
+        return gameLobbyManager.createLobby(maxPlayers, creatorName, avatar, gameName);
     }
 
     @Override

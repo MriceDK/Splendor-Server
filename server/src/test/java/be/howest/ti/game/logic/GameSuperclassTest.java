@@ -1,5 +1,6 @@
 package be.howest.ti.game.logic;
 
+import be.howest.ti.game.util.customization.CountryCode;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ class GameSuperclassTest {
         List<GameSuperclass> games = new ArrayList<>();
 
         GameLobby gameLobby = new GameLobby(2, 2);
-        gameLobby.addPlayer("bob");
+        gameLobby.addPlayer("bob", CountryCode.UN);
 
         games.add(new GameLobby(1, 1));
         games.add(new GameLobby(4, 4));
