@@ -184,16 +184,42 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public JoinSpectateGameResponse joinGame(JoinGameRequest request) {
 
         SplendorService service = getService(request);
-        String password = request.getPassword();
+
         String playerName = request.getPlayerName();
         int gameId = request.getGameId();
 
         String token = createToken(new SplendorHTTPPlayer(gameId, request.getPlayerName()));
 
+        if (!request.getWantsToLeave() && request.getIsSpectator() && service.findGame(gameId).isPrivate()) {
+            // add spectator to private game
+            String password = request.getPassword();
+            service.spectateGame(gameId, playerName, password);
+            return new SpectateGameResponse(gameId, playerName, token);
+        }
+
+        if (!request.getWantsToLeave() && !request.getIsSpectator() && service.findGame(gameId).isPrivate()) {
+            // add player to private game
+            String password = request.getPassword();
+            service.joinLobby(gameId, playerName, password);
+            return new JoinGameResponse(gameId, playerName, token);
+        }
+
         if (request.getWantsToLeave() && request.getIsSpectator()) {
             // delete spectator from game
             service.removeSpectator(gameId, playerName);
             return new LeaveGameResponse(gameId, playerName, service.findGame(gameId).hasStarted());
+        }
+
+        if (!request.getWantsToLeave() && request.getIsSpectator()) {
+            // add spectator to public game
+            service.spectateGame(gameId, playerName);
+            return new SpectateGameResponse(gameId, playerName, token);
+        }
+
+        if (!request.getWantsToLeave() && !request.getIsSpectator()) {
+            // add player to public game
+            service.joinLobby(gameId, playerName);
+            return new JoinGameResponse(gameId, playerName, token);
         }
 
         if (request.getWantsToLeave() && !request.getIsSpectator()) {
@@ -214,29 +240,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             return new LeaveGameResponse(gameId, playerName, hasStarted);
         }
 
-        if (!request.getWantsToLeave() && request.getIsSpectator() && !service.findGame(gameId).isPrivate()) {
-            // add spectator to public game
-            service.spectateGame(gameId, playerName);
-            return new SpectateGameResponse(gameId, playerName, token);
-        }
 
-        if (!request.getWantsToLeave() && !request.getIsSpectator() && !service.findGame(gameId).isPrivate()) {
-            // add player to public game
-            service.joinLobby(gameId, playerName);
-            return new JoinGameResponse(gameId, playerName, token);
-        }
-
-        if (!request.getWantsToLeave() && request.getIsSpectator() && service.findGame(gameId).isPrivate()) {
-            // add spectator to private game
-            service.spectateGame(gameId, playerName, password);
-            return new SpectateGameResponse(gameId, playerName, token);
-        }
-
-        if (!request.getWantsToLeave() && !request.getIsSpectator() && service.findGame(gameId).isPrivate()) {
-            // add player to private game
-            service.joinLobby(gameId, playerName, password);
-            return new JoinGameResponse(gameId, playerName, token);
-        }
         throw new IllegalArgumentException("Please provide a valid request");
     }
 
