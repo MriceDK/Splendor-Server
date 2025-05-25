@@ -83,6 +83,11 @@ public class GameLobbyManager {
         if (game.hasStarted()) {
 //            TODO: discuss what we should do after a player leaves a game
             removeGame(game.getGameId());
+            return;
+        }
+        if (game.isEmpty()){
+            removeGame(game.getGameId());
+
         }
     }
 

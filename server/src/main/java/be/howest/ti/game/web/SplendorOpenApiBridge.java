@@ -154,6 +154,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         }
 
         if (game.hasStarted()) {
+            ((SplendorGame) game).checkTimeEndTurn(); // Makes sure the amount of time left gets updates every time someone sends a request to this endpoint
             return new GetGameDetailsStartedResponse(game);
         } else {
             return new GetGameDetailsUnstartedResponse(game);
@@ -222,6 +223,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         if (request.getAuthorizedGameId() != request.getGameId()) {
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
+
         if (!request.getAuthorizedPlayerName().equals(request.getPlayerName())) {
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
         }
