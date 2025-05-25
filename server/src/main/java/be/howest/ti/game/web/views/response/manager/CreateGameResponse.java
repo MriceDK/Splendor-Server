@@ -31,7 +31,7 @@ public class CreateGameResponse extends AbstractResponseWithHiddenStatus {
         return token;
     }
 
-    public String getAvatar(){
-        return avatar.toString();
+    public CountryCode getAvatar(){
+        return avatar;
     }
 }

@@ -50,6 +50,10 @@ public class Player {
         return name;
     }
 
+    public CountryCode getAvatar(){
+        return avatar;
+    }
+
     public Purse getTokens() {
         return tokens;
     }

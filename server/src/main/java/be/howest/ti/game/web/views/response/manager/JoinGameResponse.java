@@ -23,7 +23,7 @@ public class JoinGameResponse extends JoinSpectateGameResponse {
         return token;
     }
 
-    public String getAvatar(){
-        return avatar.toString();
+    public CountryCode getAvatar(){
+        return avatar;
     }
 }
