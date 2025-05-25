@@ -12,8 +12,8 @@ public class Player {
     private static final int MAX_OF_SAME_TOKEN = 2;
     private final String name;
     private final CountryCode avatar;
-    private Purse tokens;
-    private Purse bonuses;
+    private final Purse tokens;
+    private final Purse bonuses;
     private final List<Noble> acquiredNobles;
     private int prestigePoints;
     private final List<Development> reservedDevelopments;
@@ -43,7 +43,7 @@ public class Player {
         this.bonuses = new Purse();
         this.prestigePoints = 0;
         this.ownedDevelopments = new ArrayList<>();
-        this.avatar = CountryCode.BE;
+        this.avatar = CountryCode.UN;
     }
 
     public String getName() {

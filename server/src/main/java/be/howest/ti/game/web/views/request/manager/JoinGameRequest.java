@@ -44,7 +44,7 @@ public class JoinGameRequest extends BaseSplendorRequest {
             String countryCode = ctx.body().asJsonObject().getString("avatar");
             return countryCodeTranslator(countryCode);
         } catch (NullPointerException ex){
-            return CountryCode.BE;
+            return CountryCode.UN;
         }
 
     }
