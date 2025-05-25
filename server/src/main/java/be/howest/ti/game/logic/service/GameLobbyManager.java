@@ -119,20 +119,21 @@ public class GameLobbyManager {
 
     public void spectateLobby(GameSuperclass game, String spectatorName, String password) {
         if (game.isPrivate()) {
-            if (game.hasStarted()) {
-                PrivateSplendorGame privateGame = (PrivateSplendorGame) game;
-                if (!privateGame.getPassword().equals(password)) {
-                    throw new IllegalArgumentException("Wrong password");
-                }
-                game.addSpectator(spectatorName);
-            } else {
-                PrivateGameLobby privateLobby = (PrivateGameLobby) game;
-                if (!privateLobby.getPassword().equals(password)) {
-                    throw new IllegalArgumentException("Wrong password");
-                }
-                game.addSpectator(spectatorName);
+            throw new IllegalArgumentException("Game isn't private");
+        }
+        if (game.hasStarted()) {
+            PrivateSplendorGame privateGame = (PrivateSplendorGame) game;
+            if (!privateGame.getPassword().equals(password)) {
+                throw new IllegalArgumentException("Wrong password");
             }
-        } else throw new IllegalArgumentException("Game isn't private");
+            game.addSpectator(spectatorName);
+        } else {
+            PrivateGameLobby privateLobby = (PrivateGameLobby) game;
+            if (!privateLobby.getPassword().equals(password)) {
+                throw new IllegalArgumentException("Wrong password");
+            }
+            game.addSpectator(spectatorName);
+        }
     }
 
     public void spectateLobby(GameSuperclass game, String spectatorName) {
