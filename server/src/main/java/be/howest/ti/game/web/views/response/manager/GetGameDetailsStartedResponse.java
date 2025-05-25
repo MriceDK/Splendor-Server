@@ -91,5 +91,7 @@ public class GetGameDetailsStartedResponse extends GetGameDetailsResponse {
         return startedGame.getTimeEndTurnFormated();
     }
 
-
+    public boolean getIsPrivate() {
+        return startedGame.isPrivate();
+    }
 }
