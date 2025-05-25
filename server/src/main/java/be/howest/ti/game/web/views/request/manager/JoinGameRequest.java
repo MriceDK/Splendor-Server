@@ -43,11 +43,15 @@ public class JoinGameRequest extends BaseSplendorRequest {
         // this is a bonus functionality
         try {
             String countryCode = ctx.body().asJsonObject().getString("avatar");
-            return CountryFlag.valueOf(countryCode.toUpperCase());
+            return countryCodeTranslator(countryCode);
         } catch (NullPointerException ex){
             return CountryFlag.BE;
         }
 
+    }
+
+    private CountryFlag countryCodeTranslator(String countryCode){
+        return CountryFlag.valueOf(countryCode.toUpperCase());
     }
 
     public String getToken() {
