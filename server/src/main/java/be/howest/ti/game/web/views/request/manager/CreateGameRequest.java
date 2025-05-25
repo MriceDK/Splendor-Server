@@ -34,6 +34,12 @@ public class CreateGameRequest extends BaseSplendorRequest {
     }
 
     private CountryCode countryCodeTranslator(String countryCode) {
-        return CountryCode.valueOf(countryCode.toUpperCase());
+        try {
+            return CountryCode.valueOf(countryCode.toUpperCase());
+
+        } catch (IllegalArgumentException ex){
+            return CountryCode.UN;
+        }
+
     }
 }

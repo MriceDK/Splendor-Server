@@ -49,8 +49,14 @@ public class JoinGameRequest extends BaseSplendorRequest {
 
     }
 
-    private CountryCode countryCodeTranslator(String countryCode){
-        return CountryCode.valueOf(countryCode.toUpperCase());
+    private CountryCode countryCodeTranslator(String countryCode) {
+        try {
+            return CountryCode.valueOf(countryCode.toUpperCase());
+
+        } catch (IllegalArgumentException ex){
+            return CountryCode.UN;
+        }
+
     }
 
     public String getToken() {
