@@ -2,6 +2,8 @@ package be.howest.ti.game.logic.service;
 
 
 import be.howest.ti.game.logic.*;
+import be.howest.ti.game.util.customization.CountryCode;
+
 import java.util.List;
 
 public interface SplendorService {
@@ -11,7 +13,7 @@ public interface SplendorService {
 
     GameSuperclass findGame(int gameId);
 
-    void joinLobby(int gameId, String playerName);
+    void joinLobby(int gameId, String playerName, CountryCode avatar);
     void spectateGame(int gameId, String spectatorName);
 
     void removeSpectator(int gameId, String spectatorName);

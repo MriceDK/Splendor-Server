@@ -2,6 +2,7 @@ package be.howest.ti.game.logic.service;
 
 import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
+import be.howest.ti.game.util.customization.CountryCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,9 +39,9 @@ class GameManagerTest {
     void startGameWhenLobbyIsFull() {
         GameLobby lobby = service.createLobby(4, "John");
 
-        service.joinLobby(lobby, "Eric");
-        service.joinLobby(lobby, "Steve");
-        service.joinLobby(lobby, "Alice");
+        service.joinLobby(lobby, "Eric", CountryCode.BE);
+        service.joinLobby(lobby, "Steve", CountryCode.BE);
+        service.joinLobby(lobby, "Alice", CountryCode.BE);
 
         assertTrue(service.findGame(lobby.getGameId()).hasStarted());
     }
@@ -49,8 +50,8 @@ class GameManagerTest {
     void gameDoesNotStartWhenNotFull() {
         GameLobby lobby = service.createLobby(4, "John");
 
-        service.joinLobby(lobby, "Eric");
-        service.joinLobby(lobby, "Steve");
+        service.joinLobby(lobby, "Eric", CountryCode.BE);
+        service.joinLobby(lobby, "Steve", CountryCode.BE);
 
         assertFalse(service.findGame(lobby.getGameId()).hasStarted());
     }
@@ -181,7 +182,7 @@ class GameManagerTest {
         service.createLobby(4, "John", "game-01");
         service.createLobby(4, "John", "game-02");
 
-        service.joinLobby(service.findLobby(0), "AliceInChains");
+        service.joinLobby(service.findLobby(0), "AliceInChains", CountryCode.BE);
         service.removePlayer(service.findLobby(0), "AliceInChains");
 
         assertEquals(1, service.findGame(0).getPlayers().size());
@@ -192,7 +193,7 @@ class GameManagerTest {
         service.createLobby(4, "John", "game-01");
         service.createLobby(4, "John", "game-02");
 
-        service.joinLobby(service.findLobby(0), "AliceInChains");
+        service.joinLobby(service.findLobby(0), "AliceInChains", CountryCode.BE);
         service.removePlayer(service.findLobby(0), "AliceInChains");
 
         assertThrows(IllegalStateException.class, () -> service.removePlayer(service.findLobby(0), "AliceInChains"));
@@ -203,7 +204,7 @@ class GameManagerTest {
         service.createLobby(4, "John", "game-01");
         service.createLobby(4, "John", "game-02");
 
-        service.joinLobby(service.findLobby(0), "AliceInChains");
+        service.joinLobby(service.findLobby(0), "AliceInChains", CountryCode.BE);
 
         assertEquals(2, service.findGame(0).getPlayers().size());
         assertEquals(1, service.findGame(1).getPlayers().size());

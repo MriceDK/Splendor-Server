@@ -2,6 +2,7 @@ package be.howest.ti.game.logic.service;
 
 import be.howest.ti.game.logic.GameLobby;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
+import be.howest.ti.game.util.customization.CountryCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,9 +39,9 @@ class SplendorServiceImplTest {
     void startGameWhenLobbyIsFull() {
         GameLobby lobby = service.createLobby(4, "John");
 
-        service.joinLobby(lobby, "Eric");
-        service.joinLobby(lobby, "Steve");
-        service.joinLobby(lobby, "Alice");
+        service.joinLobby(lobby, "Eric", CountryCode.BE);
+        service.joinLobby(lobby, "Steve", CountryCode.BE);
+        service.joinLobby(lobby, "Alice", CountryCode.BE);
 
         assertTrue(service.findGame(lobby.getGameId()).hasStarted());
     }
@@ -49,8 +50,8 @@ class SplendorServiceImplTest {
     void gameDoesNotStartWhenNotFull() {
         GameLobby lobby = service.createLobby(4, "John");
 
-        service.joinLobby(lobby, "Eric");
-        service.joinLobby(lobby, "Steve");
+        service.joinLobby(lobby, "Eric", CountryCode.BE);
+        service.joinLobby(lobby, "Steve", CountryCode.BE);
 
         assertFalse(service.findGame(lobby.getGameId()).hasStarted());
     }

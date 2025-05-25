@@ -2,6 +2,7 @@ package be.howest.ti.game.logic.service;
 
 import be.howest.ti.game.logic.*;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
+import be.howest.ti.game.util.customization.CountryCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,8 +70,8 @@ public class GameLobbyManager {
     }
 
 
-    public void joinLobby(GameLobby lobby, String playerName) {
-        lobby.addPlayer(playerName);
+    public void joinLobby(GameLobby lobby, String playerName, CountryCode avatar) {
+        lobby.addPlayer(playerName, avatar);
 
         if (lobby.isFull()) {
             startGame(lobby);

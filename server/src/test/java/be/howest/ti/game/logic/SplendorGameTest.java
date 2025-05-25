@@ -3,6 +3,7 @@ package be.howest.ti.game.logic;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.service.GameLobbyManager;
+import be.howest.ti.game.util.customization.CountryCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +31,7 @@ class SplendorGameTest {
     void setupStartedGame() {
         GameLobbyManager service = new GameLobbyManager();
         GameLobby unstartedGame = service.createLobby(2, "Alice");
-        service.joinLobby(unstartedGame, "Gert");
+        service.joinLobby(unstartedGame, "Gert", CountryCode.BE);
         startedGame = service.findStartedGame(0);
 
         alice = startedGame.getPlayers().getFirst();
