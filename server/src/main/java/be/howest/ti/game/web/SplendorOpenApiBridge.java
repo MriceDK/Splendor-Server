@@ -110,24 +110,8 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
     public CreateGameResponse createGame(CreateGameRequest request) {
         SplendorService service = getService(request);
         GameLobby game;
-        if (request.getGameName() == null && (request.getPassword() == null || request.getPassword().isEmpty())) {
-            game = service.createPublicLobby(
-                    request.getNumberOfPlayers(),
-                    request.getPlayerName()
-            );
-            String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
 
-            return new CreateGameResponse(game, request.getPlayerName(), token);
-        } else if (request.getGameName() != null && (request.getPassword() == null || request.getPassword().isEmpty())) {
-            game = service.createPublicLobby(
-                    request.getNumberOfPlayers(),
-                    request.getPlayerName(),
-                    request.getGameName()
-            );
-            String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
-
-            return new CreateGameResponse(game, request.getPlayerName(), token);
-        } else if (request.getGameName() == null && request.getPassword() != null) {
+        if (request.getGameName() == null && request.getPassword() != null) {
             game = service.createPrivateLobby(
                     request.getNumberOfPlayers(),
                     request.getPlayerName(),
@@ -135,7 +119,9 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
 
             return new CreatePrivateGameResponse(game, request.getPlayerName(), token, request.getPassword());
-        } else if (request.getGameName() != null && request.getPassword() != null) {
+        }
+
+        if (request.getGameName() != null && request.getPassword() != null) {
             game = service.createPrivateLobby(
                     request.getNumberOfPlayers(),
                     request.getPlayerName(),
@@ -145,9 +131,29 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
             String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
 
             return new CreatePrivateGameResponse(game, request.getPlayerName(), token, request.getPassword());
-        } else throw new IllegalArgumentException("Please provide a valid request");
+        }
+        if (request.getGameName() == null) {
+            game = service.createPublicLobby(
+                    request.getNumberOfPlayers(),
+                    request.getPlayerName()
+            );
+            String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
 
+            return new CreateGameResponse(game, request.getPlayerName(), token);
+        }
 
+        if (request.getGameName() != null) {
+            game = service.createPublicLobby(
+                    request.getNumberOfPlayers(),
+                    request.getPlayerName(),
+                    request.getGameName()
+            );
+            String token = createToken(new SplendorHTTPPlayer(game.getGameId(), request.getPlayerName()));
+
+            return new CreateGameResponse(game, request.getPlayerName(), token);
+        }
+
+        throw new IllegalArgumentException("Please provide a valid request");
     }
 
     @Operation("delete-games")

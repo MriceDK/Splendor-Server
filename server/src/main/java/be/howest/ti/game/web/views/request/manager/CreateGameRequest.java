@@ -22,8 +22,11 @@ public class CreateGameRequest extends BaseSplendorRequest {
     }
 
     public String getPassword() {
-        if (params.body().getJsonObject().containsKey("password")) {
-            return params.body().getJsonObject().getString("password");
-        } else return null;
+        try {
+            String password = params.body().getJsonObject().getString("password");
+            return (password == null || password.isEmpty()) ? null : password;
+        } catch (NullPointerException ex) {
+            return null;
+        }
     }
 }
