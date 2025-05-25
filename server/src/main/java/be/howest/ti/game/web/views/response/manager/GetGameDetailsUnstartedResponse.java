@@ -24,4 +24,8 @@ public class GetGameDetailsUnstartedResponse extends GetGameDetailsResponse {
 
         return res;
     }
+
+    public boolean getIsPrivate() {
+        return unstartedGame().isPrivate();
+    }
 }
