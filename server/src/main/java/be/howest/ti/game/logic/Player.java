@@ -35,14 +35,7 @@ public class Player {
     }
 
     public Player(String name) {
-        this.name = name;
-        this.acquiredNobles = new ArrayList<>();
-        this.reservedDevelopments = new ArrayList<>();
-        this.tokens = new Purse();
-        this.bonuses = new Purse();
-        this.prestigePoints = 0;
-        this.ownedDevelopments = new ArrayList<>();
-        this.avatar = CountryCode.UN;
+        this(name, CountryCode.UN);
     }
 
     public String getName() {

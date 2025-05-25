@@ -96,7 +96,7 @@ class PlayerTest {
 
     @Test
     void returnTokensUntilMaxTenTokens() {
-        Player player = new Player("Mark Rutte", CountryCode.UN);
+        Player player = new Player("Mark Rutte");
         Purse initialTokens = new Purse();
         initialTokens.addToken(Token.DIAMOND, 3);
         initialTokens.addToken(Token.RUBY, 2);
@@ -114,7 +114,7 @@ class PlayerTest {
 
     @Test
     void buyDevelopmentCardWithGoldToken() {
-        Player player = new Player("Alice", CountryCode.UN);
+        Player player = new Player("Alice");
         player.getTokens().addTokens(new Purse(Map.of(
                 Token.GOLD, 4
         )));
@@ -136,7 +136,7 @@ class PlayerTest {
 
     @Test
     void buyDevelopmentCardWithTooLessGoldToken() {
-        Player player = new Player("Alice", CountryCode.UN);
+        Player player = new Player("Alice");
         player.getTokens().addTokens(new Purse(Map.of(
                 Token.GOLD, 1
         )));
@@ -157,7 +157,7 @@ class PlayerTest {
 
     @Test
     void buyingDevelopmentIsPossibleWhenYouHaveMoreBonusesThanCostOfDevelopment() {
-        Player player = new Player("Alice", CountryCode.UN);
+        Player player = new Player("Alice");
         player.getBonuses().addTokens( new Purse(Map.of(Token.SAPPHIRE, 4, Token.ONYX, 5)) );
 
         player.buyDevelopment(dev1, new Purse());
@@ -167,10 +167,10 @@ class PlayerTest {
 
     @Test
     void testPlayerOrderByDescendingPrestigePoints() {
-        Player p1 = new Player("Joel", CountryCode.US);
-        Player p2 = new Player("Ellie", CountryCode.US);
-        Player p3 = new Player("Abby", CountryCode.US);
-        Player p4 = new Player("Tommy", CountryCode.US);
+        Player p1 = new Player("Joel");
+        Player p2 = new Player("Ellie");
+        Player p3 = new Player("Abby");
+        Player p4 = new Player("Tommy");
 
         List<Player> players = new ArrayList<>();
         players.add(p1);

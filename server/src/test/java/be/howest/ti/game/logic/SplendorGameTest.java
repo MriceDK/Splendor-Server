@@ -188,8 +188,8 @@ class SplendorGameTest {
 
     @Test
     void acquiringTokensIsAllowedWhenGameStateIsTurnAction() {
-        startedGame.acquireTokens(new Player("Alice", CountryCode.UN), new Purse(Map.of(Token.SAPPHIRE, 2)));
-        startedGame.acquireTokens(new Player("Gert", CountryCode.UN), new Purse(Map.of(Token.RUBY, 2)));
+        startedGame.acquireTokens(new Player("Alice"), new Purse(Map.of(Token.SAPPHIRE, 2)));
+        startedGame.acquireTokens(new Player("Gert"), new Purse(Map.of(Token.RUBY, 2)));
 
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
     }
@@ -217,8 +217,8 @@ class SplendorGameTest {
 
     @Test
     void reservingDevelopmentIsAllowedWhenGameStateIsTurnAction() {
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), new Player("Alice", CountryCode.UN));
-        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), new Player("Gert", CountryCode.UN));
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), new Player("Alice"));
+        startedGame.reserveDevelopment(startedGame.getMarket().getVisibleDevelopments(1).getFirst().name(), new Player("Gert"));
 
         assertEquals(GameState.TURN_ACTION, startedGame.getGameState());
     }
