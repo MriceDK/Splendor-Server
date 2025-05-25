@@ -28,7 +28,7 @@ class SplendorServiceImplTest {
 
     @Test
     void createLobbyWithThreeParameters() {
-        service.createLobby(4, "John", CountryCode.BE, "Epic Splendor Game", );
+        service.createLobby(4, "John", CountryCode.BE, "Epic Splendor Game");
 
         assertEquals("Epic Splendor Game", service.getGames().getFirst().getGameName());
         assertEquals(4, service.getGames().getFirst().getMaxPlayers());
@@ -91,9 +91,9 @@ class SplendorServiceImplTest {
 
     @Test
     void removePlayerRemovedLobbyStillUp() {
-        GameLobby lobby = service.createLobby(4, "Johnny", "DoesGame");
-        service.joinLobby(lobby, "Erikson");
-        service.joinLobby(lobby, "Melinoe");
+        GameLobby lobby = service.createLobby(4, "Johnny", CountryCode.BE,"DoesGame");
+        service.joinLobby(lobby, "Erikson", CountryCode.BE);
+        service.joinLobby(lobby, "Melinoe", CountryCode.BE);
 
         service.removePlayer(lobby, "Erikson");
 
@@ -102,9 +102,9 @@ class SplendorServiceImplTest {
 
     @Test
     void removePlayerLobbyRemains(){
-        GameLobby lobby = service.createLobby(4, "Johnny", "DoesGame");
-        service.joinLobby(lobby, "Erikson");
-        service.joinLobby(lobby, "Melinoe");
+        GameLobby lobby = service.createLobby(4, "Johnny", CountryCode.BE, "DoesGame");
+        service.joinLobby(lobby, "Erikson", CountryCode.BE);
+        service.joinLobby(lobby, "Melinoe", CountryCode.BE);
 
         service.removePlayer(lobby,"Erikson");
         service.removePlayer(lobby, "Melinoe");
