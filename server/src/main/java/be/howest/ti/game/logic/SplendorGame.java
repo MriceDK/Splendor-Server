@@ -7,9 +7,13 @@ import be.howest.ti.game.util.logger.ActionReport;
 import be.howest.ti.game.util.logger.Logger;
 import be.howest.ti.game.util.reader.NobleReader;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 public class SplendorGame extends GameSuperclass {
+
+    private static final int MAX_MINUTES_PER_TURN = 2;
 
     private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_FOUR_PLAYERS = 7;
     private static final int TOKEN_AMOUNT_IN_TOKENBANK_FOR_THREE_PLAYERS = 5;
@@ -28,6 +32,7 @@ public class SplendorGame extends GameSuperclass {
     private boolean isLastRound;
     private Player winner;
     private final Logger history;
+    private LocalDateTime timeEndTurn;
 
     private static final int ONE_NOBLE = 1;
 
@@ -42,6 +47,7 @@ public class SplendorGame extends GameSuperclass {
         this.isLastRound = false;
         this.winner = null;
         history = new Logger();
+        setTimeCapOfTurn();
     }
 
     public Player getWinner() {
@@ -54,7 +60,16 @@ public class SplendorGame extends GameSuperclass {
         }
     }
 
+    public String getTimeEndTurnFormated() {
+        return timeEndTurn.toString();
+    }
+
+    private void setTimeCapOfTurn() {
+        timeEndTurn = LocalDateTime.now().plusMinutes(MAX_MINUTES_PER_TURN);
+    }
+
     public void startTurn(){
+        setTimeCapOfTurn();
         if (currentPlayer.isWinnerWorthy() && isLastRound) {
             setGameState(GameState.WINNER_FOUND);
             winner = calculateWinner();
@@ -69,6 +84,21 @@ public class SplendorGame extends GameSuperclass {
         setGameState(GameState.TURN_ACTION);
         currentPlayer = getNextPlayer();
         startTurn();
+    }
+
+    public void checkTimeEndTurn() {
+        if (!enoughTimeLeft()) {
+            history.log(new ActionReport(currentPlayer.getName(), "did not make a move within the time limit. Skipping turn..."));
+            endTurn();
+        }
+    }
+
+    public boolean enoughTimeLeft() {
+        return calculateSecondsLeftToMakeMove() > 0;
+    }
+
+    private int calculateSecondsLeftToMakeMove() {
+        return timeEndTurn.toLocalTime().toSecondOfDay() - LocalTime.now().toSecondOfDay();
     }
 
     public boolean getIsLastRound() {
