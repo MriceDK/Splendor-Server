@@ -65,6 +65,10 @@ public class SplendorGame extends GameSuperclass {
     }
 
     private void setTimeCapOfTurn() {
+        if (gameState.equals(GameState.WINNER_FOUND)) {
+            return;
+        }
+
         timeEndTurn = LocalDateTime.now().plusMinutes(MAX_MINUTES_PER_TURN);
     }
 
