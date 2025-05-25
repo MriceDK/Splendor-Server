@@ -2,7 +2,7 @@ package be.howest.ti.game.logic;
 
 import be.howest.ti.game.logic.exceptions.SplendorGameResourceNotFoundException;
 import be.howest.ti.game.logic.exceptions.SplendorGameRuleException;
-import be.howest.ti.game.util.customization.CountryFlag;
+import be.howest.ti.game.util.customization.CountryCode;
 
 import java.util.*;
 
@@ -11,7 +11,7 @@ public class Player {
     private static final int MAX_DIFFERENT_TOKENS = 3;
     private static final int MAX_OF_SAME_TOKEN = 2;
     private final String name;
-    private final CountryFlag avatar;
+    private final CountryCode avatar;
     private Purse tokens;
     private Purse bonuses;
     private final List<Noble> acquiredNobles;
@@ -24,7 +24,7 @@ public class Player {
 
     private static final int MIN_POINTS_NEEDED_TO_WIN = 15;
 
-    public Player(String name, CountryFlag avatar) {
+    public Player(String name, CountryCode avatar) {
         this.name = name;
         this.acquiredNobles = new ArrayList<>();
         this.reservedDevelopments = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Player {
         this.bonuses = new Purse();
         this.prestigePoints = 0;
         this.ownedDevelopments = new ArrayList<>();
-        this.avatar = CountryFlag.BE;
+        this.avatar = CountryCode.BE;
     }
 
     public String getName() {
