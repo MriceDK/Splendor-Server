@@ -215,7 +215,7 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         }
 
         if (!request.getWantsToLeave() && request.getIsSpectator() && !service.findGame(gameId).isPrivate()) {
-            // add spectator to public kgame
+            // add spectator to public game
             service.spectateGame(gameId, playerName);
             return new SpectateGameResponse(gameId, playerName, token);
         }
