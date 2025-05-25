@@ -191,57 +191,75 @@ public class SplendorOpenApiBridge extends OpenApiBridge { // NOSONAR this is no
         String token = createToken(new SplendorHTTPPlayer(gameId, request.getPlayerName()));
 
         if (!request.getWantsToLeave() && request.getIsSpectator() && service.findGame(gameId).isPrivate()) {
-            // add spectator to private game
-            String password = request.getPassword();
-            service.spectateGame(gameId, playerName, password);
-            return new SpectateGameResponse(gameId, playerName, token);
+            return addSpectatorToPrivateGame(request, service, gameId, playerName, token);
         }
 
         if (!request.getWantsToLeave() && !request.getIsSpectator() && service.findGame(gameId).isPrivate()) {
-            // add player to private game
-            String password = request.getPassword();
-            service.joinLobby(gameId, playerName, password);
-            return new JoinGameResponse(gameId, playerName, token);
-        }
-
-        if (request.getWantsToLeave() && request.getIsSpectator()) {
-            // delete spectator from game
-            service.removeSpectator(gameId, playerName);
-            return new LeaveGameResponse(gameId, playerName, service.findGame(gameId).hasStarted());
+            return AddPlayerToPrivateGame(request, service, gameId, playerName, token);
         }
 
         if (!request.getWantsToLeave() && request.getIsSpectator()) {
-            // add spectator to public game
-            service.spectateGame(gameId, playerName);
-            return new SpectateGameResponse(gameId, playerName, token);
+            return addSpectatorToPublicGame(service, gameId, playerName, token);
         }
 
         if (!request.getWantsToLeave() && !request.getIsSpectator()) {
-            // add player to public game
-            service.joinLobby(gameId, playerName);
-            return new JoinGameResponse(gameId, playerName, token);
+            return addPlayerToPublicGame(service, gameId, playerName, token);
+        }
+
+        if (request.getWantsToLeave() && request.getIsSpectator()) {
+            return removeSpectatorFromGame(service, gameId, playerName);
         }
 
         if (request.getWantsToLeave() && !request.getIsSpectator()) {
-            // delete player from game
-            // substring is used to remove "Bearer " from the token
-            int bearerStringLength = 7;
-            // validate token using token manager
-            SplendorHTTPPlayer parsedToken = tokenManager.parseToken(request.getToken().substring(bearerStringLength));
-            if (parsedToken.getGameId() != request.getGameId()) {
-                throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
-            }
-            if (!parsedToken.getPlayerName().equals(request.getPlayerName())) {
-                throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
-            }
-
-            boolean hasStarted = service.findGame(gameId).hasStarted();
-            service.removePlayer(gameId, playerName);
-            return new LeaveGameResponse(gameId, playerName, hasStarted);
+            return removePlayerFromGame(request, service, gameId, playerName);
         }
 
 
         throw new IllegalArgumentException("Please provide a valid request");
+    }
+
+    private LeaveGameResponse removePlayerFromGame(JoinGameRequest request, SplendorService service, int gameId, String playerName) {
+        // substring is used to remove "Bearer " from the token
+        int bearerStringLength = 7;
+        // validate token using token manager
+        SplendorHTTPPlayer parsedToken = tokenManager.parseToken(request.getToken().substring(bearerStringLength));
+        if (parsedToken.getGameId() != request.getGameId()) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
+        }
+        if (!parsedToken.getPlayerName().equals(request.getPlayerName())) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_RESPONSE);
+        }
+
+        boolean hasStarted = service.findGame(gameId).hasStarted();
+        service.removePlayer(gameId, playerName);
+        return new LeaveGameResponse(gameId, playerName, hasStarted);
+    }
+
+    private static LeaveGameResponse removeSpectatorFromGame(SplendorService service, int gameId, String playerName) {
+        service.removeSpectator(gameId, playerName);
+        return new LeaveGameResponse(gameId, playerName, service.findGame(gameId).hasStarted());
+    }
+
+    private static JoinGameResponse addPlayerToPublicGame(SplendorService service, int gameId, String playerName, String token) {
+        service.joinLobby(gameId, playerName);
+        return new JoinGameResponse(gameId, playerName, token);
+    }
+
+    private static SpectateGameResponse addSpectatorToPublicGame(SplendorService service, int gameId, String playerName, String token) {
+        service.spectateGame(gameId, playerName);
+        return new SpectateGameResponse(gameId, playerName, token);
+    }
+
+    private static JoinGameResponse AddPlayerToPrivateGame(JoinGameRequest request, SplendorService service, int gameId, String playerName, String token) {
+        String password = request.getPassword();
+        service.joinLobby(gameId, playerName, password);
+        return new JoinGameResponse(gameId, playerName, token);
+    }
+
+    private static SpectateGameResponse addSpectatorToPrivateGame(JoinGameRequest request, SplendorService service, int gameId, String playerName, String token) {
+        String password = request.getPassword();
+        service.spectateGame(gameId, playerName, password);
+        return new SpectateGameResponse(gameId, playerName, token);
     }
 
     //endregion
