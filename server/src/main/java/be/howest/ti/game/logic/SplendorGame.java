@@ -107,12 +107,7 @@ public class SplendorGame extends GameSuperclass {
         } else if(gameState.equals(GameState.RETURN_GEMS)) {
             history.log(new ActionReport(currentPlayer.getName(), "did not return tokens in time, but needs to do this. Extending timer..."));
             return false;
-        } else if (gameState.equals(GameState.WINNER_FOUND)) {
-            timeEndTurn = null;
-            return false;
-        } else {
-            return true;
-        }
+        } else return !gameState.equals(GameState.WINNER_FOUND);
 
     }
 
