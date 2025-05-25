@@ -46,12 +46,12 @@ public class PlayerStartedInListView {
         return res;
     }
 
-    public Set<NobleInSetView> getNobles() {
-        Set<NobleInSetView> res = new HashSet<>();
+    public List<NobleInListView> getNobles() {
+        List<NobleInListView> res = new ArrayList<>();
 
         for (Noble acquiredNoble : player.getAcquiredNobles()) {
 
-            res.add(new NobleInSetView(acquiredNoble));
+            res.add(new NobleInListView(acquiredNoble));
 
         }
 

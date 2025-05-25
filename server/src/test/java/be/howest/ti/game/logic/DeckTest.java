@@ -38,6 +38,6 @@ class DeckTest {
     void getTotalInvisible() {
         assertEquals(2, l1.getTotalInvisible());
         Deck l2 = new Deck(List.of(), 1);
-        assertThrows(SplendorGameResourceNotFoundException.class, l2::takeTopDevelopment);
+        assertThrows(SplendorGameResourceNotFoundException.class, () -> l2.takeTopDevelopment(true));
     }
 }

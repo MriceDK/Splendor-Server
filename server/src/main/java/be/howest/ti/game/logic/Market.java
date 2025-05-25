@@ -28,7 +28,7 @@ public class Market {
     }
 
     public Development takeTopDevelopment(int level) {
-        return levels[level - 1].takeTopDevelopment();
+        return levels[level - 1].takeTopDevelopment(true);
     }
 
     public void replaceVisibleDevelopment(Development matchingDevelopment) {

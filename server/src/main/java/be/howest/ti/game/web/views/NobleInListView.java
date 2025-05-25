@@ -6,11 +6,11 @@ import be.howest.ti.game.logic.Token;
 
 import java.util.Map;
 
-public class NobleInSetView {
+public class NobleInListView {
 
     private final Noble noble;
 
-    public NobleInSetView(Noble noble) {
+    public NobleInListView(Noble noble) {
         this.noble = noble;
     }
 

@@ -147,7 +147,13 @@ public class Purse {
             allTokens.add(getTokenValue(token) + " " + token.toDisplayName());
         }
 
-        return String.join(" | ", allTokens);
+        String result = String.join(" | ", allTokens);
+
+        if (result.isEmpty()) {
+            return "FREE";
+        } else {
+            return result;
+        }
     }
 
     public static Map<String, Integer> toMapStringInteger(Map<Token, Integer> tokens) {
