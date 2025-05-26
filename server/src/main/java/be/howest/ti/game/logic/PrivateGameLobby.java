@@ -12,6 +12,10 @@ public class PrivateGameLobby extends GameLobby{
         this(gameId, null, maxPlayers, password);
     }
 
+    public PrivateSplendorGame startPrivateGame() {
+        return new PrivateSplendorGame(this, password);
+    }
+
     public String getPassword() {
         return password;
     }
