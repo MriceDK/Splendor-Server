@@ -8,6 +8,11 @@ public class PrivateSplendorGame extends SplendorGame{
         this.password = password;
     }
 
+    public PrivateSplendorGame(PrivateGameLobby gameLobby, String password) {
+        super(gameLobby);
+        this.password = password;
+    }
+
     public String getPassword() {
         return password;
     }

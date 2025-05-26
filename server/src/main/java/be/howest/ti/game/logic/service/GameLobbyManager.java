@@ -60,6 +60,13 @@ public class GameLobbyManager {
         games.add(game);
     }
 
+    public void startPrivateGame(PrivateGameLobby lobby) {
+        PrivateSplendorGame game = lobby.startPrivateGame();
+
+        games.remove(lobby);
+        games.add(game);
+    }
+
     public GameLobby findLobby(int gameId) {
         for (GameLobby lobby : getLobbies()) {
             if (gameId == lobby.getGameId()) {
@@ -102,7 +109,7 @@ public class GameLobbyManager {
         }
         lobby.addPlayer(playerName, avatar);
         if (lobby.isFull()) {
-            startGame(lobby);
+            startPrivateGame(lobby);
         }
     }
 
