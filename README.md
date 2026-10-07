@@ -151,10 +151,13 @@ The backend is contract-driven, and the following routes are implemented in the 
 - The OpenAPI bridge installs CORS, body handling, bearer auth, and failure mapping.
 
 
-## 👤 Author
+## 👤 Authors
 
 | Name | GitHub | LinkedIn |
 | --- | --- | --- |
-| Maurice De Kegel | [MriceDK](https://github.com/MriceDK) | <!-- TODO: verify LinkedIn profile URL --> |
-
-<!-- TODO: confirm the LinkedIn link before publishing this README externally. -->
+| Maurice De Kegel | [MriceDK](https://github.com/MriceDK) | [LinkedIn](https://www.linkedin.com/in/dekegelmaurice/) |
+| Simon Cornelissis | [SCornelissis](https://github.com/scornelissis) | [LinkedIn](https://www.linkedin.com/in/simon-cornelissis/) |
+| Yoni Furniere | [TODO](https://github.com/MriceDK) | [LinkedIn](https://www.linkedin.com/in/yoni-furniere-30103a34b/) |
+| Ruben Lescouhier | [TODO](https://github.com/MriceDK) | [LinkedIn](https://www.linkedin.com/in/ruben-lescouhier-9840011a2/) |
+| Lars Patrouille | [TODO](https://github.com/MriceDK) | [LinkedIn](https://www.linkedin.com/in/lars-patrouille-4205493aa/) |
+| Rune Mortier | [TODO](https://github.com/MriceDK) | [LinkedIn](https://www.linkedin.com/in/rune-mortier-88ba30395/) |
