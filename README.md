@@ -157,7 +157,7 @@ The backend is contract-driven, and the following routes are implemented in the 
 | --- | --- | --- |
 | Maurice De Kegel | [MriceDK](https://github.com/MriceDK) | [LinkedIn](https://www.linkedin.com/in/dekegelmaurice/) |
 | Simon Cornelissis | [SCornelissis](https://github.com/scornelissis) | [LinkedIn](https://www.linkedin.com/in/simon-cornelissis/) |
-| Yoni Furniere | [TODO](https://github.com/MriceDK) | [LinkedIn](https://www.linkedin.com/in/yoni-furniere-30103a34b/) |
-| Ruben Lescouhier | [TODO](https://github.com/MriceDK) | [LinkedIn](https://www.linkedin.com/in/ruben-lescouhier-9840011a2/) |
-| Lars Patrouille | [TODO](https://github.com/MriceDK) | [LinkedIn](https://www.linkedin.com/in/lars-patrouille-4205493aa/) |
-| Rune Mortier | [TODO](https://github.com/MriceDK) | [LinkedIn](https://www.linkedin.com/in/rune-mortier-88ba30395/) |
+| Yoni Furniere | [TODO](https://github.com/real-yoni-furniere) | [LinkedIn](https://www.linkedin.com/in/yoni-furniere-30103a34b/) |
+| Ruben Lescouhier | - | [LinkedIn](https://www.linkedin.com/in/ruben-lescouhier-9840011a2/) |
+| Lars Patrouille | [TODO](https://github.com/LarsPatrouille) | [LinkedIn](https://www.linkedin.com/in/lars-patrouille-4205493aa/) |
+| Rune Mortier | - | [LinkedIn](https://www.linkedin.com/in/rune-mortier-88ba30395/) |
